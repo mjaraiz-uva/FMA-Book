@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems</title>
+<style>
+  body { font-family: 'Georgia', 'Times New Roman', serif; max-width: 950px; margin: 40px auto; padding: 0 20px; line-height: 1.8; color: #333; background: #f5f5f0; font-size: 16px; }
+  h1 { font-family: 'Segoe UI', sans-serif; font-size: 1.75em; color: #1a3a5c; margin-bottom: 5px; line-height: 1.3; border-bottom: 3px solid #2c5f8a; padding-bottom: 12px; }
+  h2 { font-family: 'Segoe UI', sans-serif; font-size: 1.35em; color: #2c5f8a; margin-top: 40px; border-bottom: 1px solid #bbb; padding-bottom: 5px; }
+  h3 { font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #3a5a7c; margin-top: 28px; }
+  h4 { font-family: 'Segoe UI', sans-serif; color: #444; margin-top: 18px; }
+  .authors { color: #555; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #777; font-size: 0.9em; margin-bottom: 30px; }
+  .abstract-box { background: #f0f7ff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 18px 22px; border-radius: 5px; margin: 25px 0; font-size: 0.95em; }
+  .abstract-box strong { color: #2c5f8a; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.92em; font-family: 'Consolas', monospace; color: #2c5f8a; }
+  pre { background: #1e2a38; color: #e8ecef; padding: 18px 20px; border-radius: 6px; overflow-x: auto; font-size: 0.88em; line-height: 1.55; font-family: 'Consolas', monospace; }
+  pre code { background: none; color: inherit; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #bbb; padding: 8px 12px; text-align: left; }
+  th { background: #2c5f8a; color: white; font-family: 'Segoe UI', sans-serif; font-weight: 600; }
+  tr:nth-child(even) { background: #eef3f7; }
+  td.bold { font-weight: bold; }
+  td.center { text-align: center; }
+  .note { background: #f0f7ff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .note strong { color: #2c5f8a; }
+  .insight { background: #f0fff0; border: 1px solid #a0d8a0; border-left: 4px solid #2e8b57; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .insight strong { color: #2e8b57; }
+  .warning { background: #fff8f0; border: 1px solid #e0c8a0; border-left: 4px solid #d48a2c; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .warning strong { color: #d48a2c; }
+  .equation { font-family: 'Consolas', monospace; background: #fff; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.0em; color: #2c5f8a; text-align: center; border: 1px solid #ccc; border-left: 4px solid #2c5f8a; }
+  .ref { font-size: 0.88em; color: #555; margin-top: 40px; padding-top: 20px; border-top: 2px solid #2c5f8a; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #2c5f8a; }
+  a { color: #2c5f8a; }
+  .fig { margin: 25px 0; padding: 18px; background: #fff; border: 1px solid #ccc; border-radius: 6px; }
+  .fig-caption { font-size: 0.88em; color: #666; margin-top: 10px; }
+  .fig-caption strong { color: #333; }
+  .comparison-table td:last-child { font-weight: bold; color: #2e8b57; }
+  .disclosure { background: #f5f5f0; border: 1px solid #ccc; padding: 16px 20px; border-radius: 5px; margin: 20px 0; font-size: 0.92em; color: #555; }
+</style>
+</head>
+<body>
+
+<h1>The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems</h1>
+
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electronics, University of Valladolid, 47011 Valladolid, Spain</p>
+
+<!-- ================================================================== -->
+<!-- ABSTRACT -->
+<!-- ================================================================== -->
+
+<div class="abstract-box">
+<strong>Abstract.</strong>
+We introduce the Free-Market Algorithm (FMA), a novel metaheuristic optimization framework inspired by free-market economics. Unlike Genetic Algorithms, Particle Swarm Optimization, Ant Colony Optimization and Simulated Annealing&mdash;all of which require a prescribed fitness function and search a fixed solution space&mdash;FMA uses distributed supply-and-demand dynamics in which fitness is <em>emergent</em>, the search space is <em>open-ended</em> (it grows through discovery), and solutions take the form of complete hierarchical pathway networks rather than single optima. Autonomous agents discover transformation rules, trade goods, open and close firms, and compete for demand, with no centralized controller. We present the formal algorithm, prove its key properties, compare it systematically with five established metaheuristics, and demonstrate FMA on three domains: prebiotic chemistry (discovering amino acid synthesis from bare atoms in under five minutes), macroeconomic forecasting (GDP prediction from input&ndash;output tables with MAE 0.42 percentage points), and robot task sequencing. In all three cases, FMA self-organizes complex production networks that match empirical observations without domain-specific tuning of the market mechanism. We further show that FMA provides a constructive mechanism for the abstract signatures of selection described by Assembly Theory. The algorithm&rsquo;s three-layer architecture&mdash;universal market engine, pluggable domain rules, domain-specific observation&mdash;makes it applicable to any domain where the goal is not a single optimum but the discovery of an entire landscape of feasible solutions and their formation pathways.
+</div>
+
+<!-- ================================================================== -->
+<!-- 1. INTRODUCTION -->
+<!-- ================================================================== -->
+
+<h2>1. Introduction</h2>
+
+<p>Optimization is one of the central problems of computer science and engineering. Over the past fifty years, a rich family of <em>metaheuristic</em> algorithms has emerged, each drawing inspiration from a different natural process: Genetic Algorithms<sup>1</sup> from Darwinian evolution, Particle Swarm Optimization<sup>2</sup> from flocking behaviour, Ant Colony Optimization<sup>3</sup> from pheromone-guided foraging, Simulated Annealing<sup>4</sup> from metallurgical cooling, and Differential Evolution from population genetics. These methods have been applied successfully to scheduling, routing, parameter estimation, neural architecture search, and countless other domains.</p>
+
+<p>Despite their diversity of metaphor, these algorithms share three structural assumptions:</p>
+
+<ol>
+<li><strong>Prescribed fitness.</strong> The quality of every candidate solution is evaluated by a function defined <em>a priori</em> by the designer. The algorithm does not decide what is valuable; it only searches for more of what it has been told to value.</li>
+<li><strong>Fixed search space.</strong> The set of possible solutions is defined before the run begins. A GA searches binary strings of length <em>n</em>; PSO moves particles through &Ropf;<sup>d</sup>; ACO constructs paths on a given graph. No new dimensions or building blocks appear during execution.</li>
+<li><strong>Centralized selection.</strong> A global mechanism&mdash;tournament selection, global best update, pheromone reinforcement, Boltzmann acceptance&mdash;decides which solutions survive. Information about quality flows through a central bottleneck.</li>
+</ol>
+
+<p>These assumptions are entirely reasonable when the problem is well-posed: when we know what we are looking for, know the space in which to look, and can afford a central arbiter of quality. But many of the most interesting problems in science and engineering violate all three assumptions. In prebiotic chemistry, we do not know which molecules are &ldquo;fit&rdquo;&mdash;fitness emerges from thermodynamic stability and mutual compatibility. In macroeconomics, GDP is not a fitness function to be maximized but an emergent aggregate of millions of interacting firms. In open-ended evolution, the search space itself grows as new building blocks are discovered. For such problems, existing metaheuristics offer no natural home.</p>
+
+<div class="note">
+<strong>The economic insight.</strong> Adam Smith observed in 1776 that individuals pursuing their own self-interest are &ldquo;led by an invisible hand to promote an end which was no part of [their] intention&rdquo;<sup>9</sup>. Hayek formalized this as a distributed information-processing mechanism: the price system aggregates knowledge that no central planner could collect<sup>10</sup>. We take this insight literally. The market is not a metaphor for optimization&mdash;it <em>is</em> an optimization algorithm, one whose key properties (emergent fitness, open-ended search, distributed selection) are precisely what existing metaheuristics lack.
+</div>
+
+<p>In this paper we introduce the <strong>Free-Market Algorithm (FMA)</strong>, a metaheuristic that implements the market mechanism as a computational optimization framework. We present its formal specification, analyse its properties, compare it with five established algorithms, and demonstrate it on three domains spanning chemistry, economics and robotics. FMA&rsquo;s key innovations are:</p>
+
+<ul>
+<li><strong>Emergent fitness.</strong> No objective function is prescribed. &ldquo;Fitness&rdquo; emerges from what the market demands and sustains.</li>
+<li><strong>Open-ended search space.</strong> A persistent recipe book grows during execution; each discovery expands the space of possible future discoveries.</li>
+<li><strong>Distributed selection.</strong> No central controller selects winners. Agents independently choose, compete, succeed or fail.</li>
+<li><strong>Hierarchical network solutions.</strong> The output is not a single optimum but a complete production network with supply chains.</li>
+</ul>
+
+<!-- ================================================================== -->
+<!-- 2. THE FREE-MARKET ALGORITHM -->
+<!-- ================================================================== -->
+
+<h2>2. The Free-Market Algorithm</h2>
+
+<h3>2.1 Core Concepts</h3>
+
+<p>FMA operates on five primitive concepts, each with a direct economic interpretation:</p>
+
+<table>
+<tr><th>Concept</th><th>Formal role</th><th>Economic analogy</th></tr>
+<tr><td class="bold">Agent (Worker)</td><td>Autonomous entity with local state: inventory of goods, optional producer, position on a ring topology</td><td>Individual economic actor</td></tr>
+<tr><td class="bold">Good</td><td>The objects being optimized: molecules, economic products, robot sub-tasks</td><td>Commodity or product</td></tr>
+<tr><td class="bold">Producer (Firm)</td><td>A transformation rule instantiated by an agent: consumes input goods, emits output goods</td><td>Business or factory</td></tr>
+<tr><td class="bold">Recipe</td><td>A validated transformation rule stored in the persistent recipe book. Discovered during execution, not predefined</td><td>Business model or technology</td></tr>
+<tr><td class="bold">GFCF Demand</td><td>Consumer preference that drives selection. Agents want the &ldquo;best&rdquo; available good (highest-depth, most complex), creating demand cascades through the supply chain</td><td>Gross Fixed Capital Formation&mdash;investment in durable goods</td></tr>
+</table>
+
+<p><strong>Ring Neighborhoods.</strong> Agents are arranged on a circular topology. Each agent interacts only with its <em>k</em> nearest neighbours (typically <em>k</em> = 30), giving O(<em>k</em>) local interaction cost per agent per step. This prevents global information from propagating instantly, forcing distributed coordination&mdash;precisely the Hayekian constraint that makes markets efficient<sup>10</sup>.</p>
+
+<h3>2.2 The Algorithm</h3>
+
+<p>FMA proceeds in discrete time steps. Each step executes five phases in sequence. We present the formal pseudocode, then discuss each phase.</p>
+
+<pre><code>FMA(N agents, domain_rules, max_iterations)
+&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;
+Initialize: N agents on ring, each with one primary good
+RecipeBook &larr; &empty;
+
+for t = 1 to max_iterations:
+
+  // Phase 1: DISCOVER (exploration)
+  for budget times:
+    agent_i &larr; random worker
+    good_A  &larr; from agent_i.inventory
+    good_B  &larr; from random neighbor's inventory
+    product &larr; DomainCombine(good_A, good_B)
+    if DomainValidate(product):           // e.g., &Delta;E &lt; 0
+      RecipeBook &larr; RecipeBook &cup; {(A, B) &rarr; product}
+      agent_i.inventory += product        // witness sample
+
+  // Phase 2: DEMAND (selection signal)
+  for each agent:
+    wishlist &larr; SelectPreferred(RecipeBook)   // GFCF
+    RecordDemand(wishlist)
+
+  // Phase 3: TRADE (distributed exchange)
+  for each agent with producer:
+    for each input needed:
+      seller &larr; FindInNeighborhood(input)
+      if seller: Transfer(input, seller &rarr; agent)
+    if all inputs available:
+      output &larr; Produce(recipe)
+      agent.inventory += output
+
+  // Phase 4: COMPETE (market selection)
+  for each agent with producer:
+    if unprofitable for too long:
+      CloseProducer()                     // creative destruction
+  for each idle agent:
+    if unmet demand exists:
+      StartProducer(demanded_recipe)      // entrepreneurship
+
+  // Phase 5: DECAY (recycling)
+  for each good in all inventories:
+    if random() &lt; DecayRate(good):
+      Decompose(good) &rarr; components       // returns to pool
+
+return RecipeBook, all inventories, production_network</code></pre>
+
+<p><strong>Phase 1: DISCOVER.</strong> This is the exploration phase. A bounded number of discovery attempts (the <em>budget</em>) are made per step. Each attempt picks a random agent, selects a good from its inventory, selects a good from a random neighbour&rsquo;s inventory, and asks the domain-specific combination function to propose a product. If the domain-specific validation function accepts the product (e.g., negative energy change in chemistry, feasible input&ndash;output coefficients in economics), a new recipe is added to the persistent recipe book, and the discovering agent receives a &ldquo;witness sample&rdquo; of the product. The budget parameter controls the discovery rate &tau;<sub>d</sub>.</p>
+
+<p><strong>Phase 2: DEMAND.</strong> Each agent inspects the recipe book and expresses demand for the goods it prefers. Under GFCF demand, agents prefer the most complex (highest-depth) goods available, creating a demand cascade: demand for a depth-3 molecule generates derived demand for its depth-2 inputs, which generates demand for depth-1 inputs, and so on. This is the &ldquo;invisible hand&rdquo;&mdash;nobody plans the supply chain; it emerges from individual preferences.</p>
+
+<p><strong>Phase 3: TRADE.</strong> Agents that have opened a producer (firm) attempt to buy the inputs they need from neighbours. If all inputs are secured, production occurs. Trade is strictly local: an agent can only buy from its <em>k</em> ring neighbours, not from arbitrary agents. This locality creates spatial structure and prevents trivially optimal allocation.</p>
+
+<p><strong>Phase 4: COMPETE.</strong> Firms that cannot sell their output (no demand, or cannot secure inputs) accumulate losses. After a patience threshold, they close. Idle agents survey unmet demand in their neighbourhood and may open a new firm to fill the gap. This is Schumpeter&rsquo;s <em>creative destruction</em>: the entry and exit of firms is the algorithm&rsquo;s mechanism for balancing exploration and exploitation.</p>
+
+<p><strong>Phase 5: DECAY.</strong> Goods in inventories stochastically decompose into their component parts, with a decay rate proportional to their complexity (more bonds = more fragile). Decay serves two purposes: it recycles material back into the pool of simple building blocks, preventing resource lock-up; and it acts as a selection pressure against goods that are merely complex without being demanded (demanded goods are continually replenished by production).</p>
+
+<h3>2.3 Key Properties</h3>
+
+<div class="insight">
+<strong>Property 1: Emergent fitness.</strong> FMA has no prescribed objective function. What counts as &ldquo;fit&rdquo; is determined by the interplay of discovery, demand and competition. A molecule that is thermodynamically stable, demanded by consumers, and efficiently producible from available inputs will be sustained by the market. One that is stable but not demanded (or demanded but not producible from local inputs) will not. Fitness is a <em>systems property</em>, not a scalar function.
+</div>
+
+<div class="insight">
+<strong>Property 2: Open-ended search space.</strong> The recipe book starts empty and grows monotonically. Each new recipe potentially enables the discovery of higher-depth products that were previously unreachable. This is a computational realization of Kauffman&rsquo;s &ldquo;adjacent possible&rdquo;<sup>11</sup>: the set of things that can be explored expands with each exploration. No existing metaheuristic has this property.
+</div>
+
+<div class="insight">
+<strong>Property 3: Distributed selection.</strong> Selection in FMA is fully decentralized. No global fitness ranking exists. Each agent makes local decisions (what to demand, what to produce, when to close). The emergent behaviour&mdash;complex production networks, supply chains, specialization&mdash;arises from these local interactions. This is the computational analogue of Hayek&rsquo;s insight that the price system is a distributed computer<sup>10</sup>.
+</div>
+
+<div class="insight">
+<strong>Property 4: Persistent memory.</strong> The recipe book is never cleared. Unlike GA (where each generation is memoryless) or SA (which has no memory), FMA accumulates knowledge across all iterations. This memory is essential for hierarchical discovery: a depth-3 product can only be discovered after its depth-2 inputs have been discovered, which requires the depth-1 recipes to persist.
+</div>
+
+<div class="note">
+<strong>Property 5: Two timescales.</strong> FMA&rsquo;s behaviour is governed by the ratio of two rates: the discovery rate &tau;<sub>d</sub> (controlled by the budget parameter) and the production rate &tau;<sub>p</sub> (controlled by the number of agents and neighbourhood size). When &tau;<sub>d</sub> &gt;&gt; &tau;<sub>p</sub>, the system explores rapidly but produces little&mdash;an &ldquo;academic economy&rdquo; with many patents and no factories. When &tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub>, the system exploits known recipes efficiently but discovers nothing new&mdash;a &ldquo;stagnant economy.&rdquo; The balance between these timescales is FMA&rsquo;s analogue of exploration/exploitation trade-off, but it emerges naturally from the market dynamics rather than being imposed by a schedule.
+</div>
+
+<div class="note">
+<strong>Property 6: Hierarchical network solutions.</strong> FMA&rsquo;s output is not a single &ldquo;best&rdquo; solution but a complete production network: a directed acyclic graph of recipes, supply chains, inventories and active firms. This network encodes not just <em>what</em> was found optimal but <em>how</em> it is produced, from raw materials through intermediates to final products. For many applications&mdash;chemical synthesis, manufacturing, logistics&mdash;the pathway is as valuable as the destination.
+</div>
+
+<h3>2.4 Three-Layer Architecture</h3>
+
+<p>FMA achieves domain generality through a strict three-layer separation:</p>
+
+<table>
+<tr><th>Layer</th><th>Responsibility</th><th>Changes across domains?</th><th>Examples</th></tr>
+<tr><td class="bold">Layer 1: Market Engine</td><td>Agent lifecycle, ring topology, trading, firm entry/exit, demand propagation, decay</td><td>No&mdash;identical in all domains</td><td>Ring neighbourhood, GFCF demand, patience threshold</td></tr>
+<tr><td class="bold">Layer 2: Domain Rules</td><td><code>DomainCombine()</code> and <code>DomainValidate()</code>&mdash;how goods are created and whether transformations are feasible</td><td>Yes&mdash;pluggable per domain</td><td>Chemistry: BDE + UFF energy. Economics: I&ndash;O coefficients. Robotics: task dependencies</td></tr>
+<tr><td class="bold">Layer 3: Observation</td><td>Domain-specific metrics computed from the market state</td><td>Yes&mdash;read-only, no feedback</td><td>Chemistry: molecular census, assembly index. Economics: GDP, sectoral output. Robotics: makespan</td></tr>
+</table>
+
+<p>This separation means that the market mechanism (Layer 1) is a <em>universal</em> optimization engine. To apply FMA to a new domain, one writes only the combination/validation rules (Layer 2) and the observation metrics (Layer 3). The trading, competition, discovery and demand mechanisms require no modification.</p>
+
+<!-- ================================================================== -->
+<!-- 3. COMPARISON WITH EXISTING ALGORITHMS -->
+<!-- ================================================================== -->
+
+<h2>3. Comparison with Existing Algorithms</h2>
+
+<p>Table 1 provides a systematic comparison of FMA with five established metaheuristics across nine structural properties. We discuss each property below.</p>
+
+<table class="comparison-table">
+<tr><th>Property</th><th>GA</th><th>PSO</th><th>ACO</th><th>SA</th><th>FMA</th></tr>
+<tr><td class="bold">Fitness function</td><td>Prescribed</td><td>Prescribed</td><td>Prescribed (path cost)</td><td>Prescribed (energy)</td><td>Emergent</td></tr>
+<tr><td class="bold">Search space</td><td>Fixed</td><td>Fixed</td><td>Fixed (graph)</td><td>Fixed</td><td>Open-ended</td></tr>
+<tr><td class="bold">Selection mechanism</td><td>Centralized (tournament, roulette)</td><td>Global best</td><td>Pheromone reinforcement</td><td>Boltzmann acceptance</td><td>Distributed (demand + competition)</td></tr>
+<tr><td class="bold">Memory</td><td>None (generational)</td><td>Personal + global best</td><td>Pheromone trails</td><td>None</td><td>Recipe book + agent inventories</td></tr>
+<tr><td class="bold">Solution type</td><td>Single optimum</td><td>Single optimum</td><td>Path</td><td>Single optimum</td><td>Network of pathways</td></tr>
+<tr><td class="bold">Population structure</td><td>Flat (panmictic)</td><td>Flat (swarm)</td><td>Graph (construction)</td><td>Single agent</td><td>Ring neighbourhoods + firms</td></tr>
+<tr><td class="bold">Hierarchy</td><td>None</td><td>None</td><td>None</td><td>None</td><td>Supply chains (depth layers)</td></tr>
+<tr><td class="bold">Discovery mechanism</td><td>Crossover + mutation</td><td>Velocity update</td><td>Probabilistic construction</td><td>Random perturbation</td><td>Combination + domain validation</td></tr>
+<tr><td class="bold">Exploration / exploitation</td><td>Fixed or scheduled (mutation rate)</td><td>Inertia weight</td><td>Evaporation rate</td><td>Temperature schedule</td><td>&tau;<sub>d</sub> / &tau;<sub>p</sub> balance</td></tr>
+</table>
+
+<p><strong>Fitness function.</strong> All five classical algorithms require the user to specify an objective function before the run. FMA does not. In the chemistry application, no molecule is designated as a &ldquo;target&rdquo;&mdash;the system discovers what is thermodynamically and kinetically viable. In the economics application, GDP is an emergent observable, not an optimization target. This makes FMA applicable to domains where the objective is unknown, ill-defined, or multi-dimensional.</p>
+
+<p><strong>Search space.</strong> GA searches binary strings or real vectors of fixed dimensionality. PSO moves particles through a fixed &Ropf;<sup>d</sup>. ACO constructs paths on a predefined graph. SA perturbs solutions within a fixed neighbourhood structure. FMA&rsquo;s search space <em>grows</em>: the recipe book starts empty and each discovery adds new dimensions. A depth-3 molecule cannot even be represented until its depth-2 precursors have been discovered. This open-endedness is essential for problems where the solution space is not known in advance.</p>
+
+<p><strong>Selection mechanism.</strong> GA uses centralized selection (tournament, roulette wheel) applied to the entire population. PSO updates all particles toward a global best. ACO reinforces pheromones on globally best paths. SA uses a single agent with Boltzmann acceptance. FMA&rsquo;s selection is fully distributed: each agent decides independently what to demand, what to produce, and when to exit. No agent has access to global information. This makes FMA robust to local optima and amenable to parallelization.</p>
+
+<p><strong>Memory.</strong> Standard GA is memoryless across generations (offspring replace parents). PSO maintains personal and global bests but not the trajectory. ACO&rsquo;s pheromone trails provide a form of stigmergic memory that decays via evaporation. SA has no memory. FMA maintains a persistent, growing recipe book and per-agent inventories. This memory is critical: hierarchical discovery requires that early-stage recipes remain available for later-stage combinations.</p>
+
+<p><strong>Solution type.</strong> Classical metaheuristics converge to a single optimum (or a Pareto front in multi-objective variants). FMA produces a complete network: all discovered recipes, all active production chains, all inventories. This network encodes the <em>landscape</em> of feasible solutions, not just the peak. For synthesis planning, this is far more valuable than a single &ldquo;best&rdquo; molecule.</p>
+
+<p><strong>Hierarchy.</strong> No classical metaheuristic produces hierarchical solutions. FMA&rsquo;s supply chains have natural depth: raw materials &rarr; intermediates &rarr; final products. This hierarchy emerges from the sequential nature of discovery and the demand cascade mechanism. It mirrors real-world production: a car factory needs steel, which needs iron ore, which needs mining.</p>
+
+<p><strong>Discovery mechanism.</strong> GA discovers via crossover and mutation&mdash;random recombination of existing solutions. PSO discovers via velocity updates that blend personal and global information. ACO discovers by probabilistic path construction. SA discovers by random perturbation. FMA discovers by <em>combination and domain validation</em>: two existing goods are proposed as inputs, and the domain-specific validation function determines whether the product is feasible. This is a more structured form of exploration that leverages domain knowledge without prescribing the search direction.</p>
+
+<p><strong>Exploration/exploitation balance.</strong> GA controls this via mutation rate (fixed or adaptive). PSO uses inertia weight. ACO uses evaporation rate. SA uses a temperature schedule. FMA&rsquo;s balance emerges from the ratio of two natural rates: the discovery rate &tau;<sub>d</sub> (how often new recipes are attempted) and the production rate &tau;<sub>p</sub> (how fast existing recipes are exploited). Unlike scheduled approaches, this balance is self-regulating: when many recipes are undiscovered, exploration yields frequent successes; as the recipe book fills, diminishing returns naturally shift effort toward exploitation.</p>
+
+<!-- ================================================================== -->
+<!-- 4. CONNECTION TO ASSEMBLY THEORY -->
+<!-- ================================================================== -->
+
+<h2>4. Connection to Assembly Theory</h2>
+
+<p>Assembly Theory (AT), introduced by Sharma et al.<sup>5</sup>, provides a mathematical framework for quantifying selection and evolution. AT defines two key observables: the <em>assembly index</em> (the minimum number of joining operations required to construct an object from basic building blocks) and the <em>copy number</em> (how many copies of that object are observed). The central claim of AT is that objects with high assembly index and high copy number are signatures of selection&mdash;they cannot arise by chance and must be the product of an information-generating process.</p>
+
+<p>FMA provides a <em>constructive mechanism</em> for the phenomena AT describes abstractly. The mapping is precise:</p>
+
+<table>
+<tr><th>Assembly Theory concept</th><th>FMA implementation</th></tr>
+<tr><td class="bold">Assembly index</td><td>Recipe depth in the recipe book. A depth-3 molecule requires three sequential joining operations, each corresponding to a recipe</td></tr>
+<tr><td class="bold">Copy number</td><td>Census count&mdash;the number of copies of a molecular formula present in all agent inventories at a given time step</td></tr>
+<tr><td class="bold">&alpha; (selectivity parameter)</td><td>GFCF demand mechanism. When &alpha; &lt; 1 (directed demand), agents prefer complex goods, creating the selective amplification that AT predicts</td></tr>
+<tr><td class="bold">&tau;<sub>d</sub> / &tau;<sub>p</sub> phase diagram</td><td>Discovery budget parameter. AT predicts three regimes (stagnation, balanced, explosion) depending on the ratio of discovery to production rates. FMA reproduces all three</td></tr>
+<tr><td class="bold">Non-monotonic copy distribution</td><td>Under GFCF demand (&alpha; &lt; 1), FMA shows peaked copy-number distributions at intermediate depth&mdash;AT&rsquo;s signature of selection. Under blind demand (&alpha; = 1), the distribution is monotonically decreasing&mdash;AT&rsquo;s signature of random assembly</td></tr>
+</table>
+
+<div class="insight">
+<strong>Key result.</strong> FMA with GFCF demand produces the non-monotonic copy distribution at high assembly depth that Assembly Theory identifies as the universal signature of selection. This is not imposed&mdash;it <em>emerges</em> from the market dynamics. FMA thus provides the <em>mechanism</em> that AT describes: selection acts through the invisible hand of supply and demand, not through an external fitness function.
+</div>
+
+<p>This connection is more than analogy. AT asks: &ldquo;Given an observed distribution of objects, was selection at work?&rdquo; FMA answers the constructive question: &ldquo;Given a set of building blocks and combination rules, what does selection produce?&rdquo; Together, they form complementary perspectives on the same phenomenon&mdash;AT as the diagnostic, FMA as the generative model.</p>
+
+<!-- ================================================================== -->
+<!-- 5. APPLICATIONS -->
+<!-- ================================================================== -->
+
+<h2>5. Applications</h2>
+
+<h3>5.1 Prebiotic Chemistry</h3>
+
+<p>In the prebiotic chemistry application<sup>8</sup>, FMA&rsquo;s Layer 2 is instantiated with Bond Dissociation Energies (BDE) and Universal Force Field (UFF) strain evaluation. The domain combination function proposes a covalent bond between two molecular fragments; the domain validation function accepts the product only if the total energy change &Delta;E is negative (exothermic).</p>
+
+<table>
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Atoms</td><td>200 C + 500 H + 100 O + 100 N = 900 total</td></tr>
+<tr><td>Domain rules</td><td>BDE bond energies + UFF strain penalty</td></tr>
+<tr><td>Discovery budget</td><td>10 per step</td></tr>
+<tr><td>Temperature</td><td>300&ndash;400 K (UFF thermal threshold)</td></tr>
+<tr><td>Simulation time</td><td>500 steps (~5 min on laptop)</td></tr>
+</table>
+
+<p><strong>Results.</strong> Starting from bare atoms with no target molecules specified, FMA discovered the molecular formulas of all 12 amino acids accessible from C, H, O and N within 500 steps. The system generated 5,056 unique molecular formulas through 2,535 recipes, including up to 240 independent synthesis routes to a single amino acid (glycine). Amino acid formulas appeared 14 times earlier than expected by chance, quantifying the thermodynamic inevitability hypothesis. Temperature acts as a control parameter: T = 400 K opens depth-3 routes that are blocked at 300 K by UFF strain barriers. Assembly Theory metrics (assembly index, copy number distribution) are confirmed by the simulation output. Full details are given in the companion paper<sup>8</sup>.</p>
+
+<h3>5.2 Macroeconomic Forecasting</h3>
+
+<p>In the macroeconomics application<sup>7</sup>, FMA&rsquo;s Layer 2 is instantiated with input&ndash;output (I&ndash;O) coefficients from the FIGARO database. Each agent represents a firm in one of 64 economic sectors. The domain combination function uses the I&ndash;O table to determine how much of each input sector a firm needs to produce one unit of its output sector. The domain validation function checks whether the firm can secure all required inputs from its neighbourhood.</p>
+
+<table>
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Agents</td><td>900 (firms across 64 sectors)</td></tr>
+<tr><td>Domain rules</td><td>FIGARO I&ndash;O table coefficients</td></tr>
+<tr><td>Demand</td><td>GFCF (final demand by sector)</td></tr>
+<tr><td>Calibration data</td><td>None&mdash;zero free parameters</td></tr>
+</table>
+
+<p><strong>Results.</strong> FMA achieved a GDP forecasting Mean Absolute Error of 0.42 percentage points for non-crisis years, comparable to the best professional forecasters (ECB, IMF). The model is portable across countries (Spain, Germany, France, Italy, EU-27) with zero parameter changes&mdash;only the I&ndash;O table changes. For COVID-19 shock propagation, FMA predicted Year 1 GDP at &minus;4.62% versus the empirical &minus;6.6%, capturing the cascade of supply-chain disruptions through the production network. Full details are given in Jaraiz (2026)<sup>7</sup>.</p>
+
+<h3>5.3 Robot Task Sequencing</h3>
+
+<p>In the robotics application<sup>6</sup>, FMA sequences the assembly tasks of a multi-robot system. Each &ldquo;good&rdquo; is a completed sub-task; each &ldquo;recipe&rdquo; specifies which sub-tasks must be completed before a given task can begin. The Goals Dependency Network (GDN) is the supply chain of sub-tasks.</p>
+
+<p><strong>Results.</strong> FMA discovered feasible parallel execution schedules for multi-robot assembly, with independent task branches executed concurrently by different agents. The emergent schedule matched or exceeded hand-crafted heuristic planners, with the advantage of automatic adaptation when task dependencies change. The same market engine (Layer 1) was used without modification. Details are given in Jaraiz (2020)<sup>6</sup>.</p>
+
+<div class="insight">
+<strong>Three domains, one algorithm.</strong> The identical Layer 1 market engine&mdash;ring neighbourhoods, demand propagation, firm entry/exit, trading, decay&mdash;produced self-organized production networks in prebiotic chemistry, macroeconomic forecasting and robot task sequencing. Only the domain rules (Layer 2) and observation metrics (Layer 3) changed.
+</div>
+
+<!-- ================================================================== -->
+<!-- 6. DISCUSSION -->
+<!-- ================================================================== -->
+
+<h2>6. Discussion</h2>
+
+<h3>6.1 Why &ldquo;Free Market&rdquo;?</h3>
+
+<p>The name is not ornamental. FMA implements three foundational insights from economic theory as computational mechanisms:</p>
+
+<p><strong>Adam Smith&rsquo;s invisible hand</strong><sup>9</sup>: Individual agents pursue their own interest (securing inputs, selling output, maximizing inventory value) without any knowledge of or concern for the global outcome. Yet the collective result is a highly organized production network that efficiently allocates resources. In FMA, this is not a metaphor&mdash;it is the selection mechanism.</p>
+
+<p><strong>Hayek&rsquo;s knowledge problem</strong><sup>10</sup>: No single entity possesses the information needed to centrally plan an optimal allocation. Knowledge is dispersed among agents: each knows its local inventory, its neighbours&rsquo; offerings, and the recipes it has witnessed. The trading mechanism aggregates this distributed information into emergent prices (opportunity costs of production), achieving coordination without central planning.</p>
+
+<p><strong>Schumpeter&rsquo;s creative destruction</strong>: The entry and exit of firms is not a bug but a feature. Firms that produce unwanted goods or cannot secure inputs close, freeing their agents to open new firms in response to unmet demand. This turnover is the mechanism by which FMA balances exploration (new firms trying new recipes) and exploitation (successful firms scaling production).</p>
+
+<div class="warning">
+<strong>Clarification.</strong> FMA is not a simulation of an economy. It is an <em>algorithm</em> that uses market dynamics as a computational mechanism, just as GA uses natural selection and ACO uses pheromone-guided foraging. The claim is not that markets are optimal in the normative sense, but that the market mechanism&mdash;distributed agents, local information, supply-and-demand equilibration&mdash;is a powerful optimization primitive that has been underexploited in the metaheuristic literature.
+</div>
+
+<h3>6.2 When to Use FMA vs. GA</h3>
+
+<p>FMA and GA are complementary tools suited to different problem structures:</p>
+
+<table>
+<tr><th>Criterion</th><th>Use GA when</th><th>Use FMA when</th></tr>
+<tr><td class="bold">Fitness function</td><td>Known and computable</td><td>Unknown, emergent, or multi-dimensional</td></tr>
+<tr><td class="bold">Search space</td><td>Fixed and well-defined</td><td>Open-ended or growing</td></tr>
+<tr><td class="bold">Desired output</td><td>Single optimum or Pareto front</td><td>Complete pathway network with supply chains</td></tr>
+<tr><td class="bold">Solution structure</td><td>Flat (no hierarchy)</td><td>Hierarchical (intermediates matter)</td></tr>
+<tr><td class="bold">Problem type</td><td>Parameter optimization, scheduling, routing</td><td>Discovery, synthesis planning, network emergence</td></tr>
+<tr><td class="bold">Computational budget</td><td>Tight (GA is cheaper per iteration)</td><td>Moderate (FMA needs local interactions)</td></tr>
+</table>
+
+<p>In summary: when you know what you&rsquo;re looking for and where to look, use GA. When you want to discover <em>what exists</em> and <em>how it can be made</em>, use FMA.</p>
+
+<h3>6.3 Limitations</h3>
+
+<p>We identify four limitations of the current FMA framework:</p>
+
+<ol>
+<li><strong>Computational cost per iteration.</strong> Each FMA step involves N agents interacting with <em>k</em> neighbours, giving O(N&middot;k) cost per step. This is more expensive than GA&rsquo;s O(N) per generation, though FMA&rsquo;s steps are richer in information content.</li>
+<li><strong>Domain-specific rules required.</strong> FMA&rsquo;s Layer 2 must be provided by the domain expert. While the market engine is universal, the combination and validation functions encode essential domain knowledge. This is analogous to GA requiring a fitness function, but FMA&rsquo;s requirement is arguably more natural: &ldquo;how do things combine?&rdquo; is often easier to specify than &ldquo;what is the global optimum?&rdquo;</li>
+<li><strong>Stochastic variability.</strong> Like all metaheuristics, FMA is stochastic. Different random seeds produce different recipe books and production networks. The <em>qualitative</em> outcomes are robust (the same amino acids emerge across seeds), but quantitative metrics (exact copy counts, number of routes) vary.</li>
+<li><strong>No convergence proof.</strong> We do not prove that FMA converges to a global optimum&mdash;nor would such a proof be meaningful, since FMA has no prescribed optimum. This limitation is shared with GA, PSO, ACO and SA, none of which have practical convergence guarantees for general problems.</li>
+</ol>
+
+<!-- ================================================================== -->
+<!-- 7. CONCLUSION -->
+<!-- ================================================================== -->
+
+<h2>7. Conclusion</h2>
+
+<p>The Free-Market Algorithm introduces a new class of metaheuristic optimization that fills a gap no existing algorithm addresses: optimization with <em>emergent fitness</em> in an <em>open-ended search space</em>, producing <em>hierarchical network solutions</em> through <em>distributed selection</em>. Its key innovation is the recognition that the market mechanism&mdash;agents trading, firms competing, demand cascading through supply chains&mdash;is not merely a metaphor for optimization but a powerful computational primitive in its own right.</p>
+
+<p>We have demonstrated that the same Layer 1 market engine, without modification, discovers amino acid synthesis from bare atoms, forecasts GDP from input&ndash;output tables, and sequences multi-robot assembly tasks. In each case, the emergent production networks match empirical observations without domain-specific tuning of the market mechanism. The connection to Assembly Theory provides a theoretical grounding: FMA generates the non-monotonic copy distributions at high assembly depth that AT identifies as the universal signature of selection.</p>
+
+<p>We propose FMA as a general-purpose tool for any domain where the goal is not to find a single optimum but to discover the <em>landscape</em> of feasible solutions and their formation pathways. The three-layer architecture makes adoption straightforward: write a combination function, write a validation function, and let the market discover what is possible.</p>
+
+<!-- ================================================================== -->
+<!-- REFERENCES -->
+<!-- ================================================================== -->
+
+<div class="ref">
+<h2 style="border-top: none; margin-top: 0;">References</h2>
+<ol>
+<li>Holland, J.H. <em>Adaptation in Natural and Artificial Systems</em>. University of Michigan Press (1975).</li>
+<li>Kennedy, J. &amp; Eberhart, R. Particle swarm optimization. <em>Proc. IEEE International Conference on Neural Networks</em> (1995).</li>
+<li>Dorigo, M., Birattari, M. &amp; Stutzle, T. Ant colony optimization. <em>IEEE Computational Intelligence Magazine</em> <strong>1</strong>, 28&ndash;39 (2006).</li>
+<li>Kirkpatrick, S., Gelatt, C.D. &amp; Vecchi, M.P. Optimization by simulated annealing. <em>Science</em> <strong>220</strong>, 671&ndash;680 (1983).</li>
+<li>Sharma, A. et al. Assembly theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023).</li>
+<li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. <em>arXiv:2009.10823</em> (2020).</li>
+<li>Jaraiz, M. Macroeconomic Forecasting from Input&ndash;Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv:2603.12412</em> (2026).</li>
+<li>Jaraiz, M. A Prebiotic Chemistry &ldquo;Time Machine.&rdquo; <em>arXiv</em> (2026).</li>
+<li>Smith, A. <em>An Inquiry into the Nature and Causes of the Wealth of Nations</em> (1776).</li>
+<li>Hayek, F.A. The use of knowledge in society. <em>American Economic Review</em> <strong>35</strong>, 519&ndash;530 (1945).</li>
+<li>Kauffman, S.A. <em>The Origins of Order: Self-Organization and Selection in Evolution</em>. Oxford University Press (1993).</li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+<!-- DISCLOSURES -->
+<!-- ================================================================== -->
+
+<div class="disclosure" style="margin-top: 35px;">
+<strong>AI Disclosure.</strong> Claude (Anthropic) contributed to the implementation of the author&rsquo;s driving ideas, analysis of results, and drafting of this manuscript. The FMA concept, three-layer architecture, the insight connecting free-market dynamics to algorithmic optimization, and the connection to Assembly Theory are the author&rsquo;s original contributions developed over the course of the DEPLOYERS project (2020&ndash;2026). All scientific claims were verified by the author.
+</div>
+
+<div class="disclosure">
+<strong>Author&rsquo;s Disclosure.</strong> For this report I only provided the title and asked Claude to generate it. And all the chemistry-related work, from scratch, took &ldquo;us&rdquo; less than a week.
+</div>
+
+<p style="text-align: center; color: #999; font-size: 0.85em; margin-top: 40px;">March 2026</p>
+
+</body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Immunity as a Free Market: Clonal Selection, Affinity Maturation, and Cytokine Storm as Unified FMA Dynamics</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2.5cm 2.5cm 3.0cm 2.5cm;
+    @bottom-center {
+      content: counter(page);
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 10pt;
+      color: #555;
+    }
+  }
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1020px; margin: 40px auto; padding: 0 20px; line-height: 1.75; color: #222; background: #f8f9fa; }
+  h1 { color: #1a5276; border-bottom: 3px solid #2980b9; padding-bottom: 10px; font-size: 1.9em; }
+  h2 { color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 45px; }
+  h3 { color: #34495e; margin-top: 30px; }
+  .subtitle { color: #555; font-size: 1.1em; margin-top: -5px; }
+  .author { color: #777; font-style: italic; margin-bottom: 30px; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; }
+  pre { background: #f0f3f6; color: #2c3e50; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 0.88em; line-height: 1.5; border: 1px solid #ccc; }
+  pre code { background: none; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+  th, td { border: 1px solid #bdc3c7; padding: 8px 12px; text-align: left; }
+  th { background: #2c3e50; color: white; font-weight: 600; }
+  tr:nth-child(even) { background: #ecf0f1; }
+  td.num { text-align: right; }
+  td.bold { font-weight: bold; }
+  td.best { background: #eafaf1; font-weight: bold; }
+  td.worst { background: #fdedec; }
+  .highlight { background: #fef9e7; border: 1px solid #f9e79f; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .insight { background: #eaf2f8; border: 1px solid #aed6f1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .critical { background: #fdedec; border: 1px solid #f5b7b1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .success { background: #eafaf1; border: 1px solid #a9dfbf; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .formula { font-weight: bold; color: #8e44ad; }
+  .energy { font-weight: bold; color: #c0392b; }
+  .smiles { font-family: 'Consolas', monospace; color: #2980b9; background: #eaf2f8; padding: 2px 4px; border-radius: 3px; }
+  .arrow { font-size: 1.2em; color: #2980b9; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; }
+  .card h4 { margin: 0 0 10px 0; color: #2980b9; }
+  .card.recommended { border-left: 4px solid #27ae60; }
+  .card.alternative { border-left: 4px solid #f39c12; }
+  .card.specialized { border-left: 4px solid #8e44ad; }
+  .timeline { border-left: 3px solid #2980b9; margin: 15px 0 15px 20px; padding-left: 20px; }
+  .timeline .event { margin: 10px 0; position: relative; }
+  .timeline .event::before { content: ''; position: absolute; left: -27px; top: 6px; width: 10px; height: 10px; background: #2980b9; border-radius: 50%; }
+  .timeline .event.late::before { background: #e67e22; }
+  .timeline .event.missing::before { background: #e74c3c; }
+  .comparison-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+  .bar { height: 20px; background: #2980b9; border-radius: 3px; min-width: 2px; }
+  .bar.highlight-bar { background: #e74c3c; }
+  figure { margin: 20px 0; text-align: center; }
+  figure img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+  figcaption { color: #666; font-size: 0.9em; margin-top: 8px; }
+  .abstract { font-size: 1.02em; color: #333; background: #fff; border: 1px solid #ddd; padding: 20px 25px; border-radius: 8px; margin: 20px 0; }
+  .toc { background: #fff; border: 1px solid #ddd; padding: 15px 25px; border-radius: 8px; margin: 25px 0; }
+  .toc a { color: #2980b9; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc li { margin: 4px 0; }
+  .footnote { font-size: 0.85em; color: #777; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 30px 0; }
+  .tree { font-family: 'Consolas', monospace; background: #2c3e50; color: #ecf0f1; padding: 18px; border-radius: 6px; line-height: 1.6; font-size: 0.88em; overflow-x: auto; white-space: pre; margin: 15px 0; }
+  .tree .step { color: #3498db; }
+  .tree .energy { color: #e74c3c; font-weight: bold; }
+  .tree .product { color: #2ecc71; font-weight: bold; }
+  .tree .smiles-tree { color: #f39c12; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; font-weight: 600; color: white; margin-left: 6px; }
+  .badge-best { background: #27ae60; }
+  .badge-fast { background: #3498db; }
+  .badge-strong { background: #e74c3c; }
+  .badge-convergent { background: #8e44ad; }
+  .score-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .score-bar .label { width: 120px; font-size: 0.88em; color: #555; }
+  .score-bar .bar-bg { flex: 1; height: 14px; background: #ecf0f1; border-radius: 3px; overflow: hidden; }
+  .score-bar .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-green { background: #27ae60; }
+  .bar-blue { background: #3498db; }
+  .bar-orange { background: #f39c12; }
+  .bar-red { background: #e74c3c; }
+  .fig { margin: 25px 0; padding: 18px; background: #fff; border: 1px solid #ddd; border-radius: 8px; }
+  .fig-caption { font-size: 0.88em; color: #666; margin-top: 10px; }
+  .fig-caption strong { color: #34495e; }
+  .equation { font-family: 'Consolas', monospace; background: #f0f3f6; color: #2c3e50; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.05em; text-align: center; border-left: 4px solid #2980b9; border: 1px solid #ccc; }
+  .regime-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .regime-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+  .regime-card h4 { margin: 0 0 8px 0; }
+  .regime-card.stagnation { border-top: 3px solid #e67e22; }
+  .regime-card.stagnation h4 { color: #e67e22; }
+  .regime-card.selection { border-top: 3px solid #27ae60; }
+  .regime-card.selection h4 { color: #27ae60; }
+  .regime-card.tar { border-top: 3px solid #e74c3c; }
+  .regime-card.tar h4 { color: #e74c3c; }
+  svg text { font-family: 'Segoe UI', sans-serif; }
+  blockquote { border-left: 3px solid #2980b9; margin: 15px 0; padding: 10px 18px; background: #f8f9fa; color: #555; font-style: italic; }
+  .disclosure { margin-top: 30px; padding: 16px 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; color: #666; }
+  .ref { font-size: 0.9em; color: #555; margin-top: 40px; padding-top: 20px; border-top: 2px solid #2980b9; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #2980b9; }
+  a { color: #2980b9; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .prediction { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; margin: 20px 0; border-left: 4px solid #8e44ad; }
+  .prediction h4 { margin: 0 0 10px 0; color: #8e44ad; }
+  .prediction .falsification { color: #c0392b; font-weight: 600; margin-top: 8px; }
+  @media (max-width: 800px) {
+    .regime-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: 1fr; }
+  }
+
+  /* Foldable sections — injected */
+  .fold-section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  .fold-header { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid transparent; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  .fold-header:hover { background: #e4eaf0; }
+  .fold-header::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  .fold-header.open::before { transform: rotate(90deg); }
+  .fold-header.open { border-bottom: 1px solid #d0d8e0; }
+  .fold-body { padding: 16px 22px 22px; display: none; }
+  .fold-body.open { display: block; }
+
+  .fold-sub { margin-top: 14px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  .fold-sub-header { font-family: 'Segoe UI', sans-serif; font-size: 1.0em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; }
+  .fold-sub-header:hover { background: #eaeff4; }
+  .fold-sub-header::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  .fold-sub-header.open::before { transform: rotate(90deg); }
+  .fold-sub-body { padding: 12px 18px 16px; display: none; }
+  .fold-sub-body.open { display: block; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+
+  /* Cross-chapter nav — injected */
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body>
+
+<div style="text-align:center; color:#7f8c8d; font-size:0.82em; letter-spacing:0.12em; text-transform:uppercase; padding-top:10px; margin-bottom:4px;">The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+<div style="text-align:center; color:#2980b9; font-size:1.0em; font-weight:600; margin-bottom:20px; letter-spacing:0.04em;">Chapter&nbsp;5 &mdash; Adaptive Immunity</div>
+
+<h1>Immunity as a Free Market: Clonal Selection, Affinity Maturation, Memory, Exhaustion, and Cytokine Storm as Unified FMA Dynamics</h1>
+<p class="author">Martin Jaraiz &mdash; Department of Electricity and Electronics, University of Valladolid, Spain<br>
+March 2026</p>
+
+<!-- ================================================================== -->
+<!-- ABSTRACT -->
+<!-- ================================================================== -->
+
+<div class="abstract">
+<strong>Abstract.</strong>
+The adaptive immune system solves a problem that no central planner can address: defending an organism against an antigen space of approximately 10<sup>18</sup> possible epitopes, using only local information, without knowing in advance which threats will appear. We show that every named mechanism of the Free-Market Algorithm (FMA)&mdash;a metaheuristic optimization framework independently validated in macroeconomic forecasting<sup>1</sup> and prebiotic chemistry<sup>2</sup>&mdash;has a precise, mechanistically grounded counterpart in adaptive immunity. This correspondence is not metaphor: each of the 18 FMA mechanisms maps onto a specific immunological process, from the Evans&ndash;Polanyi activation barrier (lymphocyte activation thresholds) to the persistent recipe book (immunological memory), from census coverage (repertoire diversity maintenance) to the GFCF demand cascade (epitope spreading and cytokine amplification). FMA was designed and validated in economics and chemistry <em>before</em> this immunological comparison was made; the mapping is therefore a discovery, not a post-hoc fit. We demonstrate that the three dynamical regimes of FMA&mdash;stagnation, selection, and tar&mdash;correspond precisely to immune tolerance, normal adaptive immunity, and cytokine storm, respectively. We reinterpret cytokine storm not as "excessive immunity" but as failure of the producer death mechanism: a birth/death ratio imbalance, not absolute cytokine levels. We show that the training&ndash;inference dichotomy collapses in immunity just as it does in FMA: every immune response is simultaneously learning and responding. We propose six novel falsifiable predictions, including Evans&ndash;Polanyi T-cell activation kinetics with &alpha;&asymp;0.5 (the same coefficient as in chemistry), exhaustion scaling with cascade depth rather than antigen dose, and cytokine storm severity predicted by birth/death ratio rather than IL-6 alone. The adaptive immune system did not read Hayek. It discovered the free market by natural selection, running the same algorithm that governs macroeconomic coordination and prebiotic molecular assembly.
+</div>
+
+<!-- ================================================================== -->
+<!-- TABLE OF CONTENTS -->
+<!-- ================================================================== -->
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#sec1">Introduction</a></li>
+  <li><a href="#sec2">Background</a></li>
+  <li><a href="#sec3">The Complete FMA&rarr;Immunity Mapping</a></li>
+  <li><a href="#sec4">The Training&ndash;Inference Collapse in Immunity</a></li>
+  <li><a href="#sec5">Three Dynamical Regimes</a></li>
+  <li><a href="#sec6">Superposition in Immunity</a></li>
+  <li><a href="#sec7">The Germinal Center as a Local Free Market</a></li>
+  <li><a href="#sec8">Assembly Theory Connection</a></li>
+  <li><a href="#sec9">Six Novel Predictions</a></li>
+  <li><a href="#sec10">Cancer Immunotherapy as FMA Engineering</a></li>
+  <li><a href="#sec11">Discussion</a></li>
+  <li><a href="#sec12">Conclusion</a></li>
+  <li><a href="#refs">References</a></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+<!-- 1. INTRODUCTION -->
+<!-- ================================================================== -->
+
+<h2 id="sec1">1. Introduction</h2>
+
+<h3 id="sec1-1">1.1 The Central Planning Problem in Immunology</h3>
+
+<p>The human adaptive immune system faces an optimization problem of staggering dimensionality. The antigen universe&mdash;the set of all molecular structures that could serve as foreign epitopes&mdash;spans approximately 10<sup>18</sup> possible peptide-MHC configurations<sup>3</sup>. No germline genome could possibly encode a pre-specified receptor for each potential threat. The combinatorial space is too large, the threats too unpredictable, and the metabolic cost of maintaining a standing army of specialists for every possible antigen too great.</p>
+
+<p>This is, in precise economic terms, a <em>central planning problem</em>. Hayek demonstrated in 1945 that no central authority can possess the distributed knowledge necessary for optimal resource allocation<sup>4</sup>. The immune system confronts the identical impossibility: no single gene, cell, or organ possesses the information needed to specify the required defensive repertoire. Instead, the system must discover specialists on demand, amplify those that prove useful, retire those that do not, and remember successful responses for future deployment&mdash;all using only local information, with no global loss function to optimize.</p>
+
+<p>This is not a new observation in outline. Burnet's clonal selection theory (1957) recognized that lymphocytes are selected by antigen rather than instructed by it<sup>5</sup>. Jerne anticipated the idea even earlier, framing antibody formation as a natural-selection process<sup>6</sup>. What has been missing for nearly seventy years is a <em>quantitative formalism</em>&mdash;one that specifies the selection mechanism precisely enough to generate falsifiable predictions about phenomena that clonal selection theory alone does not address: the kinetics of activation, the depth-dependent dynamics of exhaustion, the conditions under which the system enters catastrophic cytokine storm, and the relationship between antigen complexity and memory quality.</p>
+
+<h3 id="sec1-2">1.2 What FMA Adds to Seventy Years of Clonal Selection Theory</h3>
+
+<p>The Free-Market Algorithm (FMA), introduced formally in Chapter&nbsp;1 of this volume<sup>7</sup>, is a metaheuristic optimization framework based on market dynamics: autonomous agents discover transformation rules, trade goods, open and close firms, and compete for demand, with no centralized controller. Critically, FMA was designed and validated in two domains entirely unrelated to immunology&mdash;macroeconomic forecasting<sup>1</sup> (MAE 0.42 percentage points for GDP prediction across 33 countries) and prebiotic chemistry<sup>2</sup> (autonomous discovery of all 12 feasible amino acids, all 5 nucleobases, and the complete formose sugar chain from bare atoms)&mdash;before the immunological mapping described here was attempted.</p>
+
+<p>FMA adds to clonal selection theory what Newton's laws added to Kepler's observations: a quantitative mechanism from which the observed phenomena can be <em>derived</em> rather than merely described. Where Burnet says "cells are selected," FMA specifies the Evans&ndash;Polanyi barrier that governs selection kinetics (<code>PassesKineticBarrier()</code> in the reference implementation<sup>7</sup>). Where immunologists observe "T-cell exhaustion," FMA derives it from a depth penalty that accumulates along the cascade chain (<code>kDepthPenaltyKJ</code>). Where clinicians treat cytokine storm as an inflammatory excess, FMA identifies it as a specific dynamical regime&mdash;the tar regime&mdash;in which the birth/death ratio of specialist producers exceeds a critical threshold.</p>
+
+<h3 id="sec1-3">1.3 Contributions</h3>
+
+<p>This chapter makes three contributions:</p>
+<ol>
+<li><strong>Structural correspondence.</strong> We establish a complete 18-mechanism mapping between FMA and adaptive immunity, in which every named FMA mechanism has a precise biological counterpart and every mechanism cites a specific function in the reference implementation.</li>
+<li><strong>Existence proof.</strong> Because FMA was validated independently in economics and chemistry before this comparison, the mapping constitutes an existence proof that a single algorithmic framework governs optimization across molecular, economic, and biological domains. This is not post-hoc metaphor fitting.</li>
+<li><strong>Falsifiable predictions.</strong> We derive six novel predictions from the FMA formalism, including Evans&ndash;Polanyi T-cell activation kinetics (&alpha;&asymp;0.5, the same coefficient as in chemistry), exhaustion scaling with cascade depth rather than dose, and cytokine storm severity predicted by birth/death ratio rather than absolute cytokine levels.</li>
+</ol>
+
+
+<!-- ================================================================== -->
+<!-- 2. BACKGROUND -->
+<!-- ================================================================== -->
+
+<h2 id="sec2">2. Background</h2>
+
+<h3 id="sec2-1">2.1 Clonal Selection and Expansion</h3>
+
+<p>The clonal selection theory, proposed by Burnet<sup>5</sup> and anticipated by Jerne<sup>6</sup>, holds that each lymphocyte bears a unique receptor generated by stochastic V(D)J recombination. When antigen engages a receptor with sufficient affinity, the cell is activated, proliferates, and differentiates into effector cells. Cells whose receptors do not encounter their cognate antigen remain quiescent or undergo apoptosis. The result is a population of expanded clones precisely tailored to the threat at hand&mdash;specialist producers born in response to demand, in FMA terms.</p>
+
+<h3 id="sec2-2">2.2 Affinity Maturation and Germinal Centers</h3>
+
+<p>Following initial activation, B cells enter germinal centers (GCs) in secondary lymphoid organs, where they undergo somatic hypermutation (SHM) of their immunoglobulin genes and compete for antigen displayed on follicular dendritic cells (FDCs). B cells with improved affinity receive T follicular helper (Tfh) survival signals; those with reduced affinity undergo apoptosis. This iterative cycle of mutation, selection, and re-competition&mdash;typically lasting 2&ndash;3 weeks&mdash;drives a 100- to 10,000-fold increase in antibody binding affinity<sup>8</sup>. Victora and Nussenzweig (2012) provided the definitive characterization of this process, establishing that GC B cells cycle between dark zone (proliferation and mutation) and light zone (selection by antigen and Tfh cells).<sup>9</sup></p>
+
+<h3 id="sec2-3">2.3 T-Cell Exhaustion</h3>
+
+<p>Chronic antigen stimulation&mdash;as occurs in persistent viral infections (HIV, HCV, HBV) and cancer&mdash;drives CD8<sup>+</sup> T cells into a dysfunctional state termed exhaustion. Exhausted T cells progressively lose effector functions (cytokine production, cytotoxicity, proliferative capacity) and upregulate inhibitory receptors (PD-1, TIM-3, LAG-3, CTLA-4)<sup>10</sup>. Wherry (2011) demonstrated that exhaustion is not mere activation-induced cell death but a distinct differentiation program governed by the transcription factor TOX<sup>10</sup>. Critically, exhaustion severity correlates with the <em>duration</em> of antigen exposure, not its absolute magnitude&mdash;a point that will prove central to our FMA interpretation.</p>
+
+<h3 id="sec2-4">2.4 Cytokine Storm</h3>
+
+<p>Cytokine release syndrome (CRS), colloquially "cytokine storm," is a life-threatening systemic inflammatory response characterized by massive release of pro-inflammatory cytokines (IL-6, TNF-&alpha;, IFN-&gamma;, IL-1&beta;) leading to multi-organ failure<sup>11</sup>. Fajgenbaum and June (2020) established the modern classification of CRS, distinguishing it from sepsis and hemophagocytic lymphohistiocytosis (HLH) and identifying the IL-6 amplification loop as a central mechanism<sup>11</sup>. CRS gained renewed attention during the COVID-19 pandemic, where it contributed significantly to mortality<sup>12</sup>, and in the context of CAR-T cell therapy, where it is the most common severe adverse event<sup>13</sup>.</p>
+
+<h3 id="sec2-5">2.5 Immunological Memory</h3>
+
+<p>Following antigen clearance, a fraction of expanded clones differentiates into long-lived memory B cells and memory T cells. Memory B cells can persist for decades and, upon re-exposure, mount a secondary response that is faster (days vs. weeks), of higher magnitude, and of higher affinity than the primary response. Long-lived plasma cells in bone marrow niches continuously secrete antibody without re-stimulation, providing constitutive protection<sup>14</sup>. The persistence and additivity of immunological memory&mdash;new responses do not overwrite old ones&mdash;will prove directly analogous to FMA's recipe book.</p>
+
+<h3 id="sec2-6">2.6 FMA Summary</h3>
+
+<p>The Free-Market Algorithm is specified fully in Chapter&nbsp;1<sup>7</sup>. We summarize only the features essential for the immunological mapping. FMA consists of a universal market engine (Layer&nbsp;1) and pluggable domain rules (Layer&nbsp;2). The market engine implements: (a)&nbsp;autonomous agents (<code>MarketWorker</code>) with inventory and production capability; (b)&nbsp;demand-driven specialist birth and idle-triggered death (<code>WorkerTryStartup()</code>, <code>WorkerManageProducer()</code>); (c)&nbsp;an Evans&ndash;Polanyi kinetic barrier gating new discoveries (<code>PassesKineticBarrier()</code>); (d)&nbsp;a depth penalty penalizing long synthesis chains (<code>kDepthPenaltyKJ</code>); (e)&nbsp;a persistent recipe book storing every successful transformation (<code>RecipeBook</code>); (f)&nbsp;census coverage ensuring every known product has at least one producer (<code>CensusCoverage</code> logic in <code>ChooseProducerType()</code>); (g)&nbsp;a GFCF demand cascade propagating demand for complex goods down the supply chain (<code>ComputeGFCF</code> logic in <code>WorkerBuyGoods()</code>); and (h)&nbsp;a witness mechanism amplifying demand when a new product is first discovered (<code>SpawnWitnessProducer()</code>). All agents execute discovery, trading, and production in the <em>same loop at every timestep</em> (<code>WorkerMonthlyActivity()</code>). The seven equations&mdash;agent cycle, Evans&ndash;Polanyi barrier, depth penalty, census coverage, witness boost, decay law, and GFCF cascade&mdash;are identical across all five domains described in this volume.</p>
+
+
+<!-- ================================================================== -->
+<!-- 3. THE COMPLETE FMA → IMMUNITY MAPPING -->
+<!-- ================================================================== -->
+
+<h2 id="sec3">3. The Complete FMA&rarr;Immunity Mapping</h2>
+
+<p>Table&nbsp;1 presents the complete correspondence between the 18 named mechanisms of FMA and their immunological counterparts. Every mapping cites a specific function in the reference implementation (the MolecularDeployer codebase). We then discuss in detail the six most consequential mechanisms.</p>
+
+<table>
+<tr><th>#</th><th>FMA Mechanism</th><th>Code Reference</th><th>Immune Analog</th><th>Why It Maps</th></tr>
+<tr><td>1</td><td class="bold">MarketWorker</td><td><code>MarketSim.h: MarketWorker</code></td><td>Naive lymphocyte (B/T cell + BCR/TCR)</td><td>Each cell carries a unique receptor = unique production capability; inventory = surface molecules and secreted products</td></tr>
+<tr><td>2</td><td class="bold">Producer birth</td><td><code>WorkerTryStartup()</code></td><td>Clonal expansion</td><td>Antigen = demand signal; 50% demand-driven + 20% stochastic startup parallels antigen-driven proliferation + V(D)J stochastic generation</td></tr>
+<tr><td>3</td><td class="bold">Producer death</td><td><code>WorkerManageProducer()</code></td><td>Clonal contraction / apoptosis</td><td>200 idle steps = no antigen demand; 90&ndash;95% of expanded clones die post-response; survival requires ongoing signal</td></tr>
+<tr><td>4</td><td class="bold">Demand signal</td><td><code>WorkerBuyGoods()</code></td><td>Antigen + cytokine cascade</td><td>Antigen = initial demand; cytokines (IL-2, IL-4, IFN-&gamma;) = price signals encoding demand type and urgency</td></tr>
+<tr><td>5</td><td class="bold">Evans&ndash;Polanyi barrier</td><td><code>PassesKineticBarrier()</code></td><td>Lymphocyte activation threshold</td><td>E<sub>0</sub> = co-stimulation requirement (CD28/B7); &Delta;E = BCR/TCR&ndash;antigen binding affinity; &alpha; &asymp; 0.5</td></tr>
+<tr><td>6</td><td class="bold">Depth penalty</td><td><code>kDepthPenaltyKJ</code></td><td>T-cell exhaustion</td><td>Chronic stimulation = long cascade chain; each step adds penalty; PD-1/TIM-3/LAG-3 = biological exhaustion markers</td></tr>
+<tr><td>7</td><td class="bold">Decay</td><td><code>WorkerDecayGoods()</code></td><td>Homeostatic cell turnover</td><td>Rate &propto; (atoms/10)&sup2;; large complex clones require stronger survival signals (IL-7/IL-15)</td></tr>
+<tr><td>8</td><td class="bold">GFCF cascade</td><td><code>WorkerBuyGoods()</code></td><td>Epitope spreading + amplification</td><td>Dominant epitope &rarr; subdominant spreading; IL-2 autocrine loop; complement cascade (C3b opsonization)</td></tr>
+<tr><td>9</td><td class="bold">Census coverage</td><td><code>ChooseProducerType()</code></td><td>Repertoire diversity maintenance</td><td>Thymic selection maintains diverse TCR repertoire; IL-7 preferentially expands rare clones; no single clone dominates the naive pool</td></tr>
+<tr><td>10</td><td class="bold">Witness mechanism</td><td><code>SpawnWitnessProducer()</code></td><td>Dendritic cell antigen presentation</td><td>DCs capture antigen &rarr; IL-12 / type I IFN = 3&times; amplified demand signal; TLR/PAMP signals = "witness" for novel threats</td></tr>
+<tr><td>11</td><td class="bold">Recipe book</td><td><code>RecipeBook</code></td><td>Immunological memory</td><td>Memory is additive (new antigens do not overwrite old); affinity-matured antibodies = optimized recipes; secondary response = recipe lookup</td></tr>
+<tr><td>12</td><td class="bold">Ring neighborhood</td><td><code>RingNeighborhood</code></td><td>Germinal center / lymph node</td><td>B cells compete locally on FDCs; high-affinity cells receive local survival signals only; O(k) locality, not global optimization</td></tr>
+<tr><td>13</td><td class="bold">Primary good regeneration</td><td><code>RunStep()</code> regen loop</td><td>Hematopoietic stem cells + thymic output</td><td>HSCs continuously regenerate naive pool; IL-7 from thymic epithelium = primary good signal</td></tr>
+<tr><td>14</td><td class="bold">Three modes</td><td><code>DiscoveryMode</code></td><td>Three immune response types</td><td>Full = adaptive (specific + memory); Target = innate (fixed PRRs, no memory); Free = autoimmunity (self as unconstrained demand)</td></tr>
+<tr><td>15</td><td class="bold">Amplified IC demand</td><td><code>WorkerRunProducer()</code> 2&times; demand</td><td>T helper bottleneck amplification</td><td>Tfh cells are rate-limiting; IL-2 autocrine amplification = 2&times; self-stimulation at bottleneck; linked recognition cascade</td></tr>
+<tr><td>16</td><td class="bold">Random exploration</td><td><code>WorkerTryDiscovery()</code> 30% path</td><td>Somatic hypermutation (SHM)</td><td>AID introduces random mutations in BCR; antigen selection = demand-driven refinement of random variants</td></tr>
+<tr><td>17</td><td class="bold">Ring closure / cyclization</td><td><code>UFFEvaluator::TryCyclize()</code></td><td>V(D)J recombination + class switching</td><td>V(D)J creates novel BCR/TCR from gene segments = novel topology from components; class switching = functional role change</td></tr>
+<tr><td>18</td><td class="bold">Producer directory</td><td><code>m_producerDirectory</code></td><td>MHC presentation system</td><td>MHC presents peptide fragments = routing directory for T cell recognition; pMHC complex = key mapping antigen to cognate T cell</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 1 | Complete FMA&rarr;immunity mapping.</strong> All 18 named FMA mechanisms have a precise immunological counterpart. Code references point to functions in the MolecularDeployer reference implementation.</p>
+
+<h3>3.1 Evans&ndash;Polanyi Barrier: The Activation Threshold</h3>
+
+<p>In FMA, every discovery attempt must pass a kinetic barrier before it is accepted. The barrier height follows the Evans&ndash;Polanyi relation:</p>
+
+<div class="equation">E<sub>a</sub> = E<sub>0</sub> + &alpha; &middot; &Delta;E &nbsp;&nbsp;&nbsp; (clamped to &ge; 0); &nbsp;&nbsp; P(accept) = exp(&minus;E<sub>a</sub> / kT)</div>
+
+<p>In the reference implementation (<code>PassesKineticBarrier()</code>), E<sub>0</sub> is the base activation energy, &alpha; the Br&oslash;nsted coefficient (default 0.3 for chemistry), and &Delta;E the thermodynamic driving force<sup>7</sup>. In the immune system, this maps directly onto the two-signal model of lymphocyte activation<sup>15</sup>. Signal 1 (TCR/BCR engagement with antigen) provides the thermodynamic driving force &Delta;E: higher binding affinity means more favorable &Delta;E. Signal 2 (co-stimulation via CD28&ndash;B7 interaction) modulates the baseline barrier E<sub>0</sub>: without co-stimulation, the barrier is insurmountable (anergy). The prediction &alpha;&asymp;0.5&mdash;the same value observed in chemistry&mdash;is developed as Prediction P1 in Section&nbsp;9.</p>
+
+<h3>3.2 Depth Penalty: Exhaustion Is Not Dose, It Is Depth</h3>
+
+<p>FMA imposes a depth penalty of 10 kJ/mol per synthesis step (<code>kDepthPenaltyKJ = 10.0</code>). This means that longer production chains are progressively less favorable, regardless of the thermodynamic quality of the final product. The immunological parallel is T-cell exhaustion<sup>10</sup>. Exhaustion correlates not with the <em>total amount</em> of antigen a T cell encounters, but with the <em>duration and depth</em> of chronic stimulation. Each round of antigen restimulation adds an increment of exhaustion&mdash;upregulation of PD-1, TIM-3, LAG-3, epigenetic remodeling via TOX&mdash;just as each synthesis step adds depth penalty in FMA. This reframing has a testable consequence: at constant total antigen dose, chronic low-level exposure should produce more exhaustion than acute high-dose exposure (Prediction P2).</p>
+
+<h3>3.3 Recipe Book: Immunological Memory Is Additive and Persistent</h3>
+
+<p>The FMA recipe book (<code>RecipeBook</code>) stores every successfully discovered transformation. Recipes are additive&mdash;new discoveries never overwrite existing ones&mdash;and depth-tracked, meaning the system knows the number of assembly steps required for each product. Immunological memory B and T cells are the biological recipe book. New immune responses generate new memory cells without erasing existing ones<sup>14</sup>. Memory is depth-tracked: affinity-matured memory B cells carry a record of their mutational history, and the quality of subsequent responses depends on the depth of prior affinity maturation. The recipe book's additivity explains why vaccination against a new pathogen does not compromise immunity to previously encountered pathogens&mdash;catastrophic forgetting is impossible by construction.</p>
+
+<h3>3.4 Census Coverage: Maintaining Repertoire Diversity</h3>
+
+<p>In FMA, when any discovered product has zero active producers, the census coverage mechanism (<code>ChooseProducerType()</code>, lines 839&ndash;853 of <code>MarketSim.cpp</code>) gives that product priority for new firm creation. This ensures that no discovered species vanishes entirely from the market. In the immune system, thymic selection and IL-7 homeostatic signaling serve the same function. IL-7 preferentially drives proliferation of T cells with low representation in the peripheral pool, preventing any single clone from dominating the naive repertoire<sup>16</sup>. This is not global optimization; it is local pressure toward diversity maintenance&mdash;precisely the census coverage mechanism.</p>
+
+<h3>3.5 Witness Mechanism: Dendritic Cells as Discovery Amplifiers</h3>
+
+<p>When a new product is discovered in FMA, the witness mechanism (<code>SpawnWitnessProducer()</code>) creates a sample unit and generates 3&times; amplified demand signals. This ensures that novel discoveries are not immediately lost to the market's inertia. Dendritic cells (DCs) are the biological witness: upon capturing a novel antigen, DCs migrate to lymph nodes and present processed peptides on MHC molecules while simultaneously releasing IL-12 and type I interferons&mdash;a massively amplified "demand signal" for specific T-cell clones<sup>17</sup>. The TLR/PAMP pattern-recognition system acts as the witness trigger: it detects <em>novelty</em> (molecular patterns associated with pathogens but absent from self) and amplifies the demand response accordingly.</p>
+
+<h3>3.6 GFCF Cascade: Demand Propagates Downward</h3>
+
+<p>FMA's GFCF (Gross Fixed Capital Formation) cascade, implemented in <code>WorkerBuyGoods()</code>, causes demand for the largest known product to propagate downward through the supply chain: demand for a complex molecule creates demand for its precursors, which creates demand for <em>their</em> precursors, all the way to primary goods. In the immune system, this manifests as epitope spreading and cytokine cascade amplification. The dominant B-cell response against an immunodominant epitope generates T-cell help that spills over to subdominant epitopes (epitope spreading). The IL-2 autocrine loop amplifies the signal: activated T cells secrete IL-2 that promotes their own expansion, creating a positive feedback cascade. The complement system provides a parallel amplification cascade: C3b opsonization marks antigen for enhanced uptake, generating more antigen presentation, which generates more T-cell activation&mdash;demand cascading downward through the supply chain.</p>
+
+
+<!-- ================================================================== -->
+<!-- 4. TRAINING-INFERENCE COLLAPSE -->
+<!-- ================================================================== -->
+
+<h2 id="sec4">4. The Training&ndash;Inference Collapse in Immunity</h2>
+
+<p>A central theme of this volume, first articulated in Chapter&nbsp;4 (Free-Market Transformer), is the collapse of the training&ndash;inference dichotomy. In FMA, there is no separate training phase followed by a deployment phase. Every agent, at every timestep, executes both discovery and production in the same loop:</p>
+
+<pre><code>void MarketSim::WorkerMonthlyActivity(MarketWorker&amp; worker) {
+    if (m_uff) WorkerTryDiscovery(worker);   // "learning"
+    WorkerBuyGoods(worker);                   // "trading"
+    WorkerManageProducer(worker);             // "firm management"
+    WorkerTryStartup(worker);                 // "entrepreneurship"
+    WorkerRunProducer(worker);                // "production / inference"
+    if (m_uff) WorkerDecayGoods(worker);      // "entropy"
+}</code></pre>
+
+<p>Discovery (learning) and production (inference) are interleaved at the level of a single agent within a single timestep. There is no epoch structure, no forward-then-backward pass, no frozen-weight deployment. The same code path handles both.</p>
+
+<h3>4.1 The False Dichotomy in Immunology</h3>
+
+<p>Conventional immunology implicitly assumes a training&ndash;inference separation. The primary immune response is "training": naive lymphocytes encounter antigen for the first time, undergo clonal expansion and affinity maturation, and generate memory cells. The secondary response is "inference": memory cells recognize a returning pathogen and mount a rapid, high-affinity response using previously learned specificity. This framing suggests a clean temporal separation&mdash;first learn, then deploy.</p>
+
+<p>This is false. The secondary immune response is <em>not</em> merely deployment of pre-learned responses:</p>
+
+<ul>
+<li><strong>Memory B cells undergo further affinity maturation during the secondary response.</strong> Recall memory B cells re-enter germinal centers, undergo additional rounds of SHM, and emerge with even higher affinity than their primary-response progenitors<sup>8,9</sup>.</li>
+<li><strong>Long-lived plasma cells continue to evolve in bone marrow niches.</strong> The bone marrow plasma cell compartment is not static; it undergoes ongoing selection and replacement<sup>14</sup>.</li>
+<li><strong>New epitopes on the same pathogen trigger new memory formation during "inference."</strong> A returning pathogen may present mutated or previously hidden epitopes, generating <em>de novo</em> memory alongside recall of existing memory.</li>
+<li><strong>T-cell memory is updated by rechallenge.</strong> Repeated encounters can either reinvigorate or exhaust memory T cells, depending on the duration and intensity of restimulation<sup>10</sup>.</li>
+</ul>
+
+<p>In FMA terms, this is exactly what the code demands: <code>WorkerTryDiscovery()</code> and <code>WorkerRunProducer()</code> execute in the same loop. Every immune response is simultaneously learning (discovering new specificities, refining existing ones) and responding (deploying effector functions). The system does not switch modes.</p>
+
+<h3>4.2 Consequences of the Collapse</h3>
+
+<div class="insight">
+<strong>Why boosters work.</strong> Vaccine boosters are effective precisely because the secondary response is not pure inference. Each booster episode drives additional rounds of affinity maturation in germinal centers, progressively refining the recipe book. If secondary responses were pure inference&mdash;frozen-weight deployment&mdash;boosters would be unnecessary.
+</div>
+
+<div class="highlight">
+<strong>Original antigenic sin.</strong> First described by Francis (1960)<sup>18</sup>, original antigenic sin (OAS) is the phenomenon in which the immune response to a new variant of a previously encountered pathogen is dominated by memory cells from the original exposure, even when the new variant has diverged. In FMA terms, this is a direct consequence of recipe book persistence: early recipes, once stored, are consulted first. Subsequent variants encounter a recipe book already populated with prior solutions. Because recipes are additive and never overwritten, the original entries bias the response. OAS is not a bug&mdash;it is the cost of persistent memory without catastrophic forgetting.
+</div>
+
+<p>Importantly, this simultaneous discovery-and-production architecture is <em>not</em> continual learning in the machine-learning sense. Continual learning struggles with catastrophic forgetting&mdash;new training overwrites old knowledge. FMA's recipe book is additive: new recipes never conflict with existing ones because each recipe occupies a unique niche in the production network. The immune system achieves the same property: memory cells for measles coexist indefinitely with memory cells for influenza, smallpox, and tetanus. The biological implementation of an additive recipe book is the long-lived memory cell compartment, where each clone occupies a distinct antigenic niche.</p>
+
+
+<!-- ================================================================== -->
+<!-- 5. THREE DYNAMICAL REGIMES -->
+<!-- ================================================================== -->
+
+<h2 id="sec5">5. Three Dynamical Regimes</h2>
+
+<p>Chapter&nbsp;1 established that FMA exhibits three dynamical regimes, governed by the ratio &tau;<sub>d</sub>/&tau;<sub>p</sub> (discovery rate to production rate)<sup>7</sup>. These same three regimes appear in immunity with striking clinical specificity.</p>
+
+<!-- Regime cards -->
+<div class="regime-grid">
+  <div class="regime-card stagnation">
+    <h4>Stagnation (&tau;<sub>d</sub>/&tau;<sub>p</sub> &le; 0.3)</h4>
+    <p><strong>FMA:</strong> Discovery too slow relative to production. Market stagnates. Existing producers serve existing demand but nothing new emerges.</p>
+    <p><strong>Immunity:</strong> Immune tolerance / anergy. Lymphocytes fail to activate despite antigen presence. Clonal anergy: T cells receive Signal 1 (TCR engagement) without Signal 2 (co-stimulation), driving them into a non-responsive state. Primary immunodeficiencies (SCID, CVID) represent the extreme: no discovery capacity at all.</p>
+    <p><strong>Clinical:</strong> Immunodeficiency, persistent infection, failure to clear tumors.</p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Selection (&tau;<sub>d</sub>/&tau;<sub>p</sub> &asymp; 0.5&ndash;1.0)</h4>
+    <p><strong>FMA:</strong> Discovery and production in balance. New recipes emerge; successful producers expand; unsuccessful ones close. The recipe book grows steadily.</p>
+    <p><strong>Immunity:</strong> Normal adaptive immunity. Antigen-driven clonal expansion, affinity maturation, memory formation, and appropriate contraction. The immune system discovers, deploys, and remembers&mdash;the full cycle operates.</p>
+    <p><strong>Clinical:</strong> Effective pathogen clearance, vaccine responsiveness, immune homeostasis.</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Tar (&tau;<sub>d</sub>/&tau;<sub>p</sub> &ge; 2.0)</h4>
+    <p><strong>FMA:</strong> Discovery overwhelms production. Too many specialists born; not enough die. The market fills with redundant producers and runaway intermediates.</p>
+    <p><strong>Immunity:</strong> Cytokine storm / autoimmunity. Uncontrolled clonal expansion without matching contraction. Pro-inflammatory cytokines (IL-6, TNF-&alpha;, IFN-&gamma;) amplify without negative feedback. Regulatory T cells and anti-inflammatory cytokines (IL-10, TGF-&beta;) are overwhelmed.</p>
+    <p><strong>Clinical:</strong> COVID-19 CRS, septic shock, CAR-T toxicity, SLE, rheumatoid arthritis.</p>
+  </div>
+</div>
+
+<!-- Three Regimes SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-regime" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">Three Dynamical Regimes in Immunity</text>
+
+  <!-- X axis -->
+  <line x1="80" y1="230" x2="820" y2="230" stroke="#555" stroke-width="2" marker-end="url(#arr-regime)"/>
+  <text x="450" y="260" fill="#555" font-size="11" text-anchor="middle">&tau;<tspan baseline-shift="sub" font-size="9">d</tspan> / &tau;<tspan baseline-shift="sub" font-size="9">p</tspan> (discovery rate / production rate)</text>
+
+  <!-- Y axis -->
+  <line x1="80" y1="230" x2="80" y2="40" stroke="#555" stroke-width="2" marker-end="url(#arr-regime)"/>
+  <text x="30" y="135" fill="#555" font-size="11" text-anchor="middle" transform="rotate(-90 30 135)">System complexity / diversity</text>
+
+  <!-- Stagnation zone -->
+  <rect x="81" y="50" width="200" height="179" rx="0" fill="#fef9e7" fill-opacity="0.5"/>
+  <text x="181" y="75" fill="#e67e22" font-size="11" text-anchor="middle" font-weight="bold">STAGNATION</text>
+  <text x="181" y="92" fill="#777" font-size="9" text-anchor="middle">Tolerance / Anergy</text>
+  <text x="181" y="106" fill="#777" font-size="9" text-anchor="middle">SCID, CVID</text>
+
+  <!-- Selection zone -->
+  <rect x="281" y="50" width="260" height="179" rx="0" fill="#eafaf1" fill-opacity="0.5"/>
+  <text x="411" y="75" fill="#27ae60" font-size="11" text-anchor="middle" font-weight="bold">SELECTION</text>
+  <text x="411" y="92" fill="#777" font-size="9" text-anchor="middle">Normal adaptive immunity</text>
+  <text x="411" y="106" fill="#777" font-size="9" text-anchor="middle">Clonal expansion + memory</text>
+
+  <!-- Tar zone -->
+  <rect x="541" y="50" width="279" height="179" rx="0" fill="#fdedec" fill-opacity="0.5"/>
+  <text x="680" y="75" fill="#e74c3c" font-size="11" text-anchor="middle" font-weight="bold">TAR</text>
+  <text x="680" y="92" fill="#777" font-size="9" text-anchor="middle">Cytokine storm</text>
+  <text x="680" y="106" fill="#777" font-size="9" text-anchor="middle">Autoimmunity, CRS</text>
+
+  <!-- Curve -->
+  <path d="M 100 210 Q 200 200 280 160 Q 360 110 410 80 Q 480 110 540 160 Q 620 200 700 218 Q 750 222 810 225" stroke="#2980b9" stroke-width="3" fill="none"/>
+
+  <!-- Peak label -->
+  <circle cx="410" cy="80" r="4" fill="#27ae60"/>
+  <text x="410" y="68" fill="#27ae60" font-size="9" text-anchor="middle">optimal diversity</text>
+
+  <!-- Threshold markers -->
+  <line x1="281" y1="230" x2="281" y2="225" stroke="#e67e22" stroke-width="2"/>
+  <text x="281" y="248" fill="#e67e22" font-size="9" text-anchor="middle">0.3</text>
+  <line x1="541" y1="230" x2="541" y2="225" stroke="#e74c3c" stroke-width="2"/>
+  <text x="541" y="248" fill="#e74c3c" font-size="9" text-anchor="middle">2.0</text>
+</svg>
+<p class="fig-caption"><strong>Figure 1 | Three dynamical regimes in immunity.</strong> The same &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio that governs regime transitions in chemistry and economics governs immune dynamics. Below 0.3: stagnation (tolerance, immunodeficiency). Between 0.3 and 2.0: selection (normal adaptive immunity). Above 2.0: tar (cytokine storm, autoimmunity). The curve shows system complexity/diversity, which peaks in the selection regime.</p>
+</div>
+
+<h3>5.1 Cytokine Storm as Tar Regime: Birth/Death Ratio, Not Absolute Levels</h3>
+
+<div class="critical">
+<strong>Key reinterpretation.</strong> The conventional view of cytokine storm is that it represents "too much immunity"&mdash;excessive inflammatory cytokine production. FMA provides a more precise diagnosis: cytokine storm is <em>failure of the producer death mechanism</em>. The tar regime arises not from absolute production levels but from an imbalance in the birth/death ratio of specialist producers.
+</div>
+
+<p>In FMA, producer death occurs when a firm has been idle for more than <code>m_maxUnusedSteps</code> (200 steps by default; <code>WorkerManageProducer()</code>). In the immune system, clonal contraction is mediated by anti-inflammatory signals: IL-10, TGF-&beta;, regulatory T cells (Tregs), activation-induced cell death (AICD), and FAS/FASL interactions. Cytokine storm occurs when these death signals are overwhelmed or absent:</p>
+
+<ul>
+<li>In COVID-19 CRS: SARS-CoV-2 directly impairs Treg function and drives sustained macrophage activation<sup>12</sup></li>
+<li>In CAR-T toxicity: engineered T cells lack normal contraction signals; they continue expanding against persistent antigen<sup>13</sup></li>
+<li>In hemophagocytic lymphohistiocytosis (HLH): defective perforin/granzyme pathways prevent target cell killing, maintaining persistent antigen stimulation</li>
+<li>In autoimmunity (SLE, RA): failure of peripheral tolerance (defective Treg suppression) removes the death signal for self-reactive clones</li>
+</ul>
+
+<p>In every case, the pathology is the same in FMA terms: producer birth rate exceeds producer death rate, the market fills with expanding producers that cannot be cleared, and the resulting oversupply of inflammatory mediators cascades through the GFCF mechanism into multi-organ damage.</p>
+
+<div class="success">
+<strong>Clinical implication.</strong> This analysis explains why early IL-6 receptor blockade (Tocilizumab) is more effective than late intervention in COVID-19 CRS<sup>19</sup>. Early blockade interrupts the birth signal amplification loop before the birth/death ratio becomes self-sustaining. Late intervention attempts to mop up downstream cytokines while the ratio remains imbalanced&mdash;the market is still overproducing. FMA predicts that therapeutic strategies targeting the birth/death <em>ratio</em> (simultaneous IL-6 blockade + Treg expansion, or combined checkpoint agonism) will outperform single-cytokine suppression.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 6. SUPERPOSITION IN IMMUNITY -->
+<!-- ================================================================== -->
+
+<h2 id="sec6">6. Superposition in Immunity</h2>
+
+<p>Chapter&nbsp;4 of this volume establishes that when the number of features F exceeds the number of experts N in a Free-Market Transformer, superposition arises: each expert is forced to encode multiple features, producing polysemanticity<sup>20</sup>. The immune system exhibits a precise parallel.</p>
+
+<h3>6.1 Normal Operation: Monosemanticity</h3>
+
+<p>Under normal conditions, each lymphocyte clone is monospecific. A naive B cell bears a unique BCR that recognizes one epitope (or a narrow family of structurally related epitopes). A naive T cell bears a unique TCR that recognizes one peptide-MHC complex. This is monosemanticity by construction&mdash;each "expert" in the immune market serves one "feature" (antigen). There is no compression: the system maintains approximately 10<sup>7</sup>&ndash;10<sup>8</sup> distinct T-cell clones, each mono-specific<sup>3</sup>.</p>
+
+<h3>6.2 HIV/AIDS as Central Planning Failure</h3>
+
+<p>HIV targets CD4<sup>+</sup> T helper cells&mdash;the <em>coordination layer</em> of the immune market. T helper cells do not kill pathogens directly; they provide cytokine "demand signals" that direct B cells to produce antibodies and CD8<sup>+</sup> T cells to kill infected targets. HIV destroys the price system itself. Without T helper signals, B cells cannot receive demand signals for antibody production, and CD8<sup>+</sup> T cells cannot receive the co-stimulatory support needed for full effector differentiation. The immune market loses its price coordination mechanism&mdash;not just workers, but the entire price signaling infrastructure.</p>
+
+<h3>6.3 Lymphopenia-Induced Superposition</h3>
+
+<p>When CD4<sup>+</sup> T cell counts fall below critical thresholds (lymphopenia), the immune system triggers lymphopenia-induced proliferation (LIP): remaining T cells expand to fill the depleted niche. But this expansion is not selective&mdash;it is homeostatic, driven by IL-7 and self-peptide/MHC interactions<sup>16</sup>. The result is oligoclonal expansion: a small number of clones expand massively, each forced to respond to multiple antigens it was not originally specific for. This is superposition: too few experts (N&darr;), unchanged feature space (F fixed), forcing each expert to encode multiple features.</p>
+
+<p>The clinical consequence is immune collapse&mdash;not from lack of cells (after LIP, total cell counts may partially recover) but from loss of monosemanticity. An oligoclonally expanded T-cell pool is like an over-compressed neural network: it responds to many stimuli but with poor specificity, failing to mount effective targeted responses against any single pathogen.</p>
+
+<div class="insight">
+<strong>FMA prediction.</strong> IL-7 therapy in lymphopenia should be designed to preferentially expand <em>rare</em> clones (census coverage) rather than simply restoring total cell count. Simply pumping up cell numbers without restoring diversity amounts to further compressing the expert pool&mdash;oligoclonal expansion is still superposition. This generates Prediction P3 in Section&nbsp;9.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 7. GERMINAL CENTER AS LOCAL FREE MARKET -->
+<!-- ================================================================== -->
+
+<h2 id="sec7">7. The Germinal Center as a Local Free Market</h2>
+
+<p>The germinal center is perhaps the clearest biological instantiation of FMA's ring neighborhood mechanism. Consider the parallels in detail.</p>
+
+<!-- GC as Local Market SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">The Germinal Center as a Local Free Market</text>
+
+  <!-- GC circle -->
+  <circle cx="300" cy="190" r="140" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="300" y="60" fill="#27ae60" font-size="11" text-anchor="middle" font-weight="bold">Germinal Center (one lymph node)</text>
+
+  <!-- Dark zone -->
+  <ellipse cx="250" cy="210" rx="70" ry="80" fill="#ecf0f1" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="250" y="155" fill="#7f8c8d" font-size="9" text-anchor="middle">Dark Zone</text>
+  <text x="250" y="170" fill="#777" font-size="8" text-anchor="middle">(SHM = random exploration)</text>
+  <!-- B cells in dark zone -->
+  <circle cx="230" cy="200" r="8" fill="#3498db" opacity="0.7"/><text x="230" y="203" fill="#fff" font-size="7" text-anchor="middle">B</text>
+  <circle cx="260" cy="220" r="8" fill="#3498db" opacity="0.7"/><text x="260" y="223" fill="#fff" font-size="7" text-anchor="middle">B</text>
+  <circle cx="240" cy="245" r="8" fill="#3498db" opacity="0.7"/><text x="240" y="248" fill="#fff" font-size="7" text-anchor="middle">B</text>
+  <circle cx="265" cy="265" r="8" fill="#3498db" opacity="0.4"/><text x="265" y="268" fill="#fff" font-size="7" text-anchor="middle">B</text>
+
+  <!-- Light zone -->
+  <ellipse cx="360" cy="200" rx="65" ry="75" fill="#fef9e7" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="360" y="145" fill="#f39c12" font-size="9" text-anchor="middle">Light Zone</text>
+  <text x="360" y="160" fill="#777" font-size="8" text-anchor="middle">(selection = market)</text>
+  <!-- FDCs -->
+  <polygon points="340,195 350,180 360,195 350,210" fill="#e74c3c" opacity="0.6"/>
+  <text x="350" y="225" fill="#c0392b" font-size="7" text-anchor="middle">FDC</text>
+  <!-- Tfh -->
+  <circle cx="380" cy="200" r="8" fill="#27ae60" opacity="0.7"/><text x="380" y="203" fill="#fff" font-size="7" text-anchor="middle">Tfh</text>
+  <!-- Selected B cells -->
+  <circle cx="370" cy="240" r="8" fill="#2980b9"/><text x="370" y="243" fill="#fff" font-size="7" text-anchor="middle">B</text>
+  <circle cx="395" cy="225" r="8" fill="#2980b9"/><text x="395" y="228" fill="#fff" font-size="7" text-anchor="middle">B</text>
+
+  <!-- Arrows between zones -->
+  <path d="M 290 190 Q 310 170 330 190" stroke="#555" stroke-width="1.5" fill="none" marker-end="url(#arr-regime)"/>
+  <path d="M 330 230 Q 310 250 290 230" stroke="#555" stroke-width="1.5" fill="none" marker-end="url(#arr-regime)"/>
+
+  <!-- FMA mapping panel -->
+  <rect x="520" y="70" width="350" height="250" rx="8" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="695" y="95" fill="#2980b9" font-size="12" text-anchor="middle" font-weight="bold">FMA Mapping</text>
+
+  <text x="540" y="120" fill="#333" font-size="10">B cell = <tspan fill="#2980b9" font-weight="bold">MarketWorker</tspan></text>
+  <text x="540" y="142" fill="#333" font-size="10">BCR = <tspan fill="#2980b9" font-weight="bold">production capability</tspan></text>
+  <text x="540" y="164" fill="#333" font-size="10">Antigen on FDC = <tspan fill="#2980b9" font-weight="bold">demand signal</tspan></text>
+  <text x="540" y="186" fill="#333" font-size="10">Tfh survival signal = <tspan fill="#2980b9" font-weight="bold">Evans-Polanyi gate</tspan></text>
+  <text x="540" y="208" fill="#333" font-size="10">SHM = <tspan fill="#2980b9" font-weight="bold">random exploration (30%)</tspan></text>
+  <text x="540" y="230" fill="#333" font-size="10">Apoptosis = <tspan fill="#2980b9" font-weight="bold">producer death</tspan></text>
+  <text x="540" y="252" fill="#333" font-size="10">GC boundary = <tspan fill="#2980b9" font-weight="bold">ring neighborhood</tspan></text>
+  <text x="540" y="274" fill="#333" font-size="10">Affinity maturation = <tspan fill="#2980b9" font-weight="bold">O(k) local optimization</tspan></text>
+  <text x="540" y="296" fill="#333" font-size="10">GC exit (memory/plasma) = <tspan fill="#2980b9" font-weight="bold">recipe book entry</tspan></text>
+</svg>
+<p class="fig-caption"><strong>Figure 2 | The germinal center as a local free market.</strong> B cells cycle between the dark zone (proliferation and somatic hypermutation = random exploration) and the light zone (selection by antigen on FDCs and T follicular helper survival signals = market competition). Each GC is an independent local market with O(k) locality&mdash;no global optimization.</p>
+</div>
+
+<p>In each germinal center, B cells compete for a local resource: antigen displayed on FDCs. Only B cells whose mutated BCR achieves sufficient affinity for the displayed antigen (above the Evans&ndash;Polanyi threshold) receive Tfh cell survival signals. Those below the threshold undergo apoptosis&mdash;producer death. Surviving B cells return to the dark zone for another round of SHM (random exploration) and then re-compete. This cycle repeats for approximately 2&ndash;3 weeks, driving a progressive increase in average antibody affinity<sup>9</sup>.</p>
+
+<p>Critically, this is <strong>not global optimization</strong>. Each germinal center is an independent local market. Multiple GCs in different lymph nodes can operate simultaneously, each converging on a local optimum for its particular antigen. B cells in one GC do not compete with B cells in another GC for the same antigen. This is the <code>RingNeighborhood</code> mechanism: O(k) locality, where k is the number of B cells within a single GC.</p>
+
+<p>The contrast with neural networks is instructive. In standard deep learning, gradients are pooled globally: every training example contributes to updates across the entire parameter space. In the germinal center, selection is purely local. Two antigens presented in the <em>same</em> GC do not synergize&mdash;they compete for the same limited Tfh help, potentially impairing affinity maturation for both. This generates Prediction P6: co-localized antigens should interfere with each other's affinity maturation, not improve it.</p>
+
+
+<!-- ================================================================== -->
+<!-- 8. ASSEMBLY THEORY CONNECTION -->
+<!-- ================================================================== -->
+
+<h2 id="sec8">8. Assembly Theory Connection</h2>
+
+<p>Assembly Theory (AT), formalized by Sharma et al.<sup>21</sup>, provides an intrinsic measure of complexity: the assembly index of an object is the minimum number of recursive joining operations needed to construct it from basic building blocks. Objects with both high assembly index and high copy number are, AT argues, the signature of selection. Chapter&nbsp;1 established that FMA provides the constructive mechanism that AT describes: where AT measures, FMA generates<sup>7</sup>.</p>
+
+<h3>8.1 Affinity Maturation as Increasing Assembly Index</h3>
+
+<p>The antibody paratope&mdash;the antigen-binding surface of the BCR&mdash;undergoes a systematic increase in assembly index during affinity maturation:</p>
+
+<table>
+<tr><th>Stage</th><th>Binding Affinity (K<sub>a</sub>)</th><th>CDR3 Region</th><th>Assembly Index (a)</th></tr>
+<tr><td>Naive B cell</td><td>~10<sup>5</sup> M<sup>&minus;1</sup></td><td>Simple V(D)J join, minimal mutations</td><td>Low (a &asymp; 2&ndash;4)</td></tr>
+<tr><td>Early GC B cell</td><td>~10<sup>7</sup> M<sup>&minus;1</sup></td><td>Several SHM mutations accumulated</td><td>Intermediate (a &asymp; 5&ndash;8)</td></tr>
+<tr><td>GC exit (memory/plasma)</td><td>~10<sup>9</sup>&ndash;10<sup>12</sup> M<sup>&minus;1</sup></td><td>Multiple rounds of SHM, extensive mutations</td><td>High (a &asymp; 10&ndash;20+)</td></tr>
+</table>
+
+<p>Each SHM cycle that passes selection constitutes one additional assembly step: a modification that is retained because it improves the paratope's fitness (antigen binding). The germinal center is, in AT terms, an assembly engine: it takes a low-index naive BCR and produces a high-index affinity-matured BCR through iterative selection-guided construction.</p>
+
+<h3>8.2 The &tau;<sub>d</sub>/&tau;<sub>p</sub> Ratio in Germinal Center Dynamics</h3>
+
+<p>The two FMA timescales map quantitatively onto GC dynamics:</p>
+
+<div class="equation">&tau;<sub>d</sub> = SHM rate &times; GC cycle time &asymp; 10<sup>&minus;4</sup> mutations/bp/division &times; 6 h/cycle</div>
+<div class="equation">&tau;<sub>p</sub> = clonal expansion doubling time &asymp; 8&ndash;12 h</div>
+<div class="equation">&tau;<sub>d</sub>/&tau;<sub>p</sub> &asymp; 0.01&ndash;0.1 &rarr; maps to the selection regime</div>
+
+<p>This ratio places normal germinal center dynamics squarely in the selection regime of the AT phase diagram&mdash;precisely where productive affinity maturation occurs. When the ratio shifts, pathology follows:</p>
+
+<ul>
+<li><strong>AID overexpression</strong> (activation-induced cytidine deaminase, the enzyme that drives SHM) increases &tau;<sub>d</sub>, pushing the ratio upward toward the tar regime. AID overexpression is the leading risk factor for B-cell lymphomas<sup>22</sup>&mdash;consistent with tar regime prediction: uncontrolled "discovery" (mutation) overwhelms selection, producing runaway clonal expansion.</li>
+<li><strong>AID deficiency</strong> (hyper-IgM syndrome) reduces &tau;<sub>d</sub> to near zero, trapping the system in the stagnation regime: no affinity maturation, no class switching, persistent low-affinity IgM responses.</li>
+</ul>
+
+<div class="insight">
+<strong>Assembly Theory in three sentences.</strong> Naive BCRs are low-assembly-index objects: simple joins of germline gene segments. Affinity maturation increases their assembly index through selection-guided mutation. The copy number of high-index antibodies (10<sup>9</sup>&ndash;10<sup>12</sup> identical molecules from each plasma cell clone) provides the high-copy-number / high-assembly-index signature that AT identifies as the universal hallmark of selection. The germinal center is a biological assembly engine.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 9. SIX NOVEL PREDICTIONS -->
+<!-- ================================================================== -->
+
+<h2 id="sec9">9. Six Novel Predictions</h2>
+
+<p>The FMA formalism, applied to immunity, generates six falsifiable predictions. Each is specified with hypothesis, experimental protocol, expected measurement, and falsification criterion. None of these predictions follows from clonal selection theory alone; each requires the quantitative FMA framework.</p>
+
+<div class="prediction">
+<h4>P1: Evans&ndash;Polanyi T-Cell Activation Kinetics (&alpha; &asymp; 0.5)</h4>
+<p><strong>Hypothesis.</strong> T-cell activation probability follows the Evans&ndash;Polanyi relation: P(activation) &propto; exp(&minus;E<sub>a</sub>/kT), where E<sub>a</sub> = E<sub>0</sub> + &alpha; &middot; |&Delta;G(TCR&ndash;pMHC)|, with &alpha; &asymp; 0.5&mdash;the same Br&oslash;nsted&ndash;Evans&ndash;Polanyi coefficient observed in chemical catalysis<sup>2</sup>.</p>
+<p><strong>Experimental setup.</strong> Vary TCR&ndash;pMHC binding affinity (K<sub>d</sub>) systematically using altered peptide ligands (APLs) across a panel of well-characterized TCR&ndash;pMHC pairs. For each APL, measure the activation threshold (IL-2 production, CD69 upregulation) as a function of CD28 co-stimulation strength (which modulates E<sub>0</sub>).</p>
+<p><strong>Expected result.</strong> A plot of ln(P<sub>activation</sub>) vs. &Delta;G<sub>binding</sub> yields a linear relationship with slope &alpha; &asymp; 0.5 &plusmn; 0.15, across multiple TCR&ndash;pMHC systems. Varying co-stimulation shifts the intercept (E<sub>0</sub>) but not the slope (&alpha;).</p>
+<p class="falsification"><strong>Falsification.</strong> If &alpha; deviates from 0.5 by more than 0.2 across multiple TCR systems, or if the relationship is non-linear, the Evans&ndash;Polanyi model for T-cell activation is rejected.</p>
+</div>
+
+<div class="prediction">
+<h4>P2: Exhaustion Scales with Cascade Depth, Not Dose</h4>
+<p><strong>Hypothesis.</strong> T-cell exhaustion severity (PD-1, TIM-3, TOX expression) scales with the <em>depth</em> of antigen cascade (number of sequential restimulation rounds), not total antigen dose.</p>
+<p><strong>Experimental setup.</strong> Deliver the same total antigen dose to CD8<sup>+</sup> T cells in two conditions: (a) a single high-dose pulse (depth = 1), and (b) chronic low-level exposure over many sequential rounds (depth = n). Match total integrated antigen exposure exactly.</p>
+<p><strong>Expected result.</strong> Chronic multi-round exposure produces significantly more exhaustion (higher PD-1/TIM-3/TOX expression, reduced cytokine production, reduced proliferative capacity) than equivalent-dose acute exposure. The exhaustion increment per restimulation round is approximately constant (additive depth penalty).</p>
+<p class="falsification"><strong>Falsification.</strong> If exhaustion correlates with total dose rather than number of restimulation rounds at constant total dose, the depth-penalty model is rejected.</p>
+</div>
+
+<div class="prediction">
+<h4>P3: IL-7 Preferentially Expands Rare Clones (Census Coverage)</h4>
+<p><strong>Hypothesis.</strong> IL-7 homeostatic signals preferentially drive expansion of clones with low current representation in the peripheral pool, implementing census coverage.</p>
+<p><strong>Experimental setup.</strong> Reconstitute lymphopenic mice with a defined TCR repertoire (known frequencies for each clone). Administer IL-7 therapy and measure clonal dynamics by deep TCR sequencing at intervals.</p>
+<p><strong>Expected result.</strong> Rare clones expand preferentially under IL-7, restoring a more uniform clonal distribution. The expansion rate of each clone is inversely proportional to its baseline frequency.</p>
+<p class="falsification"><strong>Falsification.</strong> If IL-7 expands all clones proportionally to their initial frequency (rich-get-richer), or if the effect is random with respect to initial frequency, the census coverage prediction is rejected.</p>
+</div>
+
+<div class="prediction">
+<h4>P4: Memory Quality Scales with Antigen Assembly Index</h4>
+<p><strong>Hypothesis.</strong> The quality of immunological memory (affinity, breadth, durability) scales with the structural complexity of the immunizing antigen, measured by its assembly index.</p>
+<p><strong>Experimental setup.</strong> Immunize cohorts with antigens of varying complexity: single synthetic peptide (low assembly index) &rarr; recombinant protein &rarr; virus-like particle (VLP) &rarr; attenuated whole pathogen (high assembly index). Measure memory B-cell affinity and breadth by single-cell BCR sequencing and functional assays at 6 months post-immunization.</p>
+<p><strong>Expected result.</strong> Memory response quality (average affinity, number of distinct epitopes targeted, durability of serum antibody titers) increases monotonically with antigen assembly index. Whole-pathogen immunization produces deeper, broader, more durable memory than peptide immunization.</p>
+<p class="falsification"><strong>Falsification.</strong> If memory quality is independent of antigen complexity (e.g., a single peptide generates memory equal to whole-pathogen immunization), the depth-tracking prediction is rejected.</p>
+</div>
+
+<div class="prediction">
+<h4>P5: Cytokine Storm Severity Predicted by Birth/Death Ratio</h4>
+<p><strong>Hypothesis.</strong> Cytokine storm severity is better predicted by the ratio of clonal expansion signals to clonal contraction signals than by absolute cytokine levels.</p>
+<p><strong>Experimental setup.</strong> In a COVID-19 patient cohort, measure at admission: (a) birth signals: IL-6, TNF-&alpha;, IFN-&gamma;, absolute lymphocyte proliferation rate (Ki-67<sup>+</sup> frequency); (b) death signals: IL-10, TGF-&beta;, Treg frequency (CD4<sup>+</sup>CD25<sup>hi</sup>FoxP3<sup>+</sup>). Compute birth/death ratio = (IL-6 + TNF + proliferation rate) / (IL-10 + TGF-&beta; + Treg%).</p>
+<p><strong>Expected result.</strong> Birth/death ratio at admission predicts progression to severe CRS (ICU admission, mechanical ventilation, death) with higher AUC-ROC than IL-6 alone or any single cytokine.</p>
+<p class="falsification"><strong>Falsification.</strong> If absolute IL-6 level at admission predicts CRS severity with AUC &ge; birth/death ratio, the ratio-based model offers no improvement and the FMA reinterpretation is not supported.</p>
+</div>
+
+<div class="prediction">
+<h4>P6: GC Locality&mdash;Two Antigens Impair Mutual Affinity Maturation</h4>
+<p><strong>Hypothesis.</strong> Introducing two distinct antigens into the same germinal center impairs affinity maturation for both, compared to single-antigen GCs.</p>
+<p><strong>Experimental setup.</strong> Use GC-targeted antigen delivery (e.g., &alpha;-DEC-205 conjugation) to deliver: (a) antigen A alone to one lymph node, (b) antigen B alone to another lymph node, and (c) both antigens A and B to a single lymph node. Measure affinity maturation kinetics for both antigens by serial serum sampling and single-GC microdissection with BCR sequencing.</p>
+<p><strong>Expected result.</strong> Co-localized antigens produce lower final affinity for both antigens compared to single-antigen controls. The effect is due to competition for limited Tfh help within the GC (local market saturation).</p>
+<p class="falsification"><strong>Falsification.</strong> If co-localized antigens show equal or improved affinity maturation compared to single-antigen controls, the O(k) locality prediction is rejected.</p>
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 10. CANCER IMMUNOTHERAPY AS FMA ENGINEERING -->
+<!-- ================================================================== -->
+
+<h2 id="sec10">10. Cancer Immunotherapy as FMA Engineering</h2>
+
+<p>The FMA framework provides a unifying lens for the major modalities of cancer immunotherapy. At its core, cancer represents a tar regime failure at the cellular level: the tumour has escaped the normal birth/death balance that governs tissue homeostasis. But cancer does not merely evade the immune system passively&mdash;it actively engineers the local market to suppress immune dynamics.</p>
+
+<h3>10.1 The Tumour Microenvironment as Market Suppression</h3>
+
+<p>The tumour microenvironment (TME) systematically distorts FMA dynamics through two complementary strategies:</p>
+
+<ul>
+<li><strong>Suppressing producer death.</strong> Tumours upregulate PD-L1 (engaging PD-1 on T cells to induce exhaustion), CTLA-4 ligands, IDO (tryptophan depletion), and TGF-&beta; (Treg induction). Each of these removes the signal that tells anti-tumour T cells to remain active&mdash;or activates the signal that tells them to stop. In FMA terms, the tumour raises the inactivity threshold beyond what anti-tumour producers can sustain, forcing premature producer death.</li>
+<li><strong>Amplifying tumour "producer birth."</strong> Tumours secrete VEGF (angiogenesis for nutrient supply), IL-6 (autocrine growth signaling), and EGF (proliferation signals). These amplify the tumour's own growth rate while simultaneously suppressing immune cell function&mdash;tilting the birth/death ratio in favor of the tumour at the expense of anti-tumour immunity.</li>
+</ul>
+
+<h3>10.2 Immunotherapy Modalities as FMA Mechanism Restoration</h3>
+
+<p>Each major immunotherapy modality can be understood as restoring a specific FMA mechanism that the tumour has disabled:</p>
+
+<table>
+<tr><th>Therapy</th><th>FMA Mechanism Restored</th><th>Biological Mechanism</th></tr>
+<tr><td class="bold">PD-1/PD-L1 blockade</td><td>Removes artificial depth penalty suppression &rarr; producer death signal restored</td><td>Blocks PD-1/PD-L1 interaction, reinvigorating exhausted CD8<sup>+</sup> T cells. The "artificial" depth penalty imposed by tumour PD-L1 is lifted, restoring normal effector function.</td></tr>
+<tr><td class="bold">CTLA-4 blockade</td><td>Lowers Evans&ndash;Polanyi barrier &rarr; T-cell activation threshold normalised</td><td>CTLA-4 competes with CD28 for B7 binding, raising the co-stimulation barrier (E<sub>0</sub>). Ipilimumab removes this artificial E<sub>0</sub> increase, lowering the activation threshold.</td></tr>
+<tr><td class="bold">CAR-T therapy</td><td>Target mode: specialist with prescribed receptor seeded directly</td><td>Engineered T cells with synthetic CARs bypass the natural discovery process entirely. This is FMA's <code>DiscoveryMode::Target</code>&mdash;the demand (tumour antigen) is specified, and a pre-built specialist is deployed.</td></tr>
+<tr><td class="bold">Cancer vaccines</td><td>Provides authentic demand signal for anti-tumour specialists</td><td>Tumour neoantigen vaccines generate DC presentation (witness mechanism) and T-cell priming, creating demand signals that the TME has been suppressing.</td></tr>
+<tr><td class="bold">IL-2 therapy</td><td>GFCF cascade amplification for anti-tumour producers</td><td>High-dose IL-2 amplifies the demand cascade for anti-tumour T-cell expansion. Analogous to GFCF demand amplification in <code>WorkerBuyGoods()</code>.</td></tr>
+<tr><td class="bold">Adoptive cell transfer (ACT)</td><td>Seeds recipe book with proven anti-tumour producers</td><td>Tumour-infiltrating lymphocytes (TILs) are expanded <em>ex vivo</em> and re-infused. These are "proven specialists"&mdash;workers with recipes already validated against the tumour.</td></tr>
+</table>
+
+<h3>10.3 FMA Prediction for Combination Therapy</h3>
+
+<div class="insight">
+<strong>Prediction.</strong> Combination therapy synergy should be strongest between therapies that target <em>both</em> birth and death arms of the FMA cycle simultaneously. Specifically: checkpoint blockade (restoring producer birth by lowering activation barriers) combined with Treg depletion or IL-10 blockade (restoring producer death for tumour cells by removing immune suppression) should be more effective than dual checkpoint blockade (which targets only the birth arm).
+</div>
+
+<p>The reasoning follows directly from the tar regime analysis. Cytokine storm risk in immunotherapy is determined by the birth/death ratio, not by individual pathway activation. Dual checkpoint blockade (anti-PD-1 + anti-CTLA-4) amplifies the birth signal on two parallel pathways but does not address the death arm&mdash;explaining why combination checkpoint blockade carries significantly higher autoimmune toxicity<sup>23</sup>. A birth+death combination (e.g., anti-PD-1 + anti-IL-10 or anti-PD-1 + Treg modulation) should achieve therapeutic efficacy while better controlling the birth/death ratio, reducing cytokine storm risk.</p>
+
+<p>This prediction is consistent with emerging clinical evidence that next-generation immunotherapy combinations incorporating immune modulators (anti-LAG-3, anti-TIGIT) alongside checkpoint blockade show improved efficacy-to-toxicity ratios compared to dual checkpoint blockade<sup>23</sup>. The FMA framework provides a principled basis for designing such combinations: identify which arm of the birth/death ratio each therapy targets, and combine across arms rather than within a single arm.</p>
+
+
+<!-- ================================================================== -->
+<!-- 11. DISCUSSION -->
+<!-- ================================================================== -->
+
+<h2 id="sec11">11. Discussion</h2>
+
+<h3 id="sec11-1">11.1 FMA as Universal Biology: Five Domains, One Algorithm</h3>
+
+<p>With this chapter, the FMA framework has been applied to five fundamentally different domains: macroeconomic forecasting<sup>1</sup>, prebiotic chemistry<sup>2</sup>, synthesis planning<sup>2</sup>, language modelling<sup>20</sup>, and adaptive immunity. In every case, the identical Layer&nbsp;1 market engine&mdash;ring neighborhoods, demand propagation, firm entry/exit, trading, decay&mdash;produced self-organized production networks. Three structural properties re-appeared in every domain without being engineered into the domain rules:</p>
+
+<ul>
+<li><strong>Three dynamical regimes.</strong> Stagnation, selection, and tar emerge from the &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio. In economics: recession, growth, hyperinflation. In chemistry: no discovery, optimal synthesis, runaway byproducts. In language modelling: mode collapse, generative diversity, expert fragmentation. In immunity: tolerance, normal adaptive immunity, cytokine storm.</li>
+<li><strong>Training&ndash;inference collapse.</strong> In every domain, discovery ("learning") and production ("deployment") execute in the same agent loop. The recipe book grows during operation. This is not continual learning&mdash;recipes are additive and never conflict, making catastrophic forgetting impossible by construction.</li>
+<li><strong>Monosemanticity by construction.</strong> Each specialist is born to serve a specific demand signal. Superposition arises only when the market is starved of workers&mdash;the analogue of polysemantic neurons in overloaded networks and oligoclonal collapse in lymphopenia.</li>
+</ul>
+
+<p>The universality argument is strengthened by the fact that FMA was designed and validated in economics and chemistry before the immune system comparison was made. The five-domain convergence is a discovery, not a design choice.</p>
+
+<h3 id="sec11-2">11.2 What Immunity Teaches FMA</h3>
+
+<p>The mapping is not merely one-directional. Several features of the immune system suggest improvements to the FMA algorithm:</p>
+
+<ul>
+<li><strong>Cytokine-inspired adaptive rates.</strong> The immune system modulates its "temperature" dynamically through cytokine concentrations. Pro-inflammatory cytokines increase the effective &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio (more aggressive discovery), while anti-inflammatory cytokines decrease it (consolidation). FMA could implement analogous adaptive temperature scheduling driven by market state&mdash;raising discovery aggressiveness when the market stagnates, damping it when signs of tar emerge.</li>
+<li><strong>GC-inspired local expert competition.</strong> The germinal center's dark zone / light zone cycling (mutation then selection, repeated iteratively) suggests a modification to FMA's discovery mechanism: instead of single-shot discovery attempts, create local "incubator" zones where multiple variants of a new product compete before entering the broader market.</li>
+<li><strong>Class switching as role reassignment.</strong> Immunoglobulin class switching (IgM &rarr; IgG &rarr; IgA &rarr; IgE) allows the same antigen-binding specificity to serve different effector functions. This suggests a mechanism whereby FMA producers could change their "output type" while retaining their core recipe&mdash;a form of specialization that the current implementation does not support.</li>
+</ul>
+
+<h3 id="sec11-3">11.3 Prior Immune Network Theories</h3>
+
+<p>The idea that the immune system operates as a network or market is not entirely new, but prior formulations lacked the quantitative specificity that FMA provides:</p>
+
+<ul>
+<li><strong>Jerne's immune network theory (1974)</strong><sup>24</sup> proposed that antibodies form a network of idiotype&ndash;anti-idiotype interactions, creating internal regulation. The theory was largely qualitative and did not generate testable quantitative predictions. FMA replaces the idiotypic network with explicit market dynamics&mdash;demand propagation, firm entry/exit, census coverage&mdash;and generates specific numerical predictions (&alpha;&asymp;0.5, depth-dependent exhaustion).</li>
+<li><strong>Perelson's shape space model (1979)</strong><sup>25</sup> introduced a geometric framework for antigen&ndash;receptor binding. It provided a mathematical basis for repertoire coverage but did not include birth/death dynamics, memory, or regime transitions. FMA adds all three, plus the demand cascade mechanism that Perelson's static geometry does not capture.</li>
+<li><strong>Artificial immune systems (AIS)</strong>&mdash;Farmer et al. (1986)<sup>26</sup>, Hofmeyr and Forrest (2000)<sup>27</sup>&mdash;took inspiration from immunology to build computational algorithms for anomaly detection and optimization. This is the reverse direction: biology inspiring computation. FMA moves in the other direction: a computational framework developed for economics and chemistry is discovered to describe immunology, constituting an independent validation rather than a circular application.</li>
+</ul>
+
+<p>What FMA adds to all prior approaches: (1)&nbsp;quantitative formalism with measurable parameters (E<sub>0</sub>, &alpha;, depth penalty, decay rate); (2)&nbsp;cross-domain validation before the immunological application; (3)&nbsp;the training&ndash;inference collapse, not recognized in any prior immune network theory; (4)&nbsp;the tar regime interpretation of cytokine storm as birth/death imbalance; and (5)&nbsp;six specific falsifiable predictions that go beyond conceptual mapping.</p>
+
+<h3 id="sec11-4">11.4 Limitations and Open Questions</h3>
+
+<p>We identify four limitations of the current analysis:</p>
+
+<ol>
+<li><strong>Character-level vs. molecular-level biology.</strong> FMA operates at the level of species (molecular formulas or cell types), not at the level of individual molecular conformations or stochastic gene expression. The mapping captures population-level dynamics accurately but does not address single-cell stochasticity.</li>
+<li><strong>Parameter estimation.</strong> While we predict &alpha;&asymp;0.5 based on the chemistry analogy, the precise values of E<sub>0</sub>, the depth penalty per restimulation round, and the decay rate constants in the immune system remain to be measured experimentally. The predictions in Section&nbsp;9 are designed to enable these measurements.</li>
+<li><strong>Innate immunity.</strong> This chapter focuses on adaptive immunity. The mapping of FMA's Target mode to innate immunity (fixed PRRs, no memory) is noted in Table&nbsp;1 but not developed in detail. The interplay between innate and adaptive immunity&mdash;particularly the role of innate signals in setting E<sub>0</sub> (the co-stimulation requirement)&mdash;deserves a separate treatment.</li>
+<li><strong>Spatial organization.</strong> The current FMA implementation uses a ring neighborhood topology, which captures the locality of GC interactions but does not reproduce the spatial anatomy of lymph nodes, spleen, and mucosal tissues. A spatially extended FMA with tissue-specific neighborhoods is a natural next step.</li>
+</ol>
+
+
+<!-- ================================================================== -->
+<!-- 12. CONCLUSION -->
+<!-- ================================================================== -->
+
+<h2 id="sec12">12. Conclusion</h2>
+
+<p>The adaptive immune system did not read Hayek. It discovered the free market by natural selection, running the same algorithm that governs macroeconomic coordination and prebiotic molecular assembly. The seven equations of Chapter&nbsp;1&mdash;the agent cycle, Evans&ndash;Polanyi barrier, depth penalty, census coverage, witness boost, decay law, and GFCF cascade&mdash;unmodified, describe clonal selection, lymphocyte activation kinetics, T-cell exhaustion, repertoire diversity maintenance, dendritic cell amplification, homeostatic cell turnover, and cytokine cascade amplification as instances of one dynamical system.</p>
+
+<p>The evidence is structural: all 18 named FMA mechanisms have precise immunological counterparts (Table&nbsp;1), each citing a specific function in the reference implementation. It is existential: FMA was validated in economics and chemistry before this comparison, so the mapping is a discovery, not a post-hoc fit. And it is predictive: six novel falsifiable predictions follow from the formalism, including Evans&ndash;Polanyi activation kinetics, depth-dependent exhaustion, census coverage in IL-7 therapy, and cytokine storm as a birth/death ratio phenomenon.</p>
+
+<p>The reinterpretation of cytokine storm as a tar regime&mdash;failure of producer death, not excess of producer birth&mdash;has immediate clinical implications. The extension to cancer immunotherapy shows that checkpoint blockade, CAR-T therapy, cancer vaccines, and adoptive cell transfer can each be understood as restoring a specific FMA mechanism that the tumour microenvironment has disabled. The framework provides a principled basis for combination therapy design: combine across birth and death arms of the FMA cycle, not within a single arm.</p>
+
+<p>Most broadly, the immune system provides the strongest evidence yet for this volume's central thesis: <em>Darwinian free-market optimization is a universal mechanism for the emergence of complexity in open-ended systems</em>. That the same seven equations&mdash;written to describe molecular assembly in a simulation of prebiotic chemistry&mdash;should describe, without modification, the most sophisticated defence system in biology is either a remarkable coincidence or an indication that free-market dynamics occupy a deeper place in the organization of nature than we have recognized.</p>
+
+<div class="insight">
+<strong>Closing thought.</strong> Hayek argued that the price system is a mechanism for aggregating distributed knowledge that no central planner could collect<sup>4</sup>. The immune system proves him right at the molecular level. Cytokines are prices. Lymphocytes are firms. The recipe book is memory. The germinal center is a local marketplace. And cytokine storm&mdash;the most feared complication in modern immunology&mdash;is what happens when the market fails: not too much commerce, but the collapse of the mechanism that clears bankrupt firms. Understanding immunity as a free market does not diminish its biology. It reveals the computation that biology is performing.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- REFERENCES -->
+<!-- ================================================================== -->
+
+<div class="ref" id="refs">
+<h2 style="border-bottom: none; margin-top: 0;">References</h2>
+<ol>
+<li>Jaraiz, M. Macroeconomic Forecasting from Input&ndash;Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv:2603.12412</em> (2026a).</li>
+<li>Jaraiz, M. Prebiotic Chemistry from a Free-Market Agent-Based Model: Emergence of Life's Initial Molecular Toolkit. <em>arXiv</em> (2026b, pending).</li>
+<li>Davis, M.M. &amp; Bjorkman, P.J. T-cell antigen receptor genes and T-cell recognition. <em>Nature</em> <strong>334</strong>, 395&ndash;402 (1988).</li>
+<li>Hayek, F.A. The use of knowledge in society. <em>American Economic Review</em> <strong>35</strong>, 519&ndash;530 (1945).</li>
+<li>Burnet, F.M. <em>The Clonal Selection Theory of Acquired Immunity.</em> Cambridge University Press (1957).</li>
+<li>Jerne, N.K. The natural-selection theory of antibody formation. <em>Proceedings of the National Academy of Sciences</em> <strong>41</strong>, 849&ndash;857 (1955).</li>
+<li>Jaraiz, M. The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems. Chapter&nbsp;1 of this volume (2026c).</li>
+<li>Tas, J.M.J. <em>et al.</em> Visualizing antibody affinity maturation in germinal centers. <em>Science</em> <strong>351</strong>, 1048&ndash;1054 (2016).</li>
+<li>Victora, G.D. &amp; Nussenzweig, M.C. Germinal centers. <em>Annual Review of Immunology</em> <strong>30</strong>, 429&ndash;457 (2012).</li>
+<li>Wherry, E.J. T cell exhaustion. <em>Nature Immunology</em> <strong>12</strong>, 492&ndash;499 (2011).</li>
+<li>Fajgenbaum, D.C. &amp; June, C.H. Cytokine storm. <em>New England Journal of Medicine</em> <strong>383</strong>, 2255&ndash;2273 (2020).</li>
+<li>Mehta, P. <em>et al.</em> COVID-19: consider cytokine storm syndromes and immunosuppression. <em>The Lancet</em> <strong>395</strong>, 1033&ndash;1034 (2020).</li>
+<li>Thommen, D.S. &amp; Schumacher, T.N. T cell dysfunction in cancer. <em>Cancer Cell</em> <strong>33</strong>, 547&ndash;562 (2018).</li>
+<li>Surh, C.D. &amp; Sprent, J. Homeostasis of naive and memory T cells. <em>Immunity</em> <strong>29</strong>, 848&ndash;862 (2008).</li>
+<li>Janeway, C.A. The immune system evolved to discriminate infectious nonself from noninfectious self. <em>Immunology Today</em> <strong>13</strong>, 11&ndash;16 (1992).</li>
+<li>Schluns, K.S. &amp; Lefran&ccedil;ois, L. Cytokine control of memory T-cell development and survival. <em>Nature Reviews Immunology</em> <strong>3</strong>, 269&ndash;279 (2003).</li>
+<li>Steinman, R.M. &amp; Banchereau, J. Taking dendritic cells into medicine. <em>Nature</em> <strong>449</strong>, 419&ndash;426 (2007).</li>
+<li>Francis, T. On the doctrine of original antigenic sin. <em>Proceedings of the American Philosophical Society</em> <strong>104</strong>, 572&ndash;578 (1960).</li>
+<li>RECOVERY Collaborative Group. Tocilizumab in patients admitted to hospital with COVID-19 (RECOVERY): a randomised, controlled, open-label, platform trial. <em>The Lancet</em> <strong>397</strong>, 1637&ndash;1645 (2021).</li>
+<li>Jaraiz, M. The Free-Market Transformer: Market Dynamics as a Neural Architecture for Open-Ended Language Modelling. Chapter&nbsp;4 of this volume (2026d, in preparation).</li>
+<li>Sharma, A., Czegel, D., Lachmann, M., Kempes, C.P., Walker, S.I. &amp; Cronin, L. Assembly theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023).</li>
+<li>Robbiani, D.F. <em>et al.</em> AID is required for the chromosomal breaks in c-myc that lead to c-myc/IgH translocations. <em>Cell</em> <strong>135</strong>, 1028&ndash;1038 (2008).</li>
+<li>Larkin, J. <em>et al.</em> Combined nivolumab and ipilimumab or monotherapy in untreated melanoma. <em>New England Journal of Medicine</em> <strong>373</strong>, 23&ndash;34 (2015).</li>
+<li>Jerne, N.K. Towards a network theory of the immune system. <em>Annales d'Immunologie</em> <strong>125C</strong>, 373&ndash;389 (1974).</li>
+<li>Perelson, A.S. &amp; Oster, G.F. Theoretical studies of clonal selection: minimal antibody repertoire size and reliability of self&ndash;non-self discrimination. <em>Journal of Theoretical Biology</em> <strong>81</strong>, 645&ndash;670 (1979).</li>
+<li>Farmer, J.D., Packard, N.H. &amp; Perelson, A.S. The immune system, adaptation, and machine learning. <em>Physica D</em> <strong>22</strong>, 187&ndash;204 (1986).</li>
+<li>Hofmeyr, S.A. &amp; Forrest, S. Architecture for an artificial immune system. <em>Evolutionary Computation</em> <strong>8</strong>, 443&ndash;473 (2000).</li>
+<li>Allen, C.D.C., Okada, T. &amp; Cyster, J.G. Germinal-center organization and cellular dynamics. <em>Immunity</em> <strong>27</strong>, 190&ndash;202 (2007).</li>
+<li>Barber, D.L. <em>et al.</em> Restoring function in exhausted CD8 T cells during chronic viral infection. <em>Nature</em> <strong>439</strong>, 682&ndash;687 (2006).</li>
+<li>Laydon, D.J., Bangham, C.R.M. &amp; Asquith, B. Estimating T-cell repertoire diversity: limitations of classical estimators and a new approach. <em>Philosophical Transactions of the Royal Society B</em> <strong>370</strong>, 20140291 (2015).</li>
+<li>Robins, H.S. <em>et al.</em> Comprehensive assessment of T-cell receptor &beta;-chain diversity in &alpha;&beta; T cells. <em>Blood</em> <strong>114</strong>, 4099&ndash;4107 (2009).</li>
+<li>Jaraiz, M. <em>et al.</em> Global optimization of silicon nanostructures by kinetic Monte Carlo and variable metric methods. <em>ACS Catalysis</em> (2019). [Evans-Polanyi methodology]</li>
+<li>Jaraiz, M. DFT-based microkinetics for heterogeneous catalysis. <em>Top. Organomet. Chem.</em> (Springer, 2020).</li>
+<li>Smith, A. <em>An Inquiry into the Nature and Causes of the Wealth of Nations</em> (1776).</li>
+<li>Kauffman, S.A. <em>The Origins of Order: Self-Organization and Selection in Evolution.</em> Oxford University Press (1993).</li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+<!-- DISCLOSURES -->
+<!-- ================================================================== -->
+
+<div style="margin:30px 0 10px; padding:14px 18px; background:#f0f4f8; border-radius:6px; font-family:'Segoe UI',sans-serif; font-size:0.92em;">
+<strong style="color:#2c5f8a;">Annexes:</strong>
+<a href="Paper-5annex-results-analysis.html" style="color:#2c5f8a; margin-left:12px;">Annex B &mdash; Results Analysis: FMA as Immunological Orchestration Layer</a>
+&middot; <a href="Paper-5-Immune-viewer.html" style="color:#2c5f8a;">Interactive Viewer</a>
+&middot; <a href="Paper-5-Evaluation-Report.html" style="color:#2c5f8a;">Evaluation Report</a>
+</div>
+
+<div class="disclosure">
+<strong>AI Assistance Statement.</strong> Claude (Anthropic) contributed to the analysis of FMA&ndash;immunity correspondences and drafting of this manuscript. The FMA concept, three-layer architecture, the insight connecting free-market dynamics to immune system organization, and the six falsifiable predictions are the author's original contributions. All scientific claims were verified by the author.
+</div>
+
+<p style="text-align:center; color:#999; font-size:0.85em; margin-top:40px; border-top:1px solid #ddd; padding-top:12px;">
+The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+Chapter 5 &mdash; Adaptive Immunity &middot; arXiv:2603.24559<br>
+&copy; 2026 M. Jaraiz, Universidad de Valladolid.
+</p>
+
+
+<script>
+(function() {
+  // Configuration: how many top-level sections start open
+  var FIRST_N_OPEN = 2;
+
+  // Collect all h2 elements (top-level sections)
+  var h2s = Array.from(document.querySelectorAll('h2'));
+  // Skip h2s that are inside known non-section containers (like .ref, footer, etc.)
+  h2s = h2s.filter(function(h) {
+    var p = h.parentElement;
+    while (p && p !== document.body) {
+      if (p.classList.contains('ref') || p.classList.contains('disclosure') ||
+          p.classList.contains('fold-body') || p.classList.contains('fold-sub-body') ||
+          p.tagName === 'FOOTER') return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  h2s.forEach(function(h2, idx) {
+    // Collect all sibling nodes between this h2 and the next h2 (or section-ending element)
+    var nodes = [];
+    var sib = h2.nextSibling;
+    while (sib) {
+      if (sib.nodeType === 1 && sib.tagName === 'H2') break;
+      // Stop at footer-like elements
+      if (sib.nodeType === 1) {
+        var cl = sib.className || '';
+        var st = sib.getAttribute('style') || '';
+        if (cl.indexOf('disclosure') >= 0 || cl.indexOf('ref ') >= 0 ||
+            (st.indexOf('margin-top') >= 0 && st.indexOf('border-top') >= 0 && st.indexOf('text-align:center') >= 0)) break;
+      }
+      nodes.push(sib);
+      sib = sib.nextSibling;
+    }
+
+    // Create wrapper
+    var section = document.createElement('div');
+    section.className = 'fold-section';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fold-header' + (idx < FIRST_N_OPEN ? ' open' : '');
+    header.textContent = h2.textContent;
+    section.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'fold-body' + (idx < FIRST_N_OPEN ? ' open' : '');
+    nodes.forEach(function(n) { body.appendChild(n); });
+    section.appendChild(body);
+
+    // Replace h2 with section
+    h2.parentNode.replaceChild(section, h2);
+
+    // Toggle
+    header.addEventListener('click', function() {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  });
+
+  // Now handle h3 subsections inside each fold-body
+  document.querySelectorAll('.fold-body').forEach(function(foldBody) {
+    var h3s = Array.from(foldBody.querySelectorAll(':scope > h3'));
+    // Also check for h3s that may be direct children after moving
+    if (h3s.length === 0) return;
+
+    h3s.forEach(function(h3, jdx) {
+      var nodes = [];
+      var sib = h3.nextSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && (sib.tagName === 'H3' || sib.tagName === 'H2')) break;
+        if (sib.nodeType === 1 && sib.classList.contains('fold-sub')) break;
+        nodes.push(sib);
+        sib = sib.nextSibling;
+      }
+
+      var sub = document.createElement('div');
+      sub.className = 'fold-sub';
+
+      var subHeader = document.createElement('div');
+      subHeader.className = 'fold-sub-header' + (jdx === 0 ? ' open' : '');
+      subHeader.textContent = h3.textContent;
+      sub.appendChild(subHeader);
+
+      var subBody = document.createElement('div');
+      subBody.className = 'fold-sub-body' + (jdx === 0 ? ' open' : '');
+      nodes.forEach(function(n) { subBody.appendChild(n); });
+      sub.appendChild(subBody);
+
+      h3.parentNode.replaceChild(sub, h3);
+
+      subHeader.addEventListener('click', function() {
+        subHeader.classList.toggle('open');
+        subBody.classList.toggle('open');
+      });
+    });
+  });
+
+  // Add expand/collapse buttons
+  // Find the first fold-section and insert buttons before it
+  var firstSection = document.querySelector('.fold-section');
+  if (firstSection) {
+    var controls = document.createElement('div');
+    controls.className = 'expand-controls';
+    controls.innerHTML = '<button id="expandAll">Expand all</button><button id="collapseAll">Collapse all</button>';
+    firstSection.parentNode.insertBefore(controls, firstSection);
+
+    document.getElementById('expandAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.add('open');
+      });
+    });
+    document.getElementById('collapseAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.remove('open');
+      });
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="../Ch4-Transformer/Paper-4-FreeMarketTransformer.html">\u2190 Ch 4: Language Models</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a>';
+  // Insert before the footer div
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    footer.parentNode.insertBefore(nav, footer);
+  } else {
+    document.body.appendChild(nav);
+  }
+})();
+</script>
+
+</body>
+</html>

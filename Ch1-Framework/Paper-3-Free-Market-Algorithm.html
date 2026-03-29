@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2.5cm 2.5cm 3.0cm 2.5cm;
+    @bottom-center {
+      content: counter(page);
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 10pt;
+      color: #555;
+    }
+  }
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1020px; margin: 40px auto; padding: 0 20px; line-height: 1.75; color: #222; background: #f8f9fa; }
+  h1 { color: #1a5276; border-bottom: 3px solid #2980b9; padding-bottom: 10px; font-size: 1.9em; }
+  h2 { color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 45px; }
+  h3 { color: #34495e; margin-top: 30px; }
+  .subtitle { color: #555; font-size: 1.1em; margin-top: -5px; }
+  .author { color: #777; font-style: italic; margin-bottom: 30px; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; }
+  pre { background: #f0f3f6; color: #2c3e50; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 0.88em; line-height: 1.5; border: 1px solid #ccc; }
+  pre code { background: none; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+  th, td { border: 1px solid #bdc3c7; padding: 8px 12px; text-align: left; }
+  th { background: #2c3e50; color: white; font-weight: 600; }
+  tr:nth-child(even) { background: #ecf0f1; }
+  td.num { text-align: right; }
+  td.bold { font-weight: bold; }
+  td.best { background: #eafaf1; font-weight: bold; }
+  td.worst { background: #fdedec; }
+  .highlight { background: #fef9e7; border: 1px solid #f9e79f; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .insight { background: #eaf2f8; border: 1px solid #aed6f1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .critical { background: #fdedec; border: 1px solid #f5b7b1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .success { background: #eafaf1; border: 1px solid #a9dfbf; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .formula { font-weight: bold; color: #8e44ad; }
+  .energy { font-weight: bold; color: #c0392b; }
+  .smiles { font-family: 'Consolas', monospace; color: #2980b9; background: #eaf2f8; padding: 2px 4px; border-radius: 3px; }
+  .arrow { font-size: 1.2em; color: #2980b9; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; }
+  .card h4 { margin: 0 0 10px 0; color: #2980b9; }
+  .card.recommended { border-left: 4px solid #27ae60; }
+  .card.alternative { border-left: 4px solid #f39c12; }
+  .card.specialized { border-left: 4px solid #8e44ad; }
+  .timeline { border-left: 3px solid #2980b9; margin: 15px 0 15px 20px; padding-left: 20px; }
+  .timeline .event { margin: 10px 0; position: relative; }
+  .timeline .event::before { content: ''; position: absolute; left: -27px; top: 6px; width: 10px; height: 10px; background: #2980b9; border-radius: 50%; }
+  .timeline .event.late::before { background: #e67e22; }
+  .timeline .event.missing::before { background: #e74c3c; }
+  .comparison-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+  .bar { height: 20px; background: #2980b9; border-radius: 3px; min-width: 2px; }
+  .bar.highlight-bar { background: #e74c3c; }
+  figure { margin: 20px 0; text-align: center; }
+  figure img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+  figcaption { color: #666; font-size: 0.9em; margin-top: 8px; }
+  .abstract { font-size: 1.02em; color: #333; background: #fff; border: 1px solid #ddd; padding: 20px 25px; border-radius: 8px; margin: 20px 0; }
+  .toc { background: #fff; border: 1px solid #ddd; padding: 15px 25px; border-radius: 8px; margin: 25px 0; }
+  .toc a { color: #2980b9; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc li { margin: 4px 0; }
+  .footnote { font-size: 0.85em; color: #777; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 30px 0; }
+  .tree { font-family: 'Consolas', monospace; background: #2c3e50; color: #ecf0f1; padding: 18px; border-radius: 6px; line-height: 1.6; font-size: 0.88em; overflow-x: auto; white-space: pre; margin: 15px 0; }
+  .tree .step { color: #3498db; }
+  .tree .energy { color: #e74c3c; font-weight: bold; }
+  .tree .product { color: #2ecc71; font-weight: bold; }
+  .tree .smiles-tree { color: #f39c12; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; font-weight: 600; color: white; margin-left: 6px; }
+  .badge-best { background: #27ae60; }
+  .badge-fast { background: #3498db; }
+  .badge-strong { background: #e74c3c; }
+  .badge-convergent { background: #8e44ad; }
+  .score-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .score-bar .label { width: 120px; font-size: 0.88em; color: #555; }
+  .score-bar .bar-bg { flex: 1; height: 14px; background: #ecf0f1; border-radius: 3px; overflow: hidden; }
+  .score-bar .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-green { background: #27ae60; }
+  .bar-blue { background: #3498db; }
+  .bar-orange { background: #f39c12; }
+  .bar-red { background: #e74c3c; }
+  .fig { margin: 25px 0; padding: 18px; background: #fff; border: 1px solid #ddd; border-radius: 8px; }
+  .fig-caption { font-size: 0.88em; color: #666; margin-top: 10px; }
+  .fig-caption strong { color: #34495e; }
+  .equation { font-family: 'Consolas', monospace; background: #f0f3f6; color: #2c3e50; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.05em; text-align: center; border-left: 4px solid #2980b9; border: 1px solid #ccc; }
+  .regime-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .regime-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+  .regime-card h4 { margin: 0 0 8px 0; }
+  .regime-card.stagnation { border-top: 3px solid #e67e22; }
+  .regime-card.stagnation h4 { color: #e67e22; }
+  .regime-card.selection { border-top: 3px solid #27ae60; }
+  .regime-card.selection h4 { color: #27ae60; }
+  .regime-card.tar { border-top: 3px solid #e74c3c; }
+  .regime-card.tar h4 { color: #e74c3c; }
+  svg text { font-family: 'Segoe UI', sans-serif; }
+  blockquote { border-left: 3px solid #2980b9; margin: 15px 0; padding: 10px 18px; background: #f8f9fa; color: #555; font-style: italic; }
+  .disclosure { margin-top: 30px; padding: 16px 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; color: #666; }
+  .ref { font-size: 0.9em; color: #555; margin-top: 40px; padding-top: 20px; border-top: 2px solid #2980b9; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #2980b9; }
+  a { color: #2980b9; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  @media (max-width: 800px) {
+    .regime-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: 1fr; }
+  }
+
+  /* Foldable sections — injected */
+  .fold-section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  .fold-header { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid transparent; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  .fold-header:hover { background: #e4eaf0; }
+  .fold-header::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  .fold-header.open::before { transform: rotate(90deg); }
+  .fold-header.open { border-bottom: 1px solid #d0d8e0; }
+  .fold-body { padding: 16px 22px 22px; display: none; }
+  .fold-body.open { display: block; }
+
+  .fold-sub { margin-top: 14px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  .fold-sub-header { font-family: 'Segoe UI', sans-serif; font-size: 1.0em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; }
+  .fold-sub-header:hover { background: #eaeff4; }
+  .fold-sub-header::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  .fold-sub-header.open::before { transform: rotate(90deg); }
+  .fold-sub-body { padding: 12px 18px 16px; display: none; }
+  .fold-sub-body.open { display: block; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+
+  /* Cross-chapter nav — injected */
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body>
+
+<div style="text-align:center; color:#7f8c8d; font-size:0.82em; letter-spacing:0.12em; text-transform:uppercase; padding-top:10px; margin-bottom:4px;">The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+<div style="text-align:center; color:#2980b9; font-size:1.0em; font-weight:600; margin-bottom:20px; letter-spacing:0.04em;">Chapter&nbsp;1 &mdash; The Framework</div>
+
+<h1>The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems</h1>
+<p class="author">Martin Jaraiz &mdash; Department of Electricity and Electronics, University of Valladolid, Spain<br>
+March 2026</p>
+
+<!-- ================================================================== -->
+<!-- ABSTRACT -->
+<!-- ================================================================== -->
+
+<div class="abstract">
+<strong>Abstract.</strong>
+We introduce the Free-Market Algorithm (FMA), a novel metaheuristic optimization framework inspired by free-market economics. Unlike Genetic Algorithms, Particle Swarm Optimization, Ant Colony Optimization, and Simulated Annealing&mdash;all of which require a prescribed fitness function and search a fixed solution space&mdash;FMA uses distributed supply-and-demand dynamics in which fitness is <em>emergent</em>, the search space is <em>open-ended</em>, and solutions take the form of complete hierarchical pathway networks rather than single optima. Autonomous agents discover transformation rules, trade goods, open and close firms, and compete for demand, with no centralized controller. We present the formal algorithm, its three-layer architecture (universal market engine, pluggable domain rules, domain-specific observation), and compare it systematically with established metaheuristics. We further show that FMA provides a constructive mechanism for the abstract signatures of selection described by Assembly Theory. The algorithm has been validated in two unrelated domains: prebiotic chemistry&mdash;where it discovers all 12 feasible amino acids, all 5 nucleobases, and the complete formose sugar chain from bare atoms in under 5 minutes (Jaraiz, 2026b)&mdash;and macroeconomic forecasting&mdash;where it achieves Mean Absolute Error (MAE) of 0.42 percentage points for non-crisis GDP prediction with zero calibrated parameters, portable to 33 countries (Jaraiz, 2026a). These results establish a pattern that the subsequent chapters of this volume extend to two further domains: language modelling, where FMA's market dynamics provide a mechanistic alternative to fixed-expert Mixture-of-Experts architectures and the training&ndash;inference dichotomy collapses (Chapter&nbsp;4); and adaptive immunity, where clonal selection, affinity maturation, immunological memory, and cytokine storm each map precisely onto FMA mechanisms, generating six novel falsifiable predictions (Chapter&nbsp;5). Taken together, the five domains&mdash;macroeconomics, prebiotic chemistry, synthesis planning, language, and biology&mdash;constitute the empirical case for this volume's central thesis: <em>Darwinian free-market optimization is a universal mechanism for the emergence of complexity in open-ended systems</em>.
+</div>
+
+<!-- ================================================================== -->
+<!-- TABLE OF CONTENTS -->
+<!-- ================================================================== -->
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#sec1">Introduction</a></li>
+  <li><a href="#sec2">A Taxonomy of Complexity</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec2-1">2.1 Multibody Complexity</a></li>
+      <li><a href="#sec2-2">2.2 Assembly Complexity</a></li>
+      <li><a href="#sec2-3">2.3 Behavioral Complexity</a></li>
+      <li><a href="#sec2-4">2.4 Evolutionary Complexity</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec3">The Free-Market Algorithm</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec3-1">3.1 Design Principles</a></li>
+      <li><a href="#sec3-2">3.2 The Three-Layer Architecture</a></li>
+      <li><a href="#sec3-3">3.3 The Agent's Activity Cycle</a></li>
+      <li><a href="#sec3-4">3.4 Formal Pseudocode</a></li>
+      <li><a href="#sec3-5">3.5 Key Properties</a></li>
+      <li><a href="#sec3-6">3.6 Comparison with Existing Metaheuristics</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec4">Connection to Assembly Theory</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec4-1">4.1 Mapping AT Concepts to FMA</a></li>
+      <li><a href="#sec4-2">4.2 Three Dynamical Regimes</a></li>
+      <li><a href="#sec4-3">4.3 FMA as the Mechanism AT Describes</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec5">Application I: Prebiotic Chemistry</a></li>
+  <li><a href="#sec6">Application II: Macroeconomic Forecasting</a></li>
+  <li><a href="#sec7">Application III: Synthesis Route Planning</a></li>
+  <li><a href="#sec8">Why FMA Works: The Economics of Exploration</a></li>
+  <li><a href="#sec9">Discussion</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec9-1">9.1 FMA vs. GA: A Deeper Comparison</a></li>
+      <li><a href="#sec9-2">9.2 Universality: Five Domains, One Algorithm</a></li>
+      <li><a href="#sec9-3">9.3 Limitations</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec10">Conclusions</a></li>
+  <li><a href="#refs">References</a></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+<!-- 1. INTRODUCTION -->
+<!-- ================================================================== -->
+
+<h2 id="sec1">1. Introduction</h2>
+
+<p>Complex systems resist forecasting because they violate the foundational assumptions of most computational methods: they have no fixed phase space, no representative agent, and no equilibrium to converge toward. An economy is not a system of equations to be solved but an evolving ecology of heterogeneous firms. A prebiotic chemical mixture is not a reaction network to be enumerated but an open-ended exploration of molecular space. In both cases, the system continually generates novelty that could not have been predicted from initial conditions.</p>
+
+<p>Over the past fifty years, a rich family of <em>metaheuristic</em> algorithms has emerged, each drawing inspiration from a different natural process: Genetic Algorithms<sup>1</sup> from Darwinian evolution, Particle Swarm Optimization<sup>2</sup> from flocking behaviour, Ant Colony Optimization<sup>3</sup> from pheromone-guided foraging, and Simulated Annealing<sup>4</sup> from metallurgical cooling. These methods have been applied successfully to scheduling, routing, parameter estimation, and countless other domains.</p>
+
+<p>Despite their diversity of metaphor, these algorithms share three structural assumptions that limit their applicability to open-ended complex systems:</p>
+
+<ol>
+<li><strong>Prescribed fitness.</strong> The quality of every candidate solution is evaluated by a function defined <em>a priori</em> by the designer. The algorithm does not decide what is valuable; it only searches for more of what it has been told to value.</li>
+<li><strong>Fixed search space.</strong> The set of possible solutions is defined before the run begins. A GA searches binary strings of length <em>n</em>; PSO moves particles through &#x211D;<sup>d</sup>; ACO constructs paths on a given graph. No new dimensions or building blocks appear during execution.</li>
+<li><strong>Centralized selection.</strong> A global mechanism&mdash;tournament selection, global best update, pheromone reinforcement, Boltzmann acceptance&mdash;decides which solutions survive. Information about quality flows through a central bottleneck.</li>
+</ol>
+
+<p>These assumptions are entirely reasonable when the problem is well-posed: when we know what we are looking for, know the space in which to look, and can afford a central arbiter of quality. But many of the most important problems in science and engineering violate all three assumptions. In prebiotic chemistry, we do not know which molecules are "fit"&mdash;fitness emerges from thermodynamic stability and mutual compatibility. In macroeconomics, GDP is not a fitness function to be maximized but an emergent aggregate of millions of interacting firms. In open-ended evolution, the search space itself grows as new building blocks are discovered.</p>
+
+<div class="insight">
+<strong>The economic insight.</strong> Adam Smith observed in 1776 that individuals pursuing their own self-interest are "led by an invisible hand to promote an end which was no part of [their] intention"<sup>9</sup>. Hayek formalized this as a distributed information-processing mechanism: the price system aggregates knowledge that no central planner could collect<sup>10</sup>. We take this insight literally. The market is not a metaphor for optimization&mdash;it <em>is</em> an optimization algorithm, one whose key properties (emergent fitness, open-ended search, distributed selection) are precisely what existing metaheuristics lack.
+</div>
+
+<p>In this paper we introduce the <strong>Free-Market Algorithm (FMA)</strong>, implemented as a Free-Market Agent-Based Model (FM-ABM), a metaheuristic that uses the market mechanism as a computational optimization framework. FMA's key innovations are:</p>
+
+<ul>
+<li><strong>Emergent fitness.</strong> No objective function is prescribed. "Fitness" emerges from what the market demands and sustains.</li>
+<li><strong>Open-ended search space.</strong> A persistent recipe book grows during execution; each discovery expands the space of possible future discoveries.</li>
+<li><strong>Distributed selection.</strong> No central controller selects winners. Agents independently choose, compete, succeed or fail.</li>
+<li><strong>Hierarchical network solutions.</strong> The output is not a single optimum but a complete production network with supply chains.</li>
+<li><strong>Persistent memory.</strong> The recipe book is never cleared, enabling hierarchical discovery across arbitrary depth.</li>
+</ul>
+
+<p>We present the formal specification, analyse its properties, compare it with established algorithms, demonstrate its connection to Assembly Theory<sup>5</sup>, and summarize validated results in prebiotic chemistry and macroeconomic forecasting.</p>
+
+<div class="insight">
+<strong>This volume.</strong> Chapter&nbsp;1 (this chapter) establishes the FMA framework: its formal specification, three-layer architecture, comparison with existing metaheuristics, and connection to Assembly Theory. Each subsequent chapter applies the <em>identical</em> Layer&nbsp;1 market engine to a new domain, supplying only domain-specific Layer&nbsp;2 combination rules and Layer&nbsp;3 observation metrics. <strong>Chapter&nbsp;2</strong> demonstrates FMA in macroeconomic forecasting&mdash;GDP prediction for 33&nbsp;countries from input&ndash;output tables alone, zero calibrated parameters (Jaraiz, 2026a).<sup>11</sup> <strong>Chapter&nbsp;3</strong> demonstrates FMA in prebiotic chemistry&mdash;autonomous discovery of all&nbsp;12 feasible amino acids, all&nbsp;5 canonical nucleobases, and the complete formose sugar chain from bare atoms in under five minutes (Jaraiz, 2026b).<sup>12</sup> <strong>Chapter&nbsp;4</strong> applies FMA to language model architecture: market dynamics replace the fixed expert pool of Mixture-of-Experts networks; the training&ndash;inference dichotomy collapses; expert specialisation emerges without supervision (Jaraiz, 2026c).<sup>13</sup> <strong>Chapter&nbsp;5</strong> applies FMA to adaptive immunity: clonal selection, germinal-centre affinity maturation, immunological memory, T-cell exhaustion, and cytokine storm each map precisely onto a named FMA mechanism, yielding six novel falsifiable predictions (Jaraiz, 2026d).<sup>14</sup> The same seven equations&mdash;the agent cycle, Evans&ndash;Polanyi barrier, depth penalty, census coverage, witness boost, decay law, and GFCF cascade&mdash;govern all five domains without modification.
+</div>
+
+<!-- ================================================================== -->
+<!-- 2. A TAXONOMY OF COMPLEXITY -->
+<!-- ================================================================== -->
+
+<h2 id="sec2">2. A Taxonomy of Complexity</h2>
+
+<p>To understand what FMA is designed for&mdash;and why existing metaheuristics fall short&mdash;we must first understand the landscape of complexity. Not all complex systems are alike, and different kinds of complexity demand different computational tools.</p>
+
+<!-- Complexity Taxonomy SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 370" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+    </marker>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2980b9"/>
+    </marker>
+  </defs>
+  <!-- Title -->
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">A Taxonomy of Complexity</text>
+
+  <!-- Level 1: Multibody -->
+  <rect x="30" y="50" width="195" height="85" rx="8" fill="#fff" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="127" y="72" fill="#2c3e50" font-size="11" text-anchor="middle" font-weight="bold">Multibody</text>
+  <text x="127" y="88" fill="#777" font-size="9" text-anchor="middle">N-body, stat. mech., fluids</text>
+  <text x="127" y="102" fill="#777" font-size="9" text-anchor="middle">Fixed phase space</text>
+  <text x="127" y="116" fill="#777" font-size="9" text-anchor="middle">No novelty generation</text>
+
+  <!-- Level 2: Assembly -->
+  <rect x="255" y="50" width="195" height="85" rx="8" fill="#fff" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="352" y="72" fill="#27ae60" font-size="11" text-anchor="middle" font-weight="bold">Assembly</text>
+  <text x="352" y="88" fill="#777" font-size="9" text-anchor="middle">Recursive construction</text>
+  <text x="352" y="102" fill="#777" font-size="9" text-anchor="middle">Growing phase space</text>
+  <text x="352" y="116" fill="#777" font-size="9" text-anchor="middle">Adjacent possible expands</text>
+
+  <!-- Level 3: Behavioral -->
+  <rect x="480" y="50" width="195" height="85" rx="8" fill="#fff" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="577" y="72" fill="#e67e22" font-size="11" text-anchor="middle" font-weight="bold">Behavioral</text>
+  <text x="577" y="88" fill="#777" font-size="9" text-anchor="middle">Arbitrary decision rules</text>
+  <text x="577" y="102" fill="#777" font-size="9" text-anchor="middle">Rules themselves evolve</text>
+  <text x="577" y="116" fill="#777" font-size="9" text-anchor="middle">Heterogeneous interactions</text>
+
+  <!-- Level 4: Evolutionary (union) -->
+  <rect x="140" y="190" width="540" height="95" rx="10" fill="#eaf2f8" stroke="#2980b9" stroke-width="2"/>
+  <text x="410" y="215" fill="#1a5276" font-size="13" text-anchor="middle" font-weight="bold">Evolutionary Complexity</text>
+  <text x="410" y="234" fill="#333" font-size="10" text-anchor="middle">= Multibody + Assembly + Behavioral + Selection + Open-ended Novelty</text>
+  <text x="410" y="252" fill="#333" font-size="10" text-anchor="middle">+ Historical Contingency</text>
+  <text x="410" y="272" fill="#c0392b" font-size="10" text-anchor="middle" font-weight="bold">The target of FMA / FM-ABM</text>
+
+  <!-- Arrows down to evolutionary -->
+  <line x1="127" y1="135" x2="280" y2="188" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="352" y1="135" x2="370" y2="188" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="577" y1="135" x2="500" y2="188" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- FMA box -->
+  <rect x="250" y="320" width="320" height="38" rx="6" fill="#2980b9" stroke="#1a5276" stroke-width="1.5"/>
+  <text x="410" y="344" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Free-Market Algorithm (FM-ABM)</text>
+
+  <!-- Arrow from evolutionary to FMA -->
+  <line x1="410" y1="285" x2="410" y2="318" stroke="#2980b9" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <!-- Side labels -->
+  <text x="770" y="85" fill="#777" font-size="9" text-anchor="start">Physics suffices</text>
+  <text x="770" y="100" fill="#777" font-size="9" text-anchor="start">(Boltzmann, MD)</text>
+  <line x1="677" y1="90" x2="765" y2="90" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <text x="770" y="225" fill="#2980b9" font-size="9" text-anchor="start">Requires new</text>
+  <text x="770" y="240" fill="#2980b9" font-size="9" text-anchor="start">framework</text>
+  <line x1="682" y1="230" x2="765" y2="230" stroke="#2980b9" stroke-width="1" stroke-dasharray="4,3"/>
+</svg>
+<p class="fig-caption"><strong>Figure 1 | A taxonomy of complexity.</strong> Multibody systems have fixed phase spaces and are well-served by physics. Assembly systems generate new possibilities through recursive construction. Behavioral systems feature agents with arbitrary evolving rules. Evolutionary complexity is the union of all three plus selection, open-ended novelty, and historical contingency&mdash;the target of the Free-Market Algorithm.</p>
+</div>
+
+<h3 id="sec2-1">2.1 Multibody Complexity</h3>
+
+<p>The simplest form of complexity arises from many particles interacting through known forces: N-body gravitational systems, molecular dynamics, fluid turbulence. These systems are conceptually straightforward&mdash;the equations of motion are known, conservation laws constrain the dynamics, and Boltzmann statistics describe equilibrium. The difficulty is purely computational: the phase space is vast but <em>fixed</em>. No genuinely new objects appear; the set of possible states is determined at the outset. This is why statistical mechanics succeeds: it needs only sample a pre-existing landscape.</p>
+
+<h3 id="sec2-2">2.2 Assembly Complexity</h3>
+
+<p>A qualitatively different kind of complexity emerges when objects are built recursively from simpler ones: atoms combine into molecules, molecules into polymers, polymers into functional complexes. Assembly Theory (AT), formalized by Sharma et al.<sup>5</sup>, provides a rigorous framework for measuring this complexity through two quantities: the <em>assembly index</em> (minimum recursive joining operations to construct an object from basic building blocks) and the <em>copy number</em> (how many identical copies exist in a sample). AT's central insight is that objects with both high assembly index and high copy number cannot arise from undirected physics alone&mdash;they require selection.</p>
+
+<p>The critical distinction from multibody complexity is that the phase space <em>grows</em>. Each newly assembled object creates possibilities that did not exist before&mdash;what Kauffman<sup>8</sup> calls the "adjacent possible." A molecule that did not exist at step <em>t</em> becomes a potential reactant at step <em>t</em>+1, opening pathways that were previously inaccessible.</p>
+
+<h3 id="sec2-3">2.3 Behavioral Complexity</h3>
+
+<p>A third form of complexity arises when agents follow arbitrary decision rules that need not correspond to any assembly operation. A bank does not <em>assemble</em> anything when it sets interest rates based on risk assessment. A government does not <em>construct</em> objects when it allocates spending based on political priorities. A foraging animal does not <em>join</em> building blocks when it selects a migration route. Yet these agents participate in systems every bit as complex as molecular evolution&mdash;their interactions generate emergent patterns (business cycles, ecosystem dynamics, social hierarchies) that no individual agent intends or controls.</p>
+
+<p>The hallmark of behavioral complexity is that the rules themselves evolve: agents learn, adapt, imitate, and innovate. No single equation captures the system, because the system's dynamics depend on the heterogeneous, time-varying decision functions of its constituent agents.</p>
+
+<h3 id="sec2-4">2.4 Evolutionary Complexity</h3>
+
+<p>The most challenging systems combine all three forms above with three additional properties:</p>
+
+<ul>
+  <li><strong>Selection:</strong> some variants persist and proliferate while others disappear, but the selection criterion is not externally specified&mdash;it emerges from the system's dynamics.</li>
+  <li><strong>Open-ended novelty:</strong> genuinely new entities appear that could not have been predicted from initial conditions. The system continually expands its own state space.</li>
+  <li><strong>Historical contingency:</strong> what exists now depends on what existed before. The same initial conditions can produce radically different outcomes depending on the sequence of events.</li>
+</ul>
+
+<p>These are the systems&mdash;economies, ecosystems, technological evolution, prebiotic chemistry&mdash;where forecasting has the greatest value and the least reliability. Traditional forecasting methods fail because they assume fixed phase spaces, representative agents, equilibrium convergence, and historically stable parameters. What is needed is a framework that generates novelty endogenously, accommodates heterogeneous agents with diverse and evolving rules, operates out of equilibrium, and produces selection without hand-designed fitness functions. The Free-Market Algorithm provides such a framework.</p>
+
+
+<!-- ================================================================== -->
+<!-- 3. THE FREE-MARKET ALGORITHM -->
+<!-- ================================================================== -->
+
+<h2 id="sec3">3. The Free-Market Algorithm</h2>
+
+<h3 id="sec3-1">3.1 Design Principles</h3>
+
+<p>FMA is built on a single foundational principle: <strong>strict separation of mechanism from domain rules</strong>. The market mechanism&mdash;how agents trade, compete, enter and exit&mdash;is universal and identical across all applications. The domain-specific rules&mdash;how goods are created and whether transformations are feasible&mdash;are pluggable modules that encode domain knowledge without prescribing what the system should find. This separation ensures that selection emerges from market dynamics, not from the domain rules themselves.</p>
+
+<p>Three economic insights, taken literally as computational mechanisms, underpin the design:</p>
+
+<div class="three-col">
+  <div class="card">
+    <h4>Adam Smith's Invisible Hand</h4>
+    <p>Individual agents pursue their own interest without knowledge of the global outcome. Yet the collective result is a highly organized production network. In FMA, this is the selection mechanism itself.</p>
+  </div>
+  <div class="card">
+    <h4>Hayek's Knowledge Problem</h4>
+    <p>No single entity possesses the information needed for optimal allocation. Knowledge is dispersed among agents. The trading mechanism aggregates distributed information, achieving coordination without central planning.</p>
+  </div>
+  <div class="card">
+    <h4>Schumpeter's Creative Destruction</h4>
+    <p>Entry and exit of firms is a feature, not a bug. Firms that produce unwanted goods close, freeing agents to open new firms. This turnover balances exploration and exploitation.</p>
+  </div>
+</div>
+
+<div class="highlight">
+<strong>Clarification.</strong> FMA is not a simulation of an economy. It is an <em>algorithm</em> that uses market dynamics as a computational mechanism, just as GA uses natural selection and ACO uses pheromone-guided foraging. The claim is not that markets are optimal in the normative sense, but that the market mechanism&mdash;distributed agents, local information, supply-and-demand equilibration&mdash;is a powerful optimization primitive that has been underexploited in the metaheuristic literature.
+</div>
+
+<h3 id="sec3-2">3.2 The Three-Layer Architecture</h3>
+
+<p>FMA achieves domain generality through a strict three-layer separation:</p>
+
+<table>
+<tr><th>Layer</th><th>Responsibility</th><th>Changes across domains?</th><th>Examples</th></tr>
+<tr><td class="bold">Layer 1: Market Engine</td><td>Agent lifecycle, ring topology, trading, firm entry/exit, demand propagation, decay</td><td>No&mdash;identical in all domains</td><td>Ring neighbourhood, GFCF demand, patience threshold</td></tr>
+<tr><td class="bold">Layer 2: Domain Rules</td><td><code>DomainCombine()</code> and <code>DomainValidate()</code>&mdash;how goods are created and whether transformations are feasible</td><td>Yes&mdash;pluggable per domain</td><td>Chemistry: BDE + UFF energy. Economics: I&ndash;O coefficients. Robotics: task dependencies</td></tr>
+<tr><td class="bold">Layer 3: Observation</td><td>Domain-specific metrics computed from the market state</td><td>Yes&mdash;read-only, no feedback</td><td>Chemistry: molecular census, assembly index. Economics: GDP, sectoral output</td></tr>
+</table>
+
+<p>This separation means that the market mechanism (Layer 1) is a <em>universal</em> optimization engine. To apply FMA to a new domain, one writes only the combination/validation rules (Layer 2) and the observation metrics (Layer 3). The trading, competition, discovery and demand mechanisms require no modification.</p>
+
+<!-- Three-Layer Architecture SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">FM-ABM Three-Layer Architecture</text>
+
+  <!-- Layer 1: Market Mechanism -->
+  <rect x="30" y="45" width="840" height="95" rx="8" fill="#eaf2f8" stroke="#2980b9" stroke-width="2"/>
+  <text x="55" y="67" fill="#1a5276" font-size="12" font-weight="bold">Layer 1: Market Mechanism</text>
+  <rect x="55" y="82" width="8" height="8" rx="2" fill="#2980b9"/>
+  <text x="70" y="90" fill="#555" font-size="9.5">UNIVERSAL</text>
+
+  <!-- Layer 1 components -->
+  <rect x="180" y="72" width="125" height="52" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="242" y="93" fill="#333" font-size="10" text-anchor="middle">Workers</text>
+  <text x="242" y="107" fill="#777" font-size="8.5" text-anchor="middle">(ring neighborhoods)</text>
+
+  <rect x="320" y="72" width="125" height="52" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="382" y="93" fill="#333" font-size="10" text-anchor="middle">Goods</text>
+  <text x="382" y="107" fill="#777" font-size="8.5" text-anchor="middle">(supply &amp; demand)</text>
+
+  <rect x="460" y="72" width="125" height="52" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="522" y="93" fill="#333" font-size="10" text-anchor="middle">Producers</text>
+  <text x="522" y="107" fill="#777" font-size="8.5" text-anchor="middle">(competition &amp; exit)</text>
+
+  <rect x="600" y="72" width="125" height="52" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="662" y="93" fill="#333" font-size="10" text-anchor="middle">GFCF Demand</text>
+  <text x="662" y="107" fill="#777" font-size="8.5" text-anchor="middle">(selection driver)</text>
+
+  <rect x="740" y="72" width="110" height="52" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="795" y="93" fill="#333" font-size="10" text-anchor="middle">Witness</text>
+  <text x="795" y="107" fill="#777" font-size="8.5" text-anchor="middle">(memory)</text>
+
+  <!-- Layer 2: Domain Rules -->
+  <rect x="30" y="155" width="840" height="105" rx="8" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="55" y="177" fill="#1a5276" font-size="12" font-weight="bold">Layer 2: Domain-Specific Behavioral Rules</text>
+  <rect x="55" y="192" width="8" height="8" rx="2" fill="#27ae60"/>
+  <text x="70" y="200" fill="#555" font-size="9.5">PLUGGABLE</text>
+
+  <!-- Domain cards -->
+  <rect x="180" y="182" width="155" height="62" rx="6" fill="#fff" stroke="#27ae60" stroke-width="1"/>
+  <text x="257" y="200" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">Chemistry</text>
+  <text x="257" y="215" fill="#777" font-size="8.5" text-anchor="middle">BDE/UFF energy evaluation</text>
+  <text x="257" y="228" fill="#777" font-size="8.5" text-anchor="middle">Bond formation, ring closure</text>
+
+  <rect x="355" y="182" width="155" height="62" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="432" y="200" fill="#2980b9" font-size="10" text-anchor="middle" font-weight="bold">Economics</text>
+  <text x="432" y="215" fill="#777" font-size="8.5" text-anchor="middle">I-O table coefficients</text>
+  <text x="432" y="228" fill="#777" font-size="8.5" text-anchor="middle">Labor/capital factors</text>
+
+  <rect x="530" y="182" width="155" height="62" rx="6" fill="#fff" stroke="#e67e22" stroke-width="1"/>
+  <text x="607" y="200" fill="#e67e22" font-size="10" text-anchor="middle" font-weight="bold">Banking / Policy</text>
+  <text x="607" y="215" fill="#777" font-size="8.5" text-anchor="middle">Interest rates, risk models</text>
+  <text x="607" y="228" fill="#777" font-size="8.5" text-anchor="middle">Regulation, tax policy</text>
+
+  <rect x="705" y="182" width="145" height="62" rx="6" fill="#fff" stroke="#8e44ad" stroke-width="1"/>
+  <text x="777" y="200" fill="#8e44ad" font-size="10" text-anchor="middle" font-weight="bold">Biology</text>
+  <text x="777" y="215" fill="#777" font-size="8.5" text-anchor="middle">Foraging, mating</text>
+  <text x="777" y="228" fill="#777" font-size="8.5" text-anchor="middle">Territory, social hierarchy</text>
+
+  <!-- Layer 3: Observation -->
+  <rect x="30" y="275" width="840" height="90" rx="8" fill="#fef9e7" stroke="#f39c12" stroke-width="2"/>
+  <text x="55" y="297" fill="#1a5276" font-size="12" font-weight="bold">Layer 3: Observation &amp; Measurement</text>
+  <rect x="55" y="312" width="8" height="8" rx="2" fill="#f39c12"/>
+  <text x="70" y="320" fill="#555" font-size="9.5">DOMAIN-SPECIFIC (read-only)</text>
+
+  <rect x="180" y="302" width="155" height="48" rx="6" fill="#fff" stroke="#aaa" stroke-width="1"/>
+  <text x="257" y="320" fill="#333" font-size="9.5" text-anchor="middle">Molecular census</text>
+  <text x="257" y="335" fill="#777" font-size="8.5" text-anchor="middle">Assembly index, diversity</text>
+
+  <rect x="355" y="302" width="155" height="48" rx="6" fill="#fff" stroke="#aaa" stroke-width="1"/>
+  <text x="432" y="320" fill="#333" font-size="9.5" text-anchor="middle">GDP, employment</text>
+  <text x="432" y="335" fill="#777" font-size="8.5" text-anchor="middle">Sector output, firm size</text>
+
+  <rect x="530" y="302" width="155" height="48" rx="6" fill="#fff" stroke="#aaa" stroke-width="1"/>
+  <text x="607" y="320" fill="#333" font-size="9.5" text-anchor="middle">Systemic risk, stability</text>
+  <text x="607" y="335" fill="#777" font-size="8.5" text-anchor="middle">Policy effectiveness</text>
+
+  <rect x="705" y="302" width="145" height="48" rx="6" fill="#fff" stroke="#aaa" stroke-width="1"/>
+  <text x="777" y="320" fill="#333" font-size="9.5" text-anchor="middle">Population dynamics</text>
+  <text x="777" y="335" fill="#777" font-size="8.5" text-anchor="middle">Biodiversity indices</text>
+</svg>
+<p class="fig-caption"><strong>Figure 2 | FM-ABM three-layer architecture.</strong> Layer 1 (market mechanism) is universal and identical across all applications. Layer 2 (behavioral rules) is pluggable&mdash;different domains supply different rules for how agents interact and transform goods. Layer 3 (observation) extracts domain-specific measurements from the simulation state. Selection emerges from market dynamics (Layer 1), not from the domain rules (Layer 2).</p>
+</div>
+
+<h3 id="sec3-3">3.3 The Agent's Activity Cycle</h3>
+
+<p>Each simulation step, every agent executes a five-phase economic cycle&mdash;the "Workshop Manager's Day":</p>
+
+<!-- Agent Activity Cycle SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+    </marker>
+    <marker id="arr3-loop" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2980b9"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="22" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">The Agent's Activity Cycle (one simulation step)</text>
+
+  <!-- Phase 1: Discover -->
+  <rect x="20" y="45" width="155" height="90" rx="10" fill="#fff" stroke="#2980b9" stroke-width="2"/>
+  <text x="97" y="68" fill="#2980b9" font-size="12" text-anchor="middle" font-weight="bold">1. Discover</text>
+  <text x="97" y="86" fill="#555" font-size="9" text-anchor="middle">Combine inventory with</text>
+  <text x="97" y="100" fill="#555" font-size="9" text-anchor="middle">neighbor goods</text>
+  <text x="97" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT's tau_d (discovery)</text>
+
+  <!-- Arrow -->
+  <line x1="178" y1="90" x2="198" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 2: Trade -->
+  <rect x="200" y="45" width="155" height="90" rx="10" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+  <text x="277" y="68" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">2. Trade</text>
+  <text x="277" y="86" fill="#555" font-size="9" text-anchor="middle">Demand &amp; acquire goods</text>
+  <text x="277" y="100" fill="#555" font-size="9" text-anchor="middle">(GFCF / domain utility)</text>
+  <text x="277" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT's alpha (selection)</text>
+
+  <!-- Arrow -->
+  <line x1="358" y1="90" x2="378" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 3: Produce -->
+  <rect x="380" y="45" width="155" height="90" rx="10" fill="#fff" stroke="#e67e22" stroke-width="2"/>
+  <text x="457" y="68" fill="#e67e22" font-size="12" text-anchor="middle" font-weight="bold">3. Produce</text>
+  <text x="457" y="86" fill="#555" font-size="9" text-anchor="middle">Transform inputs into</text>
+  <text x="457" y="100" fill="#555" font-size="9" text-anchor="middle">outputs via recipes</text>
+  <text x="457" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT's tau_p (production)</text>
+
+  <!-- Arrow -->
+  <line x1="538" y1="90" x2="558" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 4: Compete -->
+  <rect x="560" y="45" width="155" height="90" rx="10" fill="#fff" stroke="#8e44ad" stroke-width="2"/>
+  <text x="637" y="68" fill="#8e44ad" font-size="12" text-anchor="middle" font-weight="bold">4. Compete</text>
+  <text x="637" y="86" fill="#555" font-size="9" text-anchor="middle">Close unprofitable firms;</text>
+  <text x="637" y="100" fill="#555" font-size="9" text-anchor="middle">start new ones if demand</text>
+  <text x="637" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= creative destruction</text>
+
+  <!-- Arrow -->
+  <line x1="718" y1="90" x2="738" y2="90" stroke="#555" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 5: Decay -->
+  <rect x="740" y="45" width="140" height="90" rx="10" fill="#fff" stroke="#e74c3c" stroke-width="2"/>
+  <text x="810" y="68" fill="#e74c3c" font-size="12" text-anchor="middle" font-weight="bold">5. Decay</text>
+  <text x="810" y="86" fill="#555" font-size="9" text-anchor="middle">Stochastic decomposition;</text>
+  <text x="810" y="100" fill="#555" font-size="9" text-anchor="middle">recycle to building blocks</text>
+  <text x="810" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= recycling pressure</text>
+
+  <!-- Loop-back arrow -->
+  <path d="M 810 138 L 810 165 Q 810 180 795 180 L 112 180 Q 97 180 97 165 L 97 138" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arr3-loop)"/>
+  <text x="450" y="195" fill="#2980b9" font-size="10" text-anchor="middle">Next simulation step</text>
+</svg>
+<p class="fig-caption"><strong>Figure 3 | The agent's activity cycle.</strong> Every agent executes five phases each simulation step. The cycle maps directly onto Assembly Theory's dynamical processes: Discover controls tau_d, Trade implements alpha, Produce controls tau_p, Compete provides creative destruction, and Decay recycles resources. No phase is designed <em>for</em> AT&mdash;the mapping is emergent.</p>
+</div>
+
+<p><strong>Phase 1: DISCOVER.</strong> A bounded number of discovery attempts (the <em>budget</em>) are made per step. Each attempt picks a random agent, selects a good from its inventory, selects a good from a random neighbour's inventory, and asks the domain-specific combination function to propose a product. If the domain-specific validation function accepts the product (e.g., negative energy change in chemistry, feasible input&ndash;output coefficients in economics), a new recipe is added to the persistent recipe book, and the discovering agent receives a "witness sample" of the product.</p>
+
+<p><strong>Phase 2: TRADE.</strong> Each agent inspects the recipe book and expresses demand for the goods it prefers. Under GFCF demand, agents prefer the most complex (highest-depth) goods available, creating a demand cascade: demand for a depth-3 molecule generates derived demand for its depth-2 inputs, which generates demand for depth-1 inputs, and so on. This is the "invisible hand"&mdash;nobody plans the supply chain; it emerges from individual preferences. Agents that have opened a producer attempt to buy the inputs they need from neighbours.</p>
+
+<p><strong>Phase 3: PRODUCE.</strong> If all inputs are secured, production occurs. Trade is strictly local: an agent can only buy from its <em>k</em> ring neighbours, not from arbitrary agents. This locality creates spatial structure and prevents trivially optimal allocation.</p>
+
+<p><strong>Phase 4: COMPETE.</strong> Firms that cannot sell their output accumulate losses. After a patience threshold, they close. Idle agents survey unmet demand in their neighbourhood and may open a new firm to fill the gap. This is Schumpeter's <em>creative destruction</em>: the entry and exit of firms is the algorithm's mechanism for balancing exploration and exploitation.</p>
+
+<p><strong>Phase 5: DECAY.</strong> Goods in inventories stochastically decompose into their component parts, with a decay rate proportional to their complexity. Decay serves two purposes: it recycles material back into the pool of simple building blocks, preventing resource lock-up; and it acts as a selection pressure against goods that are merely complex without being demanded (demanded goods are continually replenished by production).</p>
+
+<h3 id="sec3-4">3.4 Formal Pseudocode</h3>
+
+<pre><code>FMA(N agents, domain_rules, max_iterations)
+&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;
+Initialize: N agents on ring, each with one primary good
+RecipeBook &larr; &empty;
+
+for t = 1 to max_iterations:
+
+  // Phase 1: DISCOVER (exploration)
+  for budget times:
+    agent_i &larr; random worker
+    good_A  &larr; from agent_i.inventory
+    good_B  &larr; from random neighbor's inventory
+    product &larr; DomainCombine(good_A, good_B)
+    if DomainValidate(product):           // e.g., &Delta;E &lt; 0
+      RecipeBook &larr; RecipeBook &cup; {(A, B) &rarr; product}
+      agent_i.inventory += product        // witness sample
+
+  // Phase 2: DEMAND (selection signal)
+  for each agent:
+    wishlist &larr; SelectPreferred(RecipeBook)   // GFCF
+    RecordDemand(wishlist)
+
+  // Phase 3: TRADE &amp; PRODUCE (distributed exchange)
+  for each agent with producer:
+    for each input needed:
+      seller &larr; FindInNeighborhood(input)
+      if seller: Transfer(input, seller &rarr; agent)
+    if all inputs available:
+      output &larr; Produce(recipe)
+      agent.inventory += output
+
+  // Phase 4: COMPETE (market selection)
+  for each agent with producer:
+    if unprofitable for too long:
+      CloseProducer()                     // creative destruction
+  for each idle agent:
+    if unmet demand exists:
+      StartProducer(demanded_recipe)      // entrepreneurship
+
+  // Phase 5: DECAY (recycling)
+  for each good in all inventories:
+    if random() &lt; DecayRate(good):
+      Decompose(good) &rarr; components       // returns to pool
+
+return RecipeBook, all inventories, production_network</code></pre>
+
+<h3 id="sec3-5">3.5 Key Properties</h3>
+
+<div class="insight">
+<strong>Property 1: Emergent fitness.</strong> FMA has no prescribed objective function. What counts as "fit" is determined by the interplay of discovery, demand and competition. A molecule that is thermodynamically stable, demanded by consumers, and efficiently producible from available inputs will be sustained by the market. Fitness is a <em>systems property</em>, not a scalar function.
+</div>
+
+<div class="insight">
+<strong>Property 2: Open-ended search space.</strong> The recipe book starts empty and grows monotonically. Each new recipe potentially enables the discovery of higher-depth products that were previously unreachable. This is a computational realization of Kauffman's "adjacent possible"<sup>8</sup>: the set of things that can be explored expands with each exploration. No existing metaheuristic has this property.
+</div>
+
+<div class="insight">
+<strong>Property 3: Distributed selection.</strong> Selection in FMA is fully decentralized. No global fitness ranking exists. Each agent makes local decisions (what to demand, what to produce, when to close). The emergent behaviour&mdash;complex production networks, supply chains, specialization&mdash;arises from these local interactions. This is the computational analogue of Hayek's insight that the price system is a distributed computer<sup>10</sup>.
+</div>
+
+<div class="insight">
+<strong>Property 4: Persistent memory.</strong> The recipe book is never cleared. Unlike GA (where each generation is memoryless) or SA (which has no memory), FMA accumulates knowledge across all iterations. This memory is essential for hierarchical discovery: a depth-3 product can only be discovered after its depth-2 inputs have been discovered, which requires the depth-1 recipes to persist.
+</div>
+
+<div class="highlight">
+<strong>Property 5: Two timescales.</strong> FMA's behaviour is governed by the ratio of two rates: the discovery rate &tau;<sub>d</sub> (controlled by the budget parameter) and the production rate &tau;<sub>p</sub> (controlled by the number of agents and neighbourhood size). When &tau;<sub>d</sub> &gt;&gt; &tau;<sub>p</sub>, the system explores rapidly but produces little. When &tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub>, the system exploits known recipes efficiently but discovers nothing new. The balance between these timescales is FMA's analogue of the exploration/exploitation trade-off, but it emerges naturally from the market dynamics rather than being imposed by a schedule.
+</div>
+
+<div class="highlight">
+<strong>Property 6: Hierarchical network solutions.</strong> FMA's output is not a single "best" solution but a complete production network: a directed acyclic graph of recipes, supply chains, inventories and active firms. This network encodes not just <em>what</em> was found optimal but <em>how</em> it is produced, from raw materials through intermediates to final products. For many applications&mdash;chemical synthesis, manufacturing, logistics&mdash;the pathway is as valuable as the destination.
+</div>
+
+<h3 id="sec3-6">3.6 Comparison with Existing Metaheuristics</h3>
+
+<p>Table 1 provides a systematic comparison of FMA with four established metaheuristics across nine structural properties.</p>
+
+<table>
+<tr><th>Property</th><th>GA<sup>1</sup></th><th>PSO<sup>2</sup></th><th>ACO<sup>3</sup></th><th>SA<sup>4</sup></th><th>FMA</th></tr>
+<tr><td class="bold">Fitness function</td><td>Prescribed</td><td>Prescribed</td><td>Prescribed</td><td>Prescribed</td><td class="best">Emergent</td></tr>
+<tr><td class="bold">Search space</td><td>Fixed</td><td>Fixed</td><td>Fixed (graph)</td><td>Fixed</td><td class="best">Open-ended</td></tr>
+<tr><td class="bold">Selection mechanism</td><td>Centralized</td><td>Global best</td><td>Pheromone</td><td>Boltzmann</td><td class="best">Distributed</td></tr>
+<tr><td class="bold">Memory</td><td>None</td><td>Personal + global best</td><td>Pheromone trails</td><td>None</td><td class="best">Recipe book + inventories</td></tr>
+<tr><td class="bold">Solution type</td><td>Single optimum</td><td>Single optimum</td><td>Path</td><td>Single optimum</td><td class="best">Network of pathways</td></tr>
+<tr><td class="bold">Population structure</td><td>Flat (panmictic)</td><td>Flat (swarm)</td><td>Graph</td><td>Single agent</td><td class="best">Ring + firms</td></tr>
+<tr><td class="bold">Hierarchy</td><td>None</td><td>None</td><td>None</td><td>None</td><td class="best">Supply chains</td></tr>
+<tr><td class="bold">Discovery mechanism</td><td>Crossover + mutation</td><td>Velocity update</td><td>Probabilistic construction</td><td>Random perturbation</td><td class="best">Combination + validation</td></tr>
+<tr><td class="bold">Exploration / exploitation</td><td>Mutation rate</td><td>Inertia weight</td><td>Evaporation rate</td><td>Temperature schedule</td><td class="best">&tau;<sub>d</sub> / &tau;<sub>p</sub> balance</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 1 | Systematic comparison of FMA with established metaheuristics.</strong> FMA is the only algorithm with emergent fitness, open-ended search, distributed selection, persistent memory, and hierarchical solutions. These properties are not incremental improvements but qualitative differences that make FMA applicable to problem classes that existing algorithms cannot address.</p>
+
+<p>In summary: when you know what you're looking for and where to look, use GA. When you want to discover <em>what exists</em> and <em>how it can be made</em>, use FMA.</p>
+
+
+<!-- ================================================================== -->
+<!-- 4. CONNECTION TO ASSEMBLY THEORY -->
+<!-- ================================================================== -->
+
+<h2 id="sec4">4. Connection to Assembly Theory</h2>
+
+<p>Assembly Theory (AT), introduced by Sharma et al.<sup>5</sup>, provides a mathematical framework for quantifying selection and evolution. AT defines two key observables: the <em>assembly index</em> (the minimum number of joining operations required to construct an object from basic building blocks) and the <em>copy number</em> (how many copies of that object are observed). AT's central claim is that objects with high assembly index and high copy number are signatures of selection&mdash;they cannot arise by chance and must be the product of an information-generating process.</p>
+
+<p>FMA provides a <em>constructive mechanism</em> for the phenomena AT describes abstractly. The mapping is precise and unforced:</p>
+
+<h3 id="sec4-1">4.1 Mapping AT Concepts to FMA</h3>
+
+<table>
+<tr><th>Assembly Theory Concept</th><th>FMA Implementation</th></tr>
+<tr><td class="bold">Assembly index</td><td>Recipe depth in the recipe book. A depth-3 molecule requires three sequential joining operations, each corresponding to a recipe</td></tr>
+<tr><td class="bold">Copy number</td><td>Census count&mdash;the number of copies of a molecular formula present in all agent inventories at a given time step</td></tr>
+<tr><td class="bold">&alpha; (selectivity parameter)</td><td>GFCF demand mechanism. When &alpha; &lt; 1 (directed demand), agents prefer complex goods, creating the selective amplification that AT predicts. In FMA, this emerges from economic dynamics rather than being set as an input parameter</td></tr>
+<tr><td class="bold">&tau;<sub>d</sub> / &tau;<sub>p</sub> phase diagram</td><td>Discovery budget parameter. AT predicts three regimes depending on the ratio of discovery to production rates. FMA reproduces all three from a single tunable parameter</td></tr>
+<tr><td class="bold">Non-monotonic copy distribution</td><td>Under GFCF demand (&alpha; &lt; 1), FMA shows peaked copy-number distributions at intermediate depth&mdash;AT's signature of selection. Under blind demand (&alpha; = 1), the distribution is monotonically decreasing&mdash;AT's signature of random assembly</td></tr>
+<tr><td class="bold">Assembly space</td><td>The recipe book <em>is</em> the assembly space&mdash;all discovered pathways for all observed objects, progressively explored through thermodynamically grounded discovery</td></tr>
+</table>
+
+<h3 id="sec4-2">4.2 Three Dynamical Regimes</h3>
+
+<p>AT predicts three dynamical regimes based on the ratio of production timescale &tau;<sub>p</sub> to discovery timescale &tau;<sub>d</sub>. FMA reproduces all three by varying a single parameter: <code>discoveryBudget</code>.</p>
+
+<div class="regime-grid">
+  <div class="regime-card stagnation">
+    <h4>Budget = 1: Stagnation</h4>
+    <p>&tau;<sub>p</sub> &lt;&lt; &tau;<sub>d</sub></p>
+    <p><strong>132</strong> species, <strong>6,817</strong> objects, max depth <strong>12</strong>, <em>A</em> = <strong>987</strong></p>
+    <p>Few species discovered but heavily amplified. Production outpaces exploration. Selection signature visible: non-monotonic copy distribution emerges.</p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Budget = 10: Selection Sweet Spot</h4>
+    <p>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub></p>
+    <p><strong>784</strong> species, <strong>14,138</strong> objects, max depth <strong>12</strong>, <em>A</em> = <strong>377</strong></p>
+    <p>Balanced exploration and exploitation. Maximal diversity with sustained production. The optimal operating point.</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Budget = 50: Tar</h4>
+    <p>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub></p>
+    <p><strong>22</strong> species, <strong>70</strong> objects, max depth <strong>5</strong>, <em>A</em> = <strong>10</strong></p>
+    <p>Combinatorial explosion&mdash;everything is discovered, nothing persists. Resources spread too thin for any production chain to sustain itself.</p>
+  </div>
+</div>
+
+<p>The non-monotonic copy-number distribution at Budget = 1 is particularly striking. Copy numbers decline from depth 1 (530) through depth 5 (7), then <em>rise</em> at depths 6&ndash;9 (29, 14, 38, 26). Copies at depth 8 (avg = 38) exceed copies at depth 4 (avg = 11). This 3.5x amplification at higher assembly index is AT's "smoking gun" for selection&mdash;impossible under undirected production&mdash;and it emerges spontaneously through market dynamics.</p>
+
+<h3 id="sec4-3">4.3 FMA as the Mechanism AT Describes</h3>
+
+<p>The relationship between AT and FMA is complementary: AT asks "Given an observed distribution of objects, was selection at work?" FMA answers the constructive question: "Given a set of building blocks and combination rules, what does selection produce?" Together, they form complementary perspectives on the same phenomenon.</p>
+
+<div class="success">
+<strong>Key result.</strong> FMA with GFCF demand produces the non-monotonic copy distribution at high assembly depth that Assembly Theory identifies as the universal signature of selection. This is not imposed&mdash;it <em>emerges</em> from the market dynamics. FMA thus provides the <em>mechanism</em> that AT describes: selection acts through the invisible hand of supply and demand, not through an external fitness function.
+</div>
+
+<table>
+<tr><th>Dimension</th><th>Assembly Theory</th><th>FMA / FM-ABM</th></tr>
+<tr><td class="bold">Core function</td><td>Measures assembly (detection)</td><td>Generates assembly (mechanism)</td></tr>
+<tr><td class="bold">Selection</td><td>"Put in by hand" via &alpha;</td><td>Emerges from market dynamics</td></tr>
+<tr><td class="bold">Temporal direction</td><td>Post-hoc measurement</td><td>Forward prediction</td></tr>
+<tr><td class="bold">Physics grounding</td><td>Abstract (any joining operation)</td><td>Concrete (BDE/UFF/Evans&ndash;Polanyi)</td></tr>
+<tr><td class="bold">Novelty detection</td><td>"Physics cannot distinguish"</td><td>Neighbor interaction + consumption</td></tr>
+<tr><td class="bold">Formation histories</td><td>Theoretical construct</td><td>Empirical recipe book</td></tr>
+</table>
+
+<p>In AT's own words: "We are putting selection in by hand in our examples to demonstrate foundational principles."<sup>5</sup> FMA demonstrates that selection need not be put in by hand&mdash;it arises naturally from economic dynamics applied to domain-specific physics. Assembly Theory is the thermometer. FM-ABM is the weather model.</p>
+
+
+<!-- ================================================================== -->
+<!-- 5. APPLICATION I: PREBIOTIC CHEMISTRY -->
+<!-- ================================================================== -->
+
+<h2 id="sec5">5. Application I: Prebiotic Chemistry</h2>
+
+<p>In the prebiotic chemistry application, FMA's Layer 2 is instantiated with Bond Dissociation Energies (BDE) and Universal Force Field (UFF) strain evaluation. The domain combination function proposes a covalent bond between two molecular fragments; the domain validation function accepts the product only if the total energy change &Delta;E is negative (exothermic). Evans&ndash;Polanyi kinetic barriers gate reaction rates through temperature-dependent acceptance probabilities.</p>
+
+<div class="success">
+<strong>Results summary.</strong> Starting from 200 C + 500 H + 100 O + 100 N atoms (900 total) with no target molecules specified, FMA discovered:
+<ul style="margin-bottom: 0;">
+<li>All <strong>12 feasible amino acids</strong> from C, H, O, N&mdash;including the same "early 10" identified by Miller&ndash;Urey experiments, meteorite analysis, and phylogenetic reconstruction</li>
+<li>All <strong>5 nucleobases</strong>&mdash;the letters of RNA and DNA (adenine, guanine, cytosine, uracil, thymine)</li>
+<li>The <strong>complete formose sugar chain</strong> from formaldehyde to ribose to glucose</li>
+<li><strong>Krebs cycle intermediates</strong> (pyruvate, succinate, malate)</li>
+<li>The first <strong>tripeptide</strong> (Gly-Gly-Gly)</li>
+<li>Up to <strong>260 independent synthesis routes</strong> for a single amino acid</li>
+</ul>
+</div>
+
+<p>Amino acid formulas appeared <strong>14 times earlier</strong> than random chance would predict: by step 50, 7 of 12 amino acid formulas were among the 213 species discovered (3.3%), versus 0.24% at full exploration. This quantifies the thermodynamic inevitability hypothesis&mdash;life's building blocks are not accidents but thermodynamic attractors in assembly space.</p>
+
+<p>The simulation runs on a standard laptop in under 5 minutes&mdash;4 to 6 orders of magnitude cheaper than molecular dynamics or DFT methods for the same chemical space. Full details of the chemistry application, including reactor scaling, thermodynamic evolution, pathway analysis, and 8 independent synthesis routes to histamine, are reported in the companion paper (Jaraiz, 2026b)<sup>12</sup>.</p>
+
+
+<!-- ================================================================== -->
+<!-- 6. APPLICATION II: MACROECONOMIC FORECASTING -->
+<!-- ================================================================== -->
+
+<h2 id="sec6">6. Application II: Macroeconomic Forecasting</h2>
+
+<p>In the macroeconomics application, FMA's Layer 2 is instantiated with input&ndash;output (I&ndash;O) coefficients from the FIGARO database. Each agent represents a firm in one of 64 economic sectors. The domain combination function uses the I&ndash;O table to determine how much of each input sector a firm needs to produce one unit of its output sector. The domain validation function checks whether the firm can secure all required inputs from its neighbourhood.</p>
+
+<p>The forecasting protocol is remarkable in its simplicity: one input&ndash;output table for year <em>N</em> produces an FM-ABM forecast of GDP for year <em>N</em>+1. No time series. No estimated parameters. No external forecasts. No behavioral assumptions about expectations, policy responses, or market sentiment. The economy self-organizes from its structural information alone.</p>
+
+<table>
+<tr><th>Metric</th><th>FM-ABM</th><th>Best Professional Forecaster</th><th>European Commission</th></tr>
+<tr><td class="bold">Austrian 9-year panel MAE</td><td class="best">1.22 pp</td><td>0.91 pp (WIFO)</td><td>1.15 pp</td></tr>
+<tr><td class="bold">Non-crisis years MAE</td><td class="best">0.42 pp</td><td>0.48 pp (WIFO)</td><td>0.72 pp</td></tr>
+<tr><td class="bold">Cross-country convergence</td><td class="best">33 of 37 countries</td><td>Country-specific</td><td>Country-specific</td></tr>
+<tr><td class="bold">Parameter calibration</td><td class="best">None</td><td>Expert judgment</td><td>Econometric models</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 2 | GDP forecasting performance.</strong> FM-ABM achieves MAE comparable to professional forecasters for non-crisis years, with zero calibrated parameters. pp = percentage points.</p>
+
+<div class="success">
+<strong>Key insight.</strong> The same algorithm that discovers amino acids from bare atoms also forecasts GDP from input&ndash;output tables. Only the Layer 2 domain rules changed&mdash;the market engine (Layer 1) was identical. This is the strongest evidence for FMA's universality: comparable institutional-quality accuracy in a completely unrelated domain. Full details are reported in the companion paper (Jaraiz, 2026a)<sup>11</sup>.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 7. APPLICATION III: SYNTHESIS ROUTE PLANNING -->
+<!-- ================================================================== -->
+
+<h2 id="sec7">7. Application III: Synthesis Route Planning</h2>
+
+<p>FMA's ability to discover multiple independent synthesis routes to a single target molecule, with full energy diagrams and temperature-dependent accessibility, makes it a practical tool for synthesis pathway design. We illustrate with histamine (C<sub>5</sub>H<sub>9</sub>N<sub>3</sub>), a molecule of pharmaceutical importance.</p>
+
+<div class="two-col">
+  <div class="card">
+    <h4>T = 300 K (27 &deg;C)</h4>
+    <p><strong>5 independent routes</strong> discovered, all at depth &ge; 4. Kinetic barriers restrict pathways to the most thermodynamically favorable multi-step sequences. Each route includes a complete supply chain tree from primary atoms through intermediates.</p>
+  </div>
+  <div class="card recommended">
+    <h4>T = 400 K (127 &deg;C)</h4>
+    <p><strong>7 routes</strong> discovered, including a <strong>depth-3 shortcut</strong> unlocked by the higher thermal energy. Practical implication: "raise temperature to 127 &deg;C to access a shorter synthesis pathway." This is actionable information for laboratory chemists.</p>
+  </div>
+</div>
+
+<p>Each route comes with: (1) a complete energy profile showing &Delta;E at each step, (2) a supply chain tree tracing all inputs back to primary atoms, (3) a multi-criteria ranking (energy efficiency, depth, input availability), and (4) the temperature at which the route becomes accessible. This level of detail&mdash;multiple ranked routes with full provenance&mdash;is directly useful for retrosynthetic analysis and goes beyond what traditional retrosynthesis tools provide, as it discovers routes from first principles rather than from template databases.</p>
+
+<p>The same framework has been applied to robot task sequencing (Jaraiz, 2020)<sup>6</sup>, where FMA discovered feasible parallel execution schedules for multi-robot assembly. The emergent schedule matched or exceeded hand-crafted heuristic planners, with the advantage of automatic adaptation when task dependencies change.</p>
+
+
+<!-- ================================================================== -->
+<!-- 8. WHY FMA WORKS: THE ECONOMICS OF EXPLORATION -->
+<!-- ================================================================== -->
+
+<h2 id="sec8">8. Why FMA Works: The Economics of Exploration</h2>
+
+<p>A natural question arises: why should economic dynamics work as an optimization mechanism for chemistry or any other domain? The answer lies in the structural isomorphism between market optimization and the exploration/exploitation trade-off that all complex systems must resolve.</p>
+
+<p>FMA's five selection mechanisms work in concert to navigate this trade-off:</p>
+
+<div class="three-col">
+  <div class="regime-card selection">
+    <h4>Demand</h4>
+    <p>Agents want complex/valuable goods. This pulls production toward complexity&mdash;no one needs to specify <em>which</em> goods are "fit."</p>
+  </div>
+  <div class="card">
+    <h4 style="color: #2980b9;">Competition</h4>
+    <p>Multiple producers compete for the same inputs. Efficient ones survive, inefficient ones close. Natural selection in economic form.</p>
+  </div>
+  <div class="regime-card stagnation">
+    <h4>Scarcity</h4>
+    <p>Finite resources force choices. Not everything can be produced simultaneously. This creates selective pressure driving specialization.</p>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="regime-card tar">
+    <h4>Decay</h4>
+    <p>Unused products decompose. Their constituent resources are recycled into better uses. This clears the population of unsuccessful variants.</p>
+  </div>
+  <div class="card specialized">
+    <h4>Critical Producers (Witnesses)</h4>
+    <p>The last producer of a recipe is protected. This preserves rare knowledge&mdash;like state-owned enterprises providing essential services not covered by the private sector. In our simulations this protection is partly necessitated by the small number of atoms (~900) compared to the astronomical number of atoms in the prebiotic real world, where rare reactions would occur by sheer statistical weight.</p>
+  </div>
+</div>
+
+<div class="insight">
+<strong>The supplier memory experiment.</strong> A revealing experiment illustrates how FMA naturally adapts to domain requirements. In the economics application, agents remember their suppliers (exploitation dominates)&mdash;this reflects the institutional stability of real economic networks. In the chemistry application, agents do <em>not</em> remember suppliers&mdash;they react with a neighbor if that lowers the energy (exploration dominates)&mdash;this reflects the combinatorial nature of chemical discovery, where new combinations are continuously explored. The same algorithm, through its pluggable behavioral rules, naturally shifts the exploration/exploitation balance to match domain requirements. This is not a parameter to be tuned; it emerges from the domain rules themselves.
+</div>
+
+<div class="highlight">
+<strong>Darwinian correspondence.</strong> The Lewontin conditions for evolution by natural selection are satisfied naturally by market dynamics: <strong>Variation</strong> = discovery (combining existing things in new ways). <strong>Selection</strong> = market forces (demand, competition, scarcity). <strong>Inheritance</strong> = recipes persist across generations (simulation steps). FMA is not merely analogous to natural selection; it satisfies the formal requirements for a Darwinian process.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- 9. DISCUSSION -->
+<!-- ================================================================== -->
+
+<h2 id="sec9">9. Discussion</h2>
+
+<h3 id="sec9-1">9.1 FMA vs. GA: A Deeper Comparison</h3>
+
+<p>FMA and GA are both population-based metaheuristics inspired by natural processes, but they occupy fundamentally different niches in the algorithm design space:</p>
+
+<table>
+<tr><th>Criterion</th><th>Use GA when...</th><th>Use FMA when...</th></tr>
+<tr><td class="bold">Fitness function</td><td>Known and computable</td><td>Unknown, emergent, or multi-dimensional</td></tr>
+<tr><td class="bold">Search space</td><td>Fixed and well-defined</td><td>Open-ended or growing</td></tr>
+<tr><td class="bold">Desired output</td><td>Single optimum or Pareto front</td><td>Complete pathway network with supply chains</td></tr>
+<tr><td class="bold">Solution structure</td><td>Flat (no hierarchy)</td><td>Hierarchical (intermediates matter)</td></tr>
+<tr><td class="bold">Problem type</td><td>Parameter optimization, scheduling, routing</td><td>Discovery, synthesis planning, network emergence</td></tr>
+<tr><td class="bold">Memory requirement</td><td>None (generational replacement)</td><td>Essential (recipe book enables hierarchical discovery)</td></tr>
+<tr><td class="bold">Computational budget</td><td>Tight (GA is cheaper per iteration)</td><td>Moderate (FMA needs local interactions at O(N&middot;k))</td></tr>
+</table>
+
+<p>The deepest difference is philosophical. GA asks: "Given a fitness landscape, where is the peak?" FMA asks: "Given a set of building blocks and rules, what landscape emerges?" GA optimizes within a known space; FMA discovers the space itself.</p>
+
+<h3 id="sec9-2">9.2 Universality: Five Domains, One Algorithm</h3>
+
+<p>The strongest evidence for FMA's universality is that the identical Layer&nbsp;1 market engine&mdash;ring neighbourhoods, demand propagation, firm entry/exit, trading, decay&mdash;produced self-organised production networks in five fundamentally different domains, spanning the physical, biological, and computational sciences. The three validated domains reported in this chapter establish the pattern; Chapters&nbsp;4 and&nbsp;5 extend it.</p>
+
+<table>
+<tr><th>Domain</th><th>Chapter</th><th>Layer&nbsp;2 rules</th><th>Key result</th><th>Status</th></tr>
+<tr><td class="bold">Macroeconomic forecasting</td><td>2</td><td>Input&ndash;output coefficients, household consumption, firm investment</td><td>MAE 0.42&nbsp;pp GDP, 33&nbsp;countries, zero calibrated parameters</td><td class="best">Validated &mdash; arXiv:2603.12412</td></tr>
+<tr><td class="bold">Prebiotic chemistry</td><td>3</td><td>Bond-dissociation energies, UFF geometry, Evans&ndash;Polanyi barriers</td><td>All 12 amino acids, all 5 nucleobases, formose chain from bare atoms in &lt;5&nbsp;min</td><td class="best">Validated &mdash; arXiv pending</td></tr>
+<tr><td class="bold">Synthesis route planning</td><td>3</td><td>Same as chemistry; target molecule as demand signal</td><td>8 independent histamine routes with energy diagrams; 15,754 specialist recipes</td><td class="best">Validated &mdash; same simulator</td></tr>
+<tr><td class="bold">Language modelling (FMT)</td><td>4</td><td>Transformer attention blocks as workers; token demand as market signal</td><td>Expert specialisation without supervision; training&ndash;inference collapse; three regimes reproduced experimentally</td><td>In preparation</td></tr>
+<tr><td class="bold">Adaptive immunity</td><td>5</td><td>Lymphocyte receptors as workers; antigen as demand; cytokines as prices</td><td>18-mechanism mapping; 6 falsifiable predictions; Evans&ndash;Polanyi T-cell activation (&#945;&asymp;0.5); cytokine storm as tar regime</td><td>In preparation</td></tr>
+</table>
+
+<p>In every case, only the domain rules (Layer&nbsp;2) and observation metrics (Layer&nbsp;3) changed. The market mechanism (Layer&nbsp;1) was not modified. Three structural properties re-appear across all five domains:</p>
+
+<ul>
+<li><strong>Three dynamical regimes.</strong> Stagnation, selection, and tar emerge from the same &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio in every domain. In immunology: anergy, normal adaptive immunity, cytokine storm. In language modelling: mode collapse, generative diversity, expert fragmentation. In chemistry: no discovery, optimal synthesis, runaway byproduct accumulation.</li>
+<li><strong>Training&ndash;inference collapse.</strong> In chemistry and immunology, discovery (&ldquo;learning&rdquo;) and production (&ldquo;deployment&rdquo;) execute in the same agent loop at each timestep. The recipe book grows <em>during</em> operation. This is not continual learning&mdash;recipes are additive and never conflict, so catastrophic forgetting is impossible by construction. Chapter&nbsp;4 shows the same property collapsing the training/inference dichotomy of neural networks.</li>
+<li><strong>Monosemanticity by construction.</strong> Each specialist is born to serve a specific demand signal and is therefore monosemantic by design. Superposition (one specialist serving multiple conflicting demands) arises only when the market is starved of workers&mdash;the precise analogue of polysemanticity in overloaded neural networks and oligoclonal collapse in lymphopenia.</li>
+</ul>
+
+<p>The universality argument is not post-hoc. The FMA framework was fully specified and validated in economics and chemistry <em>before</em> the language-model and immune-system applications were considered. The five-domain convergence is a discovery, not a design choice.</p>
+
+<p>A deeper implication deserves attention. Assembly Theory introduces an intrinsic &ldquo;assembly time&rdquo; that ticks at each object being constructed&mdash;an <em>event-driven</em> clock rather than the continuous time of conventional physics. Our FM-ABM operates in precisely this mode: progress is measured in massively parallel assembly steps (discoveries, productions, trades), not in wall-clock seconds. This event-driven perspective resonates with several foundational programs in physics: causal set theory (Bombelli <em>et al.</em>, 1987), where spacetime geometry emerges from discrete causal events; relational quantum mechanics (Rovelli, 1996), where physical reality consists of interaction events rather than persistent states; the Wheeler&ndash;DeWitt equation (DeWitt, 1967), which contains no time variable at all; and constructor theory (Deutsch, 2013), which reformulates physics in terms of which transformations are possible rather than trajectories through time. If selection through market-like mechanisms operates from human economic activities all the way down to the molecular level (as our results across both domains suggest), it is natural to ask whether analogous event-driven assembly processes might also govern the construction of even more fundamental structures&mdash;from elementary particles to spacetime itself. The success of FMA at both the chemical and macroeconomic scales hints that Darwinian market dynamics may not merely <em>describe</em> selection but may reflect a deeper organizational principle that lead to the unfolding of Nature itself.</p>
+
+<h3 id="sec9-3">9.3 Limitations</h3>
+
+<p>We identify four limitations of the current FMA framework:</p>
+
+<ol>
+<li><strong>Structural isomers (chemistry).</strong> FMA operates on molecular formulas, correctly identifying compositions (e.g., C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub> for glycine) but not always resolving the correct 3D structure among isomers. UFF validation eliminates geometrically strained structures, but the resulting isomer may differ from the biologically relevant one. This serves as a starting point for <em>ab initio</em> detailed determination of preferred isomers.</li>
+<li><strong>Positive growth bias (economics).</strong> The household wealth-consumption feedback loop produces systematic positive bias for economies with persistent low growth (France: MAE 2.76 pp) or high export dependency (Germany: MAE 3.68 pp)&mdash;a limitation of the <em>data</em> (Layer 2), not the <em>framework</em> (Layer 1). Multi-country network simulations using FIGARO's bilateral inter-country tables represent the natural extension.</li>
+<li><strong>Computational cost per iteration.</strong> Each FMA step involves N agents interacting with <em>k</em> neighbours, giving O(N&middot;k) cost per step. This is more expensive than GA's O(N) per generation, though FMA's steps are richer in information content.</li>
+<li><strong>Stochastic variability.</strong> Like all metaheuristics, FMA is stochastic. Different random seeds produce different recipe books and production networks. The <em>qualitative</em> outcomes are robust (the same amino acids emerge across seeds), but quantitative metrics (exact copy counts, number of routes) vary.</li>
+</ol>
+
+
+<!-- ================================================================== -->
+<!-- 10. CONCLUSIONS -->
+<!-- ================================================================== -->
+
+<h2 id="sec10">10. Conclusions</h2>
+
+<p>The Free-Market Algorithm introduces a new class of metaheuristic optimization that fills a gap no existing algorithm addresses: optimization with <em>emergent fitness</em> in an <em>open-ended search space</em>, producing <em>hierarchical network solutions</em> through <em>distributed selection</em>. Its key innovation is the recognition that the market mechanism&mdash;agents trading, firms competing, demand cascading through supply chains&mdash;is not merely a metaphor for optimization but a powerful computational primitive in its own right.</p>
+
+<p>The algorithm's contributions can be summarized as five innovations:</p>
+
+<ol type="a">
+<li><strong>No prescribed fitness function.</strong> "Fitness" emerges from the interplay of discovery, demand, competition, scarcity, and decay. The algorithm does not need to be told what is valuable; it discovers value through market dynamics.</li>
+<li><strong>Simultaneous discovery of solutions and search space.</strong> The recipe book starts empty and grows monotonically. FMA discovers not just answers but the questions themselves&mdash;the space of possibilities that could not have been enumerated in advance.</li>
+<li><strong>Natural exploration/exploitation balance.</strong> The ratio &tau;<sub>d</sub>/&tau;<sub>p</sub> self-regulates through market dynamics. No temperature schedule, no mutation rate adaptation, no evaporation tuning. The market finds its own balance.</li>
+<li><strong>Persistent memory through recipe books and producer directories.</strong> Knowledge accumulates across all iterations, enabling hierarchical discovery of arbitrary depth. This is essential for problems where solutions are built from solutions to sub-problems.</li>
+<li><strong>Quantitative validation across independent domains.</strong> Chemistry: all 12 amino acids, 5 nucleobases, complete sugar chains from bare atoms. Economics: MAE 0.42&nbsp;pp GDP forecasting across 33 countries, zero calibrated parameters. The identical Layer&nbsp;1 engine produced both results. Chapters&nbsp;4 and&nbsp;5 extend the same engine to language and biology.</li>
+</ol>
+
+<p>The connection to Assembly Theory provides theoretical grounding: FMA generates the non-monotonic copy distributions at high assembly depth that AT identifies as the universal signature of selection. Where AT measures, FMA generates. Where AT describes, FMA constructs. Together they establish that Darwinian economic optimization is a viable&mdash;and perhaps fundamental&mdash;mechanism for the emergence of complexity.</p>
+
+<p>We propose FMA as a general-purpose tool for any domain where the goal is not to find a single optimum but to discover the <em>landscape</em> of feasible solutions and their formation pathways. The three-layer architecture makes adoption straightforward: write a combination function, write a validation function, and let the market discover what is possible.</p>
+
+<div class="insight">
+<strong>This chapter in the context of the volume.</strong> Chapter&nbsp;1 has established the FMA framework&mdash;its formal specification, three-layer architecture, key properties, comparison with existing metaheuristics, and connection to Assembly Theory. The remaining chapters apply it. Chapter&nbsp;2 (macroeconomic forecasting) and Chapter&nbsp;3 (prebiotic chemistry) provide quantitative validation with empirical data. Chapter&nbsp;4 (Free-Market Transformer) challenges a central assumption of modern machine learning&mdash;the separation of training and inference. Chapter&nbsp;5 (adaptive immunity) shows that Nature independently discovered the same algorithm: the adaptive immune system is a free market, operating with molecular prices, specialist birth and death, a persistent recipe book of immunological memory, and three dynamical regimes whose clinical manifestations&mdash;tolerance, normal immunity, cytokine storm&mdash;correspond exactly to FMA's stagnation, selection, and tar. The same seven equations govern all five. No domain required modification of Layer&nbsp;1. That is the claim this volume makes, and makes quantitatively.
+</div>
+
+
+<!-- ================================================================== -->
+<!-- REFERENCES -->
+<!-- ================================================================== -->
+
+<div class="ref" id="refs">
+<h2 style="border-bottom: none; margin-top: 0;">References</h2>
+<ol>
+<li>Holland, J.H. <em>Adaptation in Natural and Artificial Systems</em>. University of Michigan Press (1975).</li>
+<li>Kennedy, J. &amp; Eberhart, R. Particle swarm optimization. <em>Proc. IEEE International Conference on Neural Networks</em>, 1942&ndash;1948 (1995).</li>
+<li>Dorigo, M., Maniezzo, V. &amp; Colorni, A. Ant system: optimization by a colony of cooperating agents. <em>IEEE Transactions on Systems, Man, and Cybernetics&mdash;Part B</em> <strong>26</strong>, 29&ndash;41 (1996).</li>
+<li>Kirkpatrick, S., Gelatt, C.D. &amp; Vecchi, M.P. Optimization by simulated annealing. <em>Science</em> <strong>220</strong>, 671&ndash;680 (1983).</li>
+<li>Sharma, A., Czegel, D., Lachmann, M., Kempes, C.P., Walker, S.I. &amp; Cronin, L. Assembly theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023).</li>
+<li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. <em>arXiv:2009.10823</em> (2020).</li>
+<li>Nelson, R.R. &amp; Winter, S.G. <em>An Evolutionary Theory of Economic Change</em>. Harvard University Press (1982).</li>
+<li>Kauffman, S.A. <em>The Origins of Order: Self-Organization and Selection in Evolution</em>. Oxford University Press (1993).</li>
+<li>Smith, A. <em>An Inquiry into the Nature and Causes of the Wealth of Nations</em> (1776).</li>
+<li>Hayek, F.A. The use of knowledge in society. <em>American Economic Review</em> <strong>35</strong>, 519&ndash;530 (1945).</li>
+<li>Jaraiz, M. Macroeconomic Forecasting from Input&ndash;Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv:2603.12412</em> (2026a).</li>
+<li>Jaraiz, M. Prebiotic Chemistry from a Free-Market Agent-Based Model: Emergence of Life's Initial Molecular Toolkit. <em>arXiv</em> (2026b, pending).</li>
+<li>Jaraiz, M. The Free-Market Transformer: Market Dynamics as a Neural Architecture for Open-Ended Language Modelling. (2026c, in preparation).</li>
+<li>Jaraiz, M. Immunity as a Free Market: Clonal Selection, Affinity Maturation, and Cytokine Storm as Unified FMA Dynamics. (2026d, in preparation).</li>
+<li>Miller, S.L. A production of amino acids under possible primitive Earth conditions. <em>Science</em> <strong>117</strong>, 528&ndash;529 (1953).</li>
+<li>Bombelli, L., Lee, J., Meyer, D. &amp; Sorkin, R.D. Space-time as a causal set. <em>Physical Review Letters</em> <strong>59</strong>, 521&ndash;524 (1987).</li>
+<li>Rovelli, C. Relational quantum mechanics. <em>International Journal of Theoretical Physics</em> <strong>35</strong>, 1637&ndash;1678 (1996).</li>
+<li>DeWitt, B.S. Quantum theory of gravity. I. The canonical theory. <em>Physical Review</em> <strong>160</strong>, 1113&ndash;1148 (1967).</li>
+<li>Deutsch, D. Constructor theory. <em>Synthese</em> <strong>190</strong>, 4331&ndash;4359 (2013).</li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+<!-- AI ASSISTANCE STATEMENT -->
+<!-- ================================================================== -->
+
+<div class="disclosure">
+<strong>AI Assistance Statement.</strong> Claude (Anthropic) contributed to the implementation of the author's driving ideas, analysis of results, and drafting of this manuscript. The FMA concept, three-layer architecture, the insight connecting free-market dynamics to algorithmic optimization, and the connection to Assembly Theory are the author's original contributions developed over the course of the DEPLOYERS project (2020&ndash;2026). All scientific claims were verified by the author.
+</div>
+
+<p style="text-align:center; color:#999; font-size:0.85em; margin-top:40px; border-top:1px solid #ddd; padding-top:12px;">
+The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+Chapter 1 &mdash; The Framework &middot; arXiv:2603.24559<br>
+&copy; 2026 M. Jaraiz, Universidad de Valladolid.
+</p>
+
+
+<script>
+(function() {
+  // Configuration: how many top-level sections start open
+  var FIRST_N_OPEN = 2;
+
+  // Collect all h2 elements (top-level sections)
+  var h2s = Array.from(document.querySelectorAll('h2'));
+  // Skip h2s that are inside known non-section containers (like .ref, footer, etc.)
+  h2s = h2s.filter(function(h) {
+    var p = h.parentElement;
+    while (p && p !== document.body) {
+      if (p.classList.contains('ref') || p.classList.contains('disclosure') ||
+          p.classList.contains('fold-body') || p.classList.contains('fold-sub-body') ||
+          p.tagName === 'FOOTER') return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  h2s.forEach(function(h2, idx) {
+    // Collect all sibling nodes between this h2 and the next h2 (or section-ending element)
+    var nodes = [];
+    var sib = h2.nextSibling;
+    while (sib) {
+      if (sib.nodeType === 1 && sib.tagName === 'H2') break;
+      // Stop at footer-like elements
+      if (sib.nodeType === 1) {
+        var cl = sib.className || '';
+        var st = sib.getAttribute('style') || '';
+        if (cl.indexOf('disclosure') >= 0 || cl.indexOf('ref ') >= 0 ||
+            (st.indexOf('margin-top') >= 0 && st.indexOf('border-top') >= 0 && st.indexOf('text-align:center') >= 0)) break;
+      }
+      nodes.push(sib);
+      sib = sib.nextSibling;
+    }
+
+    // Create wrapper
+    var section = document.createElement('div');
+    section.className = 'fold-section';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fold-header' + (idx < FIRST_N_OPEN ? ' open' : '');
+    header.textContent = h2.textContent;
+    section.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'fold-body' + (idx < FIRST_N_OPEN ? ' open' : '');
+    nodes.forEach(function(n) { body.appendChild(n); });
+    section.appendChild(body);
+
+    // Replace h2 with section
+    h2.parentNode.replaceChild(section, h2);
+
+    // Toggle
+    header.addEventListener('click', function() {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  });
+
+  // Now handle h3 subsections inside each fold-body
+  document.querySelectorAll('.fold-body').forEach(function(foldBody) {
+    var h3s = Array.from(foldBody.querySelectorAll(':scope > h3'));
+    // Also check for h3s that may be direct children after moving
+    if (h3s.length === 0) return;
+
+    h3s.forEach(function(h3, jdx) {
+      var nodes = [];
+      var sib = h3.nextSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && (sib.tagName === 'H3' || sib.tagName === 'H2')) break;
+        if (sib.nodeType === 1 && sib.classList.contains('fold-sub')) break;
+        nodes.push(sib);
+        sib = sib.nextSibling;
+      }
+
+      var sub = document.createElement('div');
+      sub.className = 'fold-sub';
+
+      var subHeader = document.createElement('div');
+      subHeader.className = 'fold-sub-header' + (jdx === 0 ? ' open' : '');
+      subHeader.textContent = h3.textContent;
+      sub.appendChild(subHeader);
+
+      var subBody = document.createElement('div');
+      subBody.className = 'fold-sub-body' + (jdx === 0 ? ' open' : '');
+      nodes.forEach(function(n) { subBody.appendChild(n); });
+      sub.appendChild(subBody);
+
+      h3.parentNode.replaceChild(sub, h3);
+
+      subHeader.addEventListener('click', function() {
+        subHeader.classList.toggle('open');
+        subBody.classList.toggle('open');
+      });
+    });
+  });
+
+  // Add expand/collapse buttons
+  // Find the first fold-section and insert buttons before it
+  var firstSection = document.querySelector('.fold-section');
+  if (firstSection) {
+    var controls = document.createElement('div');
+    controls.className = 'expand-controls';
+    controls.innerHTML = '<button id="expandAll">Expand all</button><button id="collapseAll">Collapse all</button>';
+    firstSection.parentNode.insertBefore(controls, firstSection);
+
+    document.getElementById('expandAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.add('open');
+      });
+    });
+    document.getElementById('collapseAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.remove('open');
+      });
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="../Introduction.html">\u2190 Introduction</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="../Ch2-Macroeconomics/Paper-1-Macroeconomic-Forecasting.html">Ch 2: Macroeconomics \u2192</a>';
+  // Insert before the footer div
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    footer.parentNode.insertBefore(nav, footer);
+  } else {
+    document.body.appendChild(nav);
+  }
+})();
+</script>
+
+</body>
+</html>

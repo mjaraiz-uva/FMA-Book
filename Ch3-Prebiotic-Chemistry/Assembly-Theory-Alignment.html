@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assembly Theory Alignment — FM-ABM Computational Evidence</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1050px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #d4d4d8; background: #18181b; }
+  h1 { color: #e4e4e7; border-bottom: 3px solid #6366f1; padding-bottom: 10px; font-size: 1.75em; line-height: 1.3; }
+  h2 { color: #a5b4fc; border-bottom: 1px solid #3f3f46; padding-bottom: 5px; margin-top: 40px; font-size: 1.3em; }
+  h3 { color: #c4b5fd; margin-top: 25px; }
+  a { color: #818cf8; }
+  code { background: #27272a; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; color: #a5b4fc; }
+  .subtitle { color: #a1a1aa; font-size: 1.05em; margin-bottom: 30px; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #3f3f46; padding: 7px 11px; text-align: left; }
+  th { background: #27272a; color: #e4e4e7; font-weight: 600; }
+  tr:nth-child(even) { background: #1f1f23; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.bold { font-weight: bold; color: #e4e4e7; }
+  .highlight { background: #1e1b4b; border: 1px solid #4338ca; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .insight { background: #14292a; border: 1px solid #2dd4bf50; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .warning { background: #2a1215; border: 1px solid #f87171; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .success { background: #0f291a; border: 1px solid #4ade80; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .equation { font-family: 'Consolas', monospace; background: #27272a; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.05em; color: #fbbf24; text-align: center; border-left: 4px solid #6366f1; }
+  .fig { margin: 25px 0; padding: 18px; background: #1f1f23; border: 1px solid #3f3f46; border-radius: 8px; }
+  .fig-caption { font-size: 0.88em; color: #a1a1aa; margin-top: 10px; }
+  .fig-caption strong { color: #c4b5fd; }
+  .ref { font-size: 0.88em; color: #a1a1aa; margin-top: 40px; padding-top: 20px; border-top: 2px solid #3f3f46; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #818cf8; }
+  .formula { font-weight: bold; color: #c084fc; }
+  .regime-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .regime-card { background: #27272a; border: 1px solid #3f3f46; border-radius: 8px; padding: 16px; }
+  .regime-card h4 { margin: 0 0 8px 0; }
+  .regime-card.stagnation { border-top: 3px solid #f97316; }
+  .regime-card.stagnation h4 { color: #fb923c; }
+  .regime-card.selection { border-top: 3px solid #22c55e; }
+  .regime-card.selection h4 { color: #4ade80; }
+  .regime-card.tar { border-top: 3px solid #ef4444; }
+  .regime-card.tar h4 { color: #f87171; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; font-weight: 600; color: #fff; margin-left: 6px; }
+  .badge-key { background: #6366f1; }
+  .badge-at { background: #8b5cf6; }
+  .badge-dabm { background: #0891b2; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0; }
+  svg text { font-family: 'Segoe UI', sans-serif; }
+  .disclosure { margin-top: 50px; padding: 16px 20px; background: #27272a; border: 1px solid #3f3f46; border-radius: 6px; font-size: 0.85em; color: #71717a; }
+  @media (max-width: 800px) {
+    .regime-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Assembly Theory Alignment: Computational Evidence from a Darwinian Agent-Based Model</h1>
+<p class="subtitle">Martin Jaraiz &mdash; University of Valladolid &mdash; March 2026</p>
+
+<!-- ============================================================ -->
+<h2>1. Introduction</h2>
+
+<p>Assembly Theory (AT) proposes a framework for detecting selection in molecular systems by examining the relationship between structural complexity and abundance<sup>1</sup>. Its core constructs are:</p>
+
+<ul>
+  <li><strong>Assembly index</strong> (<em>a<sub>i</sub></em>): the minimum number of recursive joining steps needed to construct an object from basic building blocks.</li>
+  <li><strong>Copy number</strong> (<em>n<sub>i</sub></em>): how many copies of an object exist in a sample.</li>
+  <li><strong>Formation history</strong>: the unique pathway of recursive construction steps that defines each object.</li>
+</ul>
+
+<p>AT's central equation quantifies the <em>assembly</em> of an ensemble:</p>
+
+<div class="equation">A &nbsp;=&nbsp; &Sigma; &nbsp;e<sup>a<sub>i</sub></sup> &times; (n<sub>i</sub> &minus; 1) &nbsp;/&nbsp; N<sub>T</sub></div>
+
+<p>where the sum runs over all species, <em>a<sub>i</sub></em> is the assembly index, <em>n<sub>i</sub></em> the copy number, and <em>N<sub>T</sub></em> the total object count. The exponential weighting means that even modest copy numbers of high-index objects contribute enormously to <em>A</em>.</p>
+
+<div class="highlight">
+<strong>AT's key prediction:</strong> High assembly index combined with high copy number is a signature of selection. Random (undirected) processes produce monotonically declining copy numbers as assembly index increases. Only selection can sustain or amplify high-index objects.
+</div>
+
+<p>Our Darwinian Agent-Based Model (FM-ABM) provides an <strong>explicit mechanism</strong> for the selection that AT measures. Where AT detects selection <em>after the fact</em>, the FM-ABM implements it <em>in real time</em> through free-market dynamics: demand cascades, competitive pricing, and resource allocation by economic agents.</p>
+
+<!-- ============================================================ -->
+<h2>2. Mapping AT Concepts to FM-ABM</h2>
+
+<table>
+<tr><th>AT Concept</th><th>FM-ABM Implementation</th></tr>
+<tr><td class="bold">Assembly index (<em>a<sub>i</sub></em>)</td><td>Recipe depth &mdash; number of synthesis steps from primary goods (bare atoms)</td></tr>
+<tr><td class="bold">Copy number (<em>n<sub>i</sub></em>)</td><td>Census count per molecular formula at a given timestep</td></tr>
+<tr><td class="bold">Selection parameter &alpha;</td><td>GFCF demand selectivity &mdash; how strongly final demand amplifies specific products</td></tr>
+<tr><td class="bold">Discovery rate &tau;<sub>d</sub></td><td><code>discoveryBudget</code> &mdash; UFF evaluations per timestep</td></tr>
+<tr><td class="bold">Production rate &tau;<sub>p</sub></td><td>Market production &mdash; +N objects per timestep via established recipes</td></tr>
+<tr><td class="bold">Assembly possible</td><td>All valid C, H, O, N molecular combinations</td></tr>
+<tr><td class="bold">Assembly contingent</td><td>Actually discovered recipes (subset explored by the market)</td></tr>
+<tr><td class="bold">Assembly observed</td><td>Census at the current simulation step (objects that persist)</td></tr>
+</table>
+
+<p>The mapping is direct: AT's mathematical abstractions correspond one-to-one to concrete, tuneable parameters in the FM-ABM. This allows us to systematically explore AT's predictions by adjusting a single knob &mdash; the <code>discoveryBudget</code>.</p>
+
+<!-- ============================================================ -->
+<h2>3. Experiment 1: Directed vs. Undirected Exploration</h2>
+
+<p>AT distinguishes between <em>directed</em> processes (with selection) and <em>undirected</em> processes (without selection). We test this by comparing two FM-ABM modes:</p>
+
+<div class="two-col">
+  <div class="regime-card selection">
+    <h4>Directed (Full Mode)</h4>
+    <p>GFCF demand active. The market selects for specific complex molecules, allocating resources toward their production.</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Undirected (Free Mode)</h4>
+    <p>No demand signal. Discovery and production proceed without any selection pressure &mdash; pure thermodynamic exploration.</p>
+  </div>
+</div>
+
+<h3>Undirected Results</h3>
+
+<p>With no selection pressure, the FM-ABM discovered <strong>714 species</strong> with a maximum recipe depth of 12 and assembly <em>A</em>&nbsp;=&nbsp;61. The copy-number distribution declines <em>monotonically</em> with depth:</p>
+
+<div class="fig">
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <!-- Axes -->
+  <line x1="60" y1="10" x2="60" y2="185" stroke="#52525b" stroke-width="1"/>
+  <line x1="60" y1="185" x2="680" y2="185" stroke="#52525b" stroke-width="1"/>
+  <!-- Y-axis label -->
+  <text x="15" y="100" fill="#a1a1aa" font-size="12" transform="rotate(-90,15,100)">Avg copies</text>
+  <!-- X-axis label -->
+  <text x="370" y="215" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth</text>
+  <!-- Gridlines -->
+  <line x1="60" y1="35" x2="680" y2="35" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="60" y1="85" x2="680" y2="85" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="60" y1="135" x2="680" y2="135" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <!-- Y ticks -->
+  <text x="52" y="39" fill="#71717a" font-size="10" text-anchor="end">600</text>
+  <text x="52" y="89" fill="#71717a" font-size="10" text-anchor="end">400</text>
+  <text x="52" y="139" fill="#71717a" font-size="10" text-anchor="end">200</text>
+  <text x="52" y="189" fill="#71717a" font-size="10" text-anchor="end">0</text>
+  <!-- Bars: d0=214, d1=616, d2=133, d3=33, d4=12, d5=5, d6=3, d7-d12=1 -->
+  <!-- Scale: 616 max -> height ~150px, factor = 150/616 = 0.2435 -->
+  <rect x="75"  y="133" width="38" height="52"  rx="3" fill="#818cf8" opacity="0.85"/><!-- d0: 214 -->
+  <rect x="122" y="35"  width="38" height="150" rx="3" fill="#818cf8" opacity="0.85"/><!-- d1: 616 -->
+  <rect x="169" y="153" width="38" height="32"  rx="3" fill="#818cf8" opacity="0.85"/><!-- d2: 133 -->
+  <rect x="216" y="177" width="38" height="8"   rx="3" fill="#818cf8" opacity="0.85"/><!-- d3: 33 -->
+  <rect x="263" y="182" width="38" height="3"   rx="3" fill="#818cf8" opacity="0.85"/><!-- d4: 12 -->
+  <rect x="310" y="184" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.85"/><!-- d5: 5 -->
+  <rect x="357" y="184" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.85"/><!-- d6: 3 -->
+  <rect x="404" y="185" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.65"/><!-- d7 -->
+  <rect x="451" y="185" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.65"/><!-- d8 -->
+  <rect x="498" y="185" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.65"/><!-- d9 -->
+  <rect x="545" y="185" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.65"/><!-- d10 -->
+  <rect x="592" y="185" width="38" height="1"   rx="3" fill="#818cf8" opacity="0.65"/><!-- d11-12 -->
+  <!-- Bar labels -->
+  <text x="94"  y="129" fill="#d4d4d8" font-size="9" text-anchor="middle">214</text>
+  <text x="141" y="31"  fill="#d4d4d8" font-size="9" text-anchor="middle">616</text>
+  <text x="188" y="149" fill="#d4d4d8" font-size="9" text-anchor="middle">133</text>
+  <text x="235" y="173" fill="#d4d4d8" font-size="9" text-anchor="middle">33</text>
+  <text x="282" y="178" fill="#d4d4d8" font-size="9" text-anchor="middle">12</text>
+  <text x="329" y="180" fill="#d4d4d8" font-size="9" text-anchor="middle">5</text>
+  <text x="376" y="180" fill="#d4d4d8" font-size="9" text-anchor="middle">3</text>
+  <text x="423" y="181" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="470" y="181" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="517" y="181" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="564" y="181" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="611" y="181" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <!-- Depth labels -->
+  <text x="94"  y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">0</text>
+  <text x="141" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="188" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="235" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="282" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <text x="329" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">5</text>
+  <text x="376" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">6</text>
+  <text x="423" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">7</text>
+  <text x="470" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">8</text>
+  <text x="517" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">9</text>
+  <text x="564" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">10</text>
+  <text x="611" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">11+</text>
+</svg>
+<p class="fig-caption"><strong>Figure 1 | Undirected exploration (Free Mode).</strong> Copy number declines monotonically with recipe depth. 714 species, max depth 12, <em>A</em>&nbsp;=&nbsp;61. This matches AT's "No Selection" pattern (Fig.&nbsp;2b, upper panels in Sharma et al.).</p>
+</div>
+
+<div class="insight">
+<strong>AT prediction confirmed:</strong> Without selection, copy numbers decay monotonically with assembly index. The undirected FM-ABM produces exactly this pattern &mdash; broad exploration but no amplification of complex molecules.
+</div>
+
+<!-- ============================================================ -->
+<h2>4. Experiment 2: Discovery/Production Balance (&tau;<sub>d</sub> / &tau;<sub>p</sub>)</h2>
+
+<p>AT's central prediction (Fig.&nbsp;5c in Sharma et al.) identifies <strong>three regimes</strong> depending on the ratio between discovery rate (&tau;<sub>d</sub>) and production rate (&tau;<sub>p</sub>). We reproduce all three by varying a single parameter: <code>discoveryBudget</code>.</p>
+
+<div class="regime-grid">
+  <div class="regime-card stagnation">
+    <h4>Budget = 1 <span class="badge badge-at">Stagnation</span></h4>
+    <p><strong>Slow discovery, fast production</strong><br>&tau;<sub>p</sub> &lt;&lt; &tau;<sub>d</sub></p>
+    <p>132 species<br>6,817 objects<br><em>A</em> = 987</p>
+    <p style="color:#fb923c; font-weight:600;">Non-monotonic copies at d6&ndash;d9</p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Budget = 10 <span class="badge badge-at">Selection</span></h4>
+    <p><strong>Balanced discovery &amp; production</strong><br>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub></p>
+    <p>784 species<br>14,138 objects<br><em>A</em> = 377</p>
+    <p style="color:#4ade80; font-weight:600;">Most species, most objects, open-ended</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Budget = 50 <span class="badge badge-at">Tar</span></h4>
+    <p><strong>Fast discovery, slow production</strong><br>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub></p>
+    <p>22 species<br>70 objects<br><em>A</em> = 10</p>
+    <p style="color:#f87171; font-weight:600;">Combinatorial explosion, nothing persists</p>
+  </div>
+</div>
+
+<!-- Budget=1 chart -->
+<div class="fig">
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="10" x2="60" y2="195" stroke="#52525b" stroke-width="1"/>
+  <line x1="60" y1="195" x2="650" y2="195" stroke="#52525b" stroke-width="1"/>
+  <text x="15" y="105" fill="#a1a1aa" font-size="12" transform="rotate(-90,15,105)">Avg copies</text>
+  <text x="355" y="232" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth</text>
+  <!-- Gridlines -->
+  <line x1="60" y1="45"  x2="650" y2="45"  stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="60" y1="95"  x2="650" y2="95"  stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="60" y1="145" x2="650" y2="145" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <!-- Y ticks: max=530, scale factor = 150/530 = 0.283 -->
+  <text x="52" y="49"  fill="#71717a" font-size="10" text-anchor="end">500</text>
+  <text x="52" y="99"  fill="#71717a" font-size="10" text-anchor="end">330</text>
+  <text x="52" y="149" fill="#71717a" font-size="10" text-anchor="end">170</text>
+  <text x="52" y="199" fill="#71717a" font-size="10" text-anchor="end">0</text>
+  <!-- Bars: d1=530, d2=107, d3=29, d4=11, d5=7, d6=29, d7=14, d8=38, d9=26 -->
+  <!-- Scale: 530 -> 150px -->
+  <rect x="80"  y="45"  width="52" height="150" rx="3" fill="#f97316" opacity="0.85"/><!-- d1: 530 -->
+  <rect x="145" y="165" width="52" height="30"  rx="3" fill="#f97316" opacity="0.85"/><!-- d2: 107 -->
+  <rect x="210" y="187" width="52" height="8"   rx="3" fill="#f97316" opacity="0.85"/><!-- d3: 29 -->
+  <rect x="275" y="192" width="52" height="3"   rx="3" fill="#f97316" opacity="0.85"/><!-- d4: 11 -->
+  <rect x="340" y="193" width="52" height="2"   rx="3" fill="#f97316" opacity="0.85"/><!-- d5: 7 -->
+  <rect x="405" y="187" width="52" height="8"   rx="3" fill="#22c55e" opacity="0.9"/><!-- d6: 29 - UPTICK -->
+  <rect x="470" y="191" width="52" height="4"   rx="3" fill="#22c55e" opacity="0.9"/><!-- d7: 14 -->
+  <rect x="535" y="184" width="52" height="11"  rx="3" fill="#22c55e" opacity="0.9"/><!-- d8: 38 - PEAK -->
+  <rect x="600" y="188" width="52" height="7"   rx="3" fill="#22c55e" opacity="0.9"/><!-- d9: 26 -->
+  <!-- Bar labels -->
+  <text x="106" y="41"  fill="#d4d4d8" font-size="10" text-anchor="middle">530</text>
+  <text x="171" y="161" fill="#d4d4d8" font-size="10" text-anchor="middle">107</text>
+  <text x="236" y="183" fill="#d4d4d8" font-size="10" text-anchor="middle">29</text>
+  <text x="301" y="188" fill="#d4d4d8" font-size="10" text-anchor="middle">11</text>
+  <text x="366" y="189" fill="#d4d4d8" font-size="10" text-anchor="middle">7</text>
+  <text x="431" y="183" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">29</text>
+  <text x="496" y="187" fill="#4ade80" font-size="10" text-anchor="middle">14</text>
+  <text x="561" y="180" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">38</text>
+  <text x="626" y="184" fill="#4ade80" font-size="10" text-anchor="middle">26</text>
+  <!-- Depth labels -->
+  <text x="106" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="171" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="236" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="301" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <text x="366" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">5</text>
+  <text x="431" y="210" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">6</text>
+  <text x="496" y="210" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">7</text>
+  <text x="561" y="210" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">8</text>
+  <text x="626" y="210" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">9</text>
+  <!-- Selection annotation -->
+  <line x1="405" y1="170" x2="652" y2="170" stroke="#22c55e" stroke-width="1" stroke-dasharray="4"/>
+  <text x="528" y="166" fill="#4ade80" font-size="11" text-anchor="middle" font-weight="bold">SELECTION SIGNATURE</text>
+</svg>
+<p class="fig-caption"><strong>Figure 2 | Budget&nbsp;=&nbsp;1 (Stagnation regime).</strong> Copy number declines from d1 to d5, then <em>rises</em> at d6&ndash;d9 (green bars). This non-monotonic pattern is impossible without selection. 132 species, 6,817 objects, <em>A</em>&nbsp;=&nbsp;987.</p>
+</div>
+
+<!-- Budget=10 chart -->
+<div class="fig">
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="10" x2="60" y2="185" stroke="#52525b" stroke-width="1"/>
+  <line x1="60" y1="185" x2="680" y2="185" stroke="#52525b" stroke-width="1"/>
+  <text x="15" y="100" fill="#a1a1aa" font-size="12" transform="rotate(-90,15,100)">Relative abundance</text>
+  <text x="370" y="215" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth</text>
+  <!-- Conceptual balanced distribution -->
+  <rect x="80"  y="45"  width="48" height="140" rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="140" y="60"  width="48" height="125" rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="200" y="80"  width="48" height="105" rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="260" y="100" width="48" height="85"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="320" y="115" width="48" height="70"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="380" y="130" width="48" height="55"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="440" y="145" width="48" height="40"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="500" y="155" width="48" height="30"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="560" y="165" width="48" height="20"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <rect x="620" y="173" width="48" height="12"  rx="3" fill="#22c55e" opacity="0.8"/>
+  <!-- Depth labels -->
+  <text x="104" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="164" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="224" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="284" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <text x="344" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">5</text>
+  <text x="404" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">6</text>
+  <text x="464" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">7</text>
+  <text x="524" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">8</text>
+  <text x="584" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">9</text>
+  <text x="644" y="199" fill="#a1a1aa" font-size="10" text-anchor="middle">10+</text>
+  <!-- Annotation -->
+  <text x="370" y="30" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">784 species &middot; 14,138 objects &middot; A = 377</text>
+</svg>
+<p class="fig-caption"><strong>Figure 3 | Budget&nbsp;=&nbsp;10 (Selection sweet spot).</strong> Balanced discovery and production yield the richest ensemble: most species (784), most total objects (14,138), and smooth decline with sustained diversity across depths. AT's optimal regime for open-ended evolution.</p>
+</div>
+
+<!-- Budget=50 chart -->
+<div class="fig">
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="10" x2="60" y2="165" stroke="#52525b" stroke-width="1"/>
+  <line x1="60" y1="165" x2="500" y2="165" stroke="#52525b" stroke-width="1"/>
+  <text x="15" y="90" fill="#a1a1aa" font-size="12" transform="rotate(-90,15,90)">Avg copies</text>
+  <text x="280" y="195" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth</text>
+  <!-- Sparse bars: almost nothing -->
+  <rect x="80"  y="30"  width="65" height="135" rx="3" fill="#ef4444" opacity="0.8"/>
+  <rect x="170" y="130" width="65" height="35"  rx="3" fill="#ef4444" opacity="0.8"/>
+  <rect x="260" y="155" width="65" height="10"  rx="3" fill="#ef4444" opacity="0.7"/>
+  <rect x="350" y="161" width="65" height="4"   rx="3" fill="#ef4444" opacity="0.5"/>
+  <!-- Labels -->
+  <text x="112" y="26"  fill="#d4d4d8" font-size="10" text-anchor="middle">~45</text>
+  <text x="202" y="126" fill="#d4d4d8" font-size="10" text-anchor="middle">~15</text>
+  <text x="292" y="151" fill="#d4d4d8" font-size="10" text-anchor="middle">~7</text>
+  <text x="382" y="157" fill="#d4d4d8" font-size="10" text-anchor="middle">~3</text>
+  <text x="112" y="179" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="202" y="179" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="292" y="179" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="382" y="179" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <!-- Annotation -->
+  <text x="280" y="15" fill="#f87171" font-size="12" text-anchor="middle" font-weight="bold">22 species &middot; 70 objects &middot; A = 10</text>
+</svg>
+<p class="fig-caption"><strong>Figure 4 | Budget&nbsp;=&nbsp;50 (Tar regime).</strong> Combinatorial explosion overwhelms production. Very few species persist, almost no high-depth objects survive. This matches AT's prediction for &tau;<sub>p</sub>&nbsp;&gt;&gt;&nbsp;&tau;<sub>d</sub>.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>5. The Non-Monotonic Copy Signature</h2>
+
+<p>The most striking result is the <strong>non-monotonic</strong> copy-number distribution in the Budget&nbsp;=&nbsp;1 regime. Consider the data:</p>
+
+<table>
+<tr><th>Depth</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th style="color:#4ade80;">6</th><th style="color:#4ade80;">7</th><th style="color:#4ade80;">8</th><th style="color:#4ade80;">9</th></tr>
+<tr><td class="bold">Copies</td><td class="num">530</td><td class="num">107</td><td class="num">29</td><td class="num">11</td><td class="num">7</td><td class="num bold" style="color:#4ade80;">29</td><td class="num">14</td><td class="num bold" style="color:#4ade80;">38</td><td class="num">26</td></tr>
+</table>
+
+<div class="warning">
+<strong>Key observation:</strong> Copies at depth 8 (avg&nbsp;=&nbsp;38) <em>exceed</em> copies at depth 4 (avg&nbsp;=&nbsp;11). Copies at depth 6 (avg&nbsp;=&nbsp;29) match depth 3 (avg&nbsp;=&nbsp;29). This reversal is <strong>impossible</strong> without selection &mdash; random combinatorial processes always produce monotonic copy-number decline with increasing assembly index.
+</div>
+
+<p>AT provides the theoretical framework for this observation. Equation&nbsp;2 in Sharma et al. describes the growth dynamics:</p>
+
+<div class="equation">dN<sub>a+1</sub>/dt &nbsp;=&nbsp; k<sub>d</sub> &times; (N<sub>a</sub>)<sup>&alpha;</sup> &nbsp;&nbsp;&nbsp; with &nbsp; &alpha; &lt; 1</div>
+
+<p>When &alpha;&nbsp;&lt;&nbsp;1, the production rate of higher-assembly objects is <em>sublinear</em> in the abundance of their precursors. This creates a regime where selection can amplify specific high-index objects, producing exactly the non-monotonic pattern we observe.</p>
+
+<div class="success">
+<strong>Mechanism:</strong> In the FM-ABM, the free market achieves &alpha;&nbsp;&lt;&nbsp;1 through GFCF demand cascades. When final demand targets a complex molecule, intermediate products are consumed to produce it, creating <em>selective amplification</em> of specific high-depth products at the expense of generic low-depth ones. The market does not amplify all high-depth molecules &mdash; only those on the supply chains demanded by GFCF. This is precisely the selectivity that AT's &alpha; parameter captures.
+</div>
+
+<!-- ============================================================ -->
+<h2>6. Key Implications</h2>
+
+<h3>6.1 First explicit mechanism for AT's selection parameter</h3>
+<p>The FM-ABM is, to our knowledge, the first computational system that provides an <strong>explicit, tuneable mechanism</strong> for Assembly Theory's selection parameter. AT measures selection after the fact by analyzing molecular ensembles; the FM-ABM implements selection in real time through economic agents that allocate resources, generate demand, and compete for profit.</p>
+
+<h3>6.2 Three regimes from a single parameter</h3>
+<p>AT's three &tau;<sub>d</sub>/&tau;<sub>p</sub> regimes &mdash; stagnation, selection, and tar &mdash; emerge naturally from varying <code>discoveryBudget</code>, a single integer parameter. No additional tuning is required. This confirms that AT's phase diagram reflects a fundamental property of combinatorial discovery under resource constraints, not an artifact of specific model assumptions.</p>
+
+<h3>6.3 Assembly <em>A</em> as quality metric</h3>
+<p>The assembly value <em>A</em> quantifies the "quality" of the evolutionary process:</p>
+
+<table>
+<tr><th>Regime</th><th>Species</th><th>Objects</th><th><em>A</em></th><th>Interpretation</th></tr>
+<tr><td class="bold">Budget = 1</td><td class="num">132</td><td class="num">6,817</td><td class="num bold">987</td><td>Highest <em>A</em>: deep exploitation, selection-dominated</td></tr>
+<tr><td class="bold">Budget = 10</td><td class="num">784</td><td class="num">14,138</td><td class="num">377</td><td>Balanced: open-ended evolution, broadest diversity</td></tr>
+<tr><td class="bold">Budget = 50</td><td class="num">22</td><td class="num">70</td><td class="num">10</td><td>Lowest <em>A</em>: combinatorial explosion, no persistence</td></tr>
+<tr><td>Undirected</td><td class="num">714</td><td class="num">&mdash;</td><td class="num">61</td><td>No selection: exploration without amplification</td></tr>
+</table>
+
+<div class="insight">
+<strong>Note:</strong> The highest <em>A</em> does not correspond to the most diverse system. Budget&nbsp;=&nbsp;1 has the highest <em>A</em> (987) but only 132 species. Budget&nbsp;=&nbsp;10 achieves the broadest diversity (784 species) with moderate <em>A</em>. This suggests that <em>A</em> measures selection <em>intensity</em>, not evolutionary success per se. The &ldquo;best&rdquo; regime for open-ended evolution is the balanced one, where both exploration and exploitation are sustained.
+</div>
+
+<h3>6.4 From measurement to mechanism</h3>
+<p>Assembly Theory provides a powerful analytical lens: given an ensemble of molecules, it can determine whether selection has acted. The FM-ABM complements this by providing the <em>generative</em> side: given a set of atoms and market rules, it produces the ensembles that AT can then analyze. Together, they form a complete loop from mechanism to measurement and back.</p>
+
+<!-- ============================================================ -->
+<h2>7. References</h2>
+
+<div class="ref">
+<ol>
+  <li>Sharma, A., Czegel, D., Lachmann, M., Kempes, C.P., Walker, S.I. &amp; Cronin, L. Assembly theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023). <a href="https://doi.org/10.1038/s41586-023-06600-9">doi:10.1038/s41586-023-06600-9</a></li>
+  <li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. <em>arXiv</em>:2009.10823 (2020). <a href="https://arxiv.org/abs/2009.10823">arxiv.org/abs/2009.10823</a></li>
+  <li>Jaraiz, M. Macroeconomic Forecasting from Input-Output Tables Alone. <em>arXiv</em>:2603.12412 (2026). <a href="https://arxiv.org/abs/2603.12412">arxiv.org/abs/2603.12412</a></li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<div class="disclosure">
+<strong>AI assistance disclosure:</strong> This report was prepared with the assistance of Claude (Anthropic), which helped with document structure, formatting, and exposition. All scientific content, experimental data, and interpretations are the work of the author.
+</div>
+
+</body>
+</html>

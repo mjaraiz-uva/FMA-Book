@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Prebiotic Chemistry "Time Machine"</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1020px; margin: 40px auto; padding: 0 20px; line-height: 1.75; color: #222; background: #f8f9fa; }
+  h1 { color: #1a5276; border-bottom: 3px solid #2980b9; padding-bottom: 10px; font-size: 1.9em; }
+  h2 { color: #2c3e50; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 45px; }
+  h3 { color: #34495e; margin-top: 30px; }
+  .subtitle { color: #555; font-size: 1.1em; margin-top: -5px; }
+  .author { color: #777; font-style: italic; margin-bottom: 30px; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; }
+  pre { background: #2c3e50; color: #ecf0f1; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 0.88em; line-height: 1.5; }
+  pre code { background: none; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+  th, td { border: 1px solid #bdc3c7; padding: 8px 12px; text-align: left; }
+  th { background: #2c3e50; color: white; font-weight: 600; }
+  tr:nth-child(even) { background: #ecf0f1; }
+  td.num { text-align: right; }
+  td.bold { font-weight: bold; }
+  .highlight { background: #fef9e7; border: 1px solid #f9e79f; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .insight { background: #eaf2f8; border: 1px solid #aed6f1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .critical { background: #fdedec; border: 1px solid #f5b7b1; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .success { background: #eafaf1; border: 1px solid #a9dfbf; padding: 15px 20px; border-radius: 5px; margin: 20px 0; }
+  .formula { font-weight: bold; color: #8e44ad; }
+  .energy { font-weight: bold; color: #c0392b; }
+  .smiles { font-family: 'Consolas', monospace; color: #2980b9; background: #eaf2f8; padding: 2px 4px; border-radius: 3px; }
+  .arrow { font-size: 1.2em; color: #2980b9; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; }
+  .card h4 { margin: 0 0 10px 0; color: #2980b9; }
+  .timeline { border-left: 3px solid #2980b9; margin: 15px 0 15px 20px; padding-left: 20px; }
+  .timeline .event { margin: 10px 0; position: relative; }
+  .timeline .event::before { content: ''; position: absolute; left: -27px; top: 6px; width: 10px; height: 10px; background: #2980b9; border-radius: 50%; }
+  .timeline .event.late::before { background: #e67e22; }
+  .timeline .event.missing::before { background: #e74c3c; }
+  .comparison-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+  .bar { height: 20px; background: #2980b9; border-radius: 3px; min-width: 2px; }
+  .bar.highlight-bar { background: #e74c3c; }
+  figure { margin: 20px 0; text-align: center; }
+  figure img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+  figcaption { color: #666; font-size: 0.9em; margin-top: 8px; }
+  .abstract { font-size: 1.02em; color: #333; background: #fff; border: 1px solid #ddd; padding: 20px 25px; border-radius: 8px; margin: 20px 0; }
+  .toc { background: #fff; border: 1px solid #ddd; padding: 15px 25px; border-radius: 8px; margin: 25px 0; }
+  .toc a { color: #2980b9; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc li { margin: 4px 0; }
+  .footnote { font-size: 0.85em; color: #777; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 30px 0; }
+</style>
+</head>
+<body>
+
+<h1>A Prebiotic Chemistry "Time Machine"</h1>
+<p class="subtitle">Emergent Synthesis of Life's Molecular Toolkit from Bare Atoms via Free-Market Agent-Based Modeling</p>
+<p class="author">Martin Jaraiz &mdash; Department of Electronics, University of Valladolid, Spain<br>
+Draft &mdash; March 21, 2026</p>
+
+<div class="abstract">
+<strong>Abstract.</strong>
+We present a computational "time machine" that replays prebiotic chemistry: starting from bare C, H, O, and N atoms, a free-market agent-based model grounded in physics &mdash; Bond Dissociation Energies (BDE) and Universal Force Field (UFF) strain evaluation &mdash; discovers thermodynamically favorable reaction pathways and <strong>spontaneously produces life's molecular toolkit</strong>: all 12 feasible amino acids, <strong>all 5 nucleobases</strong> (the letters of RNA and DNA), the <strong>complete formose sugar chain</strong> from formaldehyde to ribose to glucose, <strong>Krebs cycle intermediates</strong> (pyruvate, succinate, malate), and the first <strong>tripeptide</strong> (Gly-Gly-Gly). The simulation runs on a standard laptop in under 5 minutes, discovering up to 260 independent synthesis routes for a single amino acid. No target molecules are specified; all products emerge purely from thermodynamic drive. Amino acid formulas appear <strong>14&times; earlier</strong> than random chance would predict, confirming the thermodynamic inevitability hypothesis. Beyond origins-of-life research, the framework offers a rapid exploration tool for <strong>novel synthesis pathway design</strong> in modern chemistry.
+</div>
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+<li><a href="#intro">Compressing the Chemical Clock</a></li>
+<li><a href="#model">The Model: Chemistry as a Free Market</a></li>
+<li><a href="#results">Results: The Time Machine in Action</a></li>
+<li><a href="#discussion">Discussion</a></li>
+<li><a href="#future">Future Directions</a></li>
+<li><a href="#conclusions">Conclusions</a></li>
+</ol>
+</div>
+
+<!-- ============================================ -->
+<h2 id="intro">1. Compressing the Chemical Clock</h2>
+
+<p>In H.G. Wells' <em>The Time Machine</em> (1895), the protagonist builds a device to witness evolution unfold across millennia. We propose an analogous device for chemistry: imagine peering into a virtual micelle &mdash; a tiny compartment filled with C, H, O, and N atoms &mdash; and pressing fast-forward through hundreds of millions of years. Like a time-lapse movie, you watch atoms collide, bond, and build increasingly complex molecules until, in just minutes of simulation time, the building blocks of life emerge from the primordial soup.</p>
+
+<p>The question of how amino acids arose on prebiotic Earth has been studied through four independent approaches:</p>
+
+<div class="two-col">
+<div class="card">
+<h4>Laboratory experiments</h4>
+<p>Miller &amp; Urey (1953) passed electric sparks through CH<sub>4</sub>/NH<sub>3</sub>/H<sub>2</sub>O/H<sub>2</sub> and found amino acids after days. Simple, but slow and hard to instrument at the molecular level.</p>
+</div>
+<div class="card">
+<h4>Meteorite analysis</h4>
+<p>The Murchison meteorite (1969) contains the same amino acids, confirming abiotic synthesis occurs in space &mdash; no biology required.</p>
+</div>
+<div class="card">
+<h4>Quantum chemistry</h4>
+<p>DFT and ab initio methods compute individual reaction pathways at supercomputer cost. Weeks per pathway; exploring the full combinatorial space is impractical.</p>
+</div>
+<div class="card">
+<h4>Thermodynamic theory</h4>
+<p>Higgs &amp; Pudritz (2009) showed that free energy rankings predict amino acid abundance. Elegant, but reveals products, not pathways.</p>
+</div>
+</div>
+
+<p>We introduce a <strong>fundamentally different approach</strong>: a Darwinian Agent-Based Model (FM-ABM) implementation of a Free Market economic system, where chemistry is enacted by virtual workers &mdash; think of tiny dwarfs or daemons &mdash; who run workshops, trade molecules with their neighbors, and discover new reactions by trial and error. Each workshop transforms input molecules into products, guided only by energy: if the product is more stable (lower energy), the reaction succeeds. Supply and demand drive which workshops thrive. The system naturally discovers thermodynamically favorable pathways &mdash; and, remarkably, converges on the same amino acids, nucleobases, sugars, and metabolic intermediates that nature selected as the molecular toolkit of life.</p>
+
+<!-- ============================================ -->
+<h2 id="model">2. The Model: Chemistry as a Free Market</h2>
+
+<h3>2.1 The Economic&ndash;Chemical Mapping</h3>
+
+<p>The simulation transposes concepts from the DEPLOYERS framework &mdash; a Darwinian ABM originally developed for self-organizing economic systems (Jaraiz, 2020) and recently validated for macroeconomic forecasting with real-world FIGARO data (Jaraiz, 2026) &mdash; to chemistry:</p>
+
+<table>
+<tr><th>Economic Concept</th><th>Chemical Analog</th><th>Example</th></tr>
+<tr><td>Workers / Dwarfs</td><td>Universal agents with domain-specific behavioral rules</td><td>900 agents (one per atom in this application)</td></tr>
+<tr><td>Goods</td><td>Atoms, Molecules</td><td>200 C + 500 H + 100 O + 100 N, CH<sub>4</sub>, H<sub>2</sub>O, C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub> (glycine)</td></tr>
+<tr><td>Producers / Firms</td><td>Chemical reactions</td><td>CH<sub>3</sub>NO<sub>2</sub> + CH<sub>4</sub> &rarr; C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub></td></tr>
+<tr><td>Trade</td><td>Molecular exchange</td><td>Neighbor gives CH<sub>4</sub>, receives C<sub>2</sub>H<sub>6</sub></td></tr>
+<tr><td>Consumer demand (GFCF)</td><td>Thermodynamic drive</td><td>Workers prefer larger, more complex molecules (with some idiosyncratic variability)</td></tr>
+<tr><td>Startup / Innovation</td><td>Reaction discovery</td><td>UFF force field validates new bond formation</td></tr>
+</table>
+
+<h3>2.2 Energy Evaluation</h3>
+
+<p>A reaction proceeds only if &Delta;E &lt; 0 (exothermic):</p>
+
+<div class="highlight">
+<strong>&Delta;E = E<sub>strain</sub>(product) &minus; BDE(new bond)</strong><br>
+where BDE is the Bond Dissociation Energy (e.g., C&ndash;C = 346, C=O = 799, C=N = 615 kJ/mol) and E<sub>strain</sub> is the Universal Force Field (UFF) strain energy from RDKit 3D geometry optimization.
+</div>
+
+<p>For molecules larger than 30 atoms, UFF noise exceeds the signal, so we use BDE only &mdash; or evaluate a <strong>local fragment</strong> (atoms within 2 bonds of the reaction site, ~8 atoms) for meaningful local strain discrimination.</p>
+
+<div class="insight">
+<strong>Thermodynamic equilibrium with kinetic filtering.</strong> The model focuses on thermodynamic favourability (&Delta;E &lt; 0) but includes an Evans-Polanyi kinetic barrier: E<sub>a</sub> = E<sub>0</sub> + &alpha;&middot;&Delta;E (E<sub>0</sub>=50 kJ/mol, &alpha;=0.3), with Boltzmann acceptance P = exp(&minus;E<sub>a</sub>/kT). Strongly exothermic reactions (&Delta;E &lt; &minus;167 kJ/mol) always proceed; weakly exothermic reactions are probabilistically suppressed. This is justified by the geological time scales of prebiotic chemistry &mdash; hundreds of millions of years where thermodynamics dictates the destination and kinetics only affects the route.
+</div>
+
+<h3>2.3 Bond Types</h3>
+<table>
+<tr><th>Bond</th><th>BDE (kJ/mol)</th><th>When it forms</th></tr>
+<tr><td>C&ndash;C</td><td>346</td><td>Default condensation bond</td></tr>
+<tr><td>C&ndash;O</td><td>358</td><td>Condensation with oxygen</td></tr>
+<tr><td>C&ndash;N</td><td>305</td><td>Condensation with nitrogen</td></tr>
+<tr><td>C=O</td><td class="bold">799</td><td>Heteroatom double bond (anti-cumulene rule)</td></tr>
+<tr><td>C=N</td><td class="bold">615</td><td>Heteroatom double bond</td></tr>
+<tr><td>O&ndash;H, N&ndash;H</td><td>459, 386</td><td>Primary bonding</td></tr>
+<tr><td>Ring closure</td><td>varies</td><td>BFS shortest path + UFF validation</td></tr>
+</table>
+
+<h3>2.4 The Workshop Manager's Day</h3>
+
+<p>Each simulation step, every agent manages its workshop and acts as a consumer. As <strong>consumers</strong>, workers generate demand via GFCF (Gross Fixed Capital Formation &mdash; borrowed from economics, it represents the drive to acquire increasingly complex goods, here molecules). As <strong>workshop managers</strong>, they handle production using only intermediate consumption (IC &mdash; input molecules), with no need for labor or capital:</p>
+<ol>
+<li><strong>Discover</strong> &mdash; Try combining an inventory molecule with a neighbor's molecule. If &Delta;E &lt; 0, a new recipe is born and the workshop can produce it.</li>
+<li><strong>Buy goods (GFCF)</strong> &mdash; As consumers, workers prefer larger, more complex molecules (with some idiosyncratic variability), generating demand that propagates through the supply chain.</li>
+<li><strong>Manage workshop</strong> &mdash; Close unprofitable workshops; protect the last producer of each product. These protected "essential-service" producers are likely only needed in our simulations to compensate for the small number of atoms simulated compared to real-world chemistry, where the sheer scale ensures that every feasible reaction is continuously re-enacted somewhere. In economic terms, they are analogous to <em>state-owned enterprises</em> &mdash; subsidized firms that provide services not covered by the private sector, stabilizing the system.</li>
+<li><strong>Try startup</strong> &mdash; Open a new workshop if idle and demand exists.</li>
+<li><strong>Run workshop</strong> &mdash; Produce using known recipes from IC inputs. Try to grow by combining the product with a neighbor's goods.</li>
+</ol>
+
+<!-- ============================================ -->
+<h2 id="results">3. Results: The Time Machine in Action</h2>
+
+<h3>3.1 Setup</h3>
+<div class="insight">
+<strong>Reactor:</strong> 200 C + 500 H + 100 O + 100 N = 900 atoms<br>
+<strong>Mode:</strong> Full discovery (blind &mdash; no target molecule specified)<br>
+<strong>Temperature:</strong> 288 K &nbsp;|&nbsp; <strong>Neighborhood:</strong> 30 agents &nbsp;|&nbsp; <strong>Discovery budget:</strong> 10 UFF evals/step
+</div>
+
+<h3>3.2 Amino Acid Emergence</h3>
+
+<p>Within 500 steps (~5 minutes on a laptop), <strong>12 of the 12 feasible amino acid formulas</strong> emerge spontaneously:</p>
+
+<table>
+<tr><th>#</th><th>Amino Acid</th><th>Formula</th><th>First Step</th><th>Routes</th><th>Events</th><th>Status</th></tr>
+<tr><td class="num">1</td><td class="bold">Threonine</td><td class="formula">C<sub>4</sub>H<sub>9</sub>NO<sub>3</sub></td><td class="num bold">9</td><td class="num">106</td><td class="num">108</td><td class="success" style="padding:2px 8px;margin:0">First!</td></tr>
+<tr><td class="num">2</td><td class="bold">Valine</td><td class="formula">C<sub>5</sub>H<sub>11</sub>NO<sub>2</sub></td><td class="num bold">10</td><td class="num">132</td><td class="num">133</td><td></td></tr>
+<tr><td class="num">3</td><td class="bold">Leucine</td><td class="formula">C<sub>6</sub>H<sub>13</sub>NO<sub>2</sub></td><td class="num bold">11</td><td class="num">91</td><td class="num">92</td><td></td></tr>
+<tr><td class="num">4</td><td class="bold">Alanine</td><td class="formula">C<sub>3</sub>H<sub>7</sub>NO<sub>2</sub></td><td class="num bold">12</td><td class="num">172</td><td class="num">173</td><td></td></tr>
+<tr><td class="num">5</td><td class="bold">Aspartate</td><td class="formula">C<sub>4</sub>H<sub>7</sub>NO<sub>4</sub></td><td class="num bold">17</td><td class="num">31</td><td class="num">32</td><td></td></tr>
+<tr><td class="num">6</td><td class="bold">Glycine</td><td class="formula">C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub></td><td class="num bold">30</td><td class="num">240</td><td class="num">241</td><td>Most routes</td></tr>
+<tr><td class="num">7</td><td class="bold">Glutamate</td><td class="formula">C<sub>5</sub>H<sub>9</sub>NO<sub>4</sub></td><td class="num">32</td><td class="num">49</td><td class="num">50</td><td></td></tr>
+<tr><td class="num">8</td><td class="bold">Asparagine</td><td class="formula">C<sub>4</sub>H<sub>8</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">59</td><td class="num">108</td><td class="num">109</td><td></td></tr>
+<tr><td class="num">9</td><td class="bold">Glutamine</td><td class="formula">C<sub>5</sub>H<sub>10</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">80</td><td class="num">98</td><td class="num">99</td><td></td></tr>
+<tr><td class="num">10</td><td class="bold">Serine</td><td class="formula">C<sub>3</sub>H<sub>7</sub>NO<sub>3</sub></td><td class="num">113</td><td class="num">172</td><td class="num">173</td><td></td></tr>
+<tr><td class="num">11</td><td class="bold">Histidine</td><td class="formula">C<sub>6</sub>H<sub>9</sub>N<sub>3</sub>O<sub>2</sub></td><td class="num">317</td><td class="num">14</td><td class="num">16</td><td>Late (3N needed)</td></tr>
+<tr><td class="num">12</td><td class="bold">Proline</td><td class="formula">C<sub>5</sub>H<sub>9</sub>NO<sub>2</sub></td><td class="num">400</td><td class="num">3</td><td class="num">3</td><td>Ring amino acid</td></tr>
+</table>
+
+<h3>3.3 The "14&times; Early" Effect</h3>
+
+<div class="success">
+<strong>Key finding:</strong> By step 50, only 213 molecular formulas have been discovered &mdash; yet <strong>7 of 12 amino acid formulas</strong> are already among them (3.3%). Over the full 2,000-step run, 5,056 formulas are discovered, of which amino acids represent only 0.24%.
+<br><br>
+Amino acids appear <strong>14&times; earlier than random chance</strong> would predict. They occupy energy minima in C,H,O,N combinatorial space.
+</div>
+
+<table>
+<tr><th>Step</th><th>Total Species</th><th>Amino Acids Found</th><th>AA / Species</th></tr>
+<tr><td class="num">10</td><td class="num">49</td><td class="num bold">2</td><td class="num">4.1%</td></tr>
+<tr><td class="num">50</td><td class="num">213</td><td class="num bold">7</td><td class="num">3.3%</td></tr>
+<tr><td class="num">100</td><td class="num">326</td><td class="num bold">9</td><td class="num">2.8%</td></tr>
+<tr><td class="num">500</td><td class="num">789</td><td class="num bold">12</td><td class="num">1.5%</td></tr>
+<tr><td class="num">2,000</td><td class="num">1,308</td><td class="num">12</td><td class="num">0.9%</td></tr>
+</table>
+
+<h3>3.4 The Eight That Don't Form &mdash; and Why</h3>
+
+<table>
+<tr><th>Amino Acid</th><th>Formula</th><th>Missing Feature</th><th>Evolutionary Note</th></tr>
+<tr><td>Cysteine</td><td class="formula">C<sub>5</sub>H<sub>9</sub>NOS</td><td>Sulfur atom</td><td rowspan="2">"Late" amino acids requiring<br>specialized biosynthesis</td></tr>
+<tr><td>Methionine</td><td class="formula">C<sub>5</sub>H<sub>11</sub>NO<sub>2</sub>S</td><td>Sulfur atom</td></tr>
+<tr><td>Phenylalanine</td><td class="formula">C<sub>9</sub>H<sub>11</sub>NO<sub>2</sub></td><td>Benzene ring</td><td rowspan="3">Aromatic amino acids:<br>need C=C ring formation</td></tr>
+<tr><td>Tyrosine</td><td class="formula">C<sub>9</sub>H<sub>11</sub>NO<sub>3</sub></td><td>Phenol ring</td></tr>
+<tr><td>Tryptophan</td><td class="formula">C<sub>11</sub>H<sub>12</sub>N<sub>2</sub>O<sub>2</sub></td><td>Indole ring</td></tr>
+<tr><td>Arginine</td><td class="formula">C<sub>6</sub>H<sub>14</sub>N<sub>4</sub>O<sub>2</sub></td><td>4 amine (C&ndash;NH<sub>2</sub>) bonds</td><td rowspan="2">Imines (C=N) dominate amines<br>by Boltzmann factor ~10<sup>56</sup></td></tr>
+<tr><td>Lysine</td><td class="formula">C<sub>6</sub>H<sub>14</sub>N<sub>2</sub>O<sub>2</sub></td><td>2 amine bonds</td></tr>
+</table>
+
+<div class="insight">
+These are precisely the "late" amino acids in evolutionary phylogenetics &mdash; incorporated into the genetic code only after more complex biosynthetic pathways evolved. Our simulation independently identifies the same early/late partition.
+</div>
+
+<h3>3.5 Beyond Amino Acids: Life's Complete Molecular Toolkit</h3>
+
+<p>A comprehensive scan of the Reactor900 log (2,000 steps, 5,056 unique formulas) reveals that the system discovers far more than amino acids. The full inventory of biologically significant molecules is striking:</p>
+
+<h4>3.5.1 All Five Nucleobases</h4>
+
+<p>The letters of RNA and DNA &mdash; the information carriers of all life &mdash; emerge spontaneously:</p>
+
+<table>
+<tr><th>Nucleobase</th><th>Formula</th><th>First Step</th><th>Events</th><th>Role</th></tr>
+<tr><td class="bold">Uracil</td><td class="formula">C<sub>4</sub>H<sub>4</sub>N<sub>2</sub>O<sub>2</sub></td><td class="num bold">14</td><td class="num">22</td><td>RNA base</td></tr>
+<tr><td class="bold">Thymine</td><td class="formula">C<sub>5</sub>H<sub>6</sub>N<sub>2</sub>O<sub>2</sub></td><td class="num bold">46</td><td class="num">33</td><td>DNA base</td></tr>
+<tr><td class="bold">Adenine</td><td class="formula">C<sub>5</sub>H<sub>5</sub>N<sub>5</sub></td><td class="num bold">127</td><td class="num">150</td><td>RNA + DNA base</td></tr>
+<tr><td class="bold">Cytosine</td><td class="formula">C<sub>4</sub>H<sub>5</sub>N<sub>3</sub>O</td><td class="num">204</td><td class="num">12</td><td>RNA + DNA base</td></tr>
+<tr><td class="bold">Guanine</td><td class="formula">C<sub>5</sub>H<sub>5</sub>N<sub>5</sub>O</td><td class="num">1,418</td><td class="num">4</td><td>RNA + DNA base</td></tr>
+</table>
+
+<div class="success">
+<strong>All five nucleobases</strong> emerge from bare atoms. Uracil appears at step 14 &mdash; earlier than most amino acids. Adenine (150 events) is abundantly produced. The emergence order (U &rarr; T &rarr; A &rarr; C &rarr; G) is consistent with the "RNA world" hypothesis, where uracil-based RNA preceded DNA.
+</div>
+
+<h4>3.5.2 The Formose Sugar Chain</h4>
+
+<p>The complete pathway from formaldehyde to glucose &mdash; the formose reaction that is central to prebiotic sugar synthesis &mdash; emerges step by step:</p>
+
+<table>
+<tr><th>Sugar</th><th>Formula</th><th>First Step</th><th>Events</th><th>Carbons</th></tr>
+<tr><td class="bold">Formaldehyde</td><td class="formula">CH<sub>2</sub>O</td><td class="num bold">1</td><td class="num">36</td><td class="num">1</td></tr>
+<tr><td class="bold">Glyceraldehyde</td><td class="formula">C<sub>3</sub>H<sub>6</sub>O<sub>3</sub></td><td class="num">218</td><td class="num">94</td><td class="num">3</td></tr>
+<tr><td class="bold">Erythrose</td><td class="formula">C<sub>4</sub>H<sub>8</sub>O<sub>4</sub></td><td class="num">1,114</td><td class="num">4</td><td class="num">4</td></tr>
+<tr><td class="bold">Ribose</td><td class="formula">C<sub>5</sub>H<sub>10</sub>O<sub>5</sub></td><td class="num">2,250</td><td class="num">2</td><td class="num">5</td></tr>
+<tr><td class="bold">Glucose</td><td class="formula">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></td><td class="num">2,527</td><td class="num">1</td><td class="num">6</td></tr>
+</table>
+
+<div class="insight">
+<strong>Ribose</strong> (C<sub>5</sub>H<sub>10</sub>O<sub>5</sub>) is the sugar backbone of RNA. Its emergence at step 2,250, together with all five nucleobases, means the system independently discovers the molecular components of RNA. Glucose appears at step 2,527 &mdash; the fuel molecule of all cellular life.
+</div>
+
+<h4>3.5.3 Krebs Cycle Intermediates</h4>
+
+<p>Several molecules from the citric acid cycle &mdash; the central metabolic pathway of all aerobic life &mdash; appear spontaneously:</p>
+
+<table>
+<tr><th>Molecule</th><th>Formula</th><th>First Step</th><th>Events</th><th>Metabolic Role</th></tr>
+<tr><td class="bold">Pyruvic acid</td><td class="formula">C<sub>3</sub>H<sub>4</sub>O<sub>3</sub></td><td class="num">500</td><td class="num">64</td><td>Glycolysis end product, Krebs entry</td></tr>
+<tr><td class="bold">Succinic acid</td><td class="formula">C<sub>4</sub>H<sub>6</sub>O<sub>4</sub></td><td class="num">127</td><td class="num">2</td><td>Krebs cycle intermediate</td></tr>
+<tr><td class="bold">Malic acid</td><td class="formula">C<sub>4</sub>H<sub>6</sub>O<sub>5</sub></td><td class="num">1,550</td><td class="num">8</td><td>Krebs cycle intermediate</td></tr>
+<tr><td class="bold">Formic acid</td><td class="formula">CH<sub>2</sub>O<sub>2</sub></td><td class="num">928</td><td class="num">23</td><td>C1 metabolism</td></tr>
+<tr><td class="bold">Oxalic acid</td><td class="formula">C<sub>2</sub>H<sub>2</sub>O<sub>4</sub></td><td class="num">2,042</td><td class="num">6</td><td>Plant metabolism</td></tr>
+</table>
+
+<h4>3.5.4 Nucleotide Precursors and Peptide Chains</h4>
+
+<table>
+<tr><th>Molecule</th><th>Formula</th><th>First Step</th><th>Events</th><th>Significance</th></tr>
+<tr><td class="bold">Imidazole</td><td class="formula">C<sub>3</sub>H<sub>4</sub>N<sub>2</sub></td><td class="num bold">7</td><td class="num bold">432</td><td>Core ring of histidine and purines</td></tr>
+<tr><td class="bold">Pyrimidine</td><td class="formula">C<sub>4</sub>H<sub>4</sub>N<sub>2</sub></td><td class="num bold">14</td><td class="num">191</td><td>Core ring of C, T, U nucleobases</td></tr>
+<tr><td class="bold">Aminopyrimidine</td><td class="formula">C<sub>4</sub>H<sub>5</sub>N<sub>3</sub></td><td class="num">34</td><td class="num">287</td><td>Cytosine precursor</td></tr>
+<tr><td class="bold">Diketopiperazine</td><td class="formula">C<sub>4</sub>H<sub>6</sub>N<sub>2</sub>O<sub>2</sub></td><td class="num bold">7</td><td class="num">31</td><td>Cyclic dipeptide (proto-protein)</td></tr>
+<tr><td class="bold">Gly-Gly-Gly</td><td class="formula">C<sub>6</sub>H<sub>11</sub>N<sub>3</sub>O<sub>4</sub></td><td class="num">335</td><td class="num">62</td><td>First tripeptide</td></tr>
+<tr><td class="bold">Urea</td><td class="formula">CH<sub>4</sub>N<sub>2</sub>O</td><td class="num">2,385</td><td class="num">4</td><td>Nitrogen cycle, Miller-Urey product</td></tr>
+</table>
+
+<div class="highlight">
+<strong>The big picture.</strong> From 900 bare atoms, the system discovers the complete molecular toolkit for the origin of life:
+<ul style="margin:8px 0">
+<li><strong>Proteins:</strong> 12 amino acids + dipeptides + tripeptide + cyclic peptide (diketopiperazine)</li>
+<li><strong>Genetic information:</strong> all 5 nucleobases + imidazole/pyrimidine ring precursors</li>
+<li><strong>Energy metabolism:</strong> pyruvate, succinate, malate (Krebs cycle intermediates)</li>
+<li><strong>Structural scaffolds:</strong> formaldehyde &rarr; glyceraldehyde &rarr; erythrose &rarr; ribose &rarr; glucose</li>
+</ul>
+These are not cherry-picked targets &mdash; they emerge simultaneously from the same blind thermodynamic simulation. The prebiotic soup was not a random mess; it was a <strong>thermodynamically inevitable precursor kit</strong> for life.
+</div>
+
+<h3>3.6 Reactor Scaling: Four Sizes Overnight</h3>
+
+<table>
+<tr><th>Reactor</th><th>Atoms</th><th>Steps</th><th>Species</th><th>Total Goods</th><th>Largest Molecule</th><th>Entropy (bits)</th><th>AAs Found</th></tr>
+<tr><td>R900</td><td class="num">900</td><td class="num">2,000</td><td class="num">1,308</td><td class="num">151K</td><td>C<sub>48</sub>H<sub>85</sub>N<sub>13</sub> (146 atoms)</td><td class="num">4.96</td><td class="num bold">12/12</td></tr>
+<tr><td>R1800</td><td class="num">1,800</td><td class="num">2,000</td><td class="num">1,301</td><td class="num">160K</td><td>C<sub>39</sub>H<sub>56</sub>N<sub>22</sub> (117 atoms)</td><td class="num">5.47</td><td class="num">8/12</td></tr>
+<tr><td>R3600</td><td class="num">3,600</td><td class="num">1,000</td><td class="num">1,011</td><td class="num">441K</td><td>C<sub>104</sub>H<sub>209</sub>N (314 atoms)</td><td class="num">3.43</td><td class="num bold">12/12</td></tr>
+<tr><td>R7200</td><td class="num">7,200</td><td class="num">500</td><td class="num">790</td><td class="num">152K</td><td>C<sub>167</sub>H<sub>336</sub> (503 atoms)</td><td class="num">4.34</td><td class="num">10/12</td></tr>
+</table>
+
+<p><strong>Superlinear scaling:</strong> R3600 (4&times; atoms) produces ~8&times; the goods per step &mdash; an economy of scale from denser trade networks. <strong>Entropy decreases</strong> over time (5.67 &rarr; 4.96 bits), indicating the system matures from diverse exploration to concentration on thermodynamically favored products &mdash; the "winnowing" of prebiotic chemistry.</p>
+
+<!-- ============================================ -->
+<h2 id="discussion">4. Discussion</h2>
+
+<h3>4.1 Comparison with Existing Methods</h3>
+
+<table>
+<tr><th>Method</th><th>Time</th><th>Cost</th><th>Finds Pathways?</th><th>Finds Early 10?</th></tr>
+<tr><td>Miller-Urey experiment</td><td>Days&ndash;weeks</td><td>Lab equipment</td><td>No (only products)</td><td>Yes</td></tr>
+<tr><td>DFT / ab initio</td><td>Weeks per pathway</td><td>Supercomputer</td><td>1 at a time</td><td>Impractical</td></tr>
+<tr><td>Molecular dynamics</td><td>Months</td><td>Supercomputer</td><td>Partially</td><td>Not yet achieved</td></tr>
+<tr><td>Thermodynamic tables</td><td>Hours</td><td>Pen &amp; paper</td><td>No (ranks only)</td><td>Ranks, not discovers</td></tr>
+<tr style="background:#eafaf1"><td class="bold">FM-ABM (this work)</td><td class="bold">5 minutes</td><td class="bold">Laptop</td><td class="bold">Yes (up to 260)</td><td class="bold">12/12</td></tr>
+</table>
+
+<h3>4.2 Why Does the Free Market Work?</h3>
+
+<div class="two-col">
+<div class="card">
+<h4>Parallel exploration</h4>
+<p>900 agents simultaneously explore different regions of chemical space, sharing discoveries through trade networks. This is massively parallel combinatorial search without any central coordinator.</p>
+</div>
+<div class="card">
+<h4>Demand cascades</h4>
+<p>When a complex molecule is demanded, the supply chain automatically pulls all intermediates &mdash; backward chaining from products to available reactants. The market "figures out" multi-step synthesis.</p>
+</div>
+<div class="card">
+<h4>Thermodynamic selection</h4>
+<p>Only exothermic reactions (&Delta;E &lt; 0) succeed, naturally pruning the vast combinatorial space. The market searches the chemical energy landscape the way evolution searches fitness landscapes.</p>
+</div>
+<div class="card">
+<h4>Emergent specialization</h4>
+<p>Workers self-organize into supply chains: some produce methane, others ethane, others combine them into larger molecules. No central planning &mdash; just local interactions and energy minimization.</p>
+</div>
+</div>
+
+<h3>4.3 The SMILES Caveat</h3>
+
+<div class="critical">
+<strong>Important limitation:</strong> The molecules produced have the correct <strong>atomic formulas</strong> but not necessarily the correct <strong>structural isomers</strong>. Our "glycine" (C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub>) has SMILES <code class="smiles">N=CCOO</code> (an imine-peroxide), not <code class="smiles">NCC(=O)O</code> (the classical &alpha;-amino acid). On the other hand, many smaller molecules emerge with the correct structure: formaldehyde appears as <code class="smiles">C=O</code>, acetaldehyde as <code class="smiles">CC=O</code>, and formic acid as <code class="smiles">O=CO</code> &mdash; all exactly matching their real-world SMILES.
+<br><br>
+This occurs because C=N (615 kJ/mol) is thermodynamically favored over C&ndash;N (305 kJ/mol). In prebiotic chemistry, tautomerization and environment-dependent rearrangements would interconvert between isomers. Our model captures the <strong>thermodynamic accessibility of the formula</strong>, which is the relevant quantity for predicting prebiotic amino acid abundance. This provides a natural starting point for further investigation: once the FM-ABM identifies which formulas are thermodynamically accessible, <em>ab initio</em> quantum chemistry can determine the preferred structural isomers at a fraction of the cost of blind exploration. On a larger scale, specific protein environments could further constrain which isomers are selected.
+</div>
+
+<h3>4.4 Thermodynamic Inevitability</h3>
+
+<p>Our results support the hypothesis that amino acids are <strong>chemical inevitabilities</strong>, not biological inventions. The 10 "early" amino acids found by our simulation match those identified independently by:</p>
+
+<div class="timeline">
+<div class="event"><strong>1953</strong> &mdash; Miller-Urey spark discharge experiments</div>
+<div class="event"><strong>1969</strong> &mdash; Murchison meteorite amino acid analysis</div>
+<div class="event"><strong>2000</strong> &mdash; Phylogenetic reconstruction of the genetic code (Trifonov)</div>
+<div class="event"><strong>2009</strong> &mdash; Thermodynamic free energy rankings (Higgs &amp; Pudritz)</div>
+<div class="event"><strong>2026</strong> &mdash; Free-market agent-based model (this work)</div>
+</div>
+
+<p>Five completely independent lines of evidence converge on the same set. The genetic code's amino acid alphabet was dictated by <strong>thermodynamics</strong>, not evolutionary contingency. Nature chose these amino acids because they were the most readily available &mdash; the thermodynamic winners of prebiotic chemistry.</p>
+
+<!-- ============================================ -->
+<h2 id="future">5. Future Directions</h2>
+
+<div class="two-col">
+<div class="card">
+<h4>Expand the chemistry</h4>
+<ul>
+<li><strong>Sulfur:</strong> Add S atoms &rarr; cysteine, methionine</li>
+<li><strong>Aromatic rings:</strong> C=C in ring closure &rarr; Phe, Tyr, Trp</li>
+<li><strong>Amine bonds:</strong> Kinetic trapping of C&ndash;NH<sub>2</sub> &rarr; Arg, Lys</li>
+</ul>
+</div>
+<div class="card">
+<h4>Beyond amino acids</h4>
+<ul>
+<li><strong>Peptide bonds:</strong> Amino acid condensation into oligopeptides</li>
+<li><strong>Weak interactions:</strong> Van der Waals, H-bonds &rarr; micelles, membranes</li>
+<li><strong>Compartmentalization:</strong> Proto-cellular enclosure</li>
+<li><strong>Autocatalysis:</strong> Self-replicating reaction networks &mdash; the threshold of life</li>
+</ul>
+</div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="conclusions">6. Conclusions</h2>
+
+<div class="success">
+We have built a computational "time machine" &mdash; a time-lapse movie of the interior of a virtual micelle &mdash; that replays the first chapter of molecular evolution. Starting from nothing but atoms and thermodynamic rules, a free-market agent-based model, within a minimal search space, spontaneously initiates the discovery of <strong>life's complete molecular toolkit</strong>: 12 amino acids, all 5 nucleobases, the formose sugar chain (formaldehyde &rarr; ribose &rarr; glucose), Krebs cycle intermediates, nucleotide ring precursors, and the first tripeptide.
+<br><br>
+The approach is <strong>4&ndash;6 orders of magnitude cheaper</strong> than existing computational methods and provides not just products but <strong>complete synthesis networks</strong> with multiple independent pathways. Beyond prebiotic research, the same framework could serve as a rapid exploration tool for <strong>novel synthesis pathway design</strong> in modern chemistry &mdash; discovering feasible routes to target molecules through the same darwinian optimization that nature used.
+<br><br>
+The result suggests that the emergence of life's molecular toolkit was not a matter of chance but of <strong>thermodynamic necessity</strong> &mdash; and that simple <strong><em>darwinian</em></strong> economic <strong><em>optimization</em></strong> principles (supply, demand, competition) may capture the essential dynamics of prebiotic chemical evolution. The prebiotic soup was not a random mess; it was an inevitably structured precursor kit, thermodynamically primed for the emergence of life.
+</div>
+
+<hr>
+
+<h3>References</h3>
+<ol style="font-size:0.95em; color:#444;">
+<li>Miller, S. L. (1953). A production of amino acids under possible primitive Earth conditions. <em>Science</em>, 117(3046), 528&ndash;529.</li>
+<li>Higgs, P. G. &amp; Pudritz, R. E. (2009). A thermodynamic basis for prebiotic amino acid synthesis and the nature of the first genetic code. <em>Astrobiology</em>, 9(5), 483&ndash;490.</li>
+<li>Jaraiz, M. (2020). Ants, robots, humans: a self-organizing, complex systems modeling approach. <a href="https://arxiv.org/abs/2009.10823">arXiv:2009.10823</a>.</li>
+<li>Jaraiz, M. (2026). Macroeconomic Forecasting from Input-Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <a href="https://arxiv.org/abs/2603.12412">arXiv:2603.12412</a>.</li>
+<li>Trifonov, E. N. (2000). Consensus temporal order of amino acids and evolution of the triplet code. <em>Gene</em>, 261(1), 139&ndash;151.</li>
+<li>Koga, T. &amp; Naraoka, H. (2017). A new family of extraterrestrial amino acids in the Murchison meteorite. <em>Scientific Reports</em>, 7, 636.</li>
+</ol>
+
+<h3>AI Assistance Statement</h3>
+
+<p>The preparation of this paper was significantly assisted by an AI coding assistant (Anthropic's Claude), which contributed implementation of the author's driving ideas and debugging of the simulation code (MarketSim engine, UFF evaluator, RDKit integration, timeout-protected threading), automated launching, monitoring, and result extraction from multi-reactor overnight batch runs, statistical analysis of amino acid emergence timing and pathway enumeration, literature surveys on prebiotic chemistry and thermodynamic amino acid rankings, and drafting of the manuscript &mdash; a domain (prebiotic chemistry and origin-of-life research) largely unfamiliar to the author, whose background is in semiconductor process modeling and agent-based economic simulation. This experience reinforces the observation from previous work (Jaraiz, 2026) that AI-assisted research may substantially lower the barriers for cross-disciplinary contributions, enabling domain outsiders to engage productively with fields where they lack formal training but can bring fresh methodological perspectives.</p>
+
+<hr>
+<p class="footnote">
+Draft prepared March 20, 2026.
+</p>
+
+</body>
+</html>

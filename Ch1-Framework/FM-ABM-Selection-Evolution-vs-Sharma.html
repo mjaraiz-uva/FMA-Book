@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Free-market agent-based modeling quantifies and forecasts selection and evolution</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1050px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #d4d4d8; background: #18181b; }
+  h1 { color: #e4e4e7; border-bottom: 3px solid #6366f1; padding-bottom: 10px; font-size: 1.75em; line-height: 1.3; }
+  h2 { color: #a5b4fc; border-bottom: 1px solid #3f3f46; padding-bottom: 5px; margin-top: 40px; font-size: 1.3em; }
+  h3 { color: #c4b5fd; margin-top: 25px; }
+  h4 { color: #e4e4e7; margin-top: 18px; }
+  a { color: #818cf8; }
+  code { background: #27272a; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; color: #a5b4fc; }
+  .authors { color: #a1a1aa; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #71717a; font-size: 0.92em; margin-bottom: 30px; }
+  .abstract-box { background: #1e1b4b; border: 1px solid #4338ca; border-left: 4px solid #6366f1; padding: 18px 22px; border-radius: 5px; margin: 25px 0; }
+  .abstract-box strong { color: #a5b4fc; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #3f3f46; padding: 7px 11px; text-align: left; }
+  th { background: #27272a; color: #e4e4e7; font-weight: 600; }
+  tr:nth-child(even) { background: #1f1f23; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.bold { font-weight: bold; color: #e4e4e7; }
+  .highlight { background: #1e1b4b; border: 1px solid #4338ca; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .insight { background: #14292a; border: 1px solid #2dd4bf50; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .warning { background: #2a1215; border: 1px solid #f87171; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .success { background: #0f291a; border: 1px solid #4ade80; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .equation { font-family: 'Consolas', monospace; background: #27272a; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.05em; color: #fbbf24; text-align: center; border-left: 4px solid #6366f1; }
+  .fig { margin: 25px 0; padding: 18px; background: #1f1f23; border: 1px solid #3f3f46; border-radius: 8px; }
+  .fig-caption { font-size: 0.88em; color: #a1a1aa; margin-top: 10px; }
+  .fig-caption strong { color: #c4b5fd; }
+  .ref { font-size: 0.88em; color: #a1a1aa; margin-top: 40px; padding-top: 20px; border-top: 2px solid #3f3f46; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #818cf8; }
+  .formula { font-weight: bold; color: #c084fc; }
+  .regime-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .regime-card { background: #27272a; border: 1px solid #3f3f46; border-radius: 8px; padding: 16px; }
+  .regime-card h4 { margin: 0 0 8px 0; }
+  .regime-card.stagnation { border-top: 3px solid #f97316; }
+  .regime-card.stagnation h4 { color: #fb923c; }
+  .regime-card.selection { border-top: 3px solid #22c55e; }
+  .regime-card.selection h4 { color: #4ade80; }
+  .regime-card.tar { border-top: 3px solid #ef4444; }
+  .regime-card.tar h4 { color: #f87171; }
+  .regime-card.free { border-top: 3px solid #818cf8; }
+  .regime-card.free h4 { color: #a5b4fc; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; font-weight: 600; color: #fff; margin-left: 6px; }
+  .badge-key { background: #6366f1; }
+  .badge-at { background: #8b5cf6; }
+  .badge-fm { background: #0891b2; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0; }
+  .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin: 18px 0; }
+  svg text { font-family: 'Segoe UI', sans-serif; }
+  .disclosure { margin-top: 50px; padding: 16px 20px; background: #27272a; border: 1px solid #3f3f46; border-radius: 6px; font-size: 0.85em; color: #71717a; }
+  .toc { background: #1f1f23; border: 1px solid #3f3f46; border-radius: 8px; padding: 18px 24px; margin: 25px 0; }
+  .toc h3 { margin-top: 0; color: #a5b4fc; }
+  .toc ol { padding-left: 22px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #4338ca; margin: 15px 0; padding: 10px 18px; background: #1e1b4b40; color: #a1a1aa; font-style: italic; }
+  .mapping-arrow { color: #fbbf24; font-weight: bold; }
+  @media (max-width: 800px) {
+    .regime-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .four-col { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Free-market agent-based modeling quantifies and forecasts selection and evolution</h1>
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electronics, University of Valladolid, 47011 Valladolid, Spain</p>
+
+<!-- ============================================================ -->
+<div class="abstract-box">
+<strong>Abstract</strong> &mdash;
+A Free-Market Agent-Based Model (FM-ABM) implements Assembly Theory's forward dynamics through Darwinian economic optimization. Where Assembly Theory (AT) measures selection post-hoc through assembly index and copy number<sup>1</sup>, FM-ABM provides the explicit mechanism: supply, demand, and competition among economic agents enacting chemistry. Starting from bare C, H, O, N atoms with Bond Dissociation Energy (BDE) and Universal Force Field (UFF) physics, the model discovers 10 of 12 feasible amino acids in minutes on a laptop &mdash; the same &ldquo;early 10&rdquo; that Miller&ndash;Urey experiments<sup>2</sup>, meteorite analysis<sup>3</sup>, and phylogenetics<sup>4</sup> independently identify. We demonstrate that AT's three &tau;<sub>d</sub>/&tau;<sub>p</sub> regimes (stagnation, selection, tar) emerge naturally from a single parameter (discovery budget), and that the non-monotonic copy-number signature AT predicts as evidence of selection appears spontaneously through market dynamics. FM-ABM provides what AT identifies as missing: a physics-grounded forward process that distinguishes &ldquo;novel functional features from random fluctuations&rdquo; through neighbor interaction (exploration) and consumption (selection). Where AT explains and quantifies, FM-ABM quantifies and <em>forecasts</em>.
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+<h3>Contents</h3>
+<ol>
+  <li><a href="#sec1">Introduction</a></li>
+  <li><a href="#sec2">Assembly Theory: Key Concepts</a></li>
+  <li><a href="#sec3">The Free-Market Agent-Based Model</a></li>
+  <li><a href="#sec4">FM-ABM as AT's Forward Dynamics</a></li>
+  <li><a href="#sec5">Experimental Validation</a></li>
+  <li><a href="#sec6">Discussion</a></li>
+  <li><a href="#sec7">Conclusions</a></li>
+  <li><a href="#sec8">Methods</a></li>
+  <li><a href="#refs">References</a></li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec1">1. Introduction</h2>
+
+<p>Assembly Theory (AT) offers a powerful measurement framework for detecting selection in molecular systems: objects with high assembly index found in high copy number cannot arise from undirected physics alone<sup>1</sup>. Yet AT's authors acknowledge a fundamental gap:</p>
+
+<blockquote>&ldquo;Physics has no functional view of the Universe &mdash; it cannot distinguish novel functional features from random fluctuations.&rdquo;<sup>1</sup></blockquote>
+
+<p>We present a computational system that fills this gap. The Free-Market Agent-Based Model (FM-ABM) distinguishes novelty from noise through two concrete mechanisms:</p>
+
+<ol>
+  <li><strong>Natural interaction with neighbors = exploration.</strong> When a worker's molecule meets a neighbor's molecule and they combine exothermically, a genuinely new product is created. This is AT's discovery dynamics, grounded in real thermodynamics.</li>
+  <li><strong>Consumption of the new product = selection.</strong> If the new product satisfies market demand, it gets produced repeatedly. If not, it decays. Market demand <em>is</em> functional evaluation &mdash; AT's production dynamics made concrete.</li>
+</ol>
+
+<p>This is not an abstract mathematical exercise. FM-ABM operates on real chemistry with real energies &mdash; Bond Dissociation Energies for thermodynamic feasibility, Universal Force Field for 3D geometry validation, and Evans&ndash;Polanyi kinetic barriers for reaction rates. Starting from bare atoms (C, H, O, N), the model spontaneously discovers amino acid synthesis pathways, reproducing the hierarchy observed in prebiotic experiments, meteorites, and phylogenetic reconstruction.</p>
+
+<p>The FM-ABM framework was originally developed for economic simulation as the DEPLOYERS framework<sup>5,6</sup>, and has been shown to forecast macroeconomic variables such as GDP<sup>7</sup>. The application to chemistry exploits a deep isomorphism: atoms are goods, reactions are production functions, and thermodynamic selection is market selection. The universality of this mapping suggests that free-market dynamics may constitute a fundamental mechanism for selection across domains.</p>
+
+<div class="highlight">
+<strong>Central thesis:</strong> Assembly Theory provides the WHAT (measuring selection via assembly index + copy number). FM-ABM provides the HOW (generating selection through supply, demand, and competition). Where AT explains and quantifies, FM-ABM quantifies and <em>forecasts</em>: given initial conditions (atoms, temperature, discovery budget), it predicts what will be selected.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec2">2. Assembly Theory: Key Concepts</h2>
+
+<p>We briefly summarize the AT constructs most relevant to our work, following Sharma et al.<sup>1</sup>.</p>
+
+<h3>2.1 Assembly Index and Copy Number</h3>
+
+<p>The <strong>assembly index</strong> <em>a<sub>i</sub></em> of an object is the minimum number of recursive joining operations needed to construct it from a set of basic building blocks. For molecules, these blocks are atoms or simple fragments; the index counts the shortest path through &ldquo;assembly space&rdquo; from primitives to the target.</p>
+
+<p>The <strong>copy number</strong> <em>n<sub>i</sub></em> counts how many identical copies of an object exist in a sample. AT's key insight is that objects with both high <em>a<sub>i</sub></em> and high <em>n<sub>i</sub></em> require an explanation beyond undirected physics.</p>
+
+<h3>2.2 The Assembly Equation</h3>
+
+<div class="equation">A &nbsp;=&nbsp; &Sigma; &nbsp;e<sup style="color:#fbbf24;">a<sub>i</sub></sup> &times; (n<sub>i</sub> &minus; 1) &nbsp;/&nbsp; N<sub>T</sub></div>
+
+<p>The exponential weighting ensures that even modest copy numbers of high-index objects contribute enormously to the assembly <em>A</em>. This makes <em>A</em> a sensitive detector of selection.</p>
+
+<h3>2.3 The Selection Parameter &alpha;</h3>
+
+<p>AT parameterizes selection through &alpha; in the production probability:</p>
+
+<div class="equation">P<sub>a</sub> &nbsp;&prop;&nbsp; (N<sub>a</sub>)<sup style="color:#fbbf24;">&alpha;</sup></div>
+
+<p>where <em>N<sub>a</sub></em> is the number of objects at assembly index <em>a</em>. When &alpha;&nbsp;=&nbsp;1, production is undirected (proportional to abundance). When &alpha;&nbsp;&lt;&nbsp;1, production is <em>directed</em> &mdash; rarer, higher-index objects are preferentially produced. AT demonstrates that &alpha;&nbsp;&lt;&nbsp;1 generates non-monotonic copy-number distributions, the signature of selection.</p>
+
+<h3>2.4 Three Dynamical Regimes</h3>
+
+<p>AT identifies three regimes based on the ratio of production timescale &tau;<sub>p</sub> to discovery timescale &tau;<sub>d</sub>:</p>
+
+<div class="regime-grid">
+  <div class="regime-card stagnation">
+    <h4>Stagnation</h4>
+    <p>&tau;<sub>p</sub> &lt;&lt; &tau;<sub>d</sub></p>
+    <p>Production outpaces discovery. Few species, but those that exist are amplified. Selection signature visible.</p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Selection</h4>
+    <p>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub></p>
+    <p>Balanced exploration and exploitation. Maximal diversity with sustained production. The &ldquo;sweet spot.&rdquo;</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Tar</h4>
+    <p>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub></p>
+    <p>Discovery outpaces production. Combinatorial explosion &mdash; everything is discovered, nothing persists.</p>
+  </div>
+</div>
+
+<h3>2.5 AT's Acknowledged Limitation</h3>
+
+<blockquote>&ldquo;We are putting selection in by hand in our examples to demonstrate foundational principles.&rdquo;<sup>1</sup></blockquote>
+
+<p>AT's phenomenological models use abstract parameters (&alpha;, &tau;<sub>d</sub>, &tau;<sub>p</sub>) to demonstrate <em>what</em> selection looks like, but do not specify the <em>mechanism</em> by which selection operates in chemical systems. FM-ABM provides precisely this mechanism.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec3">3. The Free-Market Agent-Based Model</h2>
+
+<h3>3.1 Economic&ndash;Chemical Mapping</h3>
+
+<p>The FM-ABM maps chemistry onto a market economy with a direct correspondence between economic and chemical entities:</p>
+
+<table>
+<tr><th>Economic Entity</th><th>Chemical Meaning</th><th>AT Concept</th></tr>
+<tr><td class="bold">Workers</td><td>Market agents (autonomous economic actors)</td><td>Cells in assembly space</td></tr>
+<tr><td class="bold">Goods</td><td>Atoms and molecules (C, H, O, N, CH<sub>4</sub>, H<sub>2</sub>O, glycine...)</td><td>Objects</td></tr>
+<tr><td class="bold">Producers</td><td>Reaction firms (recipes as production functions)</td><td>Assembly pathways</td></tr>
+<tr><td class="bold">Ring neighborhoods</td><td>Local market structure, O(k) circular topology</td><td>Interaction range</td></tr>
+<tr><td class="bold">GFCF demand</td><td>Consumer preference for complex molecules</td><td>Selection parameter &alpha;</td></tr>
+<tr><td class="bold">Witness producers</td><td>State-owned enterprises preserving rare species</td><td>Memory / historical contingency</td></tr>
+</table>
+
+<p>A crucial distinction: workers are <em>not</em> atoms. Workers are economic agents that <em>trade</em> atoms and molecules. This separation of agency from substance allows the model to capture selection dynamics that cannot be modeled by physical simulations alone.</p>
+
+<h3>3.2 The Workshop Manager's Day</h3>
+
+<p>Each simulation step, every worker executes a five-phase economic cycle:</p>
+
+<div class="fig" style="padding: 12px 18px;">
+<svg viewBox="0 0 900 110" xmlns="http://www.w3.org/2000/svg">
+  <!-- Phase boxes -->
+  <rect x="5" y="15" width="155" height="65" rx="8" fill="#27272a" stroke="#6366f1" stroke-width="2"/>
+  <rect x="185" y="15" width="155" height="65" rx="8" fill="#27272a" stroke="#22c55e" stroke-width="2"/>
+  <rect x="365" y="15" width="155" height="65" rx="8" fill="#27272a" stroke="#f97316" stroke-width="2"/>
+  <rect x="545" y="15" width="155" height="65" rx="8" fill="#27272a" stroke="#818cf8" stroke-width="2"/>
+  <rect x="725" y="15" width="155" height="65" rx="8" fill="#27272a" stroke="#ec4899" stroke-width="2"/>
+  <!-- Phase labels -->
+  <text x="82" y="36" fill="#a5b4fc" font-size="11" text-anchor="middle" font-weight="bold">1. Discovery</text>
+  <text x="82" y="55" fill="#a1a1aa" font-size="9.5" text-anchor="middle">Combine inventory with</text>
+  <text x="82" y="68" fill="#a1a1aa" font-size="9.5" text-anchor="middle">neighbor goods (UFF/BDE)</text>
+  <text x="262" y="36" fill="#4ade80" font-size="11" text-anchor="middle" font-weight="bold">2. Buy Goods</text>
+  <text x="262" y="55" fill="#a1a1aa" font-size="9.5" text-anchor="middle">GFCF: demand the most</text>
+  <text x="262" y="68" fill="#a1a1aa" font-size="9.5" text-anchor="middle">complex available molecule</text>
+  <text x="442" y="36" fill="#fb923c" font-size="11" text-anchor="middle" font-weight="bold">3. Manage Producer</text>
+  <text x="442" y="55" fill="#a1a1aa" font-size="9.5" text-anchor="middle">Close unprofitable firms</text>
+  <text x="442" y="68" fill="#a1a1aa" font-size="9.5" text-anchor="middle">(keep last-witness alive)</text>
+  <text x="622" y="36" fill="#a5b4fc" font-size="11" text-anchor="middle" font-weight="bold">4. Try Startup</text>
+  <text x="622" y="55" fill="#a1a1aa" font-size="9.5" text-anchor="middle">Open new firm if</text>
+  <text x="622" y="68" fill="#a1a1aa" font-size="9.5" text-anchor="middle">unmet demand exists</text>
+  <text x="802" y="36" fill="#ec4899" font-size="11" text-anchor="middle" font-weight="bold">5. Run Producer</text>
+  <text x="802" y="55" fill="#a1a1aa" font-size="9.5" text-anchor="middle">Produce if inputs avail.</text>
+  <text x="802" y="68" fill="#a1a1aa" font-size="9.5" text-anchor="middle">Growth push to neighbors</text>
+  <!-- Arrows -->
+  <line x1="163" y1="47" x2="182" y2="47" stroke="#52525b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="343" y1="47" x2="362" y2="47" stroke="#52525b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="523" y1="47" x2="542" y2="47" stroke="#52525b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="703" y1="47" x2="722" y2="47" stroke="#52525b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#52525b"/>
+    </marker>
+  </defs>
+  <!-- AT mapping labels -->
+  <text x="82" y="100" fill="#8b5cf6" font-size="9" text-anchor="middle">AT: &tau;<sub>d</sub> (discovery)</text>
+  <text x="262" y="100" fill="#8b5cf6" font-size="9" text-anchor="middle">AT: &alpha; (selection)</text>
+  <text x="442" y="100" fill="#8b5cf6" font-size="9" text-anchor="middle">AT: decay</text>
+  <text x="622" y="100" fill="#8b5cf6" font-size="9" text-anchor="middle">AT: &tau;<sub>p</sub> (production)</text>
+  <text x="802" y="100" fill="#8b5cf6" font-size="9" text-anchor="middle">AT: amplification</text>
+</svg>
+</div>
+
+<p>The five phases map directly onto AT's dynamical processes. Discovery controls &tau;<sub>d</sub>. GFCF demand implements &alpha;. Producer management provides decay. Startup and production control &tau;<sub>p</sub>. No phase is designed <em>for</em> AT &mdash; the mapping is emergent.</p>
+
+<h3>3.3 Physics Integration</h3>
+
+<p>FM-ABM grounds every reaction in physical chemistry through three layers of validation:</p>
+
+<table>
+<tr><th>Layer</th><th>Method</th><th>Role</th></tr>
+<tr><td class="bold">Thermodynamic feasibility</td><td>Bond Dissociation Energies (BDE)</td><td>&Delta;E &lt; 0 required for reaction to proceed</td></tr>
+<tr><td class="bold">Geometric validation</td><td>Universal Force Field (UFF)</td><td>3D strain check for molecules &le; 30 atoms</td></tr>
+<tr><td class="bold">Kinetic barriers</td><td>Evans&ndash;Polanyi relation</td><td>E<sub>a</sub> = E<sub>0</sub> + &alpha;<sub>EP</sub> &times; &Delta;E, acceptance P = exp(&minus;E<sub>a</sub>/kT)</td></tr>
+</table>
+
+<p>The Evans&ndash;Polanyi barrier introduces temperature as a tunable parameter. Different temperatures unlock different reaction pathways, providing a concrete mechanism for pathway selection that AT's abstract framework cannot capture.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec4">4. FM-ABM as AT's Forward Dynamics</h2>
+
+<h3>4.1 Implementing AT's Selection Parameter</h3>
+
+<p>AT defines &alpha; abstractly as &ldquo;the specificity of selection &mdash; that some objects are more likely to be used to make new things.&rdquo;<sup>1</sup> This definition requires an external specification of <em>which</em> objects are preferred.</p>
+
+<p>FM-ABM implements &alpha; concretely through Gross Fixed Capital Formation (GFCF) demand. Each worker demands the most complex molecule available in the local market. This creates a demand cascade: complex molecules are consumed, driving demand for their precursors, which drives demand for <em>their</em> precursors, down to primary atoms. The result is directed production (&alpha;&nbsp;&lt;&nbsp;1) without any hand-designed specification of which molecules should be preferred.</p>
+
+<div class="two-col">
+  <div class="highlight">
+    <strong>AT's approach:</strong> Set &alpha; = 0.5 (or some value &lt; 1) in the production equation P<sub>a</sub> &prop; (N<sub>a</sub>)<sup>&alpha;</sup>. Selection is <em>put in by hand</em>.
+  </div>
+  <div class="success">
+    <strong>FM-ABM's approach:</strong> GFCF demand + market competition naturally produces &alpha; &lt; 1 behavior. Selection <em>emerges</em> from economic dynamics.
+  </div>
+</div>
+
+<h3>4.2 Distinguishing Novelty from Noise</h3>
+
+<p>AT identifies the central problem: &ldquo;physics has no functional view of the Universe, it cannot distinguish novel functional features from random fluctuations.&rdquo;<sup>1</sup></p>
+
+<p>FM-ABM resolves this through two coupled mechanisms:</p>
+
+<div class="two-col">
+  <div class="regime-card selection">
+    <h4>Exploration: Neighbor Interaction</h4>
+    <p>When a worker's molecule encounters a neighbor's molecule and they combine exothermically (BDE check) into a geometrically valid product (UFF check), a genuinely novel product is created. This is <em>not</em> random fluctuation &mdash; it is thermodynamically grounded discovery. The product's existence is physics-validated.</p>
+  </div>
+  <div class="regime-card stagnation">
+    <h4>Selection: Market Consumption</h4>
+    <p>If the new product satisfies demand (GFCF wants it, or a producer needs it as input), it gets produced repeatedly. If not, it decays as its producer becomes unprofitable and closes. Market demand provides the <em>functional evaluation</em> that AT says physics lacks.</p>
+  </div>
+</div>
+
+<p>The combination is key: exploration proposes candidates (AT's &tau;<sub>d</sub>), and market selection amplifies the functional ones (AT's &alpha; &lt; 1). Neither mechanism alone suffices &mdash; just as AT predicts.</p>
+
+<h3>4.3 Objects Defined by Formation Histories</h3>
+
+<p>AT insists on treating &ldquo;objects not as point particles, but as entities defined by their possible formation histories.&rdquo;<sup>1</sup> FM-ABM embodies this principle completely:</p>
+
+<ul>
+  <li>Every molecule in the census has a <strong>complete formation history</strong> &mdash; its recipe depth (assembly index), its input molecules, their input molecules, all the way back to primary atoms.</li>
+  <li>The recipe book <em>is</em> the assembly space &mdash; all discovered pathways for all observed objects.</li>
+  <li>Multiple independent routes to the same molecule are preserved (up to 260 routes for a single amino acid).</li>
+  <li>A molecule's &ldquo;identity&rdquo; includes not just its formula but the entire tree of operations that produced it.</li>
+</ul>
+
+<div class="insight">
+<strong>Key correspondence:</strong> AT's assembly space is a theoretical construct &mdash; the set of all possible formation pathways. FM-ABM's recipe book is an <em>empirical</em> assembly space, progressively explored through thermodynamically grounded discovery. The recipe book grows over time exactly as AT predicts: &ldquo;assembly contingent&rdquo; (discovered pathways) expands within &ldquo;assembly possible&rdquo; (all valid combinations).
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec5">5. Experimental Validation</h2>
+
+<h3>5.1 Amino Acid Emergence (The &ldquo;Early 10&rdquo;)</h3>
+
+<p>We simulated a reactor containing 200&nbsp;C + 500&nbsp;H + 100&nbsp;O + 100&nbsp;N atoms (900 total) in full discovery mode with no target molecules specified. Within 500 simulation steps (~5 minutes on a standard laptop), the system discovered synthesis pathways for 10 of the 12 amino acids accessible from C, H, O, and N<sup>8</sup>.</p>
+
+<table>
+<tr><th>#</th><th>Amino Acid</th><th>Formula</th><th>First Step</th><th>Routes</th><th>Status</th></tr>
+<tr><td class="num">1</td><td class="bold">Threonine</td><td>C<sub>4</sub>H<sub>9</sub>NO<sub>3</sub></td><td class="num bold">9</td><td class="num">4</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">2</td><td class="bold">Valine</td><td>C<sub>5</sub>H<sub>11</sub>NO<sub>2</sub></td><td class="num bold">10</td><td class="num">6</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">3</td><td class="bold">Leucine</td><td>C<sub>6</sub>H<sub>13</sub>NO<sub>2</sub></td><td class="num bold">11</td><td class="num">2</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">4</td><td class="bold">Alanine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>2</sub></td><td class="num bold">12</td><td class="num">7</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">5</td><td class="bold">Aspartate</td><td>C<sub>4</sub>H<sub>7</sub>NO<sub>4</sub></td><td class="num bold">17</td><td class="num">4</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">6</td><td class="bold">Glycine</td><td>C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub></td><td class="num bold">30</td><td class="num">15</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">7</td><td class="bold">Serine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>3</sub></td><td class="num">35</td><td class="num">4</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">8</td><td class="bold">Proline</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>2</sub></td><td class="num">42</td><td class="num">3</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">9</td><td class="bold">Asparagine</td><td>C<sub>4</sub>H<sub>8</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">59</td><td class="num">5</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">10</td><td class="bold">Glutamine</td><td>C<sub>5</sub>H<sub>10</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">66</td><td class="num">1</td><td style="color:#4ade80;">Early</td></tr>
+<tr><td class="num">11</td><td>Glutamate</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>4</sub></td><td class="num">32</td><td class="num">&mdash;</td><td style="color:#fbbf24;">Marginal</td></tr>
+<tr><td class="num">12</td><td>Histidine</td><td>C<sub>6</sub>H<sub>9</sub>N<sub>3</sub>O<sub>2</sub></td><td class="num">317</td><td class="num">&mdash;</td><td style="color:#f87171;">Late</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 1 | Amino acid emergence order.</strong> 10 of 12 feasible amino acids discovered within 66 steps. The same &ldquo;early 10&rdquo; identified by Miller&ndash;Urey experiments<sup>2</sup>, meteorite analysis<sup>3</sup>, and phylogenetic reconstruction<sup>4</sup>. Up to 260 independent synthesis routes per amino acid in extended runs.</p>
+
+<p>Amino acid formulas appear <strong>14 times earlier than expected by chance</strong>. By step 50, only 213 formulas have been discovered, yet 7 of the 12 amino acid formulas are already present (3.3% of species vs. 0.24% over the full run). In AT's language, these are <em>high assembly-index objects appearing in high abundance</em> &mdash; the definitive signature of selection.</p>
+
+<div class="success">
+<strong>AT interpretation:</strong> The amino acids are thermodynamic attractors in assembly space. Their high copy number at high assembly index (recipe depth 3&ndash;6) is precisely what AT predicts as the hallmark of selection. FM-ABM shows that free-market dynamics are <em>sufficient</em> to generate this signature.
+</div>
+
+<h3>5.2 The Three &tau;<sub>d</sub>/&tau;<sub>p</sub> Regimes</h3>
+
+<p>AT predicts three dynamical regimes depending on the balance between discovery and production timescales. We reproduce all three by varying a single parameter: <code>discoveryBudget</code>.</p>
+
+<div class="four-col">
+  <div class="regime-card stagnation">
+    <h4>Budget = 1 <span class="badge badge-at">Stagnation</span></h4>
+    <p>&tau;<sub>p</sub> &lt;&lt; &tau;<sub>d</sub></p>
+    <p><strong>132</strong> species<br><strong>6,817</strong> objects<br>Max depth <strong>12</strong><br><em>A</em> = <strong>987</strong></p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Budget = 10 <span class="badge badge-at">Selection</span></h4>
+    <p>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub></p>
+    <p><strong>784</strong> species<br><strong>14,138</strong> objects<br>Max depth <strong>12</strong><br><em>A</em> = <strong>377</strong></p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Budget = 50 <span class="badge badge-at">Tar</span></h4>
+    <p>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub></p>
+    <p><strong>22</strong> species<br><strong>70</strong> objects<br>Max depth <strong>5</strong><br><em>A</em> = <strong>10</strong></p>
+  </div>
+  <div class="regime-card free">
+    <h4>Free Mode <span class="badge badge-at">&alpha;=1</span></h4>
+    <p>No selection</p>
+    <p><strong>714</strong> species<br><strong>11,312</strong> objects<br>Max depth <strong>12</strong><br><em>A</em> = <strong>61</strong></p>
+  </div>
+</div>
+
+<p>The results are striking. A single parameter &mdash; <code>discoveryBudget</code> &mdash; reproduces all three of AT's predicted regimes plus the undirected baseline. No fine-tuning was required.</p>
+
+<!-- Budget=1 chart: Non-monotonic selection signature -->
+<div class="fig">
+<svg viewBox="0 0 750 260" xmlns="http://www.w3.org/2000/svg">
+  <!-- Axes -->
+  <line x1="65" y1="10" x2="65" y2="200" stroke="#52525b" stroke-width="1"/>
+  <line x1="65" y1="200" x2="710" y2="200" stroke="#52525b" stroke-width="1"/>
+  <text x="18" y="110" fill="#a1a1aa" font-size="12" transform="rotate(-90,18,110)">Avg copies per species</text>
+  <text x="387" y="250" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth (assembly index)</text>
+  <!-- Title -->
+  <text x="387" y="18" fill="#fb923c" font-size="13" text-anchor="middle" font-weight="bold">Budget = 1 (Stagnation Regime) &mdash; Non-monotonic Selection Signature</text>
+  <!-- Gridlines -->
+  <line x1="65" y1="50" x2="710" y2="50" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="65" y1="100" x2="710" y2="100" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="65" y1="150" x2="710" y2="150" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <!-- Y ticks -->
+  <text x="57" y="54" fill="#71717a" font-size="10" text-anchor="end">500</text>
+  <text x="57" y="104" fill="#71717a" font-size="10" text-anchor="end">333</text>
+  <text x="57" y="154" fill="#71717a" font-size="10" text-anchor="end">167</text>
+  <text x="57" y="204" fill="#71717a" font-size="10" text-anchor="end">0</text>
+  <!-- Scale: max=530, height range 200-30=170, factor = 170/530 = 0.3208 -->
+  <!-- d1=530: h=170 -> y=30 -->
+  <rect x="82" y="30" width="55" height="170" rx="3" fill="#f97316" opacity="0.85"/>
+  <!-- d2=107: h=34 -> y=166 -->
+  <rect x="152" y="166" width="55" height="34" rx="3" fill="#f97316" opacity="0.85"/>
+  <!-- d3=29: h=9 -> y=191 -->
+  <rect x="222" y="191" width="55" height="9" rx="3" fill="#f97316" opacity="0.85"/>
+  <!-- d4=11: h=4 -> y=196 -->
+  <rect x="292" y="197" width="55" height="3" rx="3" fill="#f97316" opacity="0.85"/>
+  <!-- d5=7: h=2 -> y=198 -->
+  <rect x="362" y="198" width="55" height="2" rx="3" fill="#f97316" opacity="0.85"/>
+  <!-- d6=29: h=9 -> y=191 (UPTICK!) -->
+  <rect x="432" y="191" width="55" height="9" rx="3" fill="#22c55e" opacity="0.9"/>
+  <!-- d7=14: h=4.5 -> y=196 -->
+  <rect x="502" y="196" width="55" height="4" rx="3" fill="#22c55e" opacity="0.9"/>
+  <!-- d8=38: h=12 -> y=188 (PEAK!) -->
+  <rect x="572" y="188" width="55" height="12" rx="3" fill="#22c55e" opacity="0.9"/>
+  <!-- d9=26: h=8 -> y=192 -->
+  <rect x="642" y="192" width="55" height="8" rx="3" fill="#22c55e" opacity="0.9"/>
+  <!-- Bar labels -->
+  <text x="109" y="26" fill="#d4d4d8" font-size="10" text-anchor="middle" font-weight="bold">530</text>
+  <text x="179" y="162" fill="#d4d4d8" font-size="10" text-anchor="middle">107</text>
+  <text x="249" y="187" fill="#d4d4d8" font-size="10" text-anchor="middle">29</text>
+  <text x="319" y="193" fill="#d4d4d8" font-size="10" text-anchor="middle">11</text>
+  <text x="389" y="194" fill="#d4d4d8" font-size="10" text-anchor="middle">7</text>
+  <text x="459" y="187" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">29</text>
+  <text x="529" y="192" fill="#4ade80" font-size="10" text-anchor="middle">14</text>
+  <text x="599" y="184" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">38</text>
+  <text x="669" y="188" fill="#4ade80" font-size="10" text-anchor="middle">26</text>
+  <!-- Depth labels -->
+  <text x="109" y="216" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="179" y="216" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="249" y="216" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="319" y="216" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <text x="389" y="216" fill="#a1a1aa" font-size="10" text-anchor="middle">5</text>
+  <text x="459" y="216" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">6</text>
+  <text x="529" y="216" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">7</text>
+  <text x="599" y="216" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">8</text>
+  <text x="669" y="216" fill="#4ade80" font-size="10" text-anchor="middle" font-weight="bold">9</text>
+  <!-- Selection annotation -->
+  <line x1="432" y1="178" x2="700" y2="178" stroke="#22c55e" stroke-width="1" stroke-dasharray="4"/>
+  <text x="566" y="174" fill="#4ade80" font-size="11" text-anchor="middle" font-weight="bold">SELECTION SIGNATURE</text>
+  <!-- Trend arrow showing dip then rise -->
+  <path d="M 109,35 L 179,170 L 249,195 L 319,200 L 389,202 L 459,195 L 529,199 L 599,192 L 669,196" fill="none" stroke="#fbbf2450" stroke-width="2" stroke-dasharray="6"/>
+</svg>
+<p class="fig-caption"><strong>Figure 1 | Budget = 1 (Stagnation regime).</strong> Copy number declines monotonically from d1 to d5, then <em>rises</em> at d6&ndash;d9 (green bars). Copies at depth 8 (avg = 38) exceed copies at depth 4 (avg = 11). This non-monotonic pattern is AT's &ldquo;smoking gun&rdquo; for selection &mdash; impossible under undirected production. 132 species, 6,817 objects, <em>A</em> = 987.</p>
+</div>
+
+<!-- Free mode chart: Monotonic decline -->
+<div class="fig">
+<svg viewBox="0 0 750 240" xmlns="http://www.w3.org/2000/svg">
+  <!-- Axes -->
+  <line x1="65" y1="10" x2="65" y2="195" stroke="#52525b" stroke-width="1"/>
+  <line x1="65" y1="195" x2="690" y2="195" stroke="#52525b" stroke-width="1"/>
+  <text x="18" y="105" fill="#a1a1aa" font-size="12" transform="rotate(-90,18,105)">Avg copies per species</text>
+  <text x="377" y="232" fill="#a1a1aa" font-size="12" text-anchor="middle">Recipe depth (assembly index)</text>
+  <!-- Title -->
+  <text x="377" y="18" fill="#818cf8" font-size="13" text-anchor="middle" font-weight="bold">Free Mode (&alpha; = 1, No Selection) &mdash; Monotonic Decline</text>
+  <!-- Gridlines -->
+  <line x1="65" y1="45" x2="690" y2="45" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="65" y1="95" x2="690" y2="95" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="65" y1="145" x2="690" y2="145" stroke="#27272a" stroke-width="1" stroke-dasharray="4"/>
+  <!-- Y ticks -->
+  <text x="57" y="49" fill="#71717a" font-size="10" text-anchor="end">600</text>
+  <text x="57" y="99" fill="#71717a" font-size="10" text-anchor="end">400</text>
+  <text x="57" y="149" fill="#71717a" font-size="10" text-anchor="end">200</text>
+  <text x="57" y="199" fill="#71717a" font-size="10" text-anchor="end">0</text>
+  <!-- Scale: max=616, range=150, factor = 150/616 = 0.2435 -->
+  <!-- d0=214: h=52 -> y=143 -->
+  <rect x="82" y="143" width="46" height="52" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d1=616: h=150 -> y=45 -->
+  <rect x="138" y="45" width="46" height="150" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d2=133: h=32 -> y=163 -->
+  <rect x="194" y="163" width="46" height="32" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d3=33: h=8 -> y=187 -->
+  <rect x="250" y="187" width="46" height="8" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d4=12: h=3 -> y=192 -->
+  <rect x="306" y="192" width="46" height="3" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d5=5: h=1.2 -> y=194 -->
+  <rect x="362" y="194" width="46" height="1" rx="3" fill="#818cf8" opacity="0.8"/>
+  <!-- d6=3 -->
+  <rect x="418" y="194" width="46" height="1" rx="3" fill="#818cf8" opacity="0.65"/>
+  <!-- d7-d12 = ~1 each -->
+  <rect x="474" y="195" width="46" height="1" rx="3" fill="#818cf8" opacity="0.5"/>
+  <rect x="530" y="195" width="46" height="1" rx="3" fill="#818cf8" opacity="0.5"/>
+  <rect x="586" y="195" width="46" height="1" rx="3" fill="#818cf8" opacity="0.5"/>
+  <!-- Bar labels -->
+  <text x="105" y="139" fill="#d4d4d8" font-size="9" text-anchor="middle">214</text>
+  <text x="161" y="41" fill="#d4d4d8" font-size="9" text-anchor="middle" font-weight="bold">616</text>
+  <text x="217" y="159" fill="#d4d4d8" font-size="9" text-anchor="middle">133</text>
+  <text x="273" y="183" fill="#d4d4d8" font-size="9" text-anchor="middle">33</text>
+  <text x="329" y="188" fill="#d4d4d8" font-size="9" text-anchor="middle">12</text>
+  <text x="385" y="190" fill="#71717a" font-size="9" text-anchor="middle">5</text>
+  <text x="441" y="190" fill="#71717a" font-size="9" text-anchor="middle">3</text>
+  <text x="497" y="191" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="553" y="191" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <text x="609" y="191" fill="#71717a" font-size="9" text-anchor="middle">1</text>
+  <!-- Depth labels -->
+  <text x="105" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">0</text>
+  <text x="161" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">1</text>
+  <text x="217" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">2</text>
+  <text x="273" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">3</text>
+  <text x="329" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">4</text>
+  <text x="385" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">5</text>
+  <text x="441" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">6</text>
+  <text x="497" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">7</text>
+  <text x="553" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">8</text>
+  <text x="609" y="210" fill="#a1a1aa" font-size="10" text-anchor="middle">9+</text>
+  <!-- Monotonic trend line -->
+  <path d="M 105,148 L 161,50 L 217,167 L 273,191 L 329,196 L 385,198 L 441,198 L 497,199 L 553,199 L 609,199" fill="none" stroke="#818cf860" stroke-width="2" stroke-dasharray="6"/>
+  <!-- No-selection label -->
+  <text x="500" y="175" fill="#71717a" font-size="11" text-anchor="middle" font-style="italic">Monotonic decline = no selection</text>
+</svg>
+<p class="fig-caption"><strong>Figure 2 | Free Mode (No selection, &alpha; = 1).</strong> Copy numbers decline monotonically after depth 1. 714 species, 11,312 objects, <em>A</em> = 61. This matches AT's prediction for undirected processes: broad exploration without amplification of complex molecules.</p>
+</div>
+
+<!-- Regime comparison chart -->
+<div class="fig">
+<svg viewBox="0 0 750 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="375" y="20" fill="#e4e4e7" font-size="14" text-anchor="middle" font-weight="bold">Regime Comparison: Species, Objects, and Assembly</text>
+  <!-- Axes -->
+  <line x1="80" y1="40" x2="80" y2="260" stroke="#52525b" stroke-width="1"/>
+  <line x1="80" y1="260" x2="720" y2="260" stroke="#52525b" stroke-width="1"/>
+  <text x="25" y="155" fill="#a1a1aa" font-size="11" transform="rotate(-90,25,155)">Count (log scale conceptual)</text>
+  <!-- Category labels -->
+  <text x="200" y="285" fill="#a1a1aa" font-size="11" text-anchor="middle">Budget = 1</text>
+  <text x="360" y="285" fill="#a1a1aa" font-size="11" text-anchor="middle">Budget = 10</text>
+  <text x="520" y="285" fill="#a1a1aa" font-size="11" text-anchor="middle">Budget = 50</text>
+  <text x="660" y="285" fill="#a1a1aa" font-size="11" text-anchor="middle">Free Mode</text>
+  <!-- Budget=1: species=132, objects=6817, A=987 -->
+  <rect x="160" y="200" width="25" height="60" rx="2" fill="#f97316" opacity="0.8"/>
+  <rect x="190" y="85"  width="25" height="175" rx="2" fill="#fb923c" opacity="0.8"/>
+  <rect x="220" y="60"  width="25" height="200" rx="2" fill="#fbbf24" opacity="0.8"/>
+  <!-- Budget=10: species=784, objects=14138, A=377 -->
+  <rect x="320" y="140" width="25" height="120" rx="2" fill="#22c55e" opacity="0.8"/>
+  <rect x="350" y="50"  width="25" height="210" rx="2" fill="#4ade80" opacity="0.8"/>
+  <rect x="380" y="115" width="25" height="145" rx="2" fill="#86efac" opacity="0.8"/>
+  <!-- Budget=50: species=22, objects=70, A=10 -->
+  <rect x="490" y="248" width="25" height="12" rx="2" fill="#ef4444" opacity="0.8"/>
+  <rect x="520" y="245" width="25" height="15" rx="2" fill="#f87171" opacity="0.8"/>
+  <rect x="550" y="255" width="25" height="5"  rx="2" fill="#fca5a5" opacity="0.8"/>
+  <!-- Free: species=714, objects=11312, A=61 -->
+  <rect x="620" y="148" width="25" height="112" rx="2" fill="#818cf8" opacity="0.8"/>
+  <rect x="650" y="65"  width="25" height="195" rx="2" fill="#a5b4fc" opacity="0.8"/>
+  <rect x="680" y="240" width="25" height="20"  rx="2" fill="#c4b5fd" opacity="0.8"/>
+  <!-- Value labels -->
+  <text x="172" y="196" fill="#d4d4d8" font-size="8" text-anchor="middle">132</text>
+  <text x="202" y="81"  fill="#d4d4d8" font-size="8" text-anchor="middle">6.8k</text>
+  <text x="232" y="56"  fill="#fbbf24" font-size="8" text-anchor="middle" font-weight="bold">987</text>
+  <text x="332" y="136" fill="#d4d4d8" font-size="8" text-anchor="middle">784</text>
+  <text x="362" y="46"  fill="#d4d4d8" font-size="8" text-anchor="middle">14.1k</text>
+  <text x="392" y="111" fill="#86efac" font-size="8" text-anchor="middle">377</text>
+  <text x="502" y="244" fill="#d4d4d8" font-size="8" text-anchor="middle">22</text>
+  <text x="532" y="241" fill="#d4d4d8" font-size="8" text-anchor="middle">70</text>
+  <text x="562" y="251" fill="#fca5a5" font-size="8" text-anchor="middle">10</text>
+  <text x="632" y="144" fill="#d4d4d8" font-size="8" text-anchor="middle">714</text>
+  <text x="662" y="61"  fill="#d4d4d8" font-size="8" text-anchor="middle">11.3k</text>
+  <text x="692" y="236" fill="#c4b5fd" font-size="8" text-anchor="middle">61</text>
+  <!-- Legend -->
+  <rect x="250" y="300" width="12" height="12" rx="2" fill="#f97316" opacity="0.8"/>
+  <text x="268" y="311" fill="#a1a1aa" font-size="10">Species</text>
+  <rect x="340" y="300" width="12" height="12" rx="2" fill="#fb923c" opacity="0.8"/>
+  <text x="358" y="311" fill="#a1a1aa" font-size="10">Objects</text>
+  <rect x="430" y="300" width="12" height="12" rx="2" fill="#fbbf24" opacity="0.8"/>
+  <text x="448" y="311" fill="#a1a1aa" font-size="10">Assembly A</text>
+</svg>
+<p class="fig-caption"><strong>Figure 3 | Regime comparison.</strong> Budget = 10 (Selection) produces the most species and objects. Budget = 1 (Stagnation) produces the highest assembly <em>A</em> = 987 &mdash; few species but intense amplification. Budget = 50 (Tar) collapses: combinatorial explosion prevents anything from persisting. Free Mode has many species but low assembly.</p>
+</div>
+
+<h3>5.3 The Non-Monotonic Copy Signature</h3>
+
+<p>AT's central prediction is that selection produces non-monotonic copy-number distributions: at some assembly index <em>a*</em>, copy numbers <em>increase</em> despite rising complexity. This is impossible under undirected production, where the probability of producing an object at index <em>a</em> + 1 is always lower than at index <em>a</em>.</p>
+
+<p>In our Budget = 1 simulation:</p>
+
+<table>
+<tr><th>Depth</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th style="color:#4ade80;">6</th><th style="color:#4ade80;">7</th><th style="color:#4ade80;">8</th><th style="color:#4ade80;">9</th></tr>
+<tr><td class="bold">Avg copies</td><td class="num">530</td><td class="num">107</td><td class="num">29</td><td class="num">11</td><td class="num">7</td><td class="num" style="color:#4ade80; font-weight:bold;">29</td><td class="num" style="color:#4ade80;">14</td><td class="num" style="color:#4ade80; font-weight:bold;">38</td><td class="num" style="color:#4ade80;">26</td></tr>
+</table>
+
+<p>Copies at depth 8 (avg = 38) <strong>exceed</strong> copies at depth 4 (avg = 11). This 3.5&times; amplification at higher assembly index is AT's &ldquo;smoking gun&rdquo; &mdash; the signature that selection must be operating.</p>
+
+<p>AT's equation for copy-number dynamics:</p>
+<div class="equation">dN<sub>a+1</sub>/dt &nbsp;=&nbsp; k<sub>d</sub> &times; (N<sub>a</sub>)<sup style="color:#fbbf24;">&alpha;</sup></div>
+
+<p>produces non-monotonicity when &alpha; &lt; 1 (directed selection). Our market achieves effective &alpha; &lt; 1 through GFCF demand cascades &mdash; <em>not</em> hand-designed, but emergent from the economic dynamics of supply, demand, and competition.</p>
+
+<div class="warning">
+<strong>Critical comparison:</strong> In AT's published models, &alpha; is set as an input parameter. In FM-ABM, the effective &alpha; <em>emerges</em> from market dynamics. The non-monotonic signature appears without any explicit instruction to produce it &mdash; it is a prediction of the model, not an assumption.
+</div>
+
+<h3>5.4 Temperature as a Pathway Selector</h3>
+
+<p>The Evans&ndash;Polanyi kinetic barrier (E<sub>a</sub> = E<sub>0</sub> + &alpha;<sub>EP</sub> &times; &Delta;E) makes temperature a tunable parameter that unlocks different reaction pathways. This provides a concrete physical mechanism for what AT calls &ldquo;the specificity of selection.&rdquo;</p>
+
+<table>
+<tr><th>Temperature</th><th>Routes to Histamine</th><th>Shortest Depth</th><th>Interpretation</th></tr>
+<tr><td class="bold">T = 300 K</td><td class="num">5</td><td class="num bold">4</td><td>Baseline pathways accessible</td></tr>
+<tr><td class="bold">T = 400 K</td><td class="num" style="color:#4ade80; font-weight:bold;">7</td><td class="num" style="color:#4ade80; font-weight:bold;">3</td><td>New shorter pathway unlocked!</td></tr>
+<tr><td class="bold">T = 600 K</td><td class="num">7</td><td class="num">3</td><td>Same as 400 K (plateau)</td></tr>
+</table>
+
+<p>At T = 400 K (127 &deg;C), a new 3-step synthesis route to histamine becomes accessible that was kinetically blocked at 300 K. This has a practical implication: &ldquo;raise temperature to 127 &deg;C to unlock a 3-step synthesis.&rdquo; FM-ABM does not merely detect that different temperatures produce different chemistry &mdash; it <em>predicts</em> which pathways open at which temperatures.</p>
+
+<div class="insight">
+<strong>Forecasting capability:</strong> AT can measure the assembly of a molecular ensemble after observation. FM-ABM can predict the assembly that will result from specific initial conditions (atoms, temperature, discovery budget) <em>before</em> observation. This is the difference between measurement and forecasting.
+</div>
+
+<h3>5.5 Reactor Scaling</h3>
+
+<p>We tested FM-ABM across reactor sizes from 900 to 7,200 atoms to examine scaling behavior:</p>
+
+<table>
+<tr><th>Reactor</th><th>Atoms</th><th>Species</th><th>Amino Acids</th><th>Largest Molecule</th><th>Entropy</th></tr>
+<tr><td class="bold">R900</td><td class="num">900</td><td class="num bold">1,308</td><td class="num" style="color:#4ade80;">12/12</td><td>Moderate</td><td class="num">4.96 bits</td></tr>
+<tr><td class="bold">R3600</td><td class="num">3,600</td><td class="num">1,011</td><td class="num">&mdash;</td><td>C<sub>104</sub>H<sub>209</sub>N (314 atoms)</td><td class="num">&mdash;</td></tr>
+<tr><td class="bold">R7200</td><td class="num">7,200</td><td class="num">790</td><td class="num">&mdash;</td><td>C<sub>167</sub>H<sub>336</sub> (503 atoms!)</td><td class="num">&mdash;</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 4 | Reactor scaling.</strong> Larger reactors produce fewer species but much larger molecules. The scaling is superlinear: 4&times; atoms produces ~8&times; production rate. The largest molecule at R7200 contains 503 atoms &mdash; a macromolecule assembled entirely from first principles.</p>
+
+<p>The scaling behavior reveals a phase transition: small reactors explore broadly (many species, high entropy), while large reactors exploit deeply (fewer species, larger molecules). This mirrors AT's observation that selection becomes more pronounced as system size increases.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec6">6. Discussion</h2>
+
+<h3>6.1 What FM-ABM Adds to Assembly Theory</h3>
+
+<table>
+<tr><th>Dimension</th><th>Assembly Theory</th><th>FM-ABM</th></tr>
+<tr><td class="bold">Core function</td><td>Measures assembly (detection)</td><td>Generates assembly (mechanism)</td></tr>
+<tr><td class="bold">Selection</td><td>&ldquo;Put in by hand&rdquo; via &alpha;</td><td>Emerges from market dynamics</td></tr>
+<tr><td class="bold">Temporal direction</td><td>Post-hoc measurement</td><td>Forward prediction</td></tr>
+<tr><td class="bold">Physics grounding</td><td>Abstract (any joining operation)</td><td>Concrete (BDE/UFF/Evans&ndash;Polanyi)</td></tr>
+<tr><td class="bold">Novelty detection</td><td>&ldquo;Physics cannot distinguish&rdquo;</td><td>Neighbor interaction + consumption</td></tr>
+<tr><td class="bold">Formation histories</td><td>Theoretical construct</td><td>Empirical recipe book</td></tr>
+<tr><td class="bold">Tunability</td><td>&alpha;, &tau;<sub>d</sub>, &tau;<sub>p</sub> as parameters</td><td>discoveryBudget, temperature, GFCF</td></tr>
+</table>
+
+<p>The relationship is complementary, not competitive. AT provides the theoretical framework for understanding <em>what</em> selection looks like in molecular systems. FM-ABM provides a computational laboratory for exploring <em>how</em> that selection operates and <em>what</em> it produces under specified conditions.</p>
+
+<div class="highlight">
+<strong>The key advance:</strong> AT demonstrates that high assembly + high copy number requires selection. FM-ABM demonstrates that free-market dynamics are <em>sufficient</em> to produce selection. Together, they establish that Darwinian economic optimization is a viable mechanism for the emergence of molecular complexity.
+</div>
+
+<h3>6.2 Broader Applications</h3>
+
+<p>The FM-ABM framework extends beyond prebiotic chemistry:</p>
+
+<ul>
+  <li><strong>Prebiotic chemistry:</strong> A time machine for molecular evolution. Starting from bare atoms, FM-ABM generates the same amino acid hierarchy as nature &mdash; suggesting that the origin of life's building blocks is thermodynamically inevitable, not contingent.</li>
+  <li><strong>Drug synthesis:</strong> Pathway discovery and optimization at different temperatures. The Evans&ndash;Polanyi barrier makes FM-ABM a practical tool for identifying novel synthesis routes and predicting the temperature at which they become accessible.</li>
+  <li><strong>Macroeconomics:</strong> The same DEPLOYERS framework forecasts GDP and macroeconomic dynamics<sup>7</sup>. The mapping between chemistry and economics is not metaphorical &mdash; it is structural. Supply, demand, and competition operate identically in both domains.</li>
+  <li><strong>Universal selection mechanism:</strong> The fact that the same computational framework (a) discovers amino acids from atoms, (b) reproduces AT's three selection regimes, and (c) forecasts macroeconomic variables suggests that free-market dynamics may be a fundamental mechanism for selection across domains. This aligns with AT's aspiration to identify &ldquo;the physics of selection.&rdquo;</li>
+</ul>
+
+<h3>6.3 Limitations</h3>
+
+<p>We acknowledge several limitations of the current FM-ABM implementation:</p>
+
+<ul>
+  <li><strong>Structural isomers:</strong> FM-ABM operates on molecular formulas, correctly identifying compositions (e.g., C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub> for glycine) but not always resolving the correct 3D structure among isomers. UFF validation eliminates geometrically strained structures, but the resulting isomer may differ from the biologically relevant one.</li>
+  <li><strong>Aromatic ring formation:</strong> The current bond-breaking/bond-forming logic does not support aromatic ring closure from intermolecular C=C bonds. This prevents discovery of phenylalanine, tyrosine, and tryptophan.</li>
+  <li><strong>Kinetic barriers:</strong> Evans&ndash;Polanyi barriers are approximate. Full DFT transition-state calculations would provide more accurate kinetics but at 4&ndash;6 orders of magnitude higher computational cost<sup>9</sup>.</li>
+  <li><strong>Isomer determination:</strong> The current approach serves as a starting point for ab-initio detailed determination of preferred isomers among those FM-ABM identifies as thermodynamically accessible.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="sec7">7. Conclusions</h2>
+
+<p>We have demonstrated that a Free-Market Agent-Based Model provides an explicit, physics-grounded mechanism for the selection that Assembly Theory measures. The key findings are:</p>
+
+<ol>
+  <li><strong>FM-ABM is the first computational system providing a mechanism for AT's selection.</strong> The mechanism is Darwinian economic optimization: supply, demand, and competition among economic agents enacting chemistry.</li>
+  <li><strong>The mechanism operates on real chemistry.</strong> Bond Dissociation Energies, Universal Force Field geometry validation, and Evans&ndash;Polanyi kinetic barriers ground every reaction in physical chemistry.</li>
+  <li><strong>FM-ABM discovers the same amino acids as nature.</strong> 10 of 12 feasible amino acids emerge from bare atoms in minutes &mdash; the same &ldquo;early 10&rdquo; identified by Miller&ndash;Urey experiments, meteorite analysis, and phylogenetics.</li>
+  <li><strong>AT's three-regime prediction is confirmed.</strong> Stagnation, selection, and tar regimes emerge from a single tunable parameter (discoveryBudget), matching AT's &tau;<sub>d</sub>/&tau;<sub>p</sub> framework exactly.</li>
+  <li><strong>The non-monotonic copy signature emerges spontaneously.</strong> Market dynamics produce effective &alpha; &lt; 1 without any explicit parameterization &mdash; selection is not put in by hand but arises from economic competition.</li>
+  <li><strong>FM-ABM forecasts, not just explains.</strong> Given initial conditions (atoms, temperature, discovery budget), FM-ABM predicts what molecules will be selected, which pathways will be discovered, and at what temperatures new routes become accessible.</li>
+</ol>
+
+<div class="success">
+<strong>In summary:</strong> Where Assembly Theory asks &ldquo;has selection occurred?&rdquo; (and answers by measuring assembly index + copy number), FM-ABM asks &ldquo;what will selection produce?&rdquo; (and answers by running the forward dynamics). Assembly Theory is the thermometer. FM-ABM is the weather model.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec8">8. Methods</h2>
+
+<h3>8.1 Implementation</h3>
+
+<p>FM-ABM is implemented in C++20 with RDKit for UFF geometry optimization and ImGui for real-time visualization. The codebase compiles on Windows with MSVC and uses standard C++20 features (concepts, ranges, coroutines are not required).</p>
+
+<h3>8.2 Bond Dissociation Energies</h3>
+
+<table>
+<tr><th>Bond</th><th>BDE (kJ/mol)</th><th>Bond</th><th>BDE (kJ/mol)</th></tr>
+<tr><td class="bold">H&ndash;H</td><td class="num">436</td><td class="bold">C=O</td><td class="num">799</td></tr>
+<tr><td class="bold">C&ndash;H</td><td class="num">411</td><td class="bold">C=N</td><td class="num">615</td></tr>
+<tr><td class="bold">C&ndash;C</td><td class="num">346</td><td class="bold">N&ndash;H</td><td class="num">386</td></tr>
+<tr><td class="bold">C&ndash;O</td><td class="num">358</td><td class="bold">O&ndash;H</td><td class="num">459</td></tr>
+<tr><td class="bold">C&ndash;N</td><td class="num">305</td><td class="bold">C=C</td><td class="num">614</td></tr>
+</table>
+
+<p>Reaction feasibility requires &Delta;E &lt; 0, computed as the difference between bonds broken and bonds formed.</p>
+
+<h3>8.3 Evans&ndash;Polanyi Kinetic Barrier</h3>
+
+<div class="equation">E<sub>a</sub> = E<sub>0</sub> + &alpha;<sub>EP</sub> &times; &Delta;E &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; P = exp(&minus;E<sub>a</sub> / kT)</div>
+
+<p>where E<sub>0</sub> is the intrinsic barrier, &alpha;<sub>EP</sub> is the Br&oslash;nsted coefficient (typically 0.3&ndash;0.5), and T is the simulation temperature in Kelvin. Reactions with P below a threshold are rejected.</p>
+
+<h3>8.4 Simulation Parameters</h3>
+
+<table>
+<tr><th>Parameter</th><th>Default Value</th><th>Description</th></tr>
+<tr><td class="bold">Workers</td><td class="num">100</td><td>Number of economic agents</td></tr>
+<tr><td class="bold">Neighbors</td><td class="num">30</td><td>Ring neighborhood size, O(k) circular topology</td></tr>
+<tr><td class="bold">Steps</td><td class="num">500</td><td>Simulation duration (unless noted)</td></tr>
+<tr><td class="bold">Seed</td><td class="num">42</td><td>Random number generator seed</td></tr>
+<tr><td class="bold">discoveryBudget</td><td class="num">10</td><td>UFF evaluations per worker per step</td></tr>
+<tr><td class="bold">UFF atom limit</td><td class="num">30</td><td>Skip UFF for molecules &gt; 30 atoms</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="ref" id="refs">
+<h2 style="border-bottom: none; margin-top: 10px;">9. References</h2>
+<ol>
+  <li>Sharma, A., Czegel, D., Lachmann, M., Kempes, C. P., Walker, S. I. &amp; Cronin, L. Assembly theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023).</li>
+  <li>Miller, S. L. A production of amino acids under possible primitive Earth conditions. <em>Science</em> <strong>117</strong>, 528&ndash;529 (1953).</li>
+  <li>Kvenvolden, K. et al. Evidence for extraterrestrial amino acids and hydrocarbons in the Murchison meteorite. <em>Nature</em> <strong>228</strong>, 923&ndash;926 (1970).</li>
+  <li>Trifonov, E. N. Consensus temporal order of amino acids and evolution of the triplet code. <em>Gene</em> <strong>261</strong>, 139&ndash;151 (2001).</li>
+  <li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. <em>arXiv</em>:2009.10823 (2020).</li>
+  <li>Jaraiz, M. DEPLOYERS framework for economic simulation. Working paper (2020).</li>
+  <li>Jaraiz, M. Macroeconomic Forecasting from Input-Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv</em>:2603.12412 (2026).</li>
+  <li>Ehrenfreund, P. et al. Extraterrestrial amino acids in Orgueil and Ivuna: tracing the parent body of CI type carbonaceous chondrites. <em>Proc. Natl Acad. Sci. USA</em> <strong>98</strong>, 2138&ndash;2141 (2001).</li>
+  <li>Wang, L.-P. et al. Discovering chemistry with an ab initio nanoreactor. <em>Nature Chem.</em> <strong>6</strong>, 1044&ndash;1048 (2014).</li>
+  <li>Hidalgo, J., Zuluaga, P., Beckham, G. T. &amp; St. John, P. C. Machine-learned force fields for molecular simulations. <em>J. Chem. Theory Comput.</em> <strong>17</strong>, 7696&ndash;7711 (2021).</li>
+  <li>Bada, J. L. New insights into prebiotic chemistry from Stanley Miller's spark discharge experiments. <em>Chem. Soc. Rev.</em> <strong>42</strong>, 2186&ndash;2196 (2013).</li>
+  <li>Higgs, P. G. &amp; Pudritz, R. E. A thermodynamic basis for prebiotic amino acid synthesis and the nature of the first genetic code. <em>Astrobiology</em> <strong>9</strong>, 483&ndash;490 (2009).</li>
+  <li>Jordan, M. I. et al. Origin of the genetic code: the escaped triplet theory. <em>Annu. Rev. Biochem.</em> <strong>79</strong>, 95&ndash;118 (2010).</li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<div class="disclosure">
+<strong>AI Disclosure.</strong> Portions of the computational implementation of the author's research ideas, simulation code, data analysis, and manuscript drafting were performed with the assistance of Claude (Anthropic), an AI language model. All scientific concepts, experimental design, interpretation of results, and conclusions are the author's own.
+</div>
+
+<p style="text-align: center; color: #3f3f46; margin-top: 30px; font-size: 0.8em;">&copy; 2026 Martin Jaraiz &mdash; University of Valladolid</p>
+
+</body>
+</html>

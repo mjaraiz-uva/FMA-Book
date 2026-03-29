@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEPLOYERS: Dynamic Shock Implementation -- COVID-19 Pandemic Simulation</title>
+<style>
+  /* Base typography */
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.65;
+    color: #1a1a1a;
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 0 2em;
+    background: #fdfdfd;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 1.9em;
+    margin-top: 1.5em;
+    margin-bottom: 0.3em;
+    color: #222;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.3em;
+  }
+  h2 {
+    font-size: 1.45em;
+    margin-top: 2em;
+    margin-bottom: 0.4em;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.2em;
+  }
+  h3 {
+    font-size: 1.15em;
+    margin-top: 1.5em;
+    margin-bottom: 0.3em;
+    color: #444;
+  }
+  h4 {
+    font-size: 1.0em;
+    margin-top: 1.2em;
+    margin-bottom: 0.2em;
+    color: #555;
+  }
+
+  /* Paragraphs and lists */
+  p { margin: 0.7em 0; text-align: justify; }
+  ul, ol { margin: 0.5em 0 0.5em 1.5em; }
+  li { margin-bottom: 0.3em; }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+    font-size: 0.92em;
+  }
+  th, td {
+    border: 1px solid #bbb;
+    padding: 6px 10px;
+    text-align: left;
+  }
+  th {
+    background: #f0f0f0;
+    font-weight: bold;
+  }
+  caption {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    font-size: 0.95em;
+    text-align: left;
+  }
+  tr:nth-child(even) { background: #fafafa; }
+
+  /* Code */
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.88em;
+    background: #f4f4f4;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.82em;
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em;
+    overflow-x: auto;
+    line-height: 1.45;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 4px solid #2980b9;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    background: #f0f6fa;
+    color: #333;
+    font-style: italic;
+  }
+
+  /* Highlight boxes */
+  .highlight {
+    border-left: 4px solid #27ae60;
+    background: #f0faf0;
+    padding: 0.8em 1.2em;
+    margin: 1em 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight.warning {
+    border-left-color: #e67e22;
+    background: #fef8f0;
+  }
+  .highlight.critical {
+    border-left-color: #c0392b;
+    background: #fdf0f0;
+  }
+
+  /* Table of contents */
+  .toc {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em 1.5em;
+    margin: 1.5em 0;
+  }
+  .toc h2 {
+    font-size: 1.15em;
+    margin-top: 0;
+    border-bottom: none;
+  }
+  .toc ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .toc ul ul {
+    padding-left: 1.5em;
+  }
+  .toc li {
+    margin-bottom: 0.2em;
+  }
+  .toc a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+  .toc a:hover {
+    text-decoration: underline;
+  }
+
+  /* Subtitle */
+  .subtitle {
+    font-size: 1.1em;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 2em;
+  }
+
+  /* Figure captions */
+  .figure-caption {
+    font-size: 0.88em;
+    color: #555;
+    font-style: italic;
+    margin-top: 0.5em;
+  }
+
+  /* Print styles */
+  @media print {
+    body {
+      font-size: 13.2pt;
+      max-width: none;
+      margin: 0;
+      padding: 1cm 2cm;
+    }
+    .toc { page-break-after: always; }
+    h1, h2 { page-break-after: avoid; }
+    table { page-break-inside: avoid; }
+    pre { page-break-inside: avoid; font-size: 9pt; }
+  }
+</style>
+</head>
+<body>
+
+<h1>DEPLOYERS: Dynamic Shock Implementation<br>COVID-19 Pandemic Simulation</h1>
+<p class="subtitle">Technical Report &mdash; March 2026</p>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+<h2>Table of Contents</h2>
+<ul>
+  <li><a href="#sec1">1. Architecture Overview</a></li>
+  <li><a href="#sec2">2. Implementation Details</a>
+    <ul>
+      <li><a href="#sec2-1">2.1 Supply Shocks via Worker Confinement</a></li>
+      <li><a href="#sec2-2">2.2 Export and Import Shocks</a></li>
+      <li><a href="#sec2-3">2.3 Kurzarbeit (Short-Time Work Subsidies)</a></li>
+      <li><a href="#sec2-4">2.4 Pandemic Firm Protection</a></li>
+      <li><a href="#sec2-5">2.5 Month-by-Month Shock Decay and Recovery</a></li>
+    </ul>
+  </li>
+  <li><a href="#sec3">3. Calibration &amp; Diagnostics &mdash; The Crucial Role of Snapshot Curves</a>
+    <ul>
+      <li><a href="#sec3-1">3.1 Extracting Curves from Snapshot PlotsData</a></li>
+      <li><a href="#sec3-2">3.2 Key Diagnostic Curves</a></li>
+      <li><a href="#sec3-3">3.3 Detecting Calibration Problems Early</a></li>
+      <li><a href="#sec3-4">3.4 Stability Milestones</a></li>
+    </ul>
+  </li>
+  <li><a href="#sec4">4. 12-Seed Ensemble Results for Austria 2019 COVID</a></li>
+  <li><a href="#sec5">5. Cross-Country Scan Results</a></li>
+  <li><a href="#sec6">6. Lessons for AI-Assisted Simulation Debugging</a></li>
+  <li><a href="#appendix">Appendix: Key Source Files</a></li>
+</ul>
+</div>
+
+<!-- ================================================================ -->
+<h1 id="sec1">1. Architecture Overview</h1>
+
+<p>The DEPLOYERS pandemic shock system simulates the economic impact of the COVID-19 pandemic by encoding real-world lockdowns, reopenings, and policy interventions as time-varying perturbations applied to an already-calibrated agent-based economy. The system operates through three simultaneous shock channels plus one protective policy mechanism:</p>
+
+<ol>
+  <li><strong>Sector-specific supply shocks</strong> &mdash; workers in affected sectors are confined (cannot work), reducing production capacity through the natural labor constraint.</li>
+  <li><strong>Export and import shocks</strong> &mdash; multiplicative factors reduce external sector flows, capturing global trade disruption.</li>
+  <li><strong>Kurzarbeit (short-time work) subsidies</strong> &mdash; government wage payments to confined workers prevent demand collapse.</li>
+  <li><strong>Pandemic firm protection</strong> &mdash; pre-pandemic firms are shielded from bankruptcy to simulate real-world government support.</li>
+</ol>
+
+<h3>The PANDEMIC_TIMELINE Block</h3>
+
+<p>The shock specification uses a <code>PANDEMIC_TIMELINE</code> block in the input <code>.dep</code> file. Each month of the crisis is defined independently with:</p>
+
+<ul>
+  <li><strong>Sector-specific capacity factors</strong>: pairs of <code>&lt;sectorIndex&gt; &lt;factor&gt;</code> where factor ranges from 0.0 (complete shutdown) to 1.0 (normal operation)</li>
+  <li><strong>ExportShock</strong>: multiplicative factor on export demand (0.0&ndash;1.0)</li>
+  <li><strong>ImportShock</strong>: multiplicative factor on import supply (0.0&ndash;1.0)</li>
+  <li><strong>KurzarbeitParticipation</strong>: fraction of eligible firms participating in short-time work (0.0&ndash;1.0)</li>
+</ul>
+
+<p>Example from the Austria 2019 COVID input file (<code>Input_covid_fresh_tl_s5489.dep</code>):</p>
+
+<pre><code>PANDEMIC_TIMELINE {
+Month 0 {
+35 0.05  56 0.02  57 0.02  29 0.40  27 0.30  28 0.70  32 0.05  30 0.50
+26 0.30  19 0.35   4 1.00   5 0.70  40 0.90  55 1.00  23 1.00  39 0.95
+44 0.75  45 0.70  51 0.05  60 0.10
+ExportShock 0.40  ImportShock 0.50  KurzarbeitParticipation 0.70
+}
+Month 1 {
+35 0.30  56 0.15  57 0.15  29 0.80  27 0.60  28 0.85  ...
+ExportShock 0.60  ImportShock 0.70  KurzarbeitParticipation 0.50
+}
+...
+Month 18 {
+35 0.92  56 0.88  57 0.90  29 0.99  ...
+ExportShock 0.98  ImportShock 0.98  KurzarbeitParticipation 0.03
+}
+}</code></pre>
+
+<p>The timeline spans 19 months (0&ndash;18), mirroring Austria's pandemic trajectory from March 2020 through September 2021.</p>
+
+<h3>Activation Logic</h3>
+
+<p>The pandemic activates at free-market month <code>PandemicShockFromFM</code> (typically 3, allowing a few normal FM months for baseline comparison). The key functions in <code>source/DEPLOYERS.cpp</code>:</p>
+
+<ul>
+  <li><code>getPandemicTimelineMonth()</code> &mdash; returns the current timeline month index (0-based from PandemicShockFromFM), or &minus;1 if not active</li>
+  <li><code>isPandemicMonth()</code> &mdash; returns true if the current month is within the pandemic window</li>
+  <li><code>getPandemicStartAbsMonth()</code> &mdash; returns the absolute month when the pandemic starts (FinishCalibrationAt + PandemicShockFromFM)</li>
+</ul>
+
+<p>The duration is determined by the length of the <code>_PandemicTimeline</code> vector (parsed from the PANDEMIC_TIMELINE block in the input file).</p>
+
+<!-- ================================================================ -->
+<h1 id="sec2">2. Implementation Details</h1>
+
+<h2 id="sec2-1">2.1 Supply Shocks via Worker Confinement</h2>
+
+<p><strong>Source</strong>: <code>source/Individual.cpp</code>, lines 290&ndash;303</p>
+
+<p>The supply shock is implemented through worker confinement, not through a direct production multiplier. This is a critical design decision documented in the code:</p>
+
+<blockquote>
+"This is the ONLY pandemic supply shock &mdash; it flows through the natural labor constraint (availableWorkTime &rarr; MaxFromWorkTime &rarr; producedUnits). No separate production multiplier needed."
+</blockquote>
+
+<p>At the start of each month (<code>CWorker::monthInitialize()</code>):</p>
+
+<ol>
+  <li>Each worker's <code>myAvailableTime</code> is reset to 1.0 (normal)</li>
+  <li>If it is a pandemic month and the worker is employed:
+    <ul>
+      <li>The worker's employer's sector is looked up</li>
+      <li>The sector's capacity factor is retrieved from the timeline via <code>CData::getPandemicSectorShock(sector)</code></li>
+      <li>If the factor is less than 1.0, a random draw determines whether this specific worker is confined: if <code>getRandom01() &gt; sectorFactor</code>, the worker is confined (<code>myAvailableTime = 0</code>)</li>
+    </ul>
+  </li>
+  <li>Confined workers cannot produce output, which naturally reduces the firm's <code>MaxFromWorkTime</code> constraint in <code>Producer::DetermineProducibleUnits()</code></li>
+</ol>
+
+<p>This approach is elegant because it reuses the existing labor constraint mechanism. A sector with factor 0.05 (accommodation during first lockdown) means only 5% of its workers can work &mdash; the other 95% have <code>myAvailableTime = 0</code>.</p>
+
+<h2 id="sec2-2">2.2 Export and Import Shocks</h2>
+
+<p><strong>Source</strong>: <code>source/ExtSectors.cpp</code>, lines 213&ndash;259</p>
+
+<p><strong>Exports</strong> (demand side): During pandemic months, the buy quantity for each external sector's demand is multiplied by the timeline's <code>exportShock</code> factor. This reduces how much foreign countries want to buy from the domestic economy.</p>
+
+<p><strong>Imports</strong> (supply side): The sell quantity for each good type from external sectors is multiplied by the timeline's <code>importShock</code> factor. This reduces the availability of imported goods.</p>
+
+<p>Both shocks support time-varying values from the timeline. If no timeline exists, they fall back to static parameters <code>PandemicExportShock</code> and <code>PandemicImportShock</code>.</p>
+
+<h2 id="sec2-3">2.3 Kurzarbeit (Short-Time Work Subsidies)</h2>
+
+<p><strong>Source</strong>: <code>source/Government.cpp</code>, lines 357&ndash;412; <code>source/Producer.cpp</code>, lines 2009&ndash;2023</p>
+
+<p>The Kurzarbeit system has two components:</p>
+
+<h4>Government payments (<code>GovKurzarbeitPayments()</code>)</h4>
+<ul>
+  <li>Targets employed workers who are confined (<code>myAvailableTime == 0</code>) at pre-pandemic firms</li>
+  <li>The government pays <code>KurzarbeitWageFraction</code> (90% in the Austria specification) of the worker's normal salary</li>
+  <li>Participation is stochastic: each eligible firm participates with probability equal to <code>KurzarbeitParticipation</code> from the timeline</li>
+  <li>Payments are recorded in the SAM accounting framework</li>
+  <li>Only workers at firms created <em>before</em> the pandemic start are eligible &mdash; post-pandemic newborns must survive on market conditions alone</li>
+</ul>
+
+<h4>Producer layoff prevention (<code>Producer.cpp</code>)</h4>
+<ul>
+  <li>When <code>isPandemicMonth()</code> is true and <code>KurzarbeitWageFraction &gt; 0</code>, pre-pandemic firms with Kurzarbeit participation do not lay off confined workers</li>
+  <li>This prevents the death spiral: confinement &rarr; layoff &rarr; zero income &rarr; demand collapse</li>
+</ul>
+
+<h2 id="sec2-4">2.4 Pandemic Firm Protection</h2>
+
+<p><strong>Source</strong>: <code>source/World.cpp</code>, lines 2686&ndash;2694</p>
+
+<p>During pandemic months, the <code>DismantleAndStartNewProducers()</code> function applies selective protection:</p>
+
+<pre><code>// During pandemic: government support keeps PRE-PANDEMIC firms alive (no bankruptcies).
+// Firms born during the pandemic are not eligible -- they never had pre-pandemic activity
+// to preserve, and shielding them creates an artificial zero-death-rate accumulation.
+if (isPandemicMonth()) {
+    long pandemicStart = getPandemicStartAbsMonth();
+    if (pandemicStart >= 0 && pProducer->getinitialMonth() < pandemicStart)
+        continue;  // pre-pandemic firm: protected
+    // post-pandemic newborn: subject to normal bankruptcy rules
+}</code></pre>
+
+<p>This distinction is critical: protecting ALL firms (including post-pandemic newborns) would create artificial firm population inflation, since firms born during the crisis face abnormal conditions and many should naturally fail. Only firms that existed before the pandemic &mdash; representing the economy's pre-crisis productive capacity &mdash; receive protection.</p>
+
+<h2 id="sec2-5">2.5 Month-by-Month Shock Decay and Recovery</h2>
+
+<p>The Austria COVID timeline follows this real-world pattern across 19 months:</p>
+
+<table>
+  <tr><th>Phase</th><th>Months</th><th>Key Characteristics</th></tr>
+  <tr><td>First lockdown</td><td>0&ndash;2</td><td>Accommodation at 2&ndash;5%, exports at 40&ndash;75%, Kurzarbeit at 35&ndash;70%</td></tr>
+  <tr><td>Gradual reopening</td><td>3&ndash;7</td><td>Accommodation rises to 58&ndash;68%, exports to 82&ndash;87%</td></tr>
+  <tr><td>Second wave</td><td>8&ndash;11</td><td>Accommodation drops to 5&ndash;10%, exports to 65&ndash;72%, Kurzarbeit rises to 45&ndash;52%</td></tr>
+  <tr><td>Progressive recovery</td><td>12&ndash;18</td><td>Accommodation rises from 25% to 92%, exports from 78% to 98%, Kurzarbeit falls to 3%</td></tr>
+</table>
+
+<p><strong>Hardest-hit sectors during Month 0</strong> (first lockdown):</p>
+<table>
+  <tr><th>Sector</th><th>Description</th><th>Factor</th><th>Shutdown %</th></tr>
+  <tr><td>56</td><td>Food services</td><td>0.02</td><td>98%</td></tr>
+  <tr><td>57</td><td>Beverages</td><td>0.02</td><td>98%</td></tr>
+  <tr><td>35</td><td>Accommodation</td><td>0.05</td><td>95%</td></tr>
+  <tr><td>51</td><td>Air transport</td><td>0.05</td><td>95%</td></tr>
+  <tr><td>32</td><td>Travel agencies</td><td>0.05</td><td>95%</td></tr>
+  <tr><td>60</td><td>Broadcasting/entertainment</td><td>0.10</td><td>90%</td></tr>
+</table>
+
+<p><strong>Sectors maintaining near-full operation</strong>:</p>
+<table>
+  <tr><th>Sector</th><th>Description</th><th>Factor</th></tr>
+  <tr><td>4</td><td>Food processing</td><td>1.00 (essential)</td></tr>
+  <tr><td>55</td><td>Healthcare</td><td>1.00 (essential)</td></tr>
+  <tr><td>23</td><td>Public administration</td><td>1.00 (essential)</td></tr>
+  <tr><td>39</td><td>Utilities</td><td>0.95</td></tr>
+  <tr><td>40</td><td>Financial services</td><td>0.90</td></tr>
+</table>
+
+<!-- ================================================================ -->
+<h1 id="sec3">3. Calibration &amp; Diagnostics &mdash; The Crucial Role of Snapshot Curves</h1>
+
+<div class="highlight critical">
+<strong>This is the most important section of this report.</strong> The DEPLOYERS simulator stores complete time series of all GUI plot curves inside every snapshot file. These curves are the <strong>primary tool</strong> for understanding, calibrating, and debugging simulations &mdash; both baseline and pandemic. Never rely on log files alone.
+</div>
+
+<h2 id="sec3-1">3.1 Extracting Curves from Snapshot PlotsData</h2>
+
+<p>Every snapshot file (<code>OUTPUT/SimName_CC_NNN.dep</code>) contains a <code>PlotsData</code> section with the following structure:</p>
+
+<pre><code>PlotsData { &lt;nWindows&gt;
+ &lt;windowTitle&gt; { &lt;nCurves&gt;
+  &lt;curveIdx&gt; { &lt;nValues&gt; &lt;v0&gt; &lt;v1&gt; &lt;v2&gt; ... }
+  ...
+ }
+ ...
+}</code></pre>
+
+<p>The canonical PowerShell extraction function (proven working, used across all analysis scripts):</p>
+
+<pre><code>function Extract-CurveValues {
+    param([string]$SnapshotPath, [string]$WindowName, [int]$CurveIndex)
+    $content = Get-Content $SnapshotPath -Raw
+    $plotsIdx = $content.IndexOf("PlotsData")
+    if ($plotsIdx -lt 0) { return $null }
+    $windowStart = $content.IndexOf("$WindowName { ", $plotsIdx)
+    if ($windowStart -lt 0) { return $null }
+    $sub = $content.Substring($windowStart,
+               [Math]::Min(500000, $content.Length - $windowStart))
+    $marker = " $CurveIndex { "
+    $idx = $sub.IndexOf($marker)
+    if ($idx -lt 0) { return $null }
+    $afterMarker = $sub.Substring($idx + $marker.Length)
+    $parts = $afterMarker -split '\s+' | Where-Object { $_ -ne '' }
+    $nValues = [int]$parts[0]
+    $values = @()
+    for ($i = 1; $i -le $nValues -and $i -lt $parts.Count; $i++) {
+        if ($parts[$i] -eq '}') { break }
+        $values += [double]$parts[$i]
+    }
+    return $values
+}</code></pre>
+
+<div class="highlight warning">
+<strong>Rules for using this function:</strong>
+<ul>
+  <li>NEVER write inline PowerShell for curve extraction &mdash; always use a <code>.ps1</code> script file</li>
+  <li>NEVER use <code>powershell -Command "..."</code> for anything beyond one-liners &mdash; use <code>powershell -File script.ps1</code></li>
+  <li>The function reads the ENTIRE snapshot file into memory (snapshots can be 10&ndash;50 MB), so it needs the 500,000 character substring limit</li>
+</ul>
+</div>
+
+<h2 id="sec3-2">3.2 Key Diagnostic Curves</h2>
+
+<table>
+  <tr><th>Window</th><th>Curve Index</th><th>Meaning</th><th>Healthy Range</th></tr>
+  <tr style="background:#fff3e0; font-weight:bold;"><td>FirmsPerFirmsize</td><td>0</td><td>Micro-firm share (0&ndash;9 employees)</td><td>88&ndash;91% (THE most important)</td></tr>
+  <tr><td>GovValues</td><td>6</td><td>Nominal GDP (billions)</td><td>Tracking SAM target</td></tr>
+  <tr><td>GovValues</td><td>7</td><td>Real GDP (billions)</td><td>OLS growth extraction</td></tr>
+  <tr><td>Employment</td><td>1</td><td>Unemployment %</td><td>3&ndash;8% (varies by country)</td></tr>
+  <tr><td>Indices_and_%</td><td>0</td><td>GDP deflator YoY</td><td>Near 0% in FM</td></tr>
+  <tr><td>Indices_and_%</td><td>1</td><td>CPI inflation YoY</td><td>Near 0% in FM</td></tr>
+  <tr><td>FirmsBirth&amp;Death</td><td>0</td><td>Firm births/year (annualized)</td><td>Varies by country</td></tr>
+  <tr><td>FirmsBirth&amp;Death</td><td>1</td><td>Firm deaths/year (annualized)</td><td>Births &gt; Deaths</td></tr>
+  <tr><td>Production</td><td>last</td><td>TotalProduction</td><td>Must reach SAM target</td></tr>
+  <tr><td>ProducersPerSect</td><td>last</td><td>TotalProducers</td><td>Stable in FM</td></tr>
+</table>
+
+<h3>The FirmsPerFirmsize 0&ndash;9 Curve: The Single Most Important Diagnostic</h3>
+
+<p>The micro-firm share (firms with 0&ndash;9 employees as a percentage of all firms) is the earliest and most reliable indicator of simulation health. In a well-calibrated economy:</p>
+
+<ul>
+  <li>The micro-firm share should settle at approximately <strong>88&ndash;91%</strong> during free-market simulation</li>
+  <li>This matches real-world data (Austria empirical: 87.4%, Eurostat)</li>
+  <li>The value is not an input but an <strong>emergent outcome</strong> of the I-O factor income structure and Darwinian selection</li>
+</ul>
+
+<div class="highlight warning">
+<strong>Warning signs:</strong>
+<ul>
+  <li>If the share drifts above 95%: the economy is fragmenting &mdash; firms are not growing</li>
+  <li>If the share reaches 99&ndash;100%: calibration has failed &mdash; there are no medium/large firms</li>
+  <li>If the share drops below 85%: excessive consolidation, possibly due to aggressive parameters</li>
+</ul>
+</div>
+
+<h3>OLS Growth Method for realGDP</h3>
+
+<p>The standard method to extract GDP growth from a baseline (non-pandemic) simulation:</p>
+
+<ol>
+  <li>Find <code>FinishCalibrationAt</code> in the <code>*_Log.dep</code> file (line: <code>FinishCalibrationAt NOW SET TO: NNN</code>)</li>
+  <li>Extract curve 7 from the <code>GovValues</code> window in the last snapshot's PlotsData</li>
+  <li>Take 12 free-market months: values at indices <code>[calibEnd+1 .. calibEnd+12]</code></li>
+  <li>Run OLS linear fit: <code>GDP(t) = a + b*t, t = 0..11</code></li>
+  <li>Annual growth = <code>12 * b / a * 100%</code></li>
+</ol>
+
+<div class="highlight warning">
+<strong>Note:</strong> For pandemic simulations, the OLS method is NOT appropriate because the U-shaped trajectory makes linear fit misleading. Instead, use <strong>point-to-point</strong> growth: compare FM month N to FM month N+11.
+</div>
+
+<h2 id="sec3-3">3.3 Detecting Calibration Problems Early</h2>
+
+<p>The simulation progresses through four stages before entering free-market dynamics:</p>
+
+<ol>
+  <li><strong>PreCalibration</strong> (months 0&ndash;24): Sequential producer startup, initial ramp-up</li>
+  <li><strong>AssistedCalibration</strong>: Subsidized production to reach SAM targets</li>
+  <li><strong>TransitionCalibration</strong>: Subsidies phase out gradually</li>
+  <li><strong>RealMarketSimulation</strong>: Free market (no subsidies)</li>
+</ol>
+
+<p><strong>Early detection using snapshot curves:</strong></p>
+
+<ul>
+  <li><strong>Month 24&ndash;36</strong>: Check if TotalProduction is approaching the SAM target. If it is flat or declining, the simulation is struggling.</li>
+  <li><strong>Month 36&ndash;48</strong>: The FirmsPerFirmsize 0&ndash;9 curve should be settling. If it is still rising toward 100%, the Darwinian mechanism is failing to produce viable medium/large firms.</li>
+  <li><strong>At FinishCalibrationAt</strong>: Check that the micro-firm share is in the 88&ndash;91% range. Also verify that Employment curve 1 (unemployment) is at a reasonable level.</li>
+</ul>
+
+<h3>Real Examples from the Cross-Country Scan</h3>
+
+<table>
+  <tr><th>Country</th><th>Micro-firm share (0&ndash;9)</th><th>Status</th><th>Notes</th></tr>
+  <tr style="background:#e8f5e9;"><td>AT (Austria)</td><td>88.7%</td><td>Good</td><td>Matches empirical 87.4%</td></tr>
+  <tr style="background:#e8f5e9;"><td>CA (Canada)</td><td>90.5%</td><td>Good</td><td>Healthy Darwinian selection</td></tr>
+  <tr style="background:#fff8e1;"><td>JP (Japan)</td><td>94.5%</td><td>Marginal</td><td>High but still produces growth estimates</td></tr>
+  <tr style="background:#ffebee;"><td>KR (South Korea)</td><td>100.0%</td><td>Failed</td><td>No medium/large firms &mdash; economy fragmented</td></tr>
+  <tr style="background:#e8f5e9;"><td>DE (Germany)</td><td>89.2%</td><td>Good</td><td>Consistent across seeds</td></tr>
+</table>
+
+<h2 id="sec3-4">3.4 The Four Stability Milestones</h2>
+
+<table>
+  <tr><th>Milestone</th><th>Detection</th><th>What It Means</th></tr>
+  <tr><td>1. Production stability</td><td>TotalProduction reaches and stays near SAM target</td><td>The I-O production structure has self-organized</td></tr>
+  <tr><td>2. Wealth stability</td><td>Producer wealth stops trending, oscillates around mean</td><td>Firms are profitable, not accumulating debt</td></tr>
+  <tr><td>3. Employment stability</td><td>Unemployment settles at a constant level</td><td>Labor market has equilibrated</td></tr>
+  <tr><td>4. Firm size stability</td><td>FirmsPerFirmsize 0&ndash;9 settles at ~89%</td><td>Darwinian selection has produced the correct industrial structure</td></tr>
+</table>
+
+<p>All four must be achieved for calibration to succeed. The system logs <code>FinishCalibrationAt NOW SET TO: NNN</code> when production and wealth stability are detected.</p>
+
+<!-- ================================================================ -->
+<h1 id="sec4">4. 12-Seed Ensemble Results for Austria 2019 COVID</h1>
+
+<p>The COVID simulation uses Austria's 2019 FIGARO I-O table (25th edition), w32 scale (32 simulated workers per sector, approximately 2,000 agents total), with a 19-month pandemic timeline starting at free-market month 3.</p>
+
+<h3>Key Parameters</h3>
+
+<table>
+  <tr><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Country</td><td>AT (Austria)</td></tr>
+  <tr><td>I-O table</td><td>FIGARO 25ed, 2019</td></tr>
+  <tr><td>Scale</td><td>w32 (32 workers/sector)</td></tr>
+  <tr><td>Seeds</td><td>12 (5489, 12345, 67890, 31415, 99999, 54321, 11111, 77777, 22222, 33333, 44444, 55555)</td></tr>
+  <tr><td>Pandemic start</td><td>FM month 3</td></tr>
+  <tr><td>Pandemic duration</td><td>19 months (months 0&ndash;18)</td></tr>
+  <tr><td>KurzarbeitWageFraction</td><td>0.90</td></tr>
+  <tr><td>SimulateNYearsAfterCalibration</td><td>3</td></tr>
+</table>
+
+<h3>Ensemble Results</h3>
+
+<table>
+  <caption>Table 1: COVID-19 Pandemic Simulation Results, Austria (w32, 12-seed ensemble)</caption>
+  <tr><th>Metric</th><th>DEPLOYERS (12-seed)</th><th>SD</th><th>Empirical AT</th></tr>
+  <tr><td>Y1 GDP growth (point-to-point)</td><td><strong>&minus;4.62%</strong></td><td>0.64 pp</td><td>&minus;6.6%</td></tr>
+  <tr><td>Y2 GDP growth (point-to-point)</td><td>+13.48%</td><td>1.96 pp</td><td>+4.6%</td></tr>
+  <tr><td>Y3 GDP growth (point-to-point)</td><td>+2.60%</td><td>0.62 pp</td><td>+4.7%</td></tr>
+  <tr><td>Unemployment peak</td><td>9.3%</td><td>&mdash;</td><td>12.8%</td></tr>
+  <tr><td>Firm births during pandemic</td><td>~31,400/yr</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td>Firm deaths during pandemic</td><td>~28,000/yr</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td>Micro-firm share (0&ndash;9 emp.)</td><td>87&ndash;93%</td><td>&mdash;</td><td>87.4%</td></tr>
+</table>
+
+<h3>Interpretation</h3>
+
+<p><strong>Y1 contraction (&minus;4.62% vs. empirical &minus;6.6%):</strong> The model captures approximately 70% of the actual pandemic GDP loss, with a standard error of the mean of just 0.18 pp (SEM = SD / sqrt(12) = 0.64 / 3.46). The 2.0 pp gap may reflect consumer confidence effects, precautionary savings, and voluntary demand reductions beyond mandated restrictions &mdash; factors not encoded in the supply-side shock specification.</p>
+
+<p><strong>Y2 recovery overshoot (+13.48% vs. empirical +4.6%):</strong> The V-shaped bounce reflects the Darwinian mechanism aggressively filling demand gaps once restrictions lift. In reality, Austria's recovery was constrained by persistent supply chain disruptions, labour market frictions, and lingering uncertainty that the model's simplified labour market does not fully capture.</p>
+
+<p><strong>Y3 normalization (+2.60% vs. empirical +4.7%):</strong> By year 3, the economy is approaching its structural growth trajectory. The model undershoots slightly, possibly because the recovery overshoot in Y2 "borrowed" growth from Y3.</p>
+
+<p><strong>Firm dynamics:</strong> Both birth and death rates roughly double during the crisis (births from ~16,500 to ~31,400/year; deaths from ~13,500 to ~28,000/year), reflecting heightened creative destruction. The selective Kurzarbeit protection prevents artificial firm population inflation. Firm size distributions remain stable through the crisis (87&ndash;93% micro-firms), indicating that the pandemic shock does not distort the I-O-implied industrial structure.</p>
+
+<!-- ================================================================ -->
+<h1 id="sec5">5. Cross-Country Scan Results</h1>
+
+<p>The 46-country scan uses w32 scale, 2 seeds (5489, 12345), and 2010 FIGARO tables with OLS growth extraction over 12 free-market months.</p>
+
+<h3>Countries Excluded (Crashed or Timeout)</h3>
+
+<p>AR, CH, GR, IT, BR, EE, ES, IE &mdash; these countries typically crash due to extreme I-O structures (very large trade deficits, unusual sectoral compositions, or price instabilities).</p>
+
+<h3>Converged Countries (Baseline, No Pandemic)</h3>
+
+<table>
+  <caption>Table 2: Baseline GDP Growth, 46-Country Scan (w32, 2 seeds, 2010 FIGARO)</caption>
+  <tr><th>Country</th><th>Simulated Growth (%)</th><th>Empirical 2010 (%)</th><th>Error (pp)</th><th>Micro-firm %</th></tr>
+  <tr><td>AT</td><td>+1.90</td><td>+1.90</td><td>0.00</td><td>88.7</td></tr>
+  <tr><td>AU</td><td>+2.35</td><td>+2.32</td><td>+0.03</td><td>89.1</td></tr>
+  <tr><td>BE</td><td>+2.44</td><td>+2.70</td><td>&minus;0.26</td><td>89.8</td></tr>
+  <tr><td>BG</td><td>+1.72</td><td>+1.32</td><td>+0.40</td><td>90.2</td></tr>
+  <tr><td>CA</td><td>+3.18</td><td>+3.08</td><td>+0.10</td><td>90.5</td></tr>
+  <tr><td>CZ</td><td>+2.14</td><td>+2.34</td><td>&minus;0.20</td><td>89.4</td></tr>
+  <tr><td>DE</td><td>+4.59</td><td>+4.18</td><td>+0.41</td><td>89.2</td></tr>
+  <tr><td>DK</td><td>+1.78</td><td>+1.87</td><td>&minus;0.09</td><td>90.1</td></tr>
+  <tr><td>FI</td><td>+3.41</td><td>+2.99</td><td>+0.42</td><td>89.7</td></tr>
+  <tr><td>FR</td><td>+1.86</td><td>+1.87</td><td>&minus;0.01</td><td>89.5</td></tr>
+  <tr><td>GB</td><td>+2.01</td><td>+1.72</td><td>+0.29</td><td>89.3</td></tr>
+  <tr><td>HU</td><td>+0.62</td><td>+0.68</td><td>&minus;0.06</td><td>90.0</td></tr>
+  <tr><td>JP</td><td>+4.12</td><td>+4.19</td><td>&minus;0.07</td><td>94.5</td></tr>
+  <tr><td>NL</td><td>+1.81</td><td>+1.30</td><td>+0.51</td><td>89.6</td></tr>
+  <tr><td>PL</td><td>+3.89</td><td>+3.61</td><td>+0.28</td><td>89.8</td></tr>
+  <tr><td>SE</td><td>+5.92</td><td>+5.78</td><td>+0.14</td><td>89.4</td></tr>
+  <tr><td>US</td><td>+2.78</td><td>+2.56</td><td>+0.22</td><td>89.9</td></tr>
+</table>
+
+<h3>Diagnostic Patterns That Predict Failure</h3>
+
+<ol>
+  <li><strong>Micro-firm share &gt; 95% by month 48:</strong> The Darwinian mechanism cannot create viable medium/large firms. The I-O structure may have extreme sectoral imbalances.</li>
+  <li><strong>Price crash (price &le; 0):</strong> Usually occurs in countries with very large trade imbalances or unusual accounting conventions in the I-O table. The external sector flows overwhelm domestic production capacity.</li>
+  <li><strong>Calibration timeout (&gt; 45 minutes):</strong> The economy cannot achieve production/wealth stability. Often correlated with high micro-firm shares.</li>
+  <li><strong>TotalProduction stuck below SAM target:</strong> The I-O table implies a production structure that the Darwinian mechanism cannot realize at w32 scale.</li>
+</ol>
+
+<!-- ================================================================ -->
+<h1 id="sec6">6. Lessons for AI-Assisted Simulation Debugging</h1>
+
+<h3>Principle 1: Snapshot Curves Are the Primary Debugging Tool</h3>
+
+<p>Never rely on log files alone. The log file tells you <em>what</em> happened (milestones, errors). The snapshot curves tell you <em>why</em> it happened and whether the underlying dynamics are healthy. A simulation can appear to complete successfully (no errors in log) while producing economically meaningless results &mdash; only the curves reveal this.</p>
+
+<h3>Principle 2: The FirmsPerFirmsize 0&ndash;9 Curve Is the Earliest Indicator</h3>
+
+<div class="highlight critical">
+<strong>Pattern:</strong> If the micro-firm share (FirmsPerFirmsize curve 0) does not drop to approximately 90% by month 48, the simulation will likely fail to produce meaningful GDP estimates. A 100% micro-firm share means no firm has more than 9 employees, the Darwinian selection mechanism is not working, and GDP estimates from such a simulation are unreliable.
+</div>
+
+<h3>Principle 3: Always Use the Canonical Extraction Function</h3>
+
+<p>The <code>Extract-CurveValues</code> function is the proven, canonical way to read snapshot curves. Never write inline PowerShell for curve extraction, parse snapshot files with grep/awk/sed, or attempt to read PlotsData manually.</p>
+
+<h3>Principle 4: Understand the Shock Propagation Chain</h3>
+
+<p>For pandemic debugging, trace the chain:</p>
+
+<ol>
+  <li><strong>Worker confinement</strong> (Individual.cpp) &mdash; check that <code>myAvailableTime = 0</code> is being set correctly</li>
+  <li><strong>Production reduction</strong> (Producer.cpp) &mdash; verify that <code>MaxFromWorkTime</code> is reduced</li>
+  <li><strong>Export/import reduction</strong> (ExtSectors.cpp) &mdash; confirm external flows are multiplied by shock factors</li>
+  <li><strong>Kurzarbeit payments</strong> (Government.cpp) &mdash; verify confined workers at pre-pandemic firms receive wage subsidies</li>
+  <li><strong>Firm protection</strong> (World.cpp) &mdash; confirm pre-pandemic firms are not being dismantled</li>
+</ol>
+
+<p>If GDP is not dropping enough during the pandemic, check steps 1&ndash;3. If GDP is dropping too much, check steps 4&ndash;5.</p>
+
+<h3>Principle 5: Pre-Pandemic vs. Post-Pandemic Firm Distinction</h3>
+
+<p>All three protective mechanisms (Kurzarbeit, layoff prevention, bankruptcy protection) apply ONLY to firms created BEFORE the pandemic start. Firms born during the pandemic face normal market selection. This prevents artificial firm population inflation, zero-death-rate accumulation, and distorted firm size distributions post-pandemic.</p>
+
+<h3>Principle 6: Point-to-Point vs. OLS for Pandemic GDP</h3>
+
+<p>For baseline (non-pandemic) simulations, OLS linear fit over 12 FM months is the standard method. For pandemic simulations, the U-shaped trajectory makes OLS misleading. Use <strong>point-to-point</strong> comparison (FM month N to FM month N+11) instead.</p>
+
+<h3>Principle 7: The Dual Capability of the I-O Table</h3>
+
+<p>The same I-O inter-sectoral linkages that drive baseline GDP accuracy also serve as the transmission mechanism for pandemic shocks. When a sector shuts down:</p>
+
+<ul>
+  <li><strong>Backward linkages:</strong> demand for that sector's inputs collapses</li>
+  <li><strong>Forward linkages:</strong> supply to that sector's customers is disrupted</li>
+  <li><strong>Final demand effects:</strong> laid-off workers reduce household consumption across all sectors</li>
+  <li><strong>Fiscal effects:</strong> government tax revenue falls, transfer payments rise</li>
+</ul>
+
+<p>None of these transmission channels are explicitly programmed. They emerge automatically from the I-O production structure and the agent-based dynamics.</p>
+
+<!-- ================================================================ -->
+<h1 id="appendix">Appendix: Key Source Files</h1>
+
+<table>
+  <tr><th>File</th><th>Role</th></tr>
+  <tr><td><code>source/Individual.cpp</code> (lines 290&ndash;303)</td><td>Worker confinement logic</td></tr>
+  <tr><td><code>source/Producer.cpp</code> (lines 1818&ndash;1847)</td><td>Production constraint (labor-limited)</td></tr>
+  <tr><td><code>source/Producer.cpp</code> (lines 2009&ndash;2023)</td><td>Kurzarbeit layoff prevention</td></tr>
+  <tr><td><code>source/ExtSectors.cpp</code> (lines 213&ndash;259)</td><td>Export/import shock application</td></tr>
+  <tr><td><code>source/Government.cpp</code> (lines 357&ndash;412)</td><td>Kurzarbeit wage payments</td></tr>
+  <tr><td><code>source/World.cpp</code> (lines 2686&ndash;2694)</td><td>Pandemic firm protection</td></tr>
+  <tr><td><code>source/DEPLOYERS.cpp</code> (lines 92&ndash;121)</td><td>isPandemicMonth / timeline month logic</td></tr>
+  <tr><td><code>source/CData.cpp</code> (lines 17&ndash;32)</td><td>Sector shock lookup with timeline</td></tr>
+  <tr><td><code>source/CData.cpp</code> (lines 1265&ndash;1311)</td><td>PANDEMIC_TIMELINE parser</td></tr>
+  <tr><td><code>source/pch.h</code> (lines 2948&ndash;2953)</td><td>PandemicMonthData struct definition</td></tr>
+  <tr><td><code>SCRIPTS/Input_covid_fresh_tl_s5489.dep</code></td><td>Austria COVID input file (reference)</td></tr>
+  <tr><td><code>DOCS/austria_confinement_2020.csv</code></td><td>Austrian confinement regulation data</td></tr>
+  <tr><td><code>SCRIPTS/_scan_all_countries.ps1</code></td><td>46-country scan script with OLS extraction</td></tr>
+</table>
+
+</body>
+</html>

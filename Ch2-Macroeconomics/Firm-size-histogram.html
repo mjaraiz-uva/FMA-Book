@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firm Size Distribution Analyzer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .file-input-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .file-input-container.active {
+            border-color: #2196F3;
+            background-color: #e3f2fd;
+        }
+        #fileInput {
+            display: none;
+        }
+        .upload-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+        .config-panel {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .histogram-config {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        .histogram-config h4 {
+            margin-top: 0;
+            color: #444;
+        }
+        .bin-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .bin-settings input {
+            width: 60px;
+            padding: 5px;
+        }
+        .bin-settings label {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .bin-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .bin-range {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .experimental-input {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+        .experimental-input label {
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        /* Two column design */
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 20px;
+        }
+        .data-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 5px;
+            min-width: 120px;
+            text-align: center;
+        }
+        .stat-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .update-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .update-btn:hover {
+            background-color: #0b7dda;
+        }
+        #processingInfo {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .content-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Firm Size Distribution Analyzer</h1>
+        
+        <div class="file-input-container" id="dropZone">
+            <h2>Upload Data File</h2>
+            <p>Drag and drop your snapshot_NNN.dep file here or click to select it</p>
+            <button class="upload-btn" id="uploadBtn">Select File</button>
+            <input type="file" id="fileInput" accept=".dep">
+            <p id="fileName"></p>
+        </div>
+        
+        <div id="loadingIndicator" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Processing data...</p>
+        </div>
+        
+        <div id="configPanel" class="config-panel content-section">
+            <h3>Histogram Configuration</h3>
+            
+            <div class="histogram-config">
+                <h4>Firm Distribution Configuration</h4>
+                <div>
+                    <label for="numBinsFirms">Number of bins:</label>
+                    <select id="numBinsFirms">
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button class="update-btn" id="generateBinsFirmsBtn">Generate Bins</button>
+                </div>
+                <div id="binSettingsFirms" class="bin-settings">
+                    <!-- Firm bin inputs will be dynamically generated here -->
+                </div>
+            </div>
+            
+            <div class="histogram-config">
+                <h4>Employee Distribution Configuration</h4>
+                <div>
+                    <label for="numBinsEmployees">Number of bins:</label>
+                    <select id="numBinsEmployees">
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button class="update-btn" id="generateBinsEmployeesBtn">Generate Bins</button>
+                </div>
+                <div id="binSettingsEmployees" class="bin-settings">
+                    <!-- Employee bin inputs will be dynamically generated here -->
+                </div>
+            </div>
+            
+            <button class="update-btn" id="updateChartBtn" style="margin-top: 10px;">Update Charts</button>
+            <p id="processingInfo"></p>
+        </div>
+        
+        <div id="resultsSection" class="content-section">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-label">Total Firms</div>
+                    <div id="totalFirms">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Average Size</div>
+                    <div id="avgSize">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Median Size</div>
+                    <div id="medianSize">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Maximum Size</div>
+                    <div id="maxSize">0</div>
+                </div>
+            </div>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Distribution by Number of Firms (%)</h3>
+                    <div class="chart-container">
+                        <canvas id="histogram"></canvas>
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Distribution by Number of Employees (%)</h3>
+                    <div class="chart-container">
+                        <canvas id="employeeHistogram"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="sourceInfo" style="margin-top: 20px; margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 4px; font-size: 0.9em; color: #666;">
+                <p><strong>Data source:</strong> European Commission (Statista, 2022). Approximate data from 2018.</p>
+                <p><strong>Firm distribution:</strong><br>
+                Micro firms (0-9 employees): 87.6%<br>
+                Small firms (10-49 employees): 10.8%<br>
+                Medium firms (50-249 employees): 1.6%<br>
+                Large firms (250+ employees): 0.3%</p>
+                <p><strong>Employee distribution:</strong><br>
+                Micro firms (0-9 employees): ~36.6%<br>
+                Small firms (10-49 employees): ~35.2%<br>
+                Medium firms (50-249 employees): ~28.2%</p>
+            </div>
+            
+            <h3>Firm Data</h3>
+            <table class="data-table" id="firmTable">
+                <thead>
+                    <tr>
+                        <th>Firm ID</th>
+                        <th>Number of Employees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="emptyState" class="empty-state">
+            <p>Upload a file to begin analysis</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let histogram = null;
+        let employeeHistogram = null;
+        let firmsData = [];
+        let firmBinRanges = [
+            { min: 0, max: 3, label: "0-3" },
+            { min: 4, max: 7, label: "4-7" },
+            { min: 8, max: 11, label: "8-11" },
+            { min: 12, max: 15, label: "12-15" },
+            { min: 16, max: Infinity, label: "16+" }
+        ];
+        let employeeBinRanges = [
+            { min: 0, max: 9, label: "0-9" },
+            { min: 10, max: 49, label: "10-49" },
+            { min: 50, max: 249, label: "50-249" },
+            { min: 250, max: Infinity, label: "250+" }
+        ];
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const dropZone = document.getElementById('dropZone');
+        const fileName = document.getElementById('fileName');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const configPanel = document.getElementById('configPanel');
+        const resultsSection = document.getElementById('resultsSection');
+        const emptyState = document.getElementById('emptyState');
+        
+        // Firm histogram elements
+        const numBinsFirmsSelect = document.getElementById('numBinsFirms');
+        const binSettingsFirmsContainer = document.getElementById('binSettingsFirms');
+        const generateBinsFirmsBtn = document.getElementById('generateBinsFirmsBtn');
+        
+        // Employee histogram elements
+        const numBinsEmployeesSelect = document.getElementById('numBinsEmployees');
+        const binSettingsEmployeesContainer = document.getElementById('binSettingsEmployees');
+        const generateBinsEmployeesBtn = document.getElementById('generateBinsEmployeesBtn');
+        
+        const updateChartBtn = document.getElementById('updateChartBtn');
+        const processingInfo = document.getElementById('processingInfo');
+        
+        // Statistics Elements
+        const totalFirmsElement = document.getElementById('totalFirms');
+        const avgSizeElement = document.getElementById('avgSize');
+        const medianSizeElement = document.getElementById('medianSize');
+        const maxSizeElement = document.getElementById('maxSize');
+
+        // Setup event listeners
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileUpload);
+        
+        // Drag and drop functionality
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('active');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('active');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileUpload();
+            }
+        });
+        
+        // Configuration event listeners
+        generateBinsFirmsBtn.addEventListener('click', generateFirmBinInputs);
+        generateBinsEmployeesBtn.addEventListener('click', generateEmployeeBinInputs);
+        updateChartBtn.addEventListener('click', updateHistograms);
+        
+        // Initial bin inputs generation
+        generateFirmBinInputs();
+        generateEmployeeBinInputs();
+
+        // Function to handle file upload
+        function handleFileUpload() {
+            if (!fileInput.files.length) return;
+            
+            const file = fileInput.files[0];
+            fileName.textContent = `Selected file: ${file.name}`;
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            emptyState.style.display = 'none';
+            configPanel.style.display = 'none';
+            resultsSection.style.display = 'none';
+            
+            // Read the file
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const content = e.target.result;
+                try {
+                    processFileContent(content);
+                    // Hide loading and show results
+                    loadingIndicator.style.display = 'none';
+                    configPanel.style.display = 'block';
+                    resultsSection.style.display = 'block';
+                    
+                    processingInfo.textContent = `Processing successful: ${firmsData.length} firms found.`;
+                } catch (error) {
+                    loadingIndicator.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    alert(`Error processing file: ${error.message}`);
+                    processingInfo.textContent = `Error: ${error.message}`;
+                }
+            };
+            
+            reader.onerror = function() {
+                loadingIndicator.style.display = 'none';
+                emptyState.style.display = 'block';
+                alert('Error reading file');
+                processingInfo.textContent = 'Error reading file';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Process the file content to extract employee data
+        function processFileContent(content) {
+            firmsData = [];
+            let currentFirmId = '';
+            let lines = content.split('\n');
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                // Match firm ID like "P_AT_A01" at beginning of line
+                let firmIdMatch = line.match(/^P_([A-Za-z0-9_]+)\s*{\s*ID\s*(\d+)/);
+                if (firmIdMatch) {
+                    currentFirmId = 'P_' + firmIdMatch[1];
+                }
+                
+                // Match employees line
+                let employeesMatch = line.match(/EmployeesID\s*{([^}]*)}/);
+                if (employeesMatch && currentFirmId) {
+                    // Extract employee IDs
+                    let employeeIds = employeesMatch[1].trim().split(/\s+/)
+                        .filter(id => id && !isNaN(parseInt(id)))
+                        .map(id => parseInt(id));
+                    
+                    firmsData.push({
+                        id: currentFirmId,
+                        employees: employeeIds
+                    });
+                    
+                    currentFirmId = ''; // Reset for the next firm
+                }
+            }
+            
+            if (firmsData.length === 0) {
+                throw new Error('No employee data found in expected format');
+            }
+            
+            updateStatistics();
+            updateTable();
+            updateHistograms();
+        }
+        
+        // Generate firm bin inputs based on the selected number of bins
+        function generateFirmBinInputs() {
+            const numBins = parseInt(numBinsFirmsSelect.value);
+            binSettingsFirmsContainer.innerHTML = '';
+            
+            // Use standard firm size categories as defaults when possible
+            const defaultBins = [
+                { min: 0, max: 9, ref: 87.6 },    // Micro firms
+                { min: 10, max: 49, ref: 10.8 },  // Small firms
+                { min: 50, max: 249, ref: 1.6 },  // Medium firms
+                { min: 250, max: Infinity, ref: 0.3 } // Large firms
+            ];
+            
+            firmBinRanges = [];
+            
+            for (let i = 0; i < numBins; i++) {
+                let min, max, refValue;
+                if (i < defaultBins.length && numBins <= defaultBins.length) {
+                    min = defaultBins[i].min;
+                    max = defaultBins[i].max;
+                    refValue = defaultBins[i].ref;
+                } else {
+                    // Calculate custom bins if needed
+                    const maxEmployees = firmsData.length > 0 ? 
+                        Math.max(...firmsData.map(firm => firm.employees.length)) : 250;
+                    const binSize = Math.ceil(maxEmployees / numBins);
+                    min = i * binSize;
+                    max = i === numBins - 1 ? Infinity : (i + 1) * binSize - 1;
+                    refValue = 0;
+                }
+                
+                const binDiv = document.createElement('div');
+                binDiv.className = 'bin-group';
+                binDiv.innerHTML = `
+                    <div class="bin-range">
+                        <label>
+                            Bin ${i+1}:
+                            <input type="number" class="firm-bin-min" value="${min}" min="0"> -
+                            <input type="number" class="firm-bin-max" value="${max === Infinity ? 999 : max}" min="0">
+                        </label>
+                    </div>
+                    <div class="experimental-input">
+                        <label>Actual value (%):</label>
+                        <input type="number" class="firm-experimental-value" value="${refValue}" min="0" max="100" step="0.1">
+                    </div>
+                `;
+                binSettingsFirmsContainer.appendChild(binDiv);
+                
+                firmBinRanges.push({
+                    min,
+                    max,
+                    label: max === Infinity ? `${min}+` : `${min}-${max}`,
+                    experimental: refValue
+                });
+            }
+            
+            // If data exists, update the histogram
+            if (firmsData.length > 0) {
+                updateHistograms();
+            }
+        }
+        
+        // Generate employee bin inputs based on the selected number of bins
+        function generateEmployeeBinInputs() {
+            const numBins = parseInt(numBinsEmployeesSelect.value);
+            binSettingsEmployeesContainer.innerHTML = '';
+            
+            // Use standard employee size categories as defaults
+            const defaultBins = [
+                { min: 0, max: 9 },
+                { min: 10, max: 49 },
+                { min: 50, max: 249 },
+                { min: 250, max: Infinity }
+            ];
+            
+            employeeBinRanges = [];
+            
+            for (let i = 0; i < numBins; i++) {
+                let min, max;
+                if (i < defaultBins.length) {
+                    min = defaultBins[i].min;
+                    max = defaultBins[i].max;
+                } else {
+                    min = 250 + (i - defaultBins.length) * 250;
+                    max = i === numBins - 1 ? Infinity : min + 249;
+                }
+                
+                const binDiv = document.createElement('div');
+                binDiv.className = 'bin-group';
+                binDiv.innerHTML = `
+                    <div class="bin-range">
+                        <label>
+                            Bin ${i+1}:
+                            <input type="number" class="employee-bin-min" value="${min}" min="0"> -
+                            <input type="number" class="employee-bin-max" value="${max === Infinity ? 999 : max}" min="0">
+                        </label>
+                    </div>
+                    <div class="experimental-input">
+                        <label>Actual value (%):</label>
+                        <input type="number" class="employee-experimental-value" value="0" min="0" max="100" step="0.1">
+                    </div>
+                `;
+                binSettingsEmployeesContainer.appendChild(binDiv);
+                
+                employeeBinRanges.push({
+                    min,
+                    max,
+                    label: max === Infinity ? `${min}+` : `${min}-${max}`,
+                    experimental: 0
+                });
+            }
+            
+            // If data exists, update the histogram
+            if (firmsData.length > 0) {
+                updateHistograms();
+            }
+        }
+        
+        // Update firm bin ranges from input fields
+        function updateFirmBinRangesFromInputs() {
+            const minInputs = document.querySelectorAll('.firm-bin-min');
+            const maxInputs = document.querySelectorAll('.firm-bin-max');
+            const experimentalInputs = document.querySelectorAll('.firm-experimental-value');
+            
+            firmBinRanges = [];
+            
+            for (let i = 0; i < minInputs.length; i++) {
+                const min = parseInt(minInputs[i].value);
+                const max = maxInputs[i].value === '999' ? Infinity : parseInt(maxInputs[i].value);
+                const experimental = parseFloat(experimentalInputs[i].value) || 0;
+                
+                firmBinRanges.push({
+                    min,
+                    max,
+                    label: max === Infinity ? `${min}+` : `${min}-${max}`,
+                    experimental: experimental
+                });
+            }
+        }
+        
+        // Update employee bin ranges from input fields
+        function updateEmployeeBinRangesFromInputs() {
+            const minInputs = document.querySelectorAll('.employee-bin-min');
+            const maxInputs = document.querySelectorAll('.employee-bin-max');
+            const experimentalInputs = document.querySelectorAll('.employee-experimental-value');
+            
+            employeeBinRanges = [];
+            
+            for (let i = 0; i < minInputs.length; i++) {
+                const min = parseInt(minInputs[i].value);
+                const max = maxInputs[i].value === '999' ? Infinity : parseInt(maxInputs[i].value);
+                const experimental = parseFloat(experimentalInputs[i].value) || 0;
+                
+                employeeBinRanges.push({
+                    min,
+                    max,
+                    label: max === Infinity ? `${min}+` : `${min}-${max}`,
+                    experimental: experimental
+                });
+            }
+        }
+        
+        // Update the statistics display
+        function updateStatistics() {
+            if (firmsData.length === 0) return;
+            
+            const firmSizes = firmsData.map(firm => firm.employees.length);
+            
+            // Total firms
+            totalFirmsElement.textContent = firmsData.length;
+            
+            // Average size
+            const avgSize = firmSizes.reduce((sum, size) => sum + size, 0) / firmSizes.length;
+            avgSizeElement.textContent = avgSize.toFixed(2);
+            
+            // Median size
+            const sortedSizes = [...firmSizes].sort((a, b) => a - b);
+            const medianSize = sortedSizes.length % 2 === 0 ?
+                (sortedSizes[sortedSizes.length / 2 - 1] + sortedSizes[sortedSizes.length / 2]) / 2 :
+                sortedSizes[Math.floor(sortedSizes.length / 2)];
+            medianSizeElement.textContent = medianSize.toFixed(2);
+            
+            // Max size
+            const maxSize = Math.max(...firmSizes);
+            maxSizeElement.textContent = maxSize;
+        }
+        
+        // Update the data table
+        function updateTable() {
+            const tableBody = document.querySelector('#firmTable tbody');
+            tableBody.innerHTML = '';
+            
+            firmsData.forEach(firm => {
+                const row = document.createElement('tr');
+                const idCell = document.createElement('td');
+                idCell.textContent = firm.id;
+                const sizeCell = document.createElement('td');
+                sizeCell.textContent = firm.employees.length;
+                row.appendChild(idCell);
+                row.appendChild(sizeCell);
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Update both histograms
+        function updateHistograms() {
+            updateFirmBinRangesFromInputs();
+            updateEmployeeBinRangesFromInputs();
+            
+            if (firmsData.length === 0) return;
+            
+            const firmSizes = firmsData.map(firm => firm.employees.length);
+            const totalEmployees = firmSizes.reduce((sum, size) => sum + size, 0);
+            
+            // Count firms in each bin for firm histogram
+            const firmBinCounts = Array(firmBinRanges.length).fill(0);
+            firmsData.forEach(firm => {
+                const size = firm.employees.length;
+                for (let i = 0; i < firmBinRanges.length; i++) {
+                    if (size >= firmBinRanges[i].min && size <= firmBinRanges[i].max) {
+                        firmBinCounts[i]++;
+                        break;
+                    }
+                }
+            });
+            
+            // Count employees in each bin for employee histogram
+            const employeeBinCounts = Array(employeeBinRanges.length).fill(0);
+            firmsData.forEach(firm => {
+                const size = firm.employees.length;
+                for (let i = 0; i < employeeBinRanges.length; i++) {
+                    if (size >= employeeBinRanges[i].min && size <= employeeBinRanges[i].max) {
+                        employeeBinCounts[i] += size;
+                        break;
+                    }
+                }
+            });
+            
+            // Calculate percentages
+            const totalFirms = firmSizes.length;
+            const firmBinPercentages = firmBinCounts.map(count => (count / totalFirms) * 100);
+            const employeeBinPercentages = employeeBinCounts.map(count => (count / totalEmployees) * 100);
+            
+            // Get experimental values
+            const firmExperimentalValues = firmBinRanges.map(bin => bin.experimental || 0);
+            const employeeExperimentalValues = employeeBinRanges.map(bin => bin.experimental || 0);
+            
+            // Create or update the firm histogram
+            const ctx = document.getElementById('histogram').getContext('2d');
+            
+            if (histogram) {
+                histogram.data.labels = firmBinRanges.map(bin => bin.label);
+                histogram.data.datasets[0].data = firmBinPercentages;
+                histogram.data.datasets[1].data = firmExperimentalValues;
+                histogram.update();
+            } else {
+                histogram = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: firmBinRanges.map(bin => bin.label),
+                        datasets: [
+                            {
+                                label: 'Simulation',
+                                data: firmBinPercentages,
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Actual Values',
+                                data: firmExperimentalValues,
+                                backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Percentage of Firms (%)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Firm Size (Number of Employees)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Firm Size (Number of Employees)',
+                                font: {
+                                    size: 18
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        if (context.datasetIndex === 0) {
+                                            return `Simulation: ${context.raw.toFixed(1)}% (${firmBinCounts[context.dataIndex]} firms)`;
+                                        } else {
+                                            return `Actual: ${context.raw.toFixed(1)}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Create or update the employee histogram
+            const employeeCtx = document.getElementById('employeeHistogram').getContext('2d');
+            
+            if (employeeHistogram) {
+                employeeHistogram.data.labels = employeeBinRanges.map(bin => bin.label);
+                employeeHistogram.data.datasets[0].data = employeeBinPercentages;
+                employeeHistogram.data.datasets[1].data = employeeExperimentalValues;
+                employeeHistogram.update();
+            } else {
+                employeeHistogram = new Chart(employeeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: employeeBinRanges.map(bin => bin.label),
+                        datasets: [
+                            {
+                                label: 'Simulation',
+                                data: employeeBinPercentages,
+                                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Actual Values',
+                                data: employeeExperimentalValues,
+                                backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Percentage of Employees (%)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Firm Size (Number of Employees)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Employee Distribution by Firm Size',
+                                font: {
+                                    size: 18
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        if (context.datasetIndex === 0) {
+                                            return `Simulation: ${context.raw.toFixed(1)}% (${employeeBinCounts[context.dataIndex]} employees)`;
+                                        } else {
+                                            return `Actual: ${context.raw.toFixed(1)}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Example data with Austrian values from around 2018
+        firmsData = [
+            // Based on European Commission data from Statista
+            // Micro firms (0-9 persons): 292,946 (87.6%)
+            // Small firms (10-49 persons): 36,096 (10.8%)
+            // Medium firms (50-249 persons): 5,501 (1.6%)
+            // Large firms (250+ persons): ~1,090 (~0.3%)
+            // Total: ~334,543 (100%)
+            
+            // Create representative entries for visualization
+            ...Array(88).fill().map((_, i) => ({ id: `AT_Micro_${i}`, employees: Array(Math.floor(Math.random() * 10)).fill(1) })),
+            ...Array(11).fill().map((_, i) => ({ id: `AT_Small_${i}`, employees: Array(10 + Math.floor(Math.random() * 40)).fill(1) })),
+            ...Array(1).fill().map((_, i) => ({ id: `AT_Medium_${i}`, employees: Array(50 + Math.floor(Math.random() * 200)).fill(1) })),
+            { id: "AT_Large_1", employees: Array(250).fill(1) }
+        ];
+        
+        // Preset experimental values based on Austrian data for firm bins
+        document.querySelectorAll('.firm-experimental-value').forEach((input, i) => {
+            if (i === 0) input.value = "87.6"; // 0-9 employees
+            else if (i === 1) input.value = "10.8"; // 10-49 employees
+            else if (i === 2) input.value = "1.6"; // 50-249 employees
+            else if (i === 3) input.value = "0.3"; // 250+ employees
+            else if (i === 4) input.value = "0"; // if there's a 5th bin
+        });
+        
+        // Preset experimental values based on Austrian data for employee bins
+        document.querySelectorAll('.employee-experimental-value').forEach((input, i) => {
+            if (i === 0) input.value = "36.6"; // 0-9 employees (micro)
+            else if (i === 1) input.value = "35.2"; // 10-49 employees (small)
+            else if (i === 2) input.value = "28.2"; // 50-249 employees (medium)
+            else if (i === 3) input.value = "0"; // 250+ employees (large)
+        });
+        
+        // Initialize with Austrian data
+        updateFirmBinRangesFromInputs();
+        updateEmployeeBinRangesFromInputs();
+        updateStatistics();
+        updateTable();
+        updateHistograms();
+        
+        // Show config and results
+        emptyState.style.display = 'none';
+        configPanel.style.display = 'block';
+        resultsSection.style.display = 'block';
+        processingInfo.textContent = 'Austrian firm size distribution data (2018) loaded. You can modify the values or upload your own file.';
+    </script>
+</body>
+</html>

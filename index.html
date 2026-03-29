@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</title>
+<style>
+  :root { --blue: #1a3a5c; --accent: #2980b9; --light: #f0f4f8; --border: #dde4ea; --green: #2e7d32; --orange: #e65100; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; background: #fff; max-width: 920px; margin: 0 auto; padding: 40px 24px; line-height: 1.7; }
+
+  /* Header */
+  h1 { color: var(--blue); font-size: 2.1em; text-align: center; margin-bottom: 6px; }
+  .subtitle { color: var(--accent); font-size: 1.08em; text-align: center; font-style: italic; margin-bottom: 6px; }
+  .author { text-align: center; color: #666; font-size: 0.95em; margin-bottom: 28px; }
+
+  /* Thesis box */
+  .thesis { background: var(--light); border-left: 4px solid var(--blue); padding: 16px 20px; margin: 0 0 32px; font-size: 0.94em; color: #444; text-align: justify; line-height: 1.75; border-radius: 0 6px 6px 0; }
+  .thesis strong { color: var(--blue); }
+
+  /* Quick start */
+  .quick-start { background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 8px; padding: 14px 20px; margin: 0 0 34px; font-size: 0.93em; }
+  .quick-start strong { color: var(--green); }
+  .quick-start a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .quick-start a:hover { text-decoration: underline; }
+
+  /* Domain map */
+  .domain-map { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 34px; }
+  .domain-card { background: var(--light); border-radius: 8px; padding: 16px 18px; border: 1px solid var(--border); transition: box-shadow 0.2s, transform 0.15s; }
+  .domain-card:hover { box-shadow: 0 4px 16px rgba(26,58,92,0.12); transform: translateY(-2px); }
+  .domain-card .domain-icon { font-size: 1.5em; margin-bottom: 4px; }
+  .domain-card h3 { color: var(--blue); font-size: 0.98em; margin-bottom: 4px; }
+  .domain-card .result { color: var(--accent); font-weight: 700; font-size: 0.92em; }
+  .domain-card .detail { font-size: 0.84em; color: #666; margin-top: 4px; }
+  .domain-center { grid-column: 1 / -1; text-align: center; background: var(--blue); color: #fff; border-radius: 8px; padding: 18px 20px; border: none; }
+  .domain-center h3 { color: #fff; font-size: 1.05em; margin-bottom: 6px; }
+  .domain-center .detail { color: #b0c4de; font-size: 0.88em; margin-top: 0; }
+
+  /* Chapter cards */
+  .chapters-title { color: var(--blue); font-size: 1.2em; margin: 10px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .chapter { background: #fff; border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 18px 22px; margin: 14px 0; box-shadow: 0 1px 6px rgba(0,0,0,0.06); transition: box-shadow 0.2s, transform 0.15s; }
+  .chapter:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .chapter-intro { border-left-color: var(--blue); }
+  .chapter h2 { color: var(--blue); font-size: 1.1em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .chapter h2 a { color: var(--blue); text-decoration: none; }
+  .chapter h2 a:hover { color: var(--accent); text-decoration: underline; }
+  .chapter .desc { font-size: 0.92em; color: #555; margin-bottom: 8px; }
+  .chapter .files { font-size: 0.84em; color: #888; }
+  .chapter .files a { color: var(--accent); text-decoration: none; }
+  .chapter .files a:hover { text-decoration: underline; }
+
+  /* Tags */
+  .tag { display: inline-block; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: 600; letter-spacing: 0.02em; vertical-align: middle; }
+  .tag-published { background: #e8f5e9; color: #2e7d32; }
+  .tag-draft { background: #fff3e0; color: #e65100; }
+  .tag-arxiv { background: #e3f2fd; color: #1565c0; font-weight: 400; font-size: 0.7em; margin-left: 4px; }
+
+  /* Separator */
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+
+  /* Footer */
+  .footer { text-align: center; color: #aaa; font-size: 0.85em; margin-top: 36px; }
+  .footer a { color: #aaa; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body { padding: 20px 14px; }
+    h1 { font-size: 1.5em; }
+    .domain-map { grid-template-columns: 1fr; }
+    .domain-center { grid-column: 1; }
+    .chapter { padding: 14px 16px; }
+    .chapter h2 { font-size: 1.0em; }
+  }
+</style>
+</head>
+<body>
+
+<h1>The Free-Market Algorithm</h1>
+<div class="subtitle">A Universal Theory of Open-Ended Complex Systems</div>
+<div class="author">Martin Jaraiz &mdash; Department of Electricity and Electronics, University of Valladolid, Spain &middot; 2026</div>
+
+<!-- Thesis -->
+<div class="thesis">
+<strong>Thesis.</strong> Darwinian free-market optimization is a universal mechanism for the emergence of complexity in open-ended systems. The same 18 mechanisms &mdash; birth/death, Evans-Polanyi barriers, recipe books, census coverage, depth penalty, GFCF cascades, and the rest &mdash; operate identically across macroeconomics, prebiotic chemistry, language modelling, and adaptive immunity. These are not analogies. They are structural isomorphisms, discovered by matching mechanism signatures across domains where natural selection has converged on the same algorithmic solution.
+</div>
+
+<!-- Quick start -->
+<div class="quick-start">
+<strong>Quick start:</strong> New here? Begin with the <a href="Introduction.html">Introduction</a>. For the impatient, jump to the interactive viewers: <a href="Ch4-Transformer/Paper-4-FMT-viewer.html">nanoFMT</a> (language models) | <a href="Ch5-Immune/Paper-5-Immune-viewer.html">nanoImmune</a> (adaptive immunity).
+</div>
+
+<!-- Domain map -->
+<div class="domain-map">
+  <div class="domain-center">
+    <h3>18 Universal Mechanisms &middot; 3 Dynamical Regimes</h3>
+    <div class="detail">Birth/death &middot; Evans-Polanyi barriers &middot; Recipe book &middot; Census coverage &middot; Depth penalty &middot; GFCF cascades &middot; ...</div>
+  </div>
+  <div class="domain-card">
+    <div class="domain-icon">&#x1F4C8;</div>
+    <h3>Macroeconomics</h3>
+    <div class="result">MAE 0.42 pp &middot; 33/37 countries</div>
+    <div class="detail">GDP forecasting from input-output tables alone, no fitted parameters. COVID-19 shock simulation, emergent firm-size distributions.</div>
+  </div>
+  <div class="domain-card">
+    <div class="domain-icon">&#x269B;</div>
+    <h3>Prebiotic Chemistry</h3>
+    <div class="result">12/12 amino acids &middot; 5/5 nucleobases</div>
+    <div class="detail">Life's molecular toolkit discovered from bare atoms. Formose sugars, Krebs intermediates, Assembly Theory validation.</div>
+  </div>
+  <div class="domain-card">
+    <div class="domain-icon">&#x1F9E0;</div>
+    <h3>Language Models</h3>
+    <div class="result">58 self-organized experts</div>
+    <div class="detail">nanoFMT: market-orchestrated transformer with no gradient descent. Training-inference collapse, monosemantic experts.</div>
+  </div>
+  <div class="domain-card">
+    <div class="domain-icon">&#x1F9EC;</div>
+    <h3>Adaptive Immunity</h3>
+    <div class="result">6 falsifiable predictions</div>
+    <div class="detail">Complete 18-mechanism mapping. Three regimes: tolerance, normal immunity, cytokine storm. nanoImmune simulation.</div>
+  </div>
+</div>
+
+<!-- Cross-domain visualization -->
+<div style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:8px; padding:14px 20px; margin:0 0 24px; font-size:0.93em;">
+<strong style="color:#e65100;">&#x1F50D; Interactive:</strong> <a href="Universal-Dynamics.html" style="color:var(--accent); font-weight:600;">Universal Dynamics Across Domains</a> &mdash; One slider, four domains, three regimes. Watch macroeconomics, chemistry, AI, and immunity respond identically to the same Evans-Polanyi temperature.
+</div>
+
+<!-- Chapters -->
+<h2 class="chapters-title">Chapters</h2>
+
+<div class="chapter chapter-intro">
+  <h2><a href="Introduction.html">Introduction &mdash; Why a Free Market?</a></h2>
+  <div class="desc">One claim, five domains, 18 mechanisms. How a macroeconomic simulator became a universal theory of open-ended complex systems.</div>
+</div>
+
+<div class="chapter">
+  <h2>
+    <a href="Ch1-Framework/Paper-3-Free-Market-Algorithm.html">Chapter 1 &mdash; The Framework</a>
+    <span class="tag tag-published">Published</span>
+    <span class="tag tag-arxiv">arXiv:2603.24559</span>
+  </h2>
+  <div class="desc">Formal definition of the 18 FMA mechanisms, three-layer architecture, comparison with GA/PSO/ACO/SA, Assembly Theory connection.</div>
+  <div class="files">
+    <a href="Ch1-Framework/Paper-3-Free-Market-Algorithm.html">Main chapter</a> &middot;
+    <a href="Ch1-Framework/The_Free-Market_Algorithm_Self-Organizing_Optimization-submitted-arxiv.pdf">arXiv PDF</a> &middot;
+    <a href="Ch1-Framework/Free-Market-Algorithm.html">Original FMA paper</a> &middot;
+    <a href="Ch1-Framework/FM-ABM-Selection-Evolution-vs-Sharma.html">AT response (Sharma)</a>
+  </div>
+</div>
+
+<div class="chapter">
+  <h2>
+    <a href="Ch2-Macroeconomics/Paper-1-Macroeconomic-Forecasting.html">Chapter 2 &mdash; Macroeconomic Forecasting</a>
+    <span class="tag tag-published">Published</span>
+    <span class="tag tag-arxiv">arXiv:2603.12412</span>
+  </h2>
+  <div class="desc">9-year panels (Austrian/Swedish/German/French), COVID-19 simulation, cross-country portability (33/37 countries), emergent firm-size distributions.</div>
+  <div class="files">
+    <a href="Ch2-Macroeconomics/Paper-1-Macroeconomic-Forecasting.html">Main chapter</a> &middot;
+    <a href="Ch2-Macroeconomics/Macroeconomic_Forecasting_from_Input-Output_Tables_Alone-submitted-arxiv.pdf">arXiv PDF</a> &middot;
+    <a href="Ch2-Macroeconomics/COVID_Shock_Implementation_Report.html">COVID simulation</a> &middot;
+    <a href="Ch2-Macroeconomics/Firm-size-histogram.html">Firm-size distributions</a> &middot;
+    <a href="Ch2-Macroeconomics/DEPLOYERS_Comprehensive_Analysis-Sonnet4.5.pdf">DEPLOYERS analysis</a>
+  </div>
+</div>
+
+<div class="chapter">
+  <h2>
+    <a href="Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">Chapter 3 &mdash; Prebiotic Chemistry</a>
+    <span class="tag tag-draft">Draft</span>
+  </h2>
+  <div class="desc">12/12 amino acids, 5/5 nucleobases, formose sugar chain, Krebs intermediates, 8 histamine synthesis routes, Assembly Theory validation.</div>
+  <div class="files">
+    <a href="Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">Main chapter</a> &middot;
+    <a href="Ch3-Prebiotic-Chemistry/Prebiotic_Chemistry_from_a_Free-Market_Agent-Based_Model.pdf">PDF</a> &middot;
+    <a href="Ch3-Prebiotic-Chemistry/Synthesis-Route-Report.html">Histamine synthesis</a> &middot;
+    <a href="Ch3-Prebiotic-Chemistry/Assembly-Theory-Alignment.html">AT validation</a>
+  </div>
+</div>
+
+<div class="chapter">
+  <h2>
+    <a href="Ch4-Transformer/Paper-4-FreeMarketTransformer.html">Chapter 4 &mdash; Language Models</a>
+    <span class="tag tag-draft">Draft</span>
+  </h2>
+  <div class="desc">nanoFMT: FMA's market dynamics as a mechanistic alternative to fixed-expert MoE. Training-inference collapse, 4-layer ExpertPool hierarchy, polysemanticity under capacity constraints.</div>
+  <div class="files">
+    <a href="Ch4-Transformer/Paper-4-FreeMarketTransformer.html">Main chapter</a> &middot;
+    <a href="Ch4-Transformer/Paper-4annex-llm_explainer.html">LLM explainer annex</a> &middot;
+    <a href="Ch4-Transformer/Paper-4annex-results-analysis.html">Results analysis</a> &middot;
+    <a href="Ch4-Transformer/Paper-4-FMT-viewer.html">Interactive viewer</a>
+  </div>
+</div>
+
+<div class="chapter">
+  <h2>
+    <a href="Ch5-Immune/Paper-5-Immune-System.html">Chapter 5 &mdash; Adaptive Immunity</a>
+    <span class="tag tag-draft">Draft</span>
+  </h2>
+  <div class="desc">Complete 18-mechanism mapping, three regime correspondence (tolerance/immunity/storm), six falsifiable predictions, nanoImmune simulation.</div>
+  <div class="files">
+    <a href="Ch5-Immune/Paper-5-Immune-System.html">Main chapter</a> &middot;
+    <a href="Ch5-Immune/Paper-5annex-results-analysis.html">Results analysis</a> &middot;
+    <a href="Ch5-Immune/Paper-5-Evaluation-Report.html">Evaluation report</a> &middot;
+    <a href="Ch5-Immune/Paper-5-Immune-viewer.html">Interactive viewer</a> &middot;
+    <a href="Ch5-Immune/Paper-5-Evaluation-Report-v2.pdf">Evaluation PDF</a>
+  </div>
+</div>
+
+<hr>
+
+<div class="footer">
+  arXiv:2603.24559 (FMA) &middot; arXiv:2603.12412 (Macro) &middot;
+  <a href="https://github.com/mjaraiz-uva">github.com/mjaraiz-uva</a><br>
+  DEPLOYERS &middot; nanoFMT &middot; nanoImmune v1.0
+</div>
+
+</body>
+</html>

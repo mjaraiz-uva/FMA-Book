@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>nanoFMT Results Analysis — FMA as AI Orchestration Layer</title>
+<style>
+  body { font-family: 'Georgia', 'Times New Roman', serif; max-width: 950px; margin: 40px auto; padding: 0 20px; line-height: 1.8; color: #333; background: #ffffff; font-size: 16px; }
+  h1 { font-family: 'Segoe UI', sans-serif; font-size: 1.75em; color: #1a3a5c; margin-bottom: 5px; line-height: 1.3; border-bottom: 3px solid #2c5f8a; padding-bottom: 12px; }
+  h2 { font-family: 'Segoe UI', sans-serif; font-size: 1.35em; color: #2c5f8a; margin-top: 0; border-bottom: none; padding-bottom: 0; }
+  h3 { font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #3a5a7c; margin-top: 28px; }
+  h4 { font-family: 'Segoe UI', sans-serif; color: #444; margin-top: 18px; }
+  .authors { color: #555; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #777; font-size: 0.9em; margin-bottom: 30px; }
+  .abstract-box { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 18px 22px; border-radius: 5px; margin: 25px 0; font-size: 0.95em; }
+  .abstract-box strong { color: #2c5f8a; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.92em; font-family: 'Consolas', monospace; color: #2c5f8a; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #bbb; padding: 8px 12px; text-align: left; }
+  th { background: #e8eef4; color: #1a3a5c; font-family: 'Segoe UI', sans-serif; font-weight: 600; }
+  tr:nth-child(even) { background: #f8f9fa; }
+  .note { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .note strong { color: #2c5f8a; }
+  .insight { background: #ffffff; border: 1px solid #a0d8a0; border-left: 4px solid #2e8b57; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .insight strong { color: #2e8b57; }
+  .warning { background: #ffffff; border: 1px solid #e0c8a0; border-left: 4px solid #d48a2c; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .warning strong { color: #d48a2c; }
+  .central-thesis { background: #ffffff; border: 1px solid #d8a0a0; border-left: 4px solid #8b2e2e; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .central-thesis strong { color: #8b2e2e; }
+  sup { font-size: 0.75em; color: #2c5f8a; }
+  a { color: #2c5f8a; }
+  .panel-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #2c5f8a; color: white; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 0.8em; flex-shrink: 0; vertical-align: middle; margin-right: 6px; }
+  .vs-table td:first-child { font-weight: 600; color: #2c5f8a; width: 22%; }
+  .disclosure { background: #ffffff; border: 1px solid #ccc; padding: 16px 20px; border-radius: 5px; margin: 20px 0; font-size: 0.92em; color: #555; }
+  .viewer-link { display: inline-flex; align-items: center; gap: 6px; background: #2c5f8a; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.9em; font-weight: 600; margin: 8px 0; }
+  .viewer-link:hover { background: #1a3a5c; color: white; }
+  .nav-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+
+  /* Collapsible sections */
+  details.section {
+    margin-top: 30px;
+    border: 1px solid #d0d8e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  details.section > summary {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2c5f8a;
+    padding: 14px 20px;
+    cursor: pointer;
+    background: #f0f4f8;
+    border-bottom: 1px solid #d0d8e0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  details.section > summary:hover { background: #e4eaf0; }
+  details.section > summary::-webkit-details-marker { display: none; }
+  details.section > summary::before {
+    content: '\25B6';
+    font-size: 0.65em;
+    color: #2c5f8a;
+    transition: transform 0.2s;
+    display: inline-block;
+    width: 16px;
+  }
+  details.section[open] > summary::before { transform: rotate(90deg); }
+  details.section[open] > summary { border-bottom: 1px solid #d0d8e0; }
+  details.section > .section-body { padding: 16px 22px 22px; }
+
+  /* Collapsible panels (inside section 2) */
+  details.panel {
+    margin-top: 16px;
+    border: 1px solid #e0e4e8;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fafbfc;
+  }
+  details.panel > summary {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.05em;
+    font-weight: 600;
+    color: #3a5a7c;
+    padding: 10px 16px;
+    cursor: pointer;
+    background: #f5f7fa;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  details.panel > summary:hover { background: #eaeff4; }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary::before {
+    content: '\25B6';
+    font-size: 0.55em;
+    color: #3a5a7c;
+    transition: transform 0.2s;
+    display: inline-block;
+    width: 14px;
+  }
+  details.panel[open] > summary::before { transform: rotate(90deg); }
+  details.panel > .panel-body { padding: 12px 18px 18px; background: #fff; }
+
+  /* Subsection collapsible (inside sections 3, 5) */
+  details.subsection {
+    margin-top: 14px;
+    border: 1px solid #e0e4e8;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  details.subsection > summary {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.0em;
+    font-weight: 600;
+    color: #3a5a7c;
+    padding: 10px 16px;
+    cursor: pointer;
+    background: #f5f7fa;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  details.subsection > summary:hover { background: #eaeff4; }
+  details.subsection > summary::-webkit-details-marker { display: none; }
+  details.subsection > summary::before {
+    content: '\25B6';
+    font-size: 0.55em;
+    color: #3a5a7c;
+    transition: transform 0.2s;
+    display: inline-block;
+    width: 14px;
+  }
+  details.subsection[open] > summary::before { transform: rotate(90deg); }
+  details.subsection > .sub-body { padding: 12px 18px 16px; }
+
+  /* Expand/collapse all buttons */
+  .expand-controls {
+    display: flex; gap: 10px; margin: 16px 0 4px;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.85em;
+  }
+  .expand-controls button {
+    background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px;
+    padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em;
+    font-family: 'Segoe UI', sans-serif; transition: background 0.15s;
+  }
+  .expand-controls button:hover { background: #d8e2ec; }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; color:#7f8c8d; font-family:'Segoe UI',sans-serif; font-size:0.85em; margin-bottom:4px; letter-spacing:0.05em;">THE FREE-MARKET ALGORITHM &mdash; A UNIVERSAL THEORY OF OPEN-ENDED COMPLEX SYSTEMS</div>
+<div style="text-align:center; color:#2c5f8a; font-family:'Segoe UI',sans-serif; font-size:1.1em; font-weight:600; margin-bottom:20px; letter-spacing:0.03em;">Chapter 4 &mdash; Language Models &mdash; Annex B</div>
+
+<h1>Understanding nanoFMT: What the Results Tell Us About FMA as an AI Orchestration Layer</h1>
+
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electricity and Electronics, University of Valladolid, Spain</p>
+
+<div class="nav-links">
+  <a class="viewer-link" href="Paper-4-FMT-viewer.html">&#9654; Open interactive viewer</a>
+  <a class="viewer-link" href="Paper-4-FreeMarketTransformer.html" style="background:#3a5a7c;">&#8592; Back to Chapter 4</a>
+  <a class="viewer-link" href="../index.html" style="background:#1a3a5c;">&#8592; Index</a>
+</div>
+
+<div class="abstract-box">
+<strong>Purpose of this annex.</strong> Chapter 4 presents the Free-Market Transformer theory and the nanoFMT experimental validation. The <a href="Paper-4-FMT-viewer.html">interactive viewer</a> lets the reader explore the simulation in real time. This annex bridges the two: it walks through each of the eight visualisation panels, explains what the reader is seeing, and draws out the implications for AI architecture. The central argument is that FMA does not compete with gradient descent&mdash;it operates <em>above</em> it, as an orchestration layer that decides which neural modules exist, which survive, and how they combine. This is the level at which FMA enhances AI performance.
+</div>
+
+<div class="expand-controls">
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all</button>
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all</button>
+</div>
+
+<!-- ================================================================== -->
+<!-- SECTION 1 -->
+<!-- ================================================================== -->
+<details class="section" open>
+<summary>1. The Key Insight: FMA Operates Above the Transformer</summary>
+<div class="section-body">
+
+<p>A common first reaction to the FMA&ndash;Transformer connection is to ask: &ldquo;can a market algorithm replace gradient descent for learning?&rdquo; This is the wrong question. Gradient descent is extraordinarily efficient at optimising parameters <em>within</em> a fixed architecture. What it cannot do is change the architecture itself during operation: decide that a new specialist module is needed, create it, route data to it, and retire the old modules that are no longer useful.</p>
+
+<p>This is precisely what FMA does. In nanoFMT, gradient descent still trains the experts (the MLPs). But the decisions about which experts exist, how many there are in each layer, when new ones are born and old ones die, and which processing pipelines are promoted to permanent memory&mdash;all of this is governed by FMA market dynamics. The relationship is hierarchical:</p>
+
+<div class="central-thesis">
+<strong>Gradient descent optimises <em>within</em> the architecture. FMA optimises <em>the architecture itself</em>.</strong> Together, they enable a system that is simultaneously learning (parameter updates) and self-designing (structural adaptation). The training&ndash;inference dichotomy reduces to a single step: every forward pass is simultaneously refining weights and reshaping the expert population.
+</div>
+
+<p>The eight panels of the interactive viewer make this hierarchy visible. Four panels track the market dynamics (Expert Population, Birth/Death Ratio, Unmet Demand, Dynamical Regime), three track performance outcomes (Training Loss, Average Fitness, Recipe Book), and one provides a structural snapshot (Expert Grid). Together they tell the story of a system that designs itself.</p>
+
+</div>
+</details>
+
+<!-- ================================================================== -->
+<!-- SECTION 2 -->
+<!-- ================================================================== -->
+<details class="section" open>
+<summary>2. Panel-by-Panel Analysis</summary>
+<div class="section-body">
+
+<p>The following analysis refers to the <strong>Default</strong> scenario (T=1.0, TinyStories, 4 initial experts per layer). The reader is encouraged to run this scenario in the <a href="Paper-4-FMT-viewer.html">interactive viewer</a> while reading.</p>
+
+<!-- Panel 1 -->
+<details class="panel" open>
+<summary><span class="panel-num">1</span> Training Loss</summary>
+<div class="panel-body">
+
+<p>This panel displays character-level cross-entropy loss and looks superficially similar to any standard training curve. But the mechanism driving the descent is fundamentally different. In a conventional model, loss decreases because weights are updated. In nanoFMT, loss decreases for <em>two</em> reasons: weight updates within existing experts (gradient descent) <em>and</em> the arrival of new specialist experts that claim tokens no existing expert serves well (market dynamics).</p>
+
+<p>The evidence for this dual mechanism is visible in the early training phase: loss falls in discrete steps that coincide with expert birth events (visible in Panel 2). Each new expert claims a subset of previously poorly-served tokens, producing a local drop in loss. As the expert population saturates, the curve smooths out and resembles conventional training&mdash;the market has found most viable niches, and gradient descent handles the remaining optimisation.</p>
+
+<div class="insight">
+<strong>What to look for.</strong> Compare the Default and No Market scenarios. Both produce declining loss curves, but the Default scenario descends faster in early training (the market accelerates specialisation) and reaches a lower final loss (more experts = finer granularity). The difference between the two curves quantifies the market's contribution to performance.
+</div>
+
+</div>
+</details>
+
+<!-- Panel 2 -->
+<details class="panel">
+<summary><span class="panel-num">2</span> Expert Population per Layer</summary>
+<div class="panel-body">
+
+<p>This is the signature panel for understanding FMA as an orchestration layer. It shows something no conventional neural network has: the architecture changing its own size during training.</p>
+
+<p>In nanoFMT, each of the four transformer layers starts with the same number of seed experts. After a warmup period, the market begins evaluating demand signals (which tokens lack strong expert coverage) and spawning new experts via the Evans&ndash;Polanyi barrier. The population in each layer grows at a different rate, reflecting the layer's role:</p>
+
+<table>
+<tr><th>Layer</th><th>Functional role</th><th>Typical growth pattern</th><th>Reason</th></tr>
+<tr><td>L0 (input)</td><td>Raw character identity</td><td>Fast initial growth, then saturation</td><td>Character features are simple and finite&mdash;niches fill quickly</td></tr>
+<tr><td>L1 (morphological)</td><td>Word boundaries, structure</td><td>Most active layer; grows longest</td><td>Morphological patterns are numerous and overlapping&mdash;many niches to fill</td></tr>
+<tr><td>L2 (syntactic)</td><td>Grammatical class</td><td>Moderate, steady growth</td><td>Syntactic categories are fewer but more abstract</td></tr>
+<tr><td>L3 (discourse)</td><td>Narrative function</td><td>Slowest; last experts to appear</td><td>Discourse-level patterns require the lower layers to stabilise first</td></tr>
+</table>
+
+<div class="insight">
+<strong>The AI significance.</strong> No human architect decided that morphological processing needs more experts than discourse processing. The market discovered this by evaluating demand. In a standard Mixture-of-Experts model (e.g., DeepSeek-V3, Mixtral), every layer has the same number of experts because a human chose that number before training began. FMT lets each layer find its own optimal size. This is the difference between central planning (fixed allocation) and market allocation (demand-driven).
+</div>
+
+<p>The experimental validation (Section 10 of Chapter 4) confirmed this pattern at scale: the 20,000-step run grew from 4 to 58 experts with distribution [13, 17, 13, 15]&mdash;Layer 1 received the most experts, consistent with its role as the most demanding processing stage.</p>
+
+</div>
+</details>
+
+<!-- Panel 3 -->
+<details class="panel">
+<summary><span class="panel-num">3</span> Birth/Death Ratio</summary>
+<div class="panel-body">
+
+<p>The birth/death ratio is the regime indicator&mdash;the most direct measure of whether the market is functioning healthily. It maps directly to Assembly Theory's three dynamical regimes, which appear identically across all five FMA domains:</p>
+
+<table>
+<tr><th>Regime</th><th>B/D ratio</th><th>In economics</th><th>In chemistry</th><th>In immunity</th><th>In AI (nanoFMT)</th></tr>
+<tr><td><strong>Stagnation</strong></td><td>&lt; 1.0</td><td>Recession: firms die faster than they are created</td><td>Dead pool: molecules decay faster than they form</td><td>Immunodeficiency: T-cells exhausted</td><td>Expert pool shrinks; loss stalls</td></tr>
+<tr><td><strong>Selection</strong></td><td>1.0 &ndash; 5.0</td><td>Healthy growth: balanced creative destruction</td><td>Productive chemistry: complex molecules emerge</td><td>Normal immune response</td><td>Experts specialise; loss decreases; recipes accumulate</td></tr>
+<tr><td><strong>Tar</strong></td><td>&gt; 5.0</td><td>Hyperinflation: chaotic overproduction</td><td>Tar problem: everything reacts, nothing persists</td><td>Cytokine storm: overreaction</td><td>Expert churn; routing fragments; loss worsens</td></tr>
+</table>
+
+<div class="insight">
+<strong>What to look for.</strong> Run the <strong>High Temp</strong> scenario and observe how the B/D ratio spikes above 5.0. The expert population explodes, but loss does not improve&mdash;in fact, it may increase. This is because too many experts fragment the routing table: the router cannot learn stable assignments when the expert pool is churning. Now run <strong>Low Temp</strong>: the B/D ratio barely rises above 1.0, and the expert population stays nearly flat. Loss decreases slowly because the small fixed pool cannot cover the full token diversity. The <strong>Default</strong> scenario sits in the selection regime, where the B/D ratio oscillates between 1.0 and 5.0&mdash;balanced creative destruction.
+</div>
+
+<p>This panel visualises a universal principle: the same Evans&ndash;Polanyi temperature that controls reaction rates in chemistry and startup rates in economics controls the birth rate of neural network modules. A single parameter governs the <em>pace of architectural exploration</em>, and there exists an optimal regime where exploration and exploitation balance.</p>
+
+</div>
+</details>
+
+<!-- Panel 4 -->
+<details class="panel">
+<summary><span class="panel-num">4</span> Unmet Demand</summary>
+<div class="panel-body">
+
+<p>Unmet demand is the census coverage signal&mdash;the market's way of knowing <em>where</em> new experts are needed. It counts, per layer, the number of tokens for which no existing expert provides a strong routing gate. In economic terms, it is the unsatisfied demand in the market; in biological terms, the density of pathogens not covered by existing antibodies.</p>
+
+<p>In the Default scenario, unmet demand starts high (the initial 4 experts cannot cover all token types) and falls as the market spawns specialists. Each drop in unmet demand corresponds to an expert birth event visible in Panel 2. The demand signal is <em>per-layer</em>, which is why different layers grow at different rates: layers with more diverse token distributions generate higher demand and therefore spawn more experts.</p>
+
+<div class="warning">
+<strong>Domain Shift: the critical scenario.</strong> In the <strong>Domain Shift</strong> scenario, the token distribution changes abruptly at step 500 (simulating a switch from stories to code). Unmet demand spikes across all layers&mdash;the existing expert pool, specialised for narrative text, suddenly faces token patterns it has never seen. The market responds by spawning new experts tuned to the shifted distribution. This is the FMA's most distinctive capability: <strong>structural adaptation without retraining</strong>. A standard model would need to be fine-tuned or retrained. FMT grows new modules on the fly.
+</div>
+
+<p>This is the panel that most clearly shows FMA operating <em>above</em> gradient descent. Gradient descent can adjust expert weights to better handle the shifted distribution, but it cannot create a new expert. The market can.</p>
+
+</div>
+</details>
+
+<!-- Panel 5 -->
+<details class="panel">
+<summary><span class="panel-num">5</span> Average Fitness per Layer</summary>
+<div class="panel-body">
+
+<p>Fitness is the product of Quality (how well an expert reduces loss) and Demand (how many tokens it serves). This is the market's &ldquo;profit&rdquo; signal&mdash;the measure by which experts live or die. The fitness calculation incorporates two FMA-specific mechanisms:</p>
+
+<p><strong>Complexity-proportional decay:</strong> Fitness decays continuously, and the decay rate increases with the expert's capacity utilisation. This is the market equivalent of depreciation: a large, complex firm requires constant revenue to maintain its infrastructure. An expert that stops receiving tokens loses fitness exponentially, eventually falling below the death threshold. This prevents &ldquo;zombie experts&rdquo;&mdash;modules that persist despite being useless, a common problem in fixed-expert architectures.</p>
+
+<p><strong>Depth penalty:</strong> Experts involved in deep processing chains (measured by recipe depth) receive a fitness penalty proportional to chain length. This is analogous to the FMA's chain-of-thought regularisation: it prevents the system from building excessively deep pipelines when simpler ones would suffice. In practice, the depth penalty keeps expert count manageable and prevents combinatorial explosion of the recipe book.</p>
+
+<div class="insight">
+<strong>What to look for.</strong> In the <strong>No Market</strong> ablation, fitness stays flat because there are no births or deaths to create selection pressure. All experts receive roughly equal demand because the router has no market signal to guide specialisation. In the Default scenario, fitness shows sharp differentiation across layers: input layers (L0) stabilise early at moderate fitness, while discourse layers (L3) take longer to develop high-fitness experts, reflecting the bottom-up maturation of the specialisation hierarchy.
+</div>
+
+</div>
+</details>
+
+<!-- Panel 6 -->
+<details class="panel">
+<summary><span class="panel-num">6</span> Recipe Book</summary>
+<div class="panel-body">
+
+<p>The recipe book is the most novel component of the FMT architecture, and the panel that has no counterpart in standard deep learning. A recipe is a persistent record of a successful expert activation chain&mdash;a specific sequence of experts (one per layer) that, when activated together, produces consistently low loss for a class of tokens.</p>
+
+<p>In the original FMA (molecular deployer), recipes represent synthesis pathways: sequences of chemical reactions that reliably produce a target molecule. In macroeconomics, they are supply chains: established sequences of producers that reliably deliver a product. In nanoFMT, they are processing pipelines: stable expert combinations that reliably handle a token class. Across all five domains, recipes share the same properties:</p>
+
+<table>
+<tr><th>Property</th><th>Molecular deployer</th><th>nanoFMT</th></tr>
+<tr><td>What is stored</td><td>Reaction pathway (A + B &rarr; C)</td><td>Expert chain (L0-E3 &rarr; L1-E7 &rarr; L2-E1 &rarr; L3-E4)</td></tr>
+<tr><td>How promoted</td><td>Repeated successful synthesis</td><td>Repeated low-loss activation of the same chain</td></tr>
+<tr><td>Growth pattern</td><td>Rapid early accumulation, then saturation</td><td>Same: rapid early accumulation, then saturation</td></tr>
+<tr><td>Scale at saturation</td><td>15,754 recipes (20M atoms)</td><td>25 recipes (34.8M params, character-level)</td></tr>
+<tr><td>Post-saturation</td><td>Market equilibrium (all profitable niches filled)</td><td>Same: routing grammar fully discovered</td></tr>
+</table>
+
+<div class="insight">
+<strong>The AI significance.</strong> The recipe book is the FMT's equivalent of persistent learned reasoning. Standard LLMs lose all intermediate computation after inference. Chain-of-thought prompting (o1, o3, Claude thinking) produces reasoning traces, but these are ephemeral&mdash;discarded after each request. The recipe book <em>persists</em>: once a processing pipeline is promoted, it is available for future use. This is the mechanism through which FMT achieves the training&ndash;inference collapse: the model is simultaneously serving requests (inference) and building its library of successful strategies (training).
+</div>
+
+<p>The saturation pattern visible in this panel is significant. In the experimental 20K run, the recipe book stabilised at 25 recipes by step 12,800 (64% through training) and added zero new recipes over the final 7,200 steps. This saturation signals that the routing grammar&mdash;which expert serves which downstream expert&mdash;has been fully discovered. All profitable niches have been filled. Further growth requires a new demand shock (such as the domain shift).</p>
+
+</div>
+</details>
+
+<!-- Panel 7 -->
+<details class="panel">
+<summary><span class="panel-num">7</span> Dynamical Regime Strip</summary>
+<div class="panel-body">
+
+<p>This panel condenses the birth/death dynamics into a colour-coded timeline: stagnation (amber), selection (green), tar (red). A healthy training run appears as a predominantly green strip with brief amber phases during warmup and brief red spikes during demand shocks.</p>
+
+<p>The regime strip provides a diagnostic at a glance: if most of the strip is amber, the temperature is too low (the market is underexploring). If most of the strip is red, the temperature is too high (the market is overexploring). The optimal training configuration produces a strip that is predominantly green with local perturbations&mdash;the hallmark of the selection regime across all five FMA domains.</p>
+
+<div class="note">
+<strong>Cross-domain universality.</strong> The same three-colour pattern appears in the <a href="../Ch5-Immune/Paper-5-Immune-viewer.html">Immune System viewer</a>: a healthy immune response is green (selection), immunodeficiency is amber (stagnation), and cytokine storm is red (tar). The same seven equations, the same temperature parameter, the same three regimes. This is the empirical evidence for the FMA's universality claim.
+</div>
+
+</div>
+</details>
+
+<!-- Panel 8 -->
+<details class="panel">
+<summary><span class="panel-num">8</span> Expert Grid</summary>
+<div class="panel-body">
+
+<p>The Expert Grid is a structural snapshot: it shows every expert slot in every layer, with active experts displayed as numbered cells (brightness proportional to fitness) and empty/dead slots marked with &times;. This panel makes the self-designing architecture visible at a glance.</p>
+
+<p>In the Default scenario, the grid starts sparse (4 active experts per layer) and fills progressively as the market spawns specialists. Dead experts&mdash;those spawned but subsequently retired for lack of demand&mdash;appear as dimmed cells. In the experimental 20K run, 6 of 64 total expert slots were dead (market-pruned failures), confirming that the market can not only create but also clean up its own unsuccessful experiments.</p>
+
+<p>Hovering over active experts in the viewer reveals their individual fitness (F), quality (Q), and demand (D) values. High-fitness experts are the hub generalists that handle common token types; low-fitness survivors are the ultra-specialists (the <em>z</em> expert at 137&times; bias, the question-mark expert at 49&times; bias) that serve tiny micro-markets. Both coexist because the market supports niche monopolists alongside generalist conglomerates&mdash;an economic structure that no human architect would design but that the demand signal creates naturally.</p>
+
+</div>
+</details>
+
+</div>
+</details>
+
+<!-- ================================================================== -->
+<!-- SECTION 3 -->
+<!-- ================================================================== -->
+<details class="section">
+<summary>3. The Five Scenarios: A Comparative Reading</summary>
+<div class="section-body">
+
+<p>The interactive viewer provides five preset scenarios plus a Custom mode. Each scenario isolates a specific aspect of the FMA's orchestration capability. The following guide explains what to watch for when comparing them.</p>
+
+<!-- 3.1 -->
+<details class="subsection" open>
+<summary>3.1 Default vs No Market: Measuring the Market's Contribution</summary>
+<div class="sub-body">
+
+<p>This is the fundamental comparison. Both scenarios use the same 34.8M-parameter architecture with identical hyperparameters. The only difference is whether the market mechanisms (birth, death, demand-driven spawning, recipe promotion) are active.</p>
+
+<table class="vs-table">
+<tr><th>Observable</th><th>Default (market on)</th><th>No Market (market off)</th><th>What it tells us</th></tr>
+<tr><td>Expert count</td><td>Grows from 4 to ~6&ndash;8 per layer</td><td>Fixed at 4 per layer</td><td>The market adds architectural capacity where needed</td></tr>
+<tr><td>Loss curve</td><td>Faster descent, lower floor</td><td>Slower descent, higher floor</td><td>More experts = finer specialisation = better loss</td></tr>
+<tr><td>Fitness spread</td><td>Wide: hubs vs specialists</td><td>Flat: all experts similar</td><td>Market creates differentiation; without it, experts converge to mediocrity</td></tr>
+<tr><td>Recipe book</td><td>Grows and saturates</td><td>Absent (no mechanism)</td><td>Market discovers and persists processing pipelines</td></tr>
+<tr><td>Expert specialisation</td><td>Monosemantic (one feature per expert)</td><td>Polysemantic (many features superposed)</td><td><strong>This is the central finding:</strong> the market resolves superposition structurally</td></tr>
+</table>
+
+<p>The monosemanticity result is the single most important finding. In the experimental ablation, the same architecture trained with identical hyperparameters produced fundamentally different internal representations: market coordination yielded pure specialists (UTF-8 expert, question-mark expert, vowel expert), while standard routing yielded garbage-collector experts that superpose unrelated features (dash + F + G + E + ? + D + ! + newline in one expert). The market does not simply improve performance metrics; it changes the <em>kind</em> of representation the model learns.</p>
+
+</div>
+</details>
+
+<!-- 3.2 -->
+<details class="subsection">
+<summary>3.2 Default vs High Temp vs Low Temp: The Temperature Sweep</summary>
+<div class="sub-body">
+
+<p>These three scenarios demonstrate that a single continuous parameter&mdash;the Evans&ndash;Polanyi temperature&mdash;controls the transition between all three dynamical regimes. This is the same parameter that, in the molecular deployer, governs reaction activation energy, and in the macroeconomic model, governs startup probability.</p>
+
+<div class="note">
+<strong>Low Temp (T low):</strong> The Evans&ndash;Polanyi barrier is high. Very few candidate experts pass the acceptance threshold. Expert population barely grows beyond the seed set. The B/D ratio hovers near or below 1.0 (stagnation). Loss decreases slowly because the small pool cannot cover the full diversity of tokens. This is the AI equivalent of an understaffed organisation: existing employees are overworked (polysemantic routing) but no new specialists are hired.
+</div>
+
+<div class="note">
+<strong>Default (T=1.0):</strong> Balanced regime. New experts are born when demand justifies them, and idle experts are retired. The B/D ratio oscillates in the selection band (1.0&ndash;5.0). Loss reaches its minimum because the expert population matches the true complexity of the task. This is the AI equivalent of a well-functioning market economy: creative destruction drives continuous improvement.
+</div>
+
+<div class="note">
+<strong>High Temp (T high):</strong> The barrier is low. Expert candidates are accepted freely. Population explodes, but many new experts are low-quality micro-specialists that fragment the routing table. The B/D ratio spikes above 5.0 (tar). Loss may actually worsen because the router cannot learn stable assignments amid constant churn. This is the AI equivalent of hyperinflation: too much creation, too little selection.
+</div>
+
+<p>The temperature sweep confirms a universal prediction: there exists an optimal exploration rate that maximises productive complexity. Too little exploration (stagnation) leaves potential niches unfilled. Too much exploration (tar) prevents any niche from stabilising. The selection regime is the productive middle ground, and it appears at the same relative position of the temperature parameter across all five FMA domains.</p>
+
+</div>
+</details>
+
+<!-- 3.3 -->
+<details class="subsection">
+<summary>3.3 Domain Shift: Structural Adaptation in Real Time</summary>
+<div class="sub-body">
+
+<p>The Domain Shift scenario is the most dramatic demonstration of FMA as an orchestration layer. At step 500, the token distribution changes abruptly (simulating a switch from narrative text to code). Four things happen simultaneously across the panels:</p>
+
+<p><strong>Panel 1 (Loss):</strong> A sharp spike appears, marked by a red dashed vertical line. The existing expert pool, specialised for narrative tokens, suddenly faces unfamiliar patterns. Loss increases because the old specialists cannot serve the new distribution.</p>
+
+<p><strong>Panel 4 (Unmet Demand):</strong> Demand surges across all layers. The tokens from the new distribution have no expert coverage. This surge is the market signal that triggers structural adaptation.</p>
+
+<p><strong>Panel 2 (Expert Population):</strong> New experts begin to appear in each layer as the market responds to the demand spike. The birth rate increases because the Evans&ndash;Polanyi acceptance criterion depends on unmet demand: more orphaned tokens lower the effective barrier for new experts.</p>
+
+<p><strong>Panel 1 (Loss, continued):</strong> Loss begins to recover as the new experts integrate. The recovery is visible as a second descent in the loss curve, after the initial spike. The speed of recovery depends on the temperature setting: at T=1.0, recovery is efficient; at T=0.1, it would be very slow (few new experts); at T=3.0, it would be chaotic (too many new experts).</p>
+
+<div class="central-thesis">
+<strong>The domain shift scenario demonstrates FMA's most distinctive capability.</strong> A standard LLM would need to be fine-tuned or retrained to handle a distribution shift. LoRA adapters can be attached, but they must be designed and trained by humans. FMT handles it autonomously: the market detects the demand shock, spawns appropriate specialists, integrates them into the existing architecture, and continues operation&mdash;all without external intervention. This is what &ldquo;FMA as orchestration layer&rdquo; means in practice.
+</div>
+
+</div>
+</details>
+
+</div>
+</details>
+
+<!-- ================================================================== -->
+<!-- SECTION 4 -->
+<!-- ================================================================== -->
+<details class="section">
+<summary>4. What FMA Adds to AI: A Summary</summary>
+<div class="section-body">
+
+<p>The eight panels of the interactive viewer make visible six capabilities that FMA brings to neural network architectures&mdash;capabilities that do not exist in conventional deep learning:</p>
+
+<table>
+<tr><th>#</th><th>Capability</th><th>Standard MoE</th><th>FMT (market-coordinated)</th><th>Viewer panel</th></tr>
+<tr><td>1</td><td>Architecture self-design</td><td>Fixed expert count chosen by human</td><td>Expert count discovered by demand</td><td>Panel 2 (Population)</td></tr>
+<tr><td>2</td><td>Failed module cleanup</td><td>All experts persist regardless of utility</td><td>Idle experts retired automatically</td><td>Panel 8 (Expert Grid)</td></tr>
+<tr><td>3</td><td>Domain adaptation</td><td>Requires retraining or human-designed adapters</td><td>Autonomous: demand spike &rarr; new specialists</td><td>Panels 1, 2, 4 (Domain Shift)</td></tr>
+<tr><td>4</td><td>Persistent reasoning</td><td>All computation ephemeral</td><td>Recipe book preserves successful pipelines</td><td>Panel 6 (Recipe Book)</td></tr>
+<tr><td>5</td><td>Monosemantic representations</td><td>Polysemantic by construction (F > N)</td><td>Monosemantic by construction (demand-separated)</td><td>Panels 2, 5 (Default vs No Market)</td></tr>
+<tr><td>6</td><td>Regime diagnostics</td><td>No equivalent (overfitting detected indirectly)</td><td>B/D ratio directly diagnoses market health</td><td>Panels 3, 7 (B/D Ratio, Regime Strip)</td></tr>
+</table>
+
+<p>None of these capabilities require modifying gradient descent. The optimizer runs as usual within each expert. FMA operates on the level above: deciding <em>which</em> modules exist, <em>how</em> they are combined, and <em>when</em> the architecture needs to change. This is why the correct framing is not &ldquo;FMA vs gradient descent&rdquo; but rather &ldquo;FMA + gradient descent&rdquo;: the market coordinates the modules that gradient descent trains.</p>
+
+<div class="insight">
+<strong>The universality argument.</strong> The same market mechanisms that organise expert populations in nanoFMT also organise molecular species in prebiotic chemistry (Chapter 3), economic firms in macroeconomic forecasting (Chapter 2), and immune cells in adaptive immunity (Chapter 5). The seven equations are unchanged across domains. If the market can discover amino acids from bare atoms and forecast GDP across 4 countries, the fact that it can also organise neural network modules is not a coincidence&mdash;it is evidence that FMA captures a universal principle of self-organising complex systems.
+</div>
+
+</div>
+</details>
+
+<!-- ================================================================== -->
+<!-- SECTION 5 -->
+<!-- ================================================================== -->
+<details class="section">
+<summary>5. Implications and Open Questions</summary>
+<div class="section-body">
+
+<details class="subsection" open>
+<summary>5.1 Scale</summary>
+<div class="sub-body">
+<p>The nanoFMT proof-of-concept operates at 34.8M parameters on character-level TinyStories. This is sufficient to validate the market mechanisms but does not test the scaling advantage. The theoretical argument (Section 9.3 of Chapter 4) predicts that the market's advantage grows with model size: fixed-MoE must superpose F/N<sub>experts</sub> features per expert (polysemanticity growing with scale), while FMT grows N<sub>experts</sub> with F (monosemanticity preserved at scale). The combinatorial advantage should become decisive at 1B+ parameters, where the space of possible expert configurations exceeds what manual architecture search can explore. This remains the most important open validation.</p>
+</div>
+</details>
+
+<details class="subsection">
+<summary>5.2 Recipe Book Depth</summary>
+<div class="sub-body">
+<p>The experimental recipe book stabilised at 25 recipes&mdash;a tiny fraction of the 15,754 recipes discovered by the molecular deployer. The difference reflects the task complexity: character-level TinyStories has a relatively shallow compositional structure. Subword tokenisation, diverse corpora, and multi-task training should drive recipe depth into the hundreds or thousands, where the recipe book begins to function as a genuine persistent memory of learned reasoning strategies.</p>
+</div>
+</details>
+
+<details class="subsection">
+<summary>5.3 From Proof of Concept to Production</summary>
+<div class="sub-body">
+<p>Three engineering challenges remain before FMT could operate at production scale: (1) differentiable pricing to make the full Hayek mechanism compatible with backpropagation, (2) approximate nearest-neighbour lookup for recipe matching at scale (e.g., FAISS over recipe embeddings), and (3) stabilisation of expert birth/death during gradient flow, potentially via soft deletion (weight decay over K steps) rather than hard deletion.</p>
+</div>
+</details>
+
+<details class="subsection">
+<summary>5.4 The Broader Vision</summary>
+<div class="sub-body">
+<p>If FMA is indeed a universal orchestration principle, then the natural end state is not a single market-coordinated model but an <em>ecosystem</em> of market-coordinated models: transformer experts managed by one market layer, vision modules by another, tool-use modules by a third, all coordinated by a higher-level market that allocates resources across modalities. Each level operates the same seven equations at different timescales. This hierarchical market architecture is exactly what appears in real economies (firms within industries within sectors within the global economy) and in biology (cells within tissues within organs within organisms). FMA would be providing the same organisational principle to artificial intelligence.</p>
+</div>
+</details>
+
+</div>
+</details>
+
+<!-- ================================================================== -->
+<!-- FOOTER -->
+<!-- ================================================================== -->
+
+<div style="margin-top:60px; padding-top:20px; border-top:2px solid #2c5f8a; font-family:'Segoe UI',sans-serif; font-size:0.85em; color:#7f8c8d; text-align:center;">
+Chapter 4 &mdash; Language Models &mdash; Annex B: Results Analysis<br>
+<a href="Paper-4-FreeMarketTransformer.html">Back to Chapter 4</a> &middot; <a href="Paper-4-FMT-viewer.html">Interactive viewer</a> &middot; <a href="Paper-4annex-llm_explainer.html">Annex A: LLM Explainer</a> &middot; <a href="../index.html">Book index</a>
+</div>
+
+<!-- AI ASSISTANCE STATEMENT -->
+<div class="disclosure">
+<strong>AI Assistance Statement.</strong> Portions of this annex were drafted with assistance from Claude (Anthropic). The author takes full responsibility for the scientific content, interpretations, and conclusions presented herein. All experimental results referenced are from the nanoFMT validation described in Chapter 4.
+</div>
+
+</body>
+</html>
