@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nanoImmune — FMA Immune System Simulator</title>
+<style>
+  :root {
+    --bg: #0f172a; --surface: #1e293b; --surface2: #334155;
+    --text: #e2e8f0; --text-dim: #94a3b8; --accent: #38bdf8;
+    --green: #4ade80; --red: #f87171; --orange: #fb923c; --purple: #c084fc;
+    --selection: #22c55e; --stagnation: #f59e0b; --tar: #ef4444;
+    --line-total: #e2e8f0;
+  }
+  [data-theme="light"] {
+    --bg: #f1f5f9; --surface: #ffffff; --surface2: #e2e8f0;
+    --text: #1e293b; --text-dim: #64748b; --accent: #2563eb;
+    --green: #16a34a; --red: #dc2626; --orange: #ea580c; --purple: #9333ea;
+    --selection: #16a34a; --stagnation: #d97706; --tar: #dc2626;
+    --line-total: #334155;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* Header */
+  .header { background: var(--surface); border-bottom: 1px solid var(--surface2); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+  .header h1 { font-size: 1.4rem; font-weight: 600; }
+  .header h1 span { color: var(--accent); }
+  .header .subtitle { color: var(--text-dim); font-size: 0.85rem; }
+
+  /* Layout */
+  .main { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 60px); }
+
+  /* Sidebar */
+  .sidebar { background: var(--surface); border-right: 1px solid var(--surface2); padding: 20px; overflow-y: auto; }
+  .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin: 20px 0 10px; }
+  .section-title:first-child { margin-top: 0; }
+
+  /* Controls */
+  .control { margin-bottom: 12px; }
+  .control label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 4px; }
+  .control input, .control select { width: 100%; background: var(--bg); border: 1px solid var(--surface2); color: var(--text); padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; }
+  .control input:focus, .control select:focus { outline: none; border-color: var(--accent); }
+  .control .range-row { display: flex; align-items: center; gap: 8px; }
+  .control .range-row input[type="range"] { flex: 1; }
+  .control .range-row .val { min-width: 40px; text-align: right; font-size: 0.85rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 20px; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; width: 100%; }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-primary:disabled { background: var(--surface2); color: var(--text-dim); cursor: not-allowed; }
+  .btn-secondary { background: var(--surface2); color: var(--text); }
+  .btn-secondary:hover { filter: brightness(0.9); }
+  .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+  .btn-row .btn { flex: 1; }
+
+  /* Preset cards */
+  .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .preset { background: var(--bg); border: 1px solid var(--surface2); border-radius: 8px; padding: 10px; cursor: pointer; transition: all 0.15s; text-align: center; }
+  .preset:hover { border-color: var(--accent); }
+  .preset.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  [data-theme="light"] .preset.active { background: color-mix(in srgb, var(--accent) 8%, white); }
+  [data-theme="light"] .chart-card { box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .preset .name { font-size: 0.8rem; font-weight: 600; }
+  .preset .desc { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
+
+  /* Viz area */
+  .viz { padding: 20px; overflow-y: auto; }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .chart-card { background: var(--surface); border-radius: 10px; padding: 16px; }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-card h3 { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 10px; }
+  canvas { width: 100% !important; height: 250px !important; }
+  .chart-card.small canvas { height: 120px !important; }
+
+  /* Status bar */
+  .status-bar { background: var(--surface); border-top: 1px solid var(--surface2); padding: 8px 20px; display: flex; gap: 24px; font-size: 0.8rem; }
+  .stat { display: flex; align-items: center; gap: 6px; }
+  .stat .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .stat .label { color: var(--text-dim); }
+  .stat .value { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* Progress */
+  .progress-bar { height: 4px; background: var(--bg); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+  .progress-bar .fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.1s; }
+
+  /* Regime strip */
+  .regime-strip { height: 24px; border-radius: 4px; overflow: hidden; display: flex; margin-top: 8px; }
+  .regime-strip .segment { transition: width 0.1s; }
+
+  /* Log */
+  .log { background: var(--bg); border: 1px solid var(--surface2); border-radius: 8px; padding: 12px; font-family: 'Consolas', monospace; font-size: 0.78rem; max-height: 150px; overflow-y: auto; color: var(--text-dim); line-height: 1.6; }
+  .log .entry { }
+  .log .entry.birth { color: var(--green); }
+  .log .entry.death { color: var(--red); }
+  .log .entry.memory { color: var(--purple); }
+  .log .entry.regime { color: var(--orange); }
+
+  /* Theme toggle */
+  .theme-toggle { margin-left: auto; background: var(--surface2); border: none; color: var(--text); border-radius: 20px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .theme-toggle:hover { filter: brightness(1.1); }
+  .theme-icon { font-size: 1rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>nano</span>Immune</h1>
+  <div class="subtitle">Free-Market Algorithm × Adaptive Immunity — Interactive Simulator</div>
+  <a href="Paper-5annex-results-analysis.html" style="margin-left:auto; color:var(--text-dim); font-size:0.82rem; text-decoration:none; padding:6px 12px; border:1px solid var(--surface2); border-radius:6px; transition:all 0.2s;" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='var(--surface2)'">Results Analysis &rarr;</a>
+  <a href="Paper-5-Immune-System.html" style="color:var(--text-dim); font-size:0.82rem; text-decoration:none; padding:6px 12px; border:1px solid var(--surface2); border-radius:6px; transition:all 0.2s;" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='var(--surface2)'">Paper &rarr;</a>
+  <a href="../index.html" style="color:var(--text-dim); font-size:0.82rem; text-decoration:none; padding:6px 12px; border:1px solid var(--surface2); border-radius:6px; transition:all 0.2s;" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='var(--surface2)'">&larr; Index</a>
+  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon" id="themeIcon">&#9788;</span> <span id="themeLabel">Light</span></button>
+</div>
+
+<div class="main">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="section-title">Scenario</div>
+    <div class="presets" id="presets">
+      <div class="preset active" data-scenario="normal" onclick="selectScenario(this)">
+        <div class="name">Normal</div>
+        <div class="desc">Acute pathogen</div>
+      </div>
+      <div class="preset" data-scenario="chronic" onclick="selectScenario(this)">
+        <div class="name">Chronic</div>
+        <div class="desc">Persistent virus</div>
+      </div>
+      <div class="preset" data-scenario="storm" onclick="selectScenario(this)">
+        <div class="name">Storm</div>
+        <div class="desc">Cytokine storm</div>
+      </div>
+      <div class="preset" data-scenario="vaccine" onclick="selectScenario(this)">
+        <div class="name">Vaccine</div>
+        <div class="desc">+ Boosters</div>
+      </div>
+      <div class="preset" data-scenario="lymphopenia" onclick="selectScenario(this)">
+        <div class="name">Lymphopenia</div>
+        <div class="desc">Depleted pool</div>
+      </div>
+      <div class="preset" data-scenario="custom" onclick="selectScenario(this)">
+        <div class="name">Custom</div>
+        <div class="desc">Your params</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="runBtn" onclick="toggleRun()">&#9654; Run</button>
+      <button class="btn btn-secondary" onclick="resetSim()">Reset</button>
+    </div>
+    <div class="progress-bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+
+    <div class="section-title">FMA Parameters</div>
+    <div class="control">
+      <label>Temperature (regime control)</label>
+      <div class="range-row">
+        <input type="range" id="temperature" min="0.1" max="4.0" step="0.1" value="1.0" oninput="updateVal(this)">
+        <div class="val" id="temperature_val">1.0</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>α (Evans-Polanyi coefficient)</label>
+      <div class="range-row">
+        <input type="range" id="alpha" min="0.1" max="1.5" step="0.05" value="0.5" oninput="updateVal(this)">
+        <div class="val" id="alpha_val">0.5</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>Depth penalty (exhaustion)</label>
+      <div class="range-row">
+        <input type="range" id="depth_penalty" min="0.01" max="0.5" step="0.01" value="0.1" oninput="updateVal(this)">
+        <div class="val" id="depth_penalty_val">0.10</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>Birth rate scale</label>
+      <div class="range-row">
+        <input type="range" id="birth_rate" min="0.01" max="0.5" step="0.01" value="0.1" oninput="updateVal(this)">
+        <div class="val" id="birth_rate_val">0.10</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>Treg suppression</label>
+      <div class="range-row">
+        <input type="range" id="treg" min="0" max="5" step="0.1" value="3.0" oninput="updateVal(this)">
+        <div class="val" id="treg_val">3.0</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>Initial pool size</label>
+      <div class="range-row">
+        <input type="range" id="pool_size" min="50" max="1000" step="50" value="500" oninput="updateVal(this)">
+        <div class="val" id="pool_size_val">500</div>
+      </div>
+    </div>
+
+    <div class="section-title">Simulation</div>
+    <div class="control">
+      <label>Max steps</label>
+      <div class="range-row">
+        <input type="range" id="max_steps" min="500" max="10000" step="500" value="3000" oninput="updateVal(this)">
+        <div class="val" id="max_steps_val">3000</div>
+      </div>
+    </div>
+    <div class="control">
+      <label>Speed (ms per frame)</label>
+      <div class="range-row">
+        <input type="range" id="speed" min="1" max="100" step="1" value="10" oninput="updateVal(this)">
+        <div class="val" id="speed_val">10</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Visualization -->
+  <div class="viz">
+    <div class="charts">
+      <!-- Population -->
+      <div class="chart-card">
+        <h3>Population Dynamics</h3>
+        <canvas id="popChart"></canvas>
+      </div>
+      <!-- Birth/Death Ratio -->
+      <div class="chart-card">
+        <h3>Birth/Death Ratio (regime indicator)</h3>
+        <canvas id="bdChart"></canvas>
+      </div>
+      <!-- Affinity -->
+      <div class="chart-card">
+        <h3>Affinity Maturation</h3>
+        <canvas id="affChart"></canvas>
+      </div>
+      <!-- Exhaustion -->
+      <div class="chart-card">
+        <h3>Average Exhaustion (depth penalty)</h3>
+        <canvas id="exhChart"></canvas>
+      </div>
+      <!-- Recipe Book -->
+      <div class="chart-card">
+        <h3>Recipe Book (immunological memory)</h3>
+        <canvas id="recChart"></canvas>
+      </div>
+      <!-- Regime Timeline -->
+      <div class="chart-card">
+        <h3>Dynamical Regime</h3>
+        <div class="regime-strip" id="regimeStrip"></div>
+        <div style="display:flex;gap:16px;margin-top:8px;font-size:0.75rem;">
+          <span><span style="color:var(--stagnation)">&#9632;</span> Stagnation</span>
+          <span><span style="color:var(--selection)">&#9632;</span> Selection</span>
+          <span><span style="color:var(--tar)">&#9632;</span> Tar</span>
+        </div>
+      </div>
+      <!-- Log -->
+      <div class="chart-card full">
+        <h3>Event Log</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Status bar -->
+<div class="status-bar" id="statusBar">
+  <div class="stat"><div class="dot" style="background:var(--accent)"></div><span class="label">Step</span><span class="value" id="s_step">0</span></div>
+  <div class="stat"><div class="dot" style="background:var(--text)"></div><span class="label">Total</span><span class="value" id="s_total">0</span></div>
+  <div class="stat"><div class="dot" style="background:var(--green)"></div><span class="label">Active</span><span class="value" id="s_active">0</span></div>
+  <div class="stat"><div class="dot" style="background:var(--purple)"></div><span class="label">Memory</span><span class="value" id="s_memory">0</span></div>
+  <div class="stat"><div class="dot" style="background:var(--orange)"></div><span class="label">Recipes</span><span class="value" id="s_recipes">0</span></div>
+  <div class="stat"><div class="dot" style="background:var(--selection)"></div><span class="label">Regime</span><span class="value" id="s_regime">—</span></div>
+</div>
+
+<script>
+// --- Theme toggle ---
+function getCSS(prop) { return getComputedStyle(document.documentElement).getPropertyValue(prop).trim(); }
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-theme') === 'light';
+  html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  document.getElementById('themeIcon').innerHTML = isLight ? '&#9788;' : '&#9790;';
+  document.getElementById('themeLabel').textContent = isLight ? 'Light' : 'Dark';
+  if (typeof updateCharts === 'function') updateCharts();
+}
+
+// ============================================================
+// nanoImmune — Browser-based FMA Immune Simulation
+// Pure JS implementation mirroring the Python version
+// ============================================================
+
+// --- Utility ---
+function randn() { let u=0,v=0; while(!u) u=Math.random(); while(!v) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function randnVec(d) { const v=[]; for(let i=0;i<d;i++) v.push(randn()); return v; }
+function vecDist(a,b) { let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return Math.sqrt(s); }
+function vecAdd(a,b) { return a.map((v,i)=>v+b[i]); }
+function vecScale(a,s) { return a.map(v=>v*s); }
+function vecAddNoise(a,mag) { return a.map(v=>v+randn()*mag); }
+
+const D = 8; // affinity dimensions (reduced for browser speed)
+
+// --- Config ---
+let cfg = {
+  temperature: 1.0, alpha: 0.5, E0_base: 0.5, E0_no_costim: 10.0,
+  birthRate: 0.1, depthPenalty: 0.1, maxIdleSteps: 200,
+  shmRate: 0.3, shmMag: 0.1, gcSize: 15,
+  decayBase: 0.001, decayComplexity: 0.1,
+  witnessBoost: 3.0, witnessDuration: 50,
+  memoryThreshold: 0.5, memorySpeedup: 3,
+  tregSuppression: 3.0, tregDisabled: false,
+  poolSize: 500, maxPop: 2000, maxSteps: 3000,
+  marketInterval: 10, speed: 10,
+  scenario: 'normal',
+};
+
+// --- Scenario presets ---
+const PRESETS = {
+  normal:     { temperature:1.0, tregDisabled:false, birthRate:0.1, tregSuppression:3.0, poolSize:500, maxSteps:3000 },
+  chronic:    { temperature:0.8, tregDisabled:false, birthRate:0.1, tregSuppression:3.0, poolSize:500, maxSteps:5000, depthPenalty:0.15, maxIdleSteps:9999 },
+  storm:      { temperature:2.5, tregDisabled:true,  birthRate:0.3, tregSuppression:0.0, poolSize:500, maxSteps:2000 },
+  vaccine:    { temperature:0.8, tregDisabled:false, birthRate:0.1, tregSuppression:3.0, poolSize:500, maxSteps:6000 },
+  lymphopenia:{ temperature:0.8, tregDisabled:false, birthRate:0.1, tregSuppression:3.0, poolSize:80,  maxSteps:4000 },
+  custom:     {},
+};
+
+// --- Antigens ---
+function makeEpitope(id, complexity) {
+  const profile = randnVec(D).map(v => v * (1 + 0.2 * complexity));
+  return { id, profile, complexity, immunodominant: id === 0 };
+}
+function makeAntigen(name, nEp, complexity, introStep, persistent=false) {
+  const eps = [];
+  for (let i = 0; i < nEp; i++) eps.push(makeEpitope(i, complexity + Math.floor(Math.random()*3)-1));
+  return { name, epitopes: eps, introStep, persistent, cleared: false, clearStep: null };
+}
+
+// --- Lymphocyte ---
+let nextId = 0;
+function makeCell(type, receptor, step=0) {
+  return {
+    id: nextId++, type, receptor,
+    active: false, memory: false, producer: false,
+    fitness: 0, quality: 0, demand: 0,
+    idleSteps: 0, cascadeDepth: 0, exhaustion: 0,
+    birthStep: step, generation: 0,
+  };
+}
+
+// --- Simulation state ---
+let cells = [], antigens = [], recipeBook = [], witnesses = {};
+let step = 0, running = false, animId = null;
+
+// Time series
+let ts = { steps:[], total:[], active:[], memory:[], births:[], deaths:[],
+           bdRatio:[], affinity:[], exhaustion:[], recipes:[], regime:[] };
+
+// --- Core FMA ---
+function passesBarrier(deltaE, hasCostim) {
+  const E0 = hasCostim ? cfg.E0_base : cfg.E0_no_costim;
+  const Ea = Math.max(0, E0 + cfg.alpha * Math.abs(deltaE));
+  if (cfg.temperature <= 0) return false;
+  return Math.random() < Math.exp(-Ea / cfg.temperature);
+}
+
+function bestAffinity(receptor, epitopes) {
+  let best = -Infinity, bestEp = null;
+  for (const ep of epitopes) {
+    const aff = -vecDist(receptor, ep.profile);
+    if (aff > best) { best = aff; bestEp = ep; }
+  }
+  return { aff: best, ep: bestEp };
+}
+
+function marketStep() {
+  const activeAgs = antigens.filter(a => a.introStep <= step && !a.cleared);
+  let births = 0, deaths = 0;
+
+  // Witness
+  for (const ag of activeAgs) {
+    if (!recipeBook.some(r => r.antigen === ag.name)) {
+      if (!(ag.name in witnesses)) witnesses[ag.name] = cfg.witnessDuration;
+    }
+  }
+
+  // Memory recall
+  if (cells.length < cfg.maxPop) {
+    for (const ag of activeAgs) {
+      const mems = recipeBook.filter(r => r.antigen === ag.name);
+      for (const m of mems) {
+        for (let i = 0; i < cfg.memorySpeedup; i++) {
+          cells.push(makeCell('B', vecAddNoise(m.receptor, 0.02), step));
+          const c = cells[cells.length-1]; c.active=true; c.producer=true; c.memory=true; c.quality=m.affinity;
+          births++;
+        }
+      }
+    }
+  }
+
+  // Clonal expansion (sample up to 150)
+  if (cells.length < cfg.maxPop) {
+    let candidates = cells.filter(c => c.type !== 'Treg' && !c.memory);
+    if (candidates.length > 150) {
+      candidates.sort(() => Math.random()-0.5);
+      candidates = candidates.slice(0, 150);
+    }
+    // Pre-compute treg ratio
+    const nActive = cells.filter(c=>c.active).length || 1;
+    const nTreg = cells.filter(c=>c.type==='Treg'&&c.active).length;
+    const tregRatio = nTreg / nActive;
+
+    for (const cell of candidates) {
+      for (const ag of activeAgs) {
+        if (cells.length >= cfg.maxPop) break;
+        const {aff, ep} = bestAffinity(cell.receptor, ag.epitopes);
+        if (!ep) continue;
+        if (!passesBarrier(aff, true)) continue;
+        const exFactor = Math.max(0, 1 - cfg.depthPenalty * cell.cascadeDepth);
+        if (exFactor <= 0.05) continue;
+        let pBirth = cfg.birthRate * exFactor;
+        if (!cfg.tregDisabled) pBirth *= Math.max(0.1, 1 - cfg.tregSuppression * tregRatio);
+        if (ag.name in witnesses) pBirth *= cfg.witnessBoost;
+        if (Math.random() < pBirth) {
+          const nDaughters = 1 + Math.floor(Math.random()*3);
+          for (let i=0; i<nDaughters && cells.length<cfg.maxPop; i++) {
+            const d = makeCell(cell.type, cell.receptor.slice(), step);
+            d.active=true; d.producer=true; d.cascadeDepth=cell.cascadeDepth+1; d.generation=cell.generation;
+            cells.push(d); births++;
+          }
+          cell.active=true; cell.producer=true; cell.cascadeDepth++;
+        }
+      }
+    }
+  }
+
+  // Stochastic birth
+  const nStoch = Math.min(5, Math.floor(cfg.birthRate * 0.2 * cells.length));
+  for (let i=0; i<nStoch && cells.length<cfg.maxPop; i++) {
+    cells.push(makeCell(['B','CD8','CD4'][Math.floor(Math.random()*3)], randnVec(D), step));
+    births++;
+  }
+
+  // GC (simplified): sample active B cells, mutate, select
+  const activeB = cells.filter(c => c.type==='B' && c.active).slice(0, cfg.gcSize*2);
+  if (activeB.length > 0 && activeAgs.length > 0) {
+    const ag = activeAgs[0];
+    for (const c of activeB) {
+      if (Math.random() < cfg.shmRate) {
+        c.receptor = vecAddNoise(c.receptor, cfg.shmMag);
+        c.generation++;
+      }
+    }
+  }
+
+  // Build epitope array for batch affinity
+  const allEps = [];
+  for (const ag of activeAgs) for (const ep of ag.epitopes) allEps.push(ep);
+
+  // Update fitness
+  const activeCells = cells.filter(c => c.active);
+  let sumAff = 0, nAff = 0;
+  for (const cell of activeCells) {
+    if (allEps.length > 0) {
+      const {aff} = bestAffinity(cell.receptor, allEps);
+      cell.quality = 0.9 * cell.quality + 0.1 * Math.max(-aff, 0);
+      sumAff += -aff; nAff++;
+    }
+    cell.demand = activeAgs.length > 0 ? 1 : 0;
+    cell.fitness = cell.quality * cell.demand;
+    cell.idleSteps = 0;
+    cell.exhaustion = Math.min(1, cfg.depthPenalty * cell.cascadeDepth);
+  }
+  for (const cell of cells) { if (!cell.active) { cell.idleSteps++; cell.demand=0; } }
+
+  // Memory formation
+  for (const ag of activeAgs) {
+    let memCands = cells.filter(c => c.active && !c.memory);
+    if (memCands.length > 30) { memCands.sort(()=>Math.random()-0.5); memCands = memCands.slice(0,30); }
+    for (const c of memCands) {
+      if (c.fitness >= cfg.memoryThreshold) {
+        const {aff, ep} = bestAffinity(c.receptor, ag.epitopes);
+        if (ep) {
+          recipeBook.push({ receptor:c.receptor.slice(), antigen:ag.name, affinity:-aff, depth:c.cascadeDepth, step });
+          c.memory = true;
+        }
+      }
+    }
+  }
+
+  // Death
+  const surviving = [];
+  for (const c of cells) {
+    let die = false;
+    if (c.memory) { die = false; }
+    else if (c.active || c.producer) {
+      if (c.idleSteps >= cfg.maxIdleSteps) die = true;
+      else if (c.exhaustion >= 1.0) die = true;
+      else if (Math.random() < cfg.decayBase * (1 + cfg.decayComplexity * c.cascadeDepth)) die = true;
+    }
+    if (die) deaths++; else surviving.push(c);
+  }
+  cells = surviving;
+
+  // HSC regen
+  const nNaive = cells.filter(c => !c.active && !c.memory).length;
+  const deficit = cfg.poolSize - nNaive;
+  if (deficit > 0) {
+    const nNew = Math.min(deficit, Math.max(1, Math.floor(cfg.poolSize / 100)));
+    for (let i=0; i<nNew; i++) {
+      const types = ['B','CD8','CD4','Treg'];
+      cells.push(makeCell(types[Math.floor(Math.random()*4)], randnVec(D), step));
+    }
+  }
+
+  // Decay witnesses
+  for (const k in witnesses) { witnesses[k]--; if (witnesses[k]<=0) delete witnesses[k]; }
+
+  // Antigen clearance (normal scenario)
+  for (const ag of activeAgs) {
+    if (!ag.persistent && !ag.cleared && step - ag.introStep > 200) {
+      const responders = cells.filter(c => { if(!c.active) return false; const{aff}=bestAffinity(c.receptor,ag.epitopes); return aff > -1.5; }).length;
+      if (responders >= ag.epitopes.length * 8) { ag.cleared = true; ag.clearStep = step; }
+    }
+  }
+
+  // Regime
+  const ratio = births / Math.max(1, deaths);
+  let regime = 'selection';
+  if (ratio <= 0.3) regime = 'stagnation';
+  else if (ratio >= 2.0) regime = 'tar';
+
+  // Record
+  const nTotal = cells.length;
+  const nActiveFinal = cells.filter(c=>c.active).length;
+  const nMem = cells.filter(c=>c.memory).length;
+  ts.steps.push(step);
+  ts.total.push(nTotal);
+  ts.active.push(nActiveFinal);
+  ts.memory.push(nMem);
+  ts.births.push(births);
+  ts.deaths.push(deaths);
+  ts.bdRatio.push(ratio);
+  ts.affinity.push(nAff > 0 ? sumAff/nAff : 0);
+  ts.exhaustion.push(activeCells.length > 0 ? activeCells.reduce((s,c)=>s+c.exhaustion,0)/activeCells.length : 0);
+  ts.recipes.push(recipeBook.length);
+  ts.regime.push(regime);
+
+  // Update status
+  document.getElementById('s_step').textContent = step;
+  document.getElementById('s_total').textContent = nTotal;
+  document.getElementById('s_active').textContent = nActiveFinal;
+  document.getElementById('s_memory').textContent = nMem;
+  document.getElementById('s_recipes').textContent = recipeBook.length;
+  document.getElementById('s_regime').textContent = regime;
+  document.getElementById('s_regime').style.color = regime==='selection'?'var(--selection)':regime==='tar'?'var(--tar)':'var(--stagnation)';
+  document.getElementById('progressFill').style.width = (step/cfg.maxSteps*100)+'%';
+
+  // Log events
+  if (births > 5) addLog(`Step ${step}: ${births} births (clonal expansion)`, 'birth');
+  if (deaths > 5) addLog(`Step ${step}: ${deaths} deaths (contraction)`, 'death');
+  if (recipeBook.length > 0 && ts.recipes.length >= 2 && ts.recipes[ts.recipes.length-1] > ts.recipes[ts.recipes.length-2])
+    addLog(`Step ${step}: memory formed (${recipeBook.length} recipes total)`, 'memory');
+  if (ts.regime.length >= 2 && ts.regime[ts.regime.length-1] !== ts.regime[ts.regime.length-2])
+    addLog(`Step ${step}: regime → ${regime.toUpperCase()}`, 'regime');
+}
+
+// --- Charts (simple canvas drawing) ---
+function drawLine(ctx, data, color, w, h, maxY) {
+  if (data.length < 2) return;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  const my = maxY || Math.max(...data, 1);
+  for (let i = 0; i < data.length; i++) {
+    const x = (i / Math.max(data.length-1,1)) * w;
+    const y = h - (data[i] / my) * h * 0.9 - h*0.05;
+    if (i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+function drawFill(ctx, data, color, w, h, maxY) {
+  if (data.length < 2) return;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  const my = maxY || Math.max(...data, 1);
+  ctx.moveTo(0, h);
+  for (let i = 0; i < data.length; i++) {
+    const x = (i / Math.max(data.length-1,1)) * w;
+    const y = h - (data[i] / my) * h * 0.9 - h*0.05;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo((data.length-1)/Math.max(data.length-1,1)*w, h);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawHLine(ctx, val, maxY, w, h, color, label) {
+  const y = h - (val / maxY) * h * 0.9 - h*0.05;
+  ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+  ctx.setLineDash([]);
+  if (label) { ctx.fillStyle=color; ctx.font='10px sans-serif'; ctx.fillText(label, w-40, y-4); }
+}
+
+function updateCharts() {
+  // Population
+  renderChart('popChart', (ctx,w,h) => {
+    const maxY = Math.max(...ts.total, 10);
+    drawFill(ctx, ts.active, 'rgba(74,222,128,0.15)', w, h, maxY);
+    drawLine(ctx, ts.total, getCSS('--line-total'), w, h, maxY);
+    drawLine(ctx, ts.active, '#4ade80', w, h, maxY);
+    drawLine(ctx, ts.memory, '#c084fc', w, h, maxY);
+  });
+
+  // B/D ratio
+  renderChart('bdChart', (ctx,w,h) => {
+    const maxY = Math.max(...ts.bdRatio, 5);
+    drawHLine(ctx, 1.0, maxY, w, h, '#f59e0b', '1.0');
+    drawHLine(ctx, 5.0, maxY, w, h, '#ef4444', '5.0');
+    drawLine(ctx, ts.bdRatio, '#38bdf8', w, h, maxY);
+  });
+
+  // Affinity
+  renderChart('affChart', (ctx,w,h) => {
+    const maxY = Math.max(...ts.affinity, 1);
+    drawFill(ctx, ts.affinity, 'rgba(248,113,113,0.15)', w, h, maxY);
+    drawLine(ctx, ts.affinity, '#f87171', w, h, maxY);
+  });
+
+  // Exhaustion
+  renderChart('exhChart', (ctx,w,h) => {
+    drawLine(ctx, ts.exhaustion, '#c084fc', w, h, 1.0);
+  });
+
+  // Recipes
+  renderChart('recChart', (ctx,w,h) => {
+    const maxY = Math.max(...ts.recipes, 1);
+    drawFill(ctx, ts.recipes, 'rgba(74,222,128,0.2)', w, h, maxY);
+    drawLine(ctx, ts.recipes, '#4ade80', w, h, maxY);
+  });
+
+  // Regime strip
+  const strip = document.getElementById('regimeStrip');
+  if (ts.regime.length > 0) {
+    const cols = { stagnation:'var(--stagnation)', selection:'var(--selection)', tar:'var(--tar)' };
+    // Compress into segments
+    let segs = [], cur = ts.regime[0], cnt = 1;
+    for (let i=1;i<ts.regime.length;i++) {
+      if (ts.regime[i]===cur) cnt++;
+      else { segs.push({r:cur,n:cnt}); cur=ts.regime[i]; cnt=1; }
+    }
+    segs.push({r:cur,n:cnt});
+    const total = ts.regime.length;
+    strip.innerHTML = segs.map(s =>
+      `<div class="segment" style="width:${s.n/total*100}%;background:${cols[s.r]}"></div>`
+    ).join('');
+  }
+}
+
+function renderChart(id, drawFn) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, rect.width, rect.height);
+  drawFn(ctx, rect.width, rect.height);
+}
+
+// --- Log ---
+function addLog(msg, cls) {
+  const log = document.getElementById('log');
+  const div = document.createElement('div');
+  div.className = 'entry ' + cls;
+  div.textContent = msg;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+  // Keep last 200 entries
+  while (log.children.length > 200) log.removeChild(log.firstChild);
+}
+
+// --- Controls ---
+function updateVal(el) {
+  const v = parseFloat(el.value);
+  document.getElementById(el.id + '_val').textContent = v.toFixed(el.step < 0.1 ? 2 : 1);
+  // Update config
+  const map = { temperature:'temperature', alpha:'alpha', depth_penalty:'depthPenalty',
+                birth_rate:'birthRate', treg:'tregSuppression', pool_size:'poolSize',
+                max_steps:'maxSteps', speed:'speed' };
+  if (map[el.id]) cfg[map[el.id]] = v;
+}
+
+function selectScenario(el) {
+  document.querySelectorAll('.preset').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const sc = el.dataset.scenario;
+  cfg.scenario = sc;
+  if (sc !== 'custom' && PRESETS[sc]) {
+    const p = PRESETS[sc];
+    for (const k in p) cfg[k] = p[k];
+    // Update sliders
+    document.getElementById('temperature').value = cfg.temperature;
+    document.getElementById('temperature_val').textContent = cfg.temperature.toFixed(1);
+    document.getElementById('alpha').value = cfg.alpha;
+    document.getElementById('alpha_val').textContent = cfg.alpha.toFixed(2);
+    document.getElementById('depth_penalty').value = cfg.depthPenalty;
+    document.getElementById('depth_penalty_val').textContent = cfg.depthPenalty.toFixed(2);
+    document.getElementById('birth_rate').value = cfg.birthRate;
+    document.getElementById('birth_rate_val').textContent = cfg.birthRate.toFixed(2);
+    document.getElementById('treg').value = cfg.tregSuppression;
+    document.getElementById('treg_val').textContent = cfg.tregSuppression.toFixed(1);
+    document.getElementById('pool_size').value = cfg.poolSize;
+    document.getElementById('pool_size_val').textContent = cfg.poolSize;
+    document.getElementById('max_steps').value = cfg.maxSteps;
+    document.getElementById('max_steps_val').textContent = cfg.maxSteps;
+  }
+}
+
+function initSim() {
+  nextId = 0; cells = []; recipeBook = []; witnesses = {}; step = 0;
+  ts = { steps:[], total:[], active:[], memory:[], births:[], deaths:[],
+         bdRatio:[], affinity:[], exhaustion:[], recipes:[], regime:[] };
+  document.getElementById('log').innerHTML = '';
+
+  // Create cells
+  const types = ['B','B','B','CD8','CD8','CD4','Treg'];
+  for (let i=0; i<cfg.poolSize; i++) {
+    cells.push(makeCell(types[Math.floor(Math.random()*types.length)], randnVec(D)));
+  }
+
+  // Create antigens per scenario
+  antigens = [];
+  if (cfg.scenario === 'normal' || cfg.scenario === 'custom') {
+    antigens.push(makeAntigen('Pathogen_A', 5, 3, 100));
+  } else if (cfg.scenario === 'chronic') {
+    antigens.push(makeAntigen('Chronic_Virus', 8, 5, 100, true));
+  } else if (cfg.scenario === 'storm') {
+    antigens.push(makeAntigen('SARS_like', 10, 6, 50));
+  } else if (cfg.scenario === 'vaccine') {
+    antigens.push(makeAntigen('Vaccine_v1', 4, 3, 100));
+    antigens.push(makeAntigen('Vaccine_boost1', 4, 3, 2000));
+    antigens.push(makeAntigen('Vaccine_boost2', 4, 3, 4000));
+    // Boosters share epitope profiles (drift)
+    for (let j=1; j<antigens.length; j++) {
+      for (let i=0; i<antigens[j].epitopes.length && i<antigens[0].epitopes.length; i++) {
+        antigens[j].epitopes[i].profile = vecAddNoise(antigens[0].epitopes[i].profile, 0.05);
+      }
+    }
+  } else if (cfg.scenario === 'lymphopenia') {
+    antigens.push(makeAntigen('Pathogen_A', 4, 3, 100));
+    antigens.push(makeAntigen('Pathogen_B', 4, 3, 300));
+    antigens.push(makeAntigen('Pathogen_C', 4, 3, 500));
+  }
+
+  addLog(`Initialized: ${cfg.poolSize} cells, ${antigens.length} antigen(s), scenario=${cfg.scenario}`, '');
+  addLog(`T=${cfg.temperature}, α=${cfg.alpha}, depth_penalty=${cfg.depthPenalty}`, '');
+  updateCharts();
+}
+
+function toggleRun() {
+  if (running) { running = false; document.getElementById('runBtn').innerHTML = '&#9654; Run'; return; }
+  if (step === 0) initSim();
+  running = true;
+  document.getElementById('runBtn').innerHTML = '&#9646;&#9646; Pause';
+  tick();
+}
+
+function tick() {
+  if (!running || step >= cfg.maxSteps) {
+    running = false;
+    document.getElementById('runBtn').innerHTML = '&#9654; Run';
+    if (step >= cfg.maxSteps) addLog(`Simulation complete at step ${step}`, '');
+    updateCharts();
+    return;
+  }
+
+  // Run multiple steps per frame for speed
+  const stepsPerFrame = Math.max(1, Math.floor(cfg.marketInterval));
+  for (let i = 0; i < stepsPerFrame && step < cfg.maxSteps; i++) {
+    step++;
+    if (step % cfg.marketInterval === 0) marketStep();
+  }
+  updateCharts();
+
+  animId = setTimeout(tick, cfg.speed);
+}
+
+function resetSim() {
+  running = false;
+  if (animId) clearTimeout(animId);
+  document.getElementById('runBtn').innerHTML = '&#9654; Run';
+  step = 0;
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('s_step').textContent = '0';
+  initSim();
+}
+
+// Init on load
+window.addEventListener('load', () => { initSim(); });
+window.addEventListener('resize', () => { if (ts.steps.length > 0) updateCharts(); });
+</script>
+</body>
+</html>

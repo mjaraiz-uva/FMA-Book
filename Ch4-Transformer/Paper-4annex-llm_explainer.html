@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Language Models: A Technical Exposition</title>
+    <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+      startup: { typeset: true }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #e8edf2 0%, #dce3ea 100%);
+            padding: 40px 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #c8d1da;
+        }
+
+        .sidebar h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin-bottom: 12px;
+        }
+
+        .nav-list a {
+            color: #4a5568;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-list a:hover {
+            color: #2c3e50;
+            border-left-color: #3498db;
+            background: rgba(52, 152, 219, 0.08);
+            padding-left: 20px;
+        }
+
+        main {
+            flex: 1;
+            padding: 60px 80px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 42px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 28px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        h3 {
+            color: #3498db;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #34495e;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .diagram-container {
+            background: #ecf0f1;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        svg {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .code-block {
+            background: #f4f6f8;
+            color: #2c3e50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+            border: 1px solid #dde1e6;
+            white-space: pre;
+        }
+
+        .example-block {
+            background: #edf7ed;
+            color: #1a3a1a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            border-left: 4px solid #27ae60;
+            border: 1px solid #c3e6c3;
+            white-space: pre;
+        }
+
+        .example-block .example-title {
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            color: #27ae60;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .math-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+            overflow-x: auto;
+        }
+
+        .math-inline {
+            color: #27ae60;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #ecf0f1;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            main {
+                padding: 30px 20px;
+            }
+        }
+    
+  /* Foldable sections — injected */
+  .fold-section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  .fold-header { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid transparent; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  .fold-header:hover { background: #e4eaf0; }
+  .fold-header::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  .fold-header.open::before { transform: rotate(90deg); }
+  .fold-header.open { border-bottom: 1px solid #d0d8e0; }
+  .fold-body { padding: 16px 22px 22px; display: none; }
+  .fold-body.open { display: block; }
+
+  .fold-sub { margin-top: 14px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  .fold-sub-header { font-family: 'Segoe UI', sans-serif; font-size: 1.0em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; }
+  .fold-sub-header:hover { background: #eaeff4; }
+  .fold-sub-header::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  .fold-sub-header.open::before { transform: rotate(90deg); }
+  .fold-sub-body { padding: 12px 18px 16px; display: none; }
+  .fold-sub-body.open { display: block; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Contents</h2>
+            <ul class="nav-list">
+                <li><a href="#section1">What is a Language Model?</a></li>
+                <li><a href="#section2">From N-grams to Neural Networks</a></li>
+                <li><a href="#section3">Word Embeddings and Vector Spaces</a></li>
+                <li><a href="#section4">The Attention Mechanism</a></li>
+                <li><a href="#section5">The Transformer Architecture</a></li>
+                <li><a href="#section6">Training: Pretraining and Fine-tuning</a></li>
+                <li><a href="#section7">Tokenization</a></li>
+                <li><a href="#section8">Scaling Laws and Emergent Capabilities</a></li>
+                <li><a href="#section9">From GPT to Modern LLMs</a></li>
+                <li><a href="#section10">Inference: How Text is Generated</a></li>
+                <li><a href="#section11">RLHF and Alignment</a></li>
+                <li><a href="#section12">Current Limitations and Open Problems</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <h1>Large Language Models: A Technical Exposition</h1>
+            <p class="intro-text">A comprehensive examination of the architecture, training, and deployment of modern large language models, designed for technically sophisticated practitioners.</p>
+
+            <!-- Section 1 -->
+            <section id="section1" class="section">
+                <h2>1. What is a Language Model?</h2>
+
+                <p>A language model is a probabilistic function that assigns a probability to a sequence of tokens. Formally, given a sequence of tokens <span class="math-inline">$t_1, t_2, \ldots, t_n$</span>, a language model computes the joint probability distribution:</p>
+
+                <div class="math-display">
+                    $$P(t_1, t_2, \ldots, t_n) = \prod_{i=1}^{n} P(t_i \mid t_1, \ldots, t_{i-1})$$
+                </div>
+
+                <p>This decomposition—known as the chain rule of probability—is foundational to language modeling. Each term represents the conditional probability of the next token given all preceding tokens, a quantity called the context.</p>
+
+                <p>In the context of neural language models, this distribution is parametrized by a neural network with parameters <span class="math-inline">$\theta$</span>. The training objective is to minimize the negative log-likelihood across a corpus of text:</p>
+
+                <div class="math-display">
+                    $$\mathcal{L}(\theta) = -\sum_{i=1}^{n} \log P_\theta(t_i \mid t_1, \ldots, t_{i-1})$$
+                </div>
+
+                <p>Modern language models are <span class="highlight">autoregressive</span>—they predict the next token conditioned on previous tokens. This enables both efficient training (via next-token prediction) and generation (via iterative sampling).</p>
+
+                <p>The utility of language models extends beyond mere sequence modeling. They serve as feature extractors, zero-shot learners, few-shot learners (in-context learning), and foundation models upon which task-specific capabilities can be built. The emergence of large language models (LLMs)—models trained on hundreds of billions of tokens with billions to hundreds of billions of parameters—has demonstrated unexpected capabilities in reasoning, code generation, and instruction-following.</p>
+
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#3498db"/>
+                            </marker>
+                        </defs>
+                        <text x="10" y="30" font-size="14" font-weight="bold">Sequence: [The, cat, sat]</text>
+                        <rect x="30" y="60" width="120" height="40" fill="#3498db" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="90" y="87" text-anchor="middle" fill="white" font-size="13">P(the|start)</text>
+                        <arrow x1="150" y1="80" x2="190" y2="80" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <rect x="190" y="60" width="120" height="40" fill="#3498db" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="250" y="87" text-anchor="middle" fill="white" font-size="13">P(cat|the)</text>
+                        <line x1="310" y1="80" x2="350" y2="80" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <rect x="350" y="60" width="120" height="40" fill="#3498db" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="410" y="87" text-anchor="middle" fill="white" font-size="13">P(sat|the,cat)</text>
+                        <text x="200" y="160" font-size="12" text-anchor="middle" fill="#2c3e50">Autoregressive Prediction Chain</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Section 2 -->
+            <section id="section2" class="section">
+                <h2>2. From N-grams to Neural Networks</h2>
+
+                <p>Historical language modeling began with n-gram models, which assigned probabilities based on fixed-length histories. An n-gram model uses the Markov assumption to approximate the conditional probability:</p>
+
+                <div class="math-display">
+                    $$P(t_i \mid t_1, \ldots, t_{i-1}) \approx P(t_i \mid t_{i-n+1}, \ldots, t_{i-1})$$
+                </div>
+
+                <p>N-gram models rely on maximum likelihood estimation from observed counts in training text. While computationally efficient and theoretically grounded, n-grams suffer from catastrophic sparsity—most n-gram sequences do not appear in training data, yielding zero probability estimates. Smoothing techniques (Laplace smoothing, Kneser-Ney smoothing) partially address this, but the fundamental limitation persists: the model cannot generalize beyond fixed context windows.</p>
+
+                <p>Neural language models revolutionized the field by learning distributed representations. Rather than explicit counting, they learn to approximate probability distributions through gradient-based optimization of neural architectures. The key innovation was the realization that <span class="highlight">learning word representations jointly with the language modeling objective</span> yields superior generalization.</p>
+
+                <p>Early neural models employed recurrent neural networks (RNNs), specifically long short-term memory (LSTM) networks, to handle variable-length contexts. While RNNs theoretically accommodate arbitrary context, they suffer from vanishing and exploding gradients during backpropagation through time (BPTT), limiting effective context to roughly 50-100 tokens in practice.</p>
+
+                <div class="code-block">
+// N-gram probability estimation pseudocode
+function ngramProbability(tokens, n):
+    history = tokens[-(n-1):]
+    count_history_next = countOccurrences(history + next_token)
+    count_history = countOccurrences(history)
+    return (count_history_next + smoothing) / (count_history + smoothing * vocab_size)
+
+// Neural approach: Learn continuous representations
+function neuralLMProbability(tokens, theta):
+    representations = embedTokens(tokens, theta)
+    context_repr = processWithNN(representations, theta)
+    logits = projectToVocab(context_repr, theta)
+    return softmax(logits)
+                </div>
+
+                <p>The transition from n-grams to neural models represented a fundamental shift: from explicit statistical counting to implicit learning of probability distributions through high-dimensional geometry.</p>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: bigram (n=2) on a 3-word corpus</span>
+Corpus: "the cat sat the cat ran"
+Vocabulary: {the, cat, sat, ran}
+
+Bigram counts (previous → next):
+  the → cat: 2    cat → sat: 1    sat → the: 1    cat → ran: 1
+
+Probabilities:
+  P(cat | the) = 2/2 = 1.0      (after "the", always "cat")
+  P(sat | cat) = 1/2 = 0.5      (after "cat", 50% "sat")
+  P(ran | cat) = 1/2 = 0.5      (after "cat", 50% "ran")
+
+Generate from "the": the → cat → sat (or ran, coin flip)
+
+Problem: P(dog | the) = 0  — any unseen word gets zero probability.
+This is the sparsity problem that neural models solve.</div>
+            </section>
+
+            <!-- Section 3 -->
+            <section id="section3" class="section">
+                <h2>3. Word Embeddings and Vector Spaces</h2>
+
+                <p>A word embedding is a learned, continuous vector representation of a discrete token. Rather than representing words as atomic symbols, embeddings encode semantic and syntactic information in a high-dimensional vector space. For a vocabulary of size <span class="math-inline">$V$</span> and embedding dimension <span class="math-inline">$d$</span>, each token is mapped to <span class="math-inline">$\mathbb{R}^d$</span>.</p>
+
+                <p>The embedding matrix <span class="math-inline">$E \in \mathbb{R}^{V \times d}$</span> is a learnable parameter. During forward propagation, the embedding lookup is a simple indexing operation: given token index <span class="math-inline">$i$</span>, retrieve row <span class="math-inline">$E_i \in \mathbb{R}^d$</span>.</p>
+
+                <p>Embeddings are learned end-to-end as part of the language modeling objective, though they can also be initialized from pre-computed vectors (GloVe, Word2Vec). The remarkable property of learned embeddings is that geometric relationships in embedding space correspond to semantic relationships in language. The canonical example is the analogy: <span class="math-inline">$\text{king} - \text{man} + \text{woman} \approx \text{queen}$</span>.</p>
+
+                <p>Modern LLMs typically use large embedding dimensions (768–12,288). This high dimensionality enables fine-grained representation of meaning but also introduces a parameter bottleneck. Token embeddings constitute a substantial fraction of model parameters, particularly for large vocabularies.</p>
+
+                <p>Beyond token embeddings, position embeddings encode sequential position information. Absolute position embeddings assign learned vectors to each position: <span class="math-inline">$E_{\text{pos}}[i] \in \mathbb{R}^d$</span>. Relative position embeddings, conversely, encode distances between positions. Absolute embeddings are simpler but suffer when sequence length exceeds training length. Relative embeddings generalize better to longer sequences.</p>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: embedding lookup (d=4, V=4)</span>
+Vocabulary: {the=0, cat=1, sat=2, on=3}
+
+Embedding matrix E (4 words × 4 dimensions, learned values):
+  E[0] = [0.2, -0.1, 0.8, 0.3]    ← "the"
+  E[1] = [0.9,  0.7, -0.2, 0.1]   ← "cat"
+  E[2] = [-0.3, 0.4, 0.6, -0.5]   ← "sat"
+  E[3] = [0.1, -0.3, 0.2, 0.9]    ← "on"
+
+Input: "the cat" → token IDs [0, 1]
+Lookup: E[0], E[1] → [[0.2, -0.1, 0.8, 0.3],
+                       [0.9,  0.7, -0.2, 0.1]]
+
+Similarity: dot(E["cat"], E["sat"]) = 0.9×(-0.3) + 0.7×0.4 + (-0.2)×0.6 + 0.1×(-0.5) = -0.16
+            dot(E["cat"], E["the"]) = 0.9×0.2 + 0.7×(-0.1) + (-0.2)×0.8 + 0.1×0.3 = -0.02
+
+In a trained model, semantically related words would have high dot products.</div>
+
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                        <text x="300" y="25" text-anchor="middle" font-size="14" font-weight="bold">Embedding Space Illustration (2D projection)</text>
+                        <circle cx="100" cy="150" r="8" fill="#e74c3c"/>
+                        <text x="100" y="175" text-anchor="middle" font-size="12">king</text>
+                        <circle cx="250" cy="150" r="8" fill="#3498db"/>
+                        <text x="250" y="175" text-anchor="middle" font-size="12">queen</text>
+                        <circle cx="100" cy="50" r="8" fill="#27ae60"/>
+                        <text x="100" y="30" text-anchor="middle" font-size="12">man</text>
+                        <circle cx="250" cy="50" r="8" fill="#f39c12"/>
+                        <text x="250" y="30" text-anchor="middle" font-size="12">woman</text>
+                        <line x1="100" y1="58" x2="100" y2="142" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="250" y1="58" x2="250" y2="142" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="108" y1="150" x2="242" y2="150" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="108" y1="50" x2="242" y2="50" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="300" y="250" font-size="12" fill="#2c3e50">Embeddings preserve semantic relationships through geometric structure</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Section 4 -->
+            <section id="section4" class="section">
+                <h2>4. The Attention Mechanism</h2>
+
+                <p>The attention mechanism computes a weighted aggregation of input representations. Given a query <span class="math-inline">$q \in \mathbb{R}^d$</span>, a set of keys <span class="math-inline">$K \in \mathbb{R}^{n \times d}$</span>, and corresponding values <span class="math-inline">$V \in \mathbb{R}^{n \times d}$</span>, attention computes:</p>
+
+                <div class="math-display">
+                    $$\text{Attention}(q, K, V) = \sum_{i=1}^{n} \alpha_i V_i \quad \text{where} \quad \alpha_i = \frac{\exp(q \cdot K_i^T)}{\sum_{j=1}^{n} \exp(q \cdot K_j^T)}$$
+                </div>
+
+                <p>The numerator <span class="math-inline">$q \cdot K_i^T$</span> measures alignment—the dot product between query and key. The softmax denominator normalizes attention weights to form a probability distribution. This mechanism is <span class="highlight">differentiable</span>, enabling gradient-based learning of what to attend to.</p>
+
+                <p>Multi-head attention applies this mechanism in parallel across multiple representation subspaces:</p>
+
+                <div class="math-display">
+                    $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O$$
+                    where $$\text{head}_i = \text{Attention}(Q W_i^Q, K W_i^K, V W_i^V)$$
+                </div>
+
+                <p>Multiple heads enable the model to jointly attend to information from different representation subspaces, akin to different semantic aspects or syntactic features. In practice, models use 8-32 heads, each with dimension <span class="math-inline">$d/h$</span>.</p>
+
+                <p>A critical variant for autoregressive generation is <span class="highlight">causal attention</span> (or masked attention), which prevents attending to future positions. The attention mask sets <span class="math-inline">$\alpha_i = 0$</span> for all <span class="math-inline">$i > j$</span> when computing attention for position <span class="math-inline">$j$</span>. This preserves the autoregressive property during training and generation.</p>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: self-attention on 3 tokens (d=2, 1 head)</span>
+Input embeddings X (3 tokens × 2 dims):
+  x₁ = [1.0, 0.0]   ← "the"
+  x₂ = [0.0, 1.0]   ← "cat"
+  x₃ = [0.5, 0.5]   ← "sat"
+
+For simplicity, Q = K = V = X (no projection matrices).
+
+Step 1: Compute attention scores (dot products):
+  score(x₁, x₁) = 1.0    score(x₁, x₂) = 0.0    score(x₁, x₃) = 0.5
+  score(x₂, x₁) = 0.0    score(x₂, x₂) = 1.0    score(x₂, x₃) = 0.5
+  score(x₃, x₁) = 0.5    score(x₃, x₂) = 0.5    score(x₃, x₃) = 0.5
+
+Step 2: Apply causal mask (set future positions to -∞):
+  Position 1 sees: [1.0, -∞,  -∞ ]  → only attends to itself
+  Position 2 sees: [0.0, 1.0, -∞ ]  → attends to positions 1-2
+  Position 3 sees: [0.5, 0.5, 0.5]  → attends to all positions
+
+Step 3: Softmax row-wise:
+  α₁ = [1.00, 0.00, 0.00]       ← "the" looks only at itself
+  α₂ = [0.27, 0.73, 0.00]       ← "cat" mostly at itself, some at "the"
+  α₃ = [0.33, 0.33, 0.33]       ← "sat" attends equally to all three
+
+Step 4: Weighted sum of values:
+  out₁ = 1.00×[1,0] = [1.00, 0.00]
+  out₂ = 0.27×[1,0] + 0.73×[0,1] = [0.27, 0.73]
+  out₃ = 0.33×[1,0] + 0.33×[0,1] + 0.33×[0.5,0.5] = [0.50, 0.50]
+
+Result: each position has gathered information from its context.</div>
+
+                <div class="code-block">
+function scaledDotProductAttention(Q, K, V, mask=None):
+    scores = matmul(Q, transpose(K)) / sqrt(d_k)
+    if mask is not None:
+        scores = scores + (mask * -1e9)
+    weights = softmax(scores, dim=-1)
+    output = matmul(weights, V)
+    return output
+
+function multiHeadAttention(X, num_heads):
+    Q = projectToQuery(X)
+    K = projectToKey(X)
+    V = projectToValue(X)
+    heads = []
+    for h in range(num_heads):
+        head_output = scaledDotProductAttention(
+            Q[h], K[h], V[h], causal_mask
+        )
+        heads.append(head_output)
+    return linearProjection(concatenate(heads))
+                </div>
+            </section>
+
+            <!-- Section 5 -->
+            <section id="section5" class="section">
+                <h2>5. The Transformer Architecture</h2>
+
+                <p>The Transformer, introduced by Vaswani et al. (2017), replaced recurrence entirely with attention and position-wise feed-forward networks. A Transformer block applies three distinct operations in sequence: multi-head self-attention, layer normalization, and a feed-forward network (FFN).</p>
+
+                <p>Self-attention applies the attention mechanism where queries, keys, and values all derive from the same input: <span class="math-inline">$Q = K = V = X$</span>. This enables each position to attend to all other positions (and itself) in the sequence.</p>
+
+                <p>Layer normalization stabilizes training by normalizing activations to zero mean and unit variance per sequence element:</p>
+
+                <div class="math-display">
+                    $$\text{LayerNorm}(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta$$
+                </div>
+
+                <p>The feed-forward network is a two-layer MLP applied position-wise:</p>
+
+                <div class="math-display">
+                    $$\text{FFN}(x) = \max(0, x W_1 + b_1) W_2 + b_2$$
+                </div>
+
+                <p>The hidden dimension of the FFN (typically 4d) provides capacity for nonlinear transformations. Residual connections—adding the input to the output—enable deep stacking of layers.</p>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: one Transformer block (d=2, FFN hidden=4)</span>
+Input from attention: h = [0.27, 0.73]  (for "cat" position)
+
+Step 1 — Layer Norm: normalize to zero mean, unit variance
+  mean = 0.50, std = 0.23
+  h_norm = [(0.27-0.50)/0.23, (0.73-0.50)/0.23] = [-1.0, 1.0]
+
+Step 2 — FFN up-projection (d=2 → hidden=4):
+  W₁ (2×4 matrix, learned):   z = h_norm × W₁ + b₁
+  z = [-1.0, 1.0] × W₁ = [0.3, -0.8, 1.2, -0.1]
+
+Step 3 — ReLU activation: max(0, z)
+  z_relu = [0.3, 0.0, 1.2, 0.0]    ← two neurons "fire", two are silent
+
+Step 4 — FFN down-projection (hidden=4 → d=2):
+  ffn_out = z_relu × W₂ = [0.15, -0.20]
+
+Step 5 — Residual connection: add input back
+  output = h + ffn_out = [0.27 + 0.15, 0.73 + (-0.20)] = [0.42, 0.53]
+
+This is ONE block. GPT-2 stacks 12 blocks; GPT-3 stacks 96.
+Each block refines the representation a little more.</div>
+
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#3498db"/>
+                            </marker>
+                        </defs>
+                        <rect x="50" y="20" width="500" height="400" fill="none" stroke="#2c3e50" stroke-width="2" rx="10"/>
+                        <text x="300" y="45" text-anchor="middle" font-size="14" font-weight="bold">Transformer Block</text>
+
+                        <rect x="100" y="70" width="400" height="50" fill="#3498db" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="300" y="100" text-anchor="middle" fill="white" font-size="13">Input Embedding + Position Encoding</text>
+
+                        <line x1="300" y1="120" x2="300" y2="150" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <rect x="100" y="150" width="400" height="50" fill="#e74c3c" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="300" y="180" text-anchor="middle" fill="white" font-size="13">Multi-Head Self-Attention</text>
+
+                        <line x1="300" y1="200" x2="300" y2="230" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <rect x="100" y="230" width="400" height="50" fill="#27ae60" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="300" y="260" text-anchor="middle" fill="white" font-size="13">Add &amp; Norm + Feed-Forward Network</text>
+
+                        <line x1="300" y1="280" x2="300" y2="310" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <rect x="100" y="310" width="400" height="50" fill="#f39c12" stroke="#2c3e50" stroke-width="2" rx="5"/>
+                        <text x="300" y="340" text-anchor="middle" fill="white" font-size="13">Output (stacked L times)</text>
+
+                        <text x="300" y="400" text-anchor="middle" font-size="11" fill="#2c3e50">Residual connections between each sub-layer</text>
+                    </svg>
+                </div>
+
+                <p>The Transformer is inherently parallelizable. Unlike RNNs, which must process sequences sequentially, Transformers compute attention over the entire sequence simultaneously. This enables efficient training on modern hardware (GPUs, TPUs) with batch processing and mixed precision.</p>
+
+                <p>For inference, however, the self-attention mechanism presents a computational challenge: computing attention over all previous positions has complexity <span class="math-inline">$O(n^2)$</span> in sequence length, necessitating careful optimization techniques for long-context generation.</p>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: Mixture of Experts (MoE) replacing the FFN</span>
+In a standard Transformer, the FFN applies the same weights to every token.
+In a MoE Transformer, each token is routed to a SUBSET of expert FFNs.
+
+Setup: 4 experts (E₀, E₁, E₂, E₃), top-k=2 (each token uses 2 experts)
+
+Input token: h = [0.42, 0.53]  (output from attention layer)
+
+Step 1 — Gating network: linear projection h → 4 logits
+  gate_logits = h × W_gate = [1.2, 0.3, -0.5, 0.8]
+
+Step 2 — Top-k selection (k=2): pick 2 highest
+  Selected: E₀ (logit=1.2), E₃ (logit=0.8)
+  Ignored:  E₁ (0.3), E₂ (-0.5) ← these experts DON'T run
+
+Step 3 — Softmax over selected logits only:
+  w₀ = exp(1.2) / (exp(1.2) + exp(0.8)) = 0.60
+  w₃ = exp(0.8) / (exp(1.2) + exp(0.8)) = 0.40
+
+Step 4 — Run only the 2 selected experts:
+  E₀(h) = [0.10, -0.15]    (expert 0's FFN output)
+  E₃(h) = [0.20,  0.05]    (expert 3's FFN output)
+
+Step 5 — Weighted combination:
+  output = 0.60 × [0.10, -0.15] + 0.40 × [0.20,  0.05]
+         = [0.06, -0.09] + [0.08, 0.02] = [0.14, -0.07]
+
+Result: 4 expert FFNs = 4× the parameters, but only 2 run per token.
+  → Dense model cost: 4 FFN forward passes per token
+  → MoE cost: 2 FFN forward passes per token (50% compute savings)
+
+Mixtral 8×7B: 8 experts, top-2 → 47B params, ~13B active per token.
+This is why MoE models always operate with a FIXED, limited expert count.</div>
+            </section>
+
+            <!-- Section 6 -->
+            <section id="section6" class="section">
+                <h2>6. Training: Pretraining and Fine-tuning</h2>
+
+                <p>LLM training occurs in two phases: pretraining and fine-tuning. Pretraining involves unsupervised learning on massive text corpora (hundreds of billions to trillions of tokens). The objective is standard next-token prediction with cross-entropy loss:</p>
+
+                <div class="math-display">
+                    $$\mathcal{L} = -\sum_{i=1}^{n} \log P_\theta(t_i \mid t_1, \ldots, t_{i-1})$$
+                </div>
+
+                <p>Modern pretraining employs several techniques to enhance convergence and model quality:</p>
+
+                <p><span class="highlight">Learning rate scheduling:</span> Training typically uses a warmup phase (linear increase) followed by decay (cosine annealing). This balances initial stability with eventual refinement.</p>
+
+                <p><span class="highlight">Gradient clipping:</span> Clipping gradient norms prevents exploding gradients, maintaining stable training dynamics across very deep networks.</p>
+
+                <p><span class="highlight">Weight decay (L2 regularization):</span> Adds a penalty term <span class="math-inline">$\lambda \|\theta\|_2^2$</span> to encourage smaller weights and mitigate overfitting.</p>
+
+                <p>After pretraining, fine-tuning specializes the model for downstream tasks. Supervised fine-tuning (SFT) uses labeled examples for specific tasks (e.g., question answering, code generation). The loss remains cross-entropy, but computed over curated, high-quality datasets rather than raw web text.</p>
+
+                <p>Fine-tuning hyperparameters differ markedly from pretraining: smaller learning rates (1e-5 to 5e-5 versus 1e-4 to 1e-3), fewer training steps (thousands versus billions), and often selective unfreezing of layers to prevent catastrophic forgetting.</p>
+
+                <div class="code-block">
+function pretrainingLoop(model, corpus, num_epochs):
+    optimizer = AdamW(lr=1e-3)
+    scheduler = CosineAnnealingWithWarmup(warmup_steps=10k)
+
+    for epoch in range(num_epochs):
+        for batch in corpus:
+            tokens = tokenize(batch)
+            logits = model(tokens[:-1])
+            loss = crossEntropy(logits, tokens[1:])
+
+            loss.backward()
+            clipGradientNorm(model.parameters(), max_norm=1.0)
+            optimizer.step()
+            scheduler.step()
+
+            if step % 100 == 0:
+                logPerplexity(loss)
+
+function finetuningLoop(pretrained_model, labeled_dataset):
+    optimizer = AdamW(lr=5e-5)
+
+    for epoch in range(3):
+        for batch in labeled_dataset:
+            tokens, labels = batch
+            logits = pretrained_model(tokens)
+            loss = crossEntropy(logits, labels)
+
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+                </div>
+            </section>
+
+            <!-- Section 7 -->
+            <section id="section7" class="section">
+                <h2>7. Tokenization</h2>
+
+                <p>Tokenization converts raw text into sequences of tokens suitable for neural processing. The choice of tokenization strategy profoundly impacts model behavior, training efficiency, and emergent capabilities.</p>
+
+                <p><span class="highlight">Character-level tokenization</span> treats individual characters as tokens. Vocabulary size is fixed and small (~256 for UTF-8), but sequences become long, increasing computational cost and making long-range dependencies harder to learn.</p>
+
+                <p><span class="highlight">Word-level tokenization</span> treats whitespace-separated words as tokens. While intuitive, word-level tokenization yields large vocabularies (50k–100k+) due to inflections, typos, and out-of-vocabulary issues. It also fails to capture subword morphology.</p>
+
+                <p><span class="highlight">Subword tokenization</span> balances these concerns. The dominant approach, byte-pair encoding (BPE), iteratively merges the most frequent adjacent token pairs in the training corpus. Given a corpus, BPE constructs a vocabulary by:</p>
+
+                <div class="code-block">
+function byteePairEncoding(corpus, target_vocab_size):
+    vocabulary = initializeCharacterVocab(corpus)
+    pair_frequencies = {}
+
+    while len(vocabulary) < target_vocab_size:
+        pair_frequencies.clear()
+        for sequence in corpus:
+            pairs = getAdjacentPairs(sequence)
+            for pair in pairs:
+                pair_frequencies[pair] += 1
+
+        most_frequent_pair = argmax(pair_frequencies)
+        mergeTokens(vocabulary, most_frequent_pair)
+        updateCorpus(corpus, most_frequent_pair)
+
+    return vocabulary
+                </div>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: BPE on a tiny corpus</span>
+Corpus: "low lower lowest"
+Initial character-level tokens: l o w _ l o w e r _ l o w e s t
+
+Step 1: Count adjacent pairs:
+  (l,o)=3  (o,w)=3  (w,_)=1  (w,e)=2  (e,r)=1  (e,s)=1  (s,t)=1
+
+Merge most frequent: (l,o) → "lo"     Vocab: {l, o, w, e, r, s, t, _, lo}
+  Corpus: lo w _ lo w e r _ lo w e s t
+
+Step 2: Count again:
+  (lo,w)=3  (w,_)=1  (w,e)=2  (e,r)=1  (e,s)=1  (s,t)=1
+
+Merge: (lo,w) → "low"                 Vocab: {..., low}
+  Corpus: low _ low e r _ low e s t
+
+Step 3: Count:
+  (low,_)=1  (low,e)=2  (_,low)=1  (e,r)=1  (e,s)=1  (s,t)=1
+
+Merge: (low,e) → "lowe"               Vocab: {..., lowe}
+  Corpus: low _ lowe r _ lowe s t
+
+After 3 merges: "lower" = ["lowe", "r"], "lowest" = ["lowe", "s", "t"]
+Common stems are captured. Unknown word "lowing" → ["low", "i", "n", "g"].</div>
+
+                <p>BPE typically yields vocabulary sizes of 30k–100k tokens. Notably, the same BPE vocabulary learned on English text often tokenizes other languages inefficiently, a known limitation of monolingual tokenization.</p>
+
+                <p>Modern LLMs use variants like SentencePiece (designed for multilingual text) or WordPiece (used in BERT). These handle Unicode robustly and often include a pre-tokenization step to normalize text.</p>
+
+                <p>The relationship between tokenization and model behavior is subtle. Models must learn token-specific semantics from context. Some phenomena emerge from tokenization artifacts: for example, concatenations of tokens (e.g., "unwrap" as "un" + "wrap") can influence how models reason about morphology.</p>
+
+                <p>Detokenization (converting tokens back to text) requires careful handling of whitespace. Most modern tokenizers encode whitespace as an explicit symbol (e.g., "▁" in SentencePiece), enabling deterministic reconstruction.</p>
+            </section>
+
+            <!-- Section 8 -->
+            <section id="section8" class="section">
+                <h2>8. Scaling Laws and Emergent Capabilities</h2>
+
+                <p>Empirical scaling laws describe how model performance depends on training data size <span class="math-inline">$N$</span>, model parameters <span class="math-inline">$P$</span>, and compute budget <span class="math-inline">$C$</span>. Kaplan et al. (2020) and subsequent work established power-law relationships:</p>
+
+                <div class="math-display">
+                    $$L(N) = aN^{-\alpha}, \quad L(P) = bP^{-\beta}, \quad L(C) = cC^{-\gamma}$$
+                </div>
+
+                <p>Empirically, <span class="math-inline">$\alpha \approx 0.08$</span>, <span class="math-inline">$\beta \approx 0.07$</span>, and <span class="math-inline">$\gamma \approx 0.17$</span> (where loss is measured in nats). These exponents suggest that doubling model size reduces loss by ~5%, while doubling data reduces loss by ~6%. Compute, however, reduces loss more efficiently when optimally allocated.</p>
+
+                <p>The <span class="highlight">compute-optimal frontier</span> describes the allocation of fixed compute budgets between model size and data quantity. Chinchilla scaling suggests that for optimal performance, training compute should be allocated equally between model and data: <span class="math-inline">$N \approx 20P$</span> (approximately 20 tokens per parameter). This represents a shift from earlier practice, which often under-trained large models.</p>
+
+                <p>Beyond scaling laws, models exhibit <span class="highlight">emergent capabilities</span>—sudden jumps in performance on specific tasks as scale increases. Examples include in-context learning (few-shot adaptation from demonstrations in the prompt), chain-of-thought reasoning (breaking problems into intermediate steps), and arithmetic. These capabilities often appear discontinuous but likely reflect phase transitions in learned representations.</p>
+
+                <p>A critical observation: scaling laws hold reliably at large scale but do not extrapolate indefinitely. The assumption of infinite data and compute is physically implausible. Understanding the asymptotic behavior of scaling laws and identifying efficiency improvements (architectural innovations, training techniques) remains an active area.</p>
+
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+                        <text x="300" y="25" text-anchor="middle" font-size="14" font-weight="bold">Scaling Law: Loss vs. Model Size</text>
+
+                        <!-- Axes -->
+                        <line x1="80" y1="280" x2="550" y2="280" stroke="#2c3e50" stroke-width="2"/>
+                        <line x1="80" y1="50" x2="80" y2="280" stroke="#2c3e50" stroke-width="2"/>
+
+                        <!-- Labels -->
+                        <text x="550" y="310" text-anchor="middle" font-size="12">Model Parameters (log scale)</text>
+                        <text x="25" y="165" text-anchor="middle" font-size="12" transform="rotate(-90 25 165)">Loss (log scale)</text>
+
+                        <!-- Grid lines and ticks -->
+                        <line x1="150" y1="275" x2="150" y2="285" stroke="#2c3e50" stroke-width="1"/>
+                        <text x="150" y="305" text-anchor="middle" font-size="11">10M</text>
+                        <line x1="250" y1="275" x2="250" y2="285" stroke="#2c3e50" stroke-width="1"/>
+                        <text x="250" y="305" text-anchor="middle" font-size="11">1B</text>
+                        <line x1="350" y1="275" x2="350" y2="285" stroke="#2c3e50" stroke-width="1"/>
+                        <text x="350" y="305" text-anchor="middle" font-size="11">100B</text>
+                        <line x1="450" y1="275" x2="450" y2="285" stroke="#2c3e50" stroke-width="1"/>
+                        <text x="450" y="305" text-anchor="middle" font-size="11">1T</text>
+
+                        <!-- Power law curve -->
+                        <path d="M 150 200 Q 200 170 250 150 T 350 110 T 450 80" fill="none" stroke="#e74c3c" stroke-width="3"/>
+
+                        <!-- Legend -->
+                        <rect x="100" y="60" width="20" height="20" fill="#e74c3c"/>
+                        <text x="130" y="75" font-size="12">Loss ~ P^(-0.07)</text>
+
+                        <!-- Emergent capabilities annotation -->
+                        <circle cx="350" cy="110" r="6" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <text x="380" y="105" font-size="11" fill="#27ae60">Emergent capability threshold</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Section 9 -->
+            <section id="section9" class="section">
+                <h2>9. From GPT to Modern LLMs</h2>
+
+                <p>The GPT lineage exemplifies the evolution of LLM architectures and training paradigms. GPT-1 (2018) demonstrated that large-scale unsupervised pretraining on diverse text, combined with minimal task-specific fine-tuning, achieves strong performance on downstream NLP tasks. It trained a 12-layer Transformer on 7,000 diverse books.</p>
+
+                <p>GPT-2 (2019) scaled this to 1.5B parameters and 40GB of text (WebText). The authors showed that language models trained at scale exhibit zero-shot transfer: without any fine-tuning, GPT-2 performed reasonably on tasks like machine translation, summarization, and question answering, despite never being explicitly trained on them.</p>
+
+                <p>GPT-3 (2020) introduced two paradigm shifts: (1) <span class="highlight">few-shot in-context learning</span>—providing task examples within the prompt enables the model to adapt to new tasks without parameter updates—and (2) massive scale: 175B parameters trained on 570GB of text. GPT-3 demonstrated that scale alone, without architectural innovations, yields remarkable capabilities.</p>
+
+                <p>Subsequent models refined this approach. Claude, Llama, and other modern LLMs employ architectural improvements (e.g., rotary positional embeddings, GQA—grouped query attention) and training techniques (e.g., instruction tuning, RLHF) to improve efficiency and controllability. Instruction tuning involves fine-tuning on prompt-response pairs where the prompt is a task description and the response is an ideal completion. This improves task adherence and generalization to unseen instructions.</p>
+
+                <p>A recent trend is open-source LLMs (Llama, Mistral, Qwen). While smaller than proprietary models (7B–70B vs. 100B+), they offer computational tractability and enable researchers to study LLM behavior in detail.</p>
+
+                <div class="code-block">
+// Architectural evolution: Token processing improvements
+// GPT-1: Absolute positional embeddings
+function gpt1Forward(tokens):
+    embeddings = tokenEmbedding(tokens) + positionalEmbedding(positions)
+    return transformerStack(embeddings)
+
+// Modern LLMs: Rotary positional embeddings (RoPE)
+function ropeEmbedding(embedding, position, theta=10000):
+    for i in range(0, d, 2):
+        angle = position / (theta ^ (2i/d))
+        // Apply rotation matrix to consecutive dimensions
+        embedding[i:i+2] = rotation(embedding[i:i+2], angle)
+    return embedding
+
+function modernLLMForward(tokens):
+    embeddings = tokenEmbedding(tokens)
+    return transformerStackWithRoPE(embeddings)
+                </div>
+            </section>
+
+            <!-- Section 10 -->
+            <section id="section10" class="section">
+                <h2>10. Inference: How Text is Generated</h2>
+
+                <p>Inference (generation) iteratively samples or selects tokens from the model's predicted distribution. Given a prompt <span class="math-inline">$p = t_1, \ldots, t_k$</span>, the model computes <span class="math-inline">$P(t_{k+1} \mid t_1, \ldots, t_k)$</span> over the entire vocabulary. Token selection determines generation quality and diversity.</p>
+
+                <p><span class="highlight">Greedy decoding</span> selects the highest-probability token at each step:</p>
+
+                <div class="math-display">
+                    $$t_{i+1} = \arg\max_j P(t_j \mid t_1, \ldots, t_i)$$
+                </div>
+
+                <div class="example-block"><span class="example-title">Tiny worked example: greedy vs sampled generation</span>
+Prompt: "The cat"
+Vocabulary: {sat, ran, slept, meowed, the, a, on}
+
+Model outputs probabilities for next token:
+  P(sat)=0.35  P(ran)=0.25  P(slept)=0.20  P(meowed)=0.15  P(on)=0.05
+
+Greedy: pick argmax → "sat" (always, deterministically)
+
+Temperature T=0.5 (sharpen): recompute softmax(logits / 0.5)
+  P(sat)=0.52  P(ran)=0.24  P(slept)=0.14  P(meowed)=0.08  P(on)=0.02
+  → "sat" much more likely, almost deterministic
+
+Temperature T=2.0 (flatten): recompute softmax(logits / 2.0)
+  P(sat)=0.24  P(ran)=0.22  P(slept)=0.20  P(meowed)=0.19  P(on)=0.15
+  → nearly uniform, any word could appear — creative but noisy
+
+Top-p (p=0.8): sort by prob, take smallest set summing to ≥ 0.8
+  {sat=0.35, ran=0.25, slept=0.20} → sum=0.80 ≥ 0.8 ✓
+  Sample only from these three. "meowed" and "on" excluded.</div>
+
+                <p>This is deterministic and fast but often produces repetitive, low-quality text. Greedy decoding fails to correct early mistakes, and the greedy path need not correspond to the globally highest-probability sequence.</p>
+
+                <p><span class="highlight">Beam search</span> maintains a set of <span class="math-inline">$k$</span> hypotheses, expanding the most promising branches at each step. This finds higher-probability sequences than greedy decoding but is computationally expensive, scaling as <span class="math-inline">$O(kb)$</span> where <span class="math-inline">$b$</span> is vocabulary size.</p>
+
+                <p><span class="highlight">Temperature-based sampling</span> adjusts the distribution's sharpness before sampling. Given logits <span class="math-inline">$z$</span>, the sampled distribution is:</p>
+
+                <div class="math-display">
+                    $$P(t) = \frac{\exp(z_t / T)}{\sum_j \exp(z_j / T)}$$
+                </div>
+
+                <p>Temperature <span class="math-inline">$T > 1$</span> flattens the distribution (higher diversity), <span class="math-inline">$T < 1$</span> sharpens it (lower diversity). <span class="math-inline">$T = 1$</span> recovers the model's original distribution.</p>
+
+                <p><span class="highlight">Top-k and nucleus (top-p) sampling</span> restrict the sampling pool. Top-k sampling samples only from the <span class="math-inline">$k$</span> most probable tokens, ignoring the long tail. Top-p (nucleus) sampling samples from the smallest set of tokens whose cumulative probability exceeds <span class="math-inline">$p$</span>. These techniques reduce pathological samples while preserving diversity.</p>
+
+                <p>A practical consideration: the computational cost of generation. The forward pass for each new token requires recomputing attention over all previously generated tokens, leading to <span class="math-inline">$O(n^2)$</span> complexity in output length. <span class="highlight">Key-value caching</span> mitigates this by caching computed keys and values, avoiding recomputation.</p>
+
+                <div class="code-block">
+function generateWithSampling(prompt, model, max_tokens, temperature=1.0):
+    tokens = tokenize(prompt)
+
+    for _ in range(max_tokens):
+        logits = model(tokens)[-1]  // Last token's logits
+        logits = logits / temperature
+
+        probabilities = softmax(logits)
+        next_token = sample(probabilities)  // Stochastic sampling
+
+        tokens.append(next_token)
+        if next_token == END_OF_SEQUENCE:
+            break
+
+    return detokenize(tokens)
+
+function generateWithNucleusSampling(prompt, model, max_tokens, top_p=0.9):
+    tokens = tokenize(prompt)
+
+    for _ in range(max_tokens):
+        logits = model(tokens)[-1]
+        probabilities = softmax(logits)
+
+        // Sort and compute cumulative probability
+        sorted_probs, sorted_indices = sort(probabilities, descending=True)
+        cumsum = cumsum(sorted_probs)
+
+        // Find cutoff: smallest set whose cum prob exceeds top_p
+        cutoff = cumsum <= top_p
+        nucleus_probs = sorted_probs[cutoff]
+
+        next_token = sample(nucleus_probs)
+        tokens.append(next_token)
+
+    return detokenize(tokens)
+                </div>
+            </section>
+
+            <!-- Section 11 -->
+            <section id="section11" class="section">
+                <h2>11. RLHF and Alignment</h2>
+
+                <p>Reinforcement Learning from Human Feedback (RLHF) aligns language models with human preferences. The motivation is straightforward: models trained solely on next-token prediction may generate harmful, factually incorrect, or misaligned outputs. RLHF introduces a reward signal derived from human judgments.</p>
+
+                <p>RLHF proceeds in three stages:</p>
+
+                <p><span class="highlight">Stage 1: Supervised Fine-Tuning (SFT)</span>. Fine-tune the pretrained model on a dataset of high-quality examples where the input is an instruction and the output is a desired response. This grounds the model in the desired behavior.</p>
+
+                <p><span class="highlight">Stage 2: Reward Model Training</span>. Collect pairs of model completions for the same prompt and obtain human preferences (pairwise comparisons: "which response is better?"). Train a reward model <span class="math-inline">$R(x, y)$</span> to predict human preferences. The reward model is typically a language model with an additional regression head that outputs a scalar reward.</p>
+
+                <p><span class="highlight">Stage 3: RL Policy Optimization</span>. Use the reward model as a signal to optimize the policy (the language model) via reinforcement learning. The objective balances reward maximization with a constraint: the policy should remain close to the SFT model to prevent gaming the reward function or catastrophic forgetting.</p>
+
+                <p>The standard RL objective is:</p>
+
+                <div class="math-display">
+                    $$\mathcal{J}(\pi) = \mathbb{E}_{x \sim D, y \sim \pi(\cdot|x)}[R(x,y)] - \beta \cdot \text{KL}(\pi || \pi_{\text{SFT}})$$
+                </div>
+
+                <p>The KL divergence term prevents the policy from diverging too far from the SFT model, preserving learned knowledge and preventing reward hacking. <span class="math-inline">$\beta$</span> controls the trade-off.</p>
+
+                <p>In practice, the RL step uses Proximal Policy Optimization (PPO), a stable policy gradient algorithm. PPO introduces a clipping mechanism to constrain the ratio of new and old policy probabilities, preventing excessively large updates.</p>
+
+                <p>A challenge with RLHF is scalability: obtaining large numbers of human preferences is expensive. <span class="highlight">Constitutional AI</span> (CAI) offers an alternative: instead of human feedback, use a set of principles (constitution) and have the model evaluate its own outputs against these principles, creating a signal for fine-tuning.</p>
+
+                <div class="code-block">
+// RLHF Policy Optimization (Proximal Policy Optimization)
+function ppoUpdate(model, reward_model, data, num_epochs):
+    for epoch in range(num_epochs):
+        for batch in data:
+            prompts, completions_old = batch
+
+            // Forward pass through current policy
+            log_probs_new = model.logProb(completions_old)
+            log_probs_old = model.logProb(completions_old).detach()
+
+            // Compute advantages using reward model and baseline
+            rewards = reward_model(prompts, completions_old)
+            advantages = rewards - valueFunction(prompts)
+
+            // PPO clipping: constrain probability ratio
+            ratio = exp(log_probs_new - log_probs_old)
+            clipped_ratio = clip(ratio, 1 - epsilon, 1 + epsilon)
+
+            policy_loss = -min(ratio * advantages, clipped_ratio * advantages).mean()
+            kl_loss = kldiv(model.logProb, sft_model.logProb)
+
+            total_loss = policy_loss + beta * kl_loss
+            total_loss.backward()
+            optimizer.step()
+                </div>
+            </section>
+
+            <!-- Section 12 -->
+            <section id="section12" class="section">
+                <h2>12. Current Limitations and Open Problems</h2>
+
+                <p>Despite remarkable progress, LLMs exhibit significant limitations. Understanding and addressing these limitations drives current research.</p>
+
+                <p><span class="highlight">Context Length:</span> Even large models have fixed context windows (typically 4k–100k tokens). This constraint limits the models' ability to reason over long documents, conduct multi-turn conversations with extensive history, or leverage extended in-context examples. Extending context length requires architectural innovations (e.g., sparse attention, hierarchical attention) and efficient attention implementations.</p>
+
+                <p><span class="highlight">Hallucination:</span> Models confidently assert factually incorrect information, especially for unfamiliar topics or recent events. This arises from the training objective (next-token prediction) which does not require correspondence to factual truth. Mitigation strategies include retrieval-augmented generation (RAG), fine-tuning on factual data, and uncertainty quantification.</p>
+
+                <p><span class="highlight">Reasoning and Generalization:</span> While large models exhibit in-context learning and few-shot adaptation, they often fail on problems requiring systematic reasoning or generalization beyond training distribution. For instance, models struggle with arithmetic on large numbers, logical inference chains of moderate length, and algorithmic tasks not covered by training data.</p>
+
+                <p><span class="highlight">Interpretability:</span> Understanding what computations occur inside large models remains largely intractable. Mechanistic interpretability—reverse-engineering learned circuits—is an active research area but remains in early stages. This limits our ability to diagnose failures, predict model behavior, and ensure safety.</p>
+
+                <p><span class="highlight">Efficiency:</span> Training and inference require massive computational resources. Modern LLMs demand specialized hardware (GPUs, TPUs) and consume substantial energy. Efficiency improvements (pruning, quantization, knowledge distillation, more compute-optimal training) are critical for accessibility and sustainability.</p>
+
+                <p><span class="highlight">Multimodality and Embodiment:</span> Current LLMs process text exclusively. Humans integrate language with vision, sound, and physical interaction. Vision-language models address multimodality but genuine integration of multiple modalities with reasoning remains limited. Embodied AI—integrating language with robotic control and environmental interaction—is nascent.</p>
+
+                <p><span class="highlight">Alignment and Safety:</span> Despite RLHF and constitutional AI, models can be adversarially manipulated, generate toxic content, or behave deceptively. Formal approaches to alignment (interpretability, verification, robust training) and adversarial robustness remain unsolved. The alignment problem becomes more acute as model capabilities increase.</p>
+
+                <p><span class="highlight">Compositionality:</span> Humans compose simple concepts into complex thoughts. Models struggle with compositionality: given trained sub-tasks, combining them into novel compositions is difficult. This limits transfer learning and few-shot generalization.</p>
+
+                <p><span class="highlight">Theoretical Understanding:</span> Despite empirical successes, theoretical understanding of why and how large models work remains limited. Scaling laws describe empirical relationships but lack rigorous derivations. The connection between next-token prediction and emergent reasoning capabilities is unclear.</p>
+
+                <div class="diagram-container">
+                    <svg viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+                        <text x="300" y="30" text-anchor="middle" font-size="14" font-weight="bold">Open Challenges in LLM Research</text>
+
+                        <circle cx="120" cy="130" r="50" fill="#e74c3c" opacity="0.7" stroke="#2c3e50" stroke-width="2"/>
+                        <text x="120" y="130" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Context</text>
+                        <text x="120" y="145" text-anchor="middle" fill="white" font-size="10">Length</text>
+
+                        <circle cx="300" cy="100" r="50" fill="#f39c12" opacity="0.7" stroke="#2c3e50" stroke-width="2"/>
+                        <text x="300" y="100" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Hallucin-</text>
+                        <text x="300" y="115" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ation</text>
+
+                        <circle cx="480" cy="130" r="50" fill="#27ae60" opacity="0.7" stroke="#2c3e50" stroke-width="2"/>
+                        <text x="480" y="125" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Interpret-</text>
+                        <text x="480" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ability</text>
+
+                        <circle cx="180" cy="260" r="50" fill="#3498db" opacity="0.7" stroke="#2c3e50" stroke-width="2"/>
+                        <text x="180" y="255" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Reasoning &amp;</text>
+                        <text x="180" y="270" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Composition</text>
+
+                        <circle cx="420" cy="260" r="50" fill="#9b59b6" opacity="0.7" stroke="#2c3e50" stroke-width="2"/>
+                        <text x="420" y="255" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Alignment &amp;</text>
+                        <text x="420" y="270" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Safety</text>
+
+                        <text x="300" y="330" text-anchor="middle" font-size="11" fill="#2c3e50">No single solution addresses all challenges; interdisciplinary approaches essential</text>
+                    </svg>
+                </div>
+
+                <p>The path forward likely involves hybrid approaches: combining neural methods with symbolic reasoning, integrating multiple modalities, developing new architectures beyond Transformers, and fundamentally rethinking the training paradigm to better align with human values and reasoning. These directions suggest that the LLM landscape will continue to evolve significantly in coming years.</p>
+            </section>
+
+            <footer>
+                <p>This exposition represents the state of understanding as of early 2025. Language model research advances rapidly; readers are encouraged to consult recent publications for the latest developments.</p>
+            </footer>
+        </main>
+    </div>
+
+<script>
+(function() {
+  // Configuration: how many top-level sections start open
+  var FIRST_N_OPEN = 2;
+
+  // Collect all h2 elements (top-level sections)
+  var h2s = Array.from(document.querySelectorAll('h2'));
+  // Skip h2s that are inside known non-section containers (like .ref, footer, etc.)
+  h2s = h2s.filter(function(h) {
+    var p = h.parentElement;
+    while (p && p !== document.body) {
+      if (p.classList.contains('ref') || p.classList.contains('disclosure') ||
+          p.classList.contains('fold-body') || p.classList.contains('fold-sub-body') ||
+          p.tagName === 'FOOTER') return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  h2s.forEach(function(h2, idx) {
+    // Collect all sibling nodes between this h2 and the next h2 (or section-ending element)
+    var nodes = [];
+    var sib = h2.nextSibling;
+    while (sib) {
+      if (sib.nodeType === 1 && sib.tagName === 'H2') break;
+      // Stop at footer-like elements
+      if (sib.nodeType === 1) {
+        var cl = sib.className || '';
+        var st = sib.getAttribute('style') || '';
+        if (cl.indexOf('disclosure') >= 0 || cl.indexOf('ref ') >= 0 ||
+            (st.indexOf('margin-top') >= 0 && st.indexOf('border-top') >= 0 && st.indexOf('text-align:center') >= 0)) break;
+      }
+      nodes.push(sib);
+      sib = sib.nextSibling;
+    }
+
+    // Create wrapper
+    var section = document.createElement('div');
+    section.className = 'fold-section';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fold-header' + (idx < FIRST_N_OPEN ? ' open' : '');
+    header.textContent = h2.textContent;
+    section.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'fold-body' + (idx < FIRST_N_OPEN ? ' open' : '');
+    nodes.forEach(function(n) { body.appendChild(n); });
+    section.appendChild(body);
+
+    // Replace h2 with section
+    h2.parentNode.replaceChild(section, h2);
+
+    // Toggle
+    header.addEventListener('click', function() {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  });
+
+  // Now handle h3 subsections inside each fold-body
+  document.querySelectorAll('.fold-body').forEach(function(foldBody) {
+    var h3s = Array.from(foldBody.querySelectorAll(':scope > h3'));
+    // Also check for h3s that may be direct children after moving
+    if (h3s.length === 0) return;
+
+    h3s.forEach(function(h3, jdx) {
+      var nodes = [];
+      var sib = h3.nextSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && (sib.tagName === 'H3' || sib.tagName === 'H2')) break;
+        if (sib.nodeType === 1 && sib.classList.contains('fold-sub')) break;
+        nodes.push(sib);
+        sib = sib.nextSibling;
+      }
+
+      var sub = document.createElement('div');
+      sub.className = 'fold-sub';
+
+      var subHeader = document.createElement('div');
+      subHeader.className = 'fold-sub-header' + (jdx === 0 ? ' open' : '');
+      subHeader.textContent = h3.textContent;
+      sub.appendChild(subHeader);
+
+      var subBody = document.createElement('div');
+      subBody.className = 'fold-sub-body' + (jdx === 0 ? ' open' : '');
+      nodes.forEach(function(n) { subBody.appendChild(n); });
+      sub.appendChild(subBody);
+
+      h3.parentNode.replaceChild(sub, h3);
+
+      subHeader.addEventListener('click', function() {
+        subHeader.classList.toggle('open');
+        subBody.classList.toggle('open');
+      });
+    });
+  });
+
+  // Add expand/collapse buttons
+  // Find the first fold-section and insert buttons before it
+  var firstSection = document.querySelector('.fold-section');
+  if (firstSection) {
+    var controls = document.createElement('div');
+    controls.className = 'expand-controls';
+    controls.innerHTML = '<button id="expandAll">Expand all</button><button id="collapseAll">Collapse all</button>';
+    firstSection.parentNode.insertBefore(controls, firstSection);
+
+    document.getElementById('expandAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.add('open');
+      });
+    });
+    document.getElementById('collapseAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.remove('open');
+      });
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+</body>
+</html>

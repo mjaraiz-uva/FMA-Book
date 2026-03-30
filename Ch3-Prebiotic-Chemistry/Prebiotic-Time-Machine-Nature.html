@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Emergent prebiotic amino acid synthesis without predefined reaction rules</title>
+<style>
+  body { font-family: 'Georgia', 'Times New Roman', serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.85; color: #1a1a1a; background: #fff; font-size: 16px; }
+  h1 { font-size: 1.7em; color: #000; margin-bottom: 5px; line-height: 1.3; }
+  h2 { font-size: 1.25em; color: #333; margin-top: 35px; border-bottom: none; }
+  .authors { color: #555; font-size: 0.95em; margin-bottom: 5px; }
+  .affiliations { color: #888; font-size: 0.85em; margin-bottom: 25px; }
+  .abstract { background: #f5f5f5; padding: 18px 22px; border-left: 4px solid #c00; margin: 25px 0; font-size: 0.95em; }
+  .abstract strong { color: #c00; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.9em; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+  th { background: #f0f0f0; font-weight: 600; }
+  td.num { text-align: right; }
+  td.bold { font-weight: bold; }
+  .fig { margin: 25px 0; padding: 15px; background: #fafafa; border: 1px solid #ddd; border-radius: 4px; }
+  .fig-caption { font-size: 0.88em; color: #555; margin-top: 8px; }
+  .fig-caption strong { color: #333; }
+  .ref { font-size: 0.85em; color: #444; }
+  .ref ol { padding-left: 20px; }
+  .ref li { margin-bottom: 4px; }
+  sup { font-size: 0.75em; }
+  .highlight { background: #fff8e1; padding: 12px 16px; border-left: 3px solid #ffc107; margin: 18px 0; font-size: 0.95em; }
+  .methods { font-size: 0.92em; color: #333; margin-top: 40px; padding-top: 20px; border-top: 2px solid #000; }
+  .methods h2 { font-size: 1.1em; }
+  a { color: #1565c0; }
+</style>
+</head>
+<body>
+
+<h1>Emergent prebiotic amino acid synthesis from a free-market agent-based model without predefined reaction rules</h1>
+
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electronics, University of Valladolid, 47011 Valladolid, Spain</p>
+
+<div class="abstract">
+<strong>Abstract</strong> &mdash;
+The spontaneous emergence of amino acids from simple molecules is central to the origin of life, yet computational exploration of prebiotic reaction space remains prohibitively expensive. Here we show that a free-market agent-based model (FM-ABM), grounded in Bond Dissociation Energies and Universal Force Field strain evaluation, spontaneously discovers thermodynamically favourable synthesis pathways for 10 of the 12 amino acids accessible from C, H, O and N atoms&mdash;reproducing the canonical &ldquo;early&rdquo; set identified by Miller&ndash;Urey experiments<sup>1</sup>, meteorite analysis<sup>2</sup> and phylogenetic reconstruction<sup>3</sup>. Starting from 900 bare atoms with no target molecules specified, the simulation completes in under five minutes on a laptop, discovering up to 260 independent routes to a single amino acid. Amino acid formulas appear 14 times earlier than expected by chance among 5,056 discovered molecular formulas, quantifying the thermodynamic inevitability hypothesis<sup>4</sup>. The eight amino acids that do not form&mdash;those requiring sulfur, aromatic rings or saturated amine bonds&mdash;are precisely the &ldquo;late&rdquo; amino acids incorporated into the genetic code only after complex biosynthetic pathways evolved<sup>5,6</sup>. Our approach is 4&ndash;6 orders of magnitude cheaper than <em>ab initio</em> nanoreactor simulations<sup>7</sup> and, beyond prebiotic research, offers a rapid tool for novel synthesis pathway exploration.
+</div>
+
+<!-- MAIN TEXT -->
+
+<p>How did life&rsquo;s molecular building blocks arise from the primordial soup? The Miller&ndash;Urey experiment<sup>1</sup> demonstrated that amino acids form spontaneously from simple gases under electric discharge, and carbonaceous chondrites confirm that abiotic synthesis occurs throughout the solar system<sup>2,8</sup>. Thermodynamic free-energy rankings predict which amino acids should be most abundant<sup>4</sup>, and phylogenetic analysis of ancient protein domains reveals the temporal order of their incorporation into the genetic code<sup>3,5,6</sup>. These four independent lines of evidence converge on a set of approximately ten &ldquo;early&rdquo; amino acids&mdash;Gly, Ala, Asp, Val, Pro, Ser, Glu, Leu, Thr and Ile&mdash;that are thermodynamically favoured, prebiotically abundant and phylogenetically ancient.</p>
+
+<p>Computational approaches to prebiotic chemistry have made remarkable progress. The <em>ab initio</em> nanoreactor<sup>7</sup> discovers reactions by confining molecules and running quantum molecular dynamics, but requires ~130,000 GPU-hours per simulation. Machine-learned force fields<sup>9,10</sup> reduce costs by 10<sup>3</sup>&ndash;10<sup>4</sup>&times; but still demand extensive DFT training data. Automated reaction-network tools<sup>11,12</sup> face combinatorial explosion when exploring the full C/H/O/N chemical space. A fundamentally different strategy is needed&mdash;one that efficiently navigates vast combinatorial landscapes without exhaustive quantum-mechanical evaluation.</p>
+
+<p>Here we report such a strategy. We adapt the DEPLOYERS framework<sup>13,14</sup>&mdash;a Darwinian agent-based model originally developed for economic simulation&mdash;to chemistry. Virtual workers run workshops that transform input molecules into products; reactions proceed only when thermodynamically favourable (&Delta;E &lt; 0), evaluated through Bond Dissociation Energies (BDE) and Universal Force Field (UFF) strain. Workers trade molecules with neighbours, generate demand for complex goods, and discover new reactions by combining inventory molecules. No reaction templates, rate constants or target molecules are specified. Think of a time-compressed movie of the interior of a virtual micelle: atoms collide, bond and build increasingly complex molecules, driven only by thermodynamics and market dynamics.</p>
+
+<h2>Amino acids emerge within minutes</h2>
+
+<p>We simulated a reactor containing 200 C, 500 H, 100 O and 100 N atoms (900 total) in full discovery mode, with blind thermodynamic exploration and no target molecule (Methods). Within 500 simulation steps (~5 min on a standard laptop), the system discovered 5,056 unique molecular formulas through 2,535 recipes, including the formulas of all 12 amino acids accessible from C, H, O and N (Table 1). The remaining 8 of the standard 20 require features absent from the model: sulfur (Cys, Met), aromatic rings formed by C=C bond cyclization (Phe, Tyr, Trp) or multiple amine bonds that are thermodynamically disfavoured relative to the imine alternatives (Arg, Lys).</p>
+
+<table>
+<tr><th>#</th><th>Amino acid</th><th>Formula</th><th>First step</th><th>Routes</th><th>Cumulative events</th></tr>
+<tr><td class="num">1</td><td class="bold">Threonine</td><td>C<sub>4</sub>H<sub>9</sub>NO<sub>3</sub></td><td class="num bold">9</td><td class="num">4</td><td class="num">107</td></tr>
+<tr><td class="num">2</td><td class="bold">Valine</td><td>C<sub>5</sub>H<sub>11</sub>NO<sub>2</sub></td><td class="num bold">10</td><td class="num">6</td><td class="num">133</td></tr>
+<tr><td class="num">3</td><td class="bold">Leucine</td><td>C<sub>6</sub>H<sub>13</sub>NO<sub>2</sub></td><td class="num bold">11</td><td class="num">2</td><td class="num">92</td></tr>
+<tr><td class="num">4</td><td class="bold">Alanine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>2</sub></td><td class="num bold">12</td><td class="num">7</td><td class="num">173</td></tr>
+<tr><td class="num">5</td><td class="bold">Aspartate</td><td>C<sub>4</sub>H<sub>7</sub>NO<sub>4</sub></td><td class="num bold">17</td><td class="num">4</td><td class="num">32</td></tr>
+<tr><td class="num">6</td><td class="bold">Glycine</td><td>C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub></td><td class="num bold">30</td><td class="num">15</td><td class="num">241</td></tr>
+<tr><td class="num">7</td><td class="bold">Serine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>3</sub></td><td class="num">35</td><td class="num">4</td><td class="num">173</td></tr>
+<tr><td class="num">8</td><td class="bold">Glutamate</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>4</sub></td><td class="num">32</td><td class="num">&mdash;</td><td class="num">50</td></tr>
+<tr><td class="num">9</td><td class="bold">Proline</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>2</sub></td><td class="num">42</td><td class="num">3</td><td class="num">3</td></tr>
+<tr><td class="num">10</td><td class="bold">Asparagine</td><td>C<sub>4</sub>H<sub>8</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">59</td><td class="num">5</td><td class="num">109</td></tr>
+<tr><td class="num">11</td><td class="bold">Glutamine</td><td>C<sub>5</sub>H<sub>10</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">66</td><td class="num">1</td><td class="num">99</td></tr>
+<tr><td class="num">12</td><td>Histidine</td><td>C<sub>6</sub>H<sub>9</sub>N<sub>3</sub>O<sub>2</sub></td><td class="num">317</td><td class="num">&mdash;</td><td class="num">16</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 1 | Amino acid emergence.</strong> The 12 amino acids accessible from C, H, O and N, ordered by first discovery step. All 10 canonical &ldquo;early&rdquo; amino acids<sup>4</sup> appear before step 66. Histidine, classified as &ldquo;late&rdquo; in phylogenetic analyses<sup>3</sup>, requires 317 steps. Routes = independent synthesis pathways discovered.</p>
+
+<h2>Amino acids are thermodynamic attractors</h2>
+
+<p>A striking pattern emerges when we examine discovery timing. By step 50, only 213 molecular formulas have been found, yet 7 of the 12 amino acid formulas are already among them&mdash;representing 3.3% of species. Over the full 2,000-step run, 5,056 formulas are discovered, of which amino acids constitute merely 0.24%. Amino acid formulas therefore appear <strong>14 times earlier than expected by chance</strong> (Fig. 1).</p>
+
+<div class="fig">
+<table>
+<tr><th>Step</th><th>Total species</th><th>Amino acids found</th><th>AA / species</th></tr>
+<tr><td class="num">10</td><td class="num">49</td><td class="num bold">2</td><td class="num">4.1%</td></tr>
+<tr><td class="num">50</td><td class="num">213</td><td class="num bold">7</td><td class="num">3.3%</td></tr>
+<tr><td class="num">100</td><td class="num">326</td><td class="num bold">9</td><td class="num">2.8%</td></tr>
+<tr><td class="num">500</td><td class="num">789</td><td class="num bold">12</td><td class="num">1.5%</td></tr>
+<tr><td class="num">2,000</td><td class="num">1,308</td><td class="num">12</td><td class="num">0.9%</td></tr>
+</table>
+<p class="fig-caption"><strong>Figure 1 | The 14&times; enrichment effect.</strong> Amino acid formulas are over-represented among early discoveries, indicating they occupy energy minima in C,H,O,N combinatorial space. The enrichment ratio (AA/species &divide; AA/total formulas) decreases monotonically as the system explores progressively less favourable regions.</p>
+</div>
+
+<p>This enrichment quantifies the thermodynamic inevitability hypothesis of Higgs and Pudritz<sup>4</sup>, who argued qualitatively that amino acid formation is favoured across all prebiotic sources. Our simulation provides the first explicit combinatorial measurement of this enrichment: amino acid formulas are not merely &ldquo;easy to make&rdquo;&mdash;they are among the <em>first</em> molecules any BDE-driven system will produce from bare atoms.</p>
+
+<h2>The early&ndash;late partition is reproduced</h2>
+
+<p>The simulation independently recovers the early&ndash;late amino acid classification established by Trifonov<sup>3</sup>, Higgs and Pudritz<sup>4</sup>, and recent LUCA protein domain analysis<sup>5</sup>. All 10 early amino acids (Gly, Ala, Asp, Glu, Val, Ser, Leu, Ile/Thr, Pro) emerge before step 66. The eight that do not form require specific chemical features absent from the model:</p>
+
+<table>
+<tr><th>Missing amino acid</th><th>Required feature</th><th>Phylogenetic status</th></tr>
+<tr><td>Cysteine, Methionine</td><td>Sulfur atom</td><td>Late<sup>3,5</sup></td></tr>
+<tr><td>Phe, Tyr, Trp</td><td>Aromatic ring (C=C cyclization)</td><td>Late<sup>3</sup></td></tr>
+<tr><td>Arginine, Lysine</td><td>Multiple amine bonds (C&ndash;NH<sub>2</sub>)</td><td>Late<sup>3,5</sup></td></tr>
+</table>
+
+<p>The correspondence is exact: every amino acid the model fails to produce is independently classified as &ldquo;late&rdquo; by phylogenetic evidence. This constitutes a fifth independent line of convergence on the early&ndash;late partition, alongside Miller&ndash;Urey experiments, meteorite abundances, thermodynamic rankings and LUCA domain analysis.</p>
+
+<h2>Reactor scaling reveals thermodynamic maturation</h2>
+
+<p>We tested four reactor sizes (900&ndash;7,200 atoms) in overnight runs. Species diversity saturates at approximately 1,300 regardless of reactor size, while Shannon entropy decreases over time (5.67 &rarr; 4.96 bits for the 900-atom reactor), indicating progressive concentration on thermodynamically favoured products&mdash;a &ldquo;winnowing&rdquo; analogous to the maturation of prebiotic chemistry. Larger reactors produce larger molecules (up to C<sub>167</sub>H<sub>336</sub> at 503 atoms in the 7,200-atom reactor) with superlinear production scaling: the 3,600-atom reactor (4&times; atoms) achieves ~8&times; the production rate per step, reflecting economy-of-scale effects from denser trade networks.</p>
+
+<h2>A structural caveat and its resolution</h2>
+
+<p>An important limitation: the model produces correct <strong>molecular formulas</strong> but not always the correct structural isomers. For example, our &ldquo;glycine&rdquo; (C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub>) has SMILES N=CCOO (an imine-peroxide), reflecting the thermodynamic preference for C=N (615 kJ/mol) over C&ndash;N (305 kJ/mol). However, many smaller molecules emerge with correct structures: formaldehyde as C=O, acetaldehyde as CC=O and formic acid as O=CO. On geological time scales, where we consider thermodynamic equilibrium rather than kinetic barriers, tautomerization and isomerization would interconvert between structural isomers. The model captures the thermodynamic accessibility of the formula, which is the relevant quantity for predicting prebiotic amino acid abundance<sup>4</sup>. Once accessible formulas are identified, targeted <em>ab initio</em> calculations can determine preferred isomers at a fraction of the cost of blind exploration.</p>
+
+<h2>Discussion</h2>
+
+<p>The free-market mechanism succeeds because it provides massively parallel combinatorial search without central coordination. Nine hundred agents simultaneously explore chemical space, sharing discoveries through trade networks. When a complex molecule is demanded, supply-chain cascades automatically pull all intermediates&mdash;an emergent backward-chaining from products to available reactants. Protected &ldquo;essential-service&rdquo; producers (analogous to state-owned enterprises in economics) ensure that every discovered reaction remains reproducible, stabilizing the chemical ecosystem.</p>
+
+<p>Our approach is complementary to, not a replacement for, quantum-mechanical methods. The FM-ABM rapidly identifies which molecular formulas are thermodynamically accessible from a given set of atoms&mdash;a question that <em>ab initio</em> nanoreactor simulations<sup>7</sup> answer at 10<sup>4</sup>&ndash;10<sup>6</sup>&times; higher computational cost. Machine-learned force fields<sup>9,10</sup> are narrowing this gap but still require extensive DFT training data for each chemical system. Our method trades electronic-structure accuracy for combinatorial reach, making it uniquely suited as a first-pass screening tool for prebiotic chemistry and, more broadly, for novel synthesis pathway design.</p>
+
+<p>The result that a Darwinian economic optimization framework&mdash;supply, demand, competition&mdash;reproduces the thermodynamic hierarchy of prebiotic amino acid emergence suggests a deep connection between economic self-organization and chemical self-assembly. Both are driven by energy minimization under constraints; both produce emergent complexity from simple local interactions. The primordial soup, it seems, was the first free market.</p>
+
+<!-- METHODS -->
+<div class="methods">
+<h2>Methods</h2>
+
+<p><strong>Model architecture.</strong> The FM-ABM is adapted from the DEPLOYERS framework<sup>13</sup>, recently validated for macroeconomic forecasting<sup>14</sup>. Workers (agents) are arranged in a ring neighbourhood (k = 30). Each step, workers discover reactions (BDE + UFF evaluation), trade molecules with neighbours, manage production workshops, and attempt to grow by combining products. Consumer demand follows GFCF (Gross Fixed Capital Formation): workers prefer larger molecules with idiosyncratic variability. Workshops require only intermediate consumption (input molecules), with no labour or capital.</p>
+
+<p><strong>Energy evaluation.</strong> Bond formation energy: &Delta;E = E<sub>strain</sub>(product) &minus; BDE(new bond). BDE values from standard tables (C&ndash;C: 346, C=O: 799, C=N: 615 kJ/mol). UFF strain computed via RDKit<sup>15</sup> 3D embedding and force-field minimization for molecules &le;30 heavy atoms; BDE-only for larger molecules. Double bonds (C=O, C=N) form between heteroatoms with an anti-cumulene rule. Ring closure via BFS shortest-path search with UFF strain validation. A synthesis depth penalty (5 kJ/mol per intermediate step) favours shorter pathways.</p>
+
+<p><strong>Kinetic barriers.</strong> An Evans-Polanyi model estimates activation energies: E<sub>a</sub> = E<sub>0</sub> + &alpha;&middot;&Delta;E (E<sub>0</sub>=50 kJ/mol, &alpha;=0.3), with Boltzmann acceptance P = exp(&minus;E<sub>a</sub>/kT). Strongly exothermic reactions (&Delta;E &lt; &minus;167 kJ/mol) always proceed; weakly exothermic reactions are probabilistically suppressed. This provides kinetic selectivity without requiring full transition-state calculations, appropriate for geological time scales where thermodynamic equilibrium is the relevant regime.</p>
+
+<p><strong>Simulation parameters.</strong> Standard reactor: 200 C + 500 H + 100 O + 100 N = 900 atoms. Discovery budget: 10 UFF evaluations per step. Neighbourhood: 30 agents. Discovery mode: &ldquo;full&rdquo; (blind thermodynamic exploration, no target molecule). Temperature: 288 K. Decay: size-based (rate = 0.001 &times; (atoms/10)<sup>2</sup>). Reactor scaling: 900, 1,800, 3,600 and 7,200 atoms.</p>
+
+<p><strong>Software.</strong> C++20 with RDKit (conda, 2024.03) for molecular operations and UFF. ImGui for real-time visualization. All computations on a single laptop (Intel Iris Xe, 16 GB RAM).</p>
+
+<p><strong>AI assistance.</strong> The preparation of this work was significantly assisted by an AI coding assistant (Anthropic&rsquo;s Claude), which contributed implementation of the author&rsquo;s driving ideas and debugging of simulation code, automated batch execution and monitoring, statistical analysis and literature surveys. This experience reinforces the observation<sup>14</sup> that AI-assisted research may substantially lower barriers for cross-disciplinary contributions.</p>
+</div>
+
+<!-- REFERENCES -->
+<div class="ref">
+<h2>References</h2>
+<ol>
+<li>Miller, S. L. A production of amino acids under possible primitive Earth conditions. <em>Science</em> <strong>117</strong>, 528&ndash;529 (1953).</li>
+<li>Koga, T. &amp; Naraoka, H. A new family of extraterrestrial amino acids in the Murchison meteorite. <em>Sci. Rep.</em> <strong>7</strong>, 636 (2017).</li>
+<li>Trifonov, E. N. Consensus temporal order of amino acids and evolution of the triplet code. <em>Gene</em> <strong>261</strong>, 139&ndash;151 (2000).</li>
+<li>Higgs, P. G. &amp; Pudritz, R. E. A thermodynamic basis for prebiotic amino acid synthesis and the nature of the first genetic code. <em>Astrobiology</em> <strong>9</strong>, 483&ndash;490 (2009).</li>
+<li>Wehbi, M. <em>et al.</em> Order of amino acid recruitment into the genetic code resolved by last universal common ancestor&rsquo;s protein domains. <em>Proc. Natl Acad. Sci. USA</em> <strong>121</strong>, e2410311121 (2024).</li>
+<li>Fournier, G. P. <em>et al.</em> Enzymic recognition of amino acids drove the evolution of primordial genetic codes. <em>Nucleic Acids Res.</em> <strong>52</strong>, 558&ndash;571 (2024).</li>
+<li>Wang, L.-P. <em>et al.</em> Discovering chemistry with an ab initio nanoreactor. <em>Nature Chem.</em> <strong>6</strong>, 1044&ndash;1048 (2014).</li>
+<li>Johnson, A. P. <em>et al.</em> The Miller volcanic spark discharge experiment. <em>Science</em> <strong>322</strong>, 404 (2008).</li>
+<li>Zaverkin, V. <em>et al.</em> Modeling prebiotic chemistries with quantum accuracy at classical costs. <em>Proc. Natl Acad. Sci. USA</em> <strong>121</strong>, e2408742121 (2024).</li>
+<li>Yang, Y. <em>et al.</em> A new route to the prebiotic synthesis of glycine via ab initio-based machine learning calculations. <em>J. Phys. Chem. Lett.</em> (2024).</li>
+<li>Sharma, S. <em>et al.</em> Automated exploration of prebiotic chemical reaction space: progress and perspectives. <em>Life</em> <strong>11</strong>, 1140 (2021).</li>
+<li>Li, Z. <em>et al.</em> Discovery of new synthetic routes of amino acids in prebiotic chemistry. <em>JACS Au</em> <strong>4</strong>, 4757&ndash;4768 (2024).</li>
+<li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. Preprint at <a href="https://arxiv.org/abs/2009.10823">arXiv:2009.10823</a> (2020).</li>
+<li>Jaraiz, M. Macroeconomic forecasting from input&ndash;output tables alone: a Darwinian agent-based approach with FIGARO data. Preprint at <a href="https://arxiv.org/abs/2603.12412">arXiv:2603.12412</a> (2026).</li>
+<li>RDKit: Open-source cheminformatics. <a href="https://www.rdkit.org">https://www.rdkit.org</a>.</li>
+</ol>
+</div>
+
+<hr>
+<p style="font-size:0.82em; color:#888;">Draft prepared March 20, 2026.</p>
+
+</body>
+</html>

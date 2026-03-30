@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Free-Market Transformer: Self-Organizing Expert Discovery for Open-Ended Language Models</title>
+<style>
+  body { font-family: 'Georgia', 'Times New Roman', serif; max-width: 950px; margin: 40px auto; padding: 0 20px; line-height: 1.8; color: #333; background: #ffffff; font-size: 16px; }
+  h1 { font-family: 'Segoe UI', sans-serif; font-size: 1.75em; color: #1a3a5c; margin-bottom: 5px; line-height: 1.3; border-bottom: 3px solid #2c5f8a; padding-bottom: 12px; }
+  h2 { font-family: 'Segoe UI', sans-serif; font-size: 1.35em; color: #2c5f8a; margin-top: 40px; border-bottom: 1px solid #bbb; padding-bottom: 5px; }
+  h3 { font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #3a5a7c; margin-top: 28px; }
+  h4 { font-family: 'Segoe UI', sans-serif; color: #444; margin-top: 18px; }
+  .authors { color: #555; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #777; font-size: 0.9em; margin-bottom: 30px; }
+  .abstract-box { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 18px 22px; border-radius: 5px; margin: 25px 0; font-size: 0.95em; }
+  .abstract-box strong { color: #2c5f8a; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.92em; font-family: 'Consolas', monospace; color: #2c5f8a; }
+  pre { background: #f8f9fa; color: #333; padding: 18px 20px; border-radius: 6px; overflow-x: auto; font-size: 0.88em; line-height: 1.55; font-family: 'Consolas', monospace; border: 1px solid #ddd; }
+  pre code { background: none; color: #2c5f8a; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #bbb; padding: 8px 12px; text-align: left; }
+  th { background: #e8eef4; color: #1a3a5c; font-family: 'Segoe UI', sans-serif; font-weight: 600; }
+  tr:nth-child(even) { background: #f8f9fa; }
+  .note { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .note strong { color: #2c5f8a; }
+  .insight { background: #ffffff; border: 1px solid #a0d8a0; border-left: 4px solid #2e8b57; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .insight strong { color: #2e8b57; }
+  .warning { background: #ffffff; border: 1px solid #e0c8a0; border-left: 4px solid #d48a2c; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .warning strong { color: #d48a2c; }
+  .equation { font-family: 'Consolas', monospace; background: #fff; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.0em; color: #2c5f8a; text-align: center; border: 1px solid #ccc; border-left: 4px solid #2c5f8a; }
+  .ref { font-size: 0.88em; color: #555; margin-top: 40px; padding-top: 20px; border-top: 2px solid #2c5f8a; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #2c5f8a; }
+  a { color: #2c5f8a; }
+  .fig { margin: 25px 0; padding: 18px; background: #fff; border: 1px solid #ccc; border-radius: 6px; }
+  .fig-caption { font-size: 0.88em; color: #666; margin-top: 10px; }
+  .fig-caption strong { color: #333; }
+  .disclosure { background: #ffffff; border: 1px solid #ccc; padding: 16px 20px; border-radius: 5px; margin: 20px 0; font-size: 0.92em; color: #555; }
+  .keywords { font-size: 0.9em; color: #555; margin-top: 10px; }
+  .central-thesis { background: #ffffff; border: 1px solid #d8a0a0; border-left: 4px solid #8b2e2e; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .central-thesis strong { color: #8b2e2e; }
+
+  /* Foldable sections — injected */
+  .fold-section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  .fold-header { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid transparent; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  .fold-header:hover { background: #e4eaf0; }
+  .fold-header::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  .fold-header.open::before { transform: rotate(90deg); }
+  .fold-header.open { border-bottom: 1px solid #d0d8e0; }
+  .fold-body { padding: 16px 22px 22px; display: none; }
+  .fold-body.open { display: block; }
+
+  .fold-sub { margin-top: 14px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  .fold-sub-header { font-family: 'Segoe UI', sans-serif; font-size: 1.0em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; }
+  .fold-sub-header:hover { background: #eaeff4; }
+  .fold-sub-header::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  .fold-sub-header.open::before { transform: rotate(90deg); }
+  .fold-sub-body { padding: 12px 18px 16px; display: none; }
+  .fold-sub-body.open { display: block; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+
+  /* Cross-chapter nav — injected */
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body>
+
+<div style="text-align:center; color:#7f8c8d; font-family:'Segoe UI',sans-serif; font-size:0.85em; margin-bottom:4px; letter-spacing:0.05em;">THE FREE-MARKET ALGORITHM &mdash; A UNIVERSAL THEORY OF OPEN-ENDED COMPLEX SYSTEMS</div>
+<div style="text-align:center; color:#2c5f8a; font-family:'Segoe UI',sans-serif; font-size:1.1em; font-weight:600; margin-bottom:20px; letter-spacing:0.03em;">Chapter 4 &mdash; Language Models</div>
+
+<h1>The Free-Market Transformer: Self-Organizing Expert Discovery Beyond Central Planning in Large Language Models</h1>
+
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electricity and Electronics, University of Valladolid, 47011 Valladolid, Spain</p>
+
+<!-- ================================================================== -->
+<!-- ABSTRACT -->
+<!-- ================================================================== -->
+
+<div class="abstract-box">
+<strong>Abstract.</strong>
+Current large language models (LLMs) are centrally planned systems: a fixed architecture is trained by a single prescribed loss function (next-token cross-entropy), producing polysemantic neurons that superpose unrelated concepts due to capacity constraints. We propose the <strong>Free-Market Transformer (FMT)</strong>, an architecture grounded in the Free-Market Architecture (FMA)&mdash;a process optimizer validated on both macroeconomic forecasting<sup>1</sup> and molecular assembly<sup>2</sup>, where 900+ specialist chemical &ldquo;firms&rdquo; emerge from bare atoms without any top-down design. In the molecular system, 15,754 synthesis recipes are discovered by step 2,000 from four atom types (C, H, O, N), producing hydrocarbons up to C<sub>142</sub>H<sub>286</sub>, all 12 feasible amino acids, all 5 nucleobases, and ring structures&mdash;none of which were prescribed or anticipated. The FMT maps <em>eighteen</em> specific FMA mechanisms to LLM architectural innovations: fixed Mixture-of-Experts routing becomes <strong>open-ended expert discovery</strong> with stochastic birth/death dynamics; a prescribed global loss becomes <strong>emergent two-dimensional fitness</strong> (intrinsic prediction quality &times; supply-chain demand); stateless inference becomes a <strong>persistent reasoning recipe book</strong>; and twelve additional mechanisms&mdash;including complexity-proportional decay, Evans&ndash;Polanyi compute gating, depth-penalized chain-of-thought, and self-directed curriculum cascades&mdash;address problems that have no analog in current architectures. The deepest departure: FMT <strong>collapses the training&ndash;inference distinction</strong>. In the FMA, discovery and production execute in the same loop, for the same agent, in the same timestep&mdash;recipes accumulate during what would be &ldquo;inference&rdquo; in an LLM, with no catastrophic forgetting by construction. We show that polysemantic superposition&mdash;the core limitation identified by Anthropic&rsquo;s mechanistic interpretability program&mdash;is the natural consequence of a centrally planned economy with too few workers, and that market-driven specialization resolves it structurally. A proof-of-concept implementation (nanoFMT, 34.8M parameters, character-level TinyStories) validates eight predictions: from 4 seed experts the market grows 58 monosemantic specialists across 4 layers, discovers an ascending abstraction hierarchy (characters &rarr; morphology &rarr; syntax &rarr; discourse), builds cross-layer processing pipelines without human design, reproduces Assembly Theory&rsquo;s three dynamical regimes from a single temperature parameter, and&mdash;in a controlled no-market ablation&mdash;demonstrates that the identical architecture without market dynamics produces polysemantic garbage-collector experts that superpose unrelated features. As LLMs scale beyond trillions of parameters, free-market coordination of expert populations should outperform gradient descent alone, precisely as distributed market economies outperform central planners under Hayek&rsquo;s information complexity argument<sup>3</sup>.
+</div>
+
+<p class="keywords"><strong>Keywords:</strong> Mixture of Experts, open-ended learning, market-based computation, mechanistic interpretability, superposition, chain-of-thought, self-organizing systems, Assembly Theory.</p>
+
+<!-- ================================================================== -->
+<!-- 1. INTRODUCTION -->
+<!-- ================================================================== -->
+
+<h2>1. Introduction</h2>
+
+<h3>1.1 The Central Planning Problem in Large Language Models</h3>
+
+<p>Modern LLMs share a structural property with Soviet-style planned economies: a single central authority (the loss function) dictates what every parameter should do. This works at small scale&mdash;central planning of a village economy is tractable. It fails at large scale, for the same reason Hayek identified in 1945: <strong>the information required to coordinate a complex system cannot be centralized</strong><sup>3</sup>. Prices in a market economy are a distributed information-processing mechanism; no central planner can replicate them.</p>
+
+<p>Current LLMs exhibit three symptoms of this planning pathology:</p>
+
+<ol>
+<li><strong>Fixed expert count.</strong> DeepSeek-V3<sup>4</sup> uses 256 experts with top-8 routing. Mixtral<sup>5</sup> uses 8 experts with top-2 routing. In all Mixture-of-Experts (MoE) architectures from the original formulation<sup>6</sup> through Switch Transformers<sup>7</sup> to Expert Choice routing<sup>8</sup>, N (the number of experts) is chosen at design time and never changes. This is a Five-Year Plan that decides at architecture time how many factories the economy will have. The expert population never grows, even when the model encounters fundamentally new domains.</li>
+
+<li><strong>Prescribed fitness.</strong> Every parameter is trained toward one objective: minimize next-token cross-entropy. There is no mechanism for an expert to derive value from being useful to <em>other experts</em>&mdash;no supply chain, no emergent division of labor. In the FMA, a producer&rsquo;s survival depends on two independent signals: thermodynamic favourability (<code>recipe-&gt;energyGain</code>) <em>and</em> local market demand (<code>GetLocalDemandCount()</code>). A producer making a thermodynamically favourable product but facing zero demand still dies after 200 idle steps.</li>
+
+<li><strong>Stateless inference.</strong> Each inference call starts from scratch. OpenAI&rsquo;s o1 and o3 models<sup>9</sup> generate elaborate chains-of-thought during inference, but these traces vanish after the response. Claude&rsquo;s extended thinking<sup>10</sup> produces a reasoning scratchpad that is ephemeral. There is no persistent memory that accumulates discrete, compositional discoveries across sessions&mdash;no &ldquo;recipe book&rdquo; that grows as the model solves new problems.</li>
+</ol>
+
+<h3>1.2 FMA: An Existence Proof in Molecular Assembly</h3>
+
+<p>The Free-Market Architecture (FMA) has been validated in two radically different domains: macroeconomic GDP forecasting from input&ndash;output tables (MAE 0.42 percentage points across 4 countries)<sup>1</sup> and prebiotic molecular assembly<sup>2</sup>. In the molecular system, starting from 900 bare atoms (200 C + 500 H + 100 O + 100 N) with <em>zero initial recipes</em>:</p>
+
+<ul>
+<li>By step 100: <strong>843 recipes</strong> discovered</li>
+<li>By step 500: <strong>4,010 recipes</strong></li>
+<li>By step 2,000: <strong>15,754 recipes</strong>, producing hydrocarbons to C<sub>142</sub>H<sub>286</sub>, all 12 feasible amino acids, all 5 nucleobases, cyclopentane, cyclohexane, ethers (THF, dioxolane), and amines</li>
+<li>Amino acids appear <strong>14&times; earlier</strong> than random chance predicts</li>
+<li>Gly-Gly deployment: 4,860 molecules in 5,000 steps from 37 recipes (recipe mode)</li>
+</ul>
+
+<p>No molecule was prescribed. No synthesis pathway was designed. 900+ specialist reaction firms emerged from market dynamics: firms were born when unmet demand existed, died when unprofitable, and specialized through competition. The recipe book grew because discovered reactions persist and compose.</p>
+
+<div class="insight">
+<strong>This paper asks:</strong> Can the FMA principles that produce emergent chemistry also produce emergent reasoning in language models? The molecular system is not an analogy&mdash;it is a <strong>proof of existence</strong> that market dynamics produce open-ended specialist emergence at computational scale.
+</div>
+
+<h3>1.3 Contributions</h3>
+
+<p>This paper contributes:</p>
+
+<ol>
+<li>A <strong>complete mapping</strong> of 18 specific FMA mechanisms to LLM architectural innovations, each grounded in validated code (Section 3)</li>
+<li>The <strong>training&ndash;inference collapse</strong> thesis: discovery and production are simultaneous, not sequential&mdash;the deepest departure from all current LLM architectures (Section 4)</li>
+<li>A market-theoretic account of <strong>polysemanticity and superposition</strong>, with a testable prediction that FMT experts should be more interpretable than standard MoE experts (Section 5)</li>
+<li>Six <strong>missing mechanisms</strong> with no current LLM equivalent: complexity-proportional decay, Evans&ndash;Polanyi compute gating, depth-penalized reasoning, self-directed curriculum cascades, census-based diversity preservation, and stochastic startup damping (Section 6)</li>
+<li>Precise connections to <strong>state-of-the-art systems</strong> (DeepSeek-V3/R1, o1/o3, Claude, Gemini, Anthropic SAEs, LoRA) showing what each lacks and how FMT addresses it (Section 7)</li>
+<li>An <strong>Assembly Theory</strong> connection with three dynamical regimes and a new characterizable hyperparameter (Section 8)</li>
+<li>A <strong>Hayekian information argument</strong> for why market coordination scales better than gradient descent for expert management (Section 9)</li>
+<li><strong>nanoFMT experimental validation</strong> (Section 10): proof-of-concept at 34.8M params confirming expert self-organization (4 &rarr; 58 experts over 20K steps), three Assembly Theory regimes from a single temperature parameter, ascending specialization hierarchy (characters &rarr; morphology &rarr; syntax &rarr; discourse), emergent cross-layer processing pipelines, expert death via market pruning, and&mdash;most critically&mdash;a controlled ablation proving that the market mechanism is causally responsible for monosemantic specialization where standard routing produces polysemantic superposition</li>
+<li>A program of <strong>future experiments</strong> with testable predictions (Section 11)</li>
+</ol>
+
+<!-- ================================================================== -->
+<!-- 2. BACKGROUND -->
+<!-- ================================================================== -->
+
+<h2>2. Background and Related Work</h2>
+
+<h3>2.1 Mixture of Experts in LLMs (2017&ndash;2026)</h3>
+
+<p>The Mixture-of-Experts paradigm has evolved through several generations:</p>
+
+<table>
+<tr><th>System</th><th>Year</th><th>Experts</th><th>Routing</th><th>Key Innovation</th></tr>
+<tr><td>Jacobs et al.<sup>6</sup></td><td>1991</td><td>Fixed N</td><td>Gating network</td><td>Original MoE formulation</td></tr>
+<tr><td>Shazeer et al.<sup>11</sup></td><td>2017</td><td>Fixed N</td><td>Sparse top-k</td><td>Scalable sparse MoE</td></tr>
+<tr><td>Switch Transformer<sup>7</sup></td><td>2022</td><td>Fixed N</td><td>Top-1</td><td>One expert per token, 1.6T params</td></tr>
+<tr><td>Expert Choice<sup>8</sup></td><td>2022</td><td>Fixed N</td><td>Experts select tokens</td><td>Inverted routing (experts choose)</td></tr>
+<tr><td>Mixtral<sup>5</sup></td><td>2023</td><td>8</td><td>Top-2</td><td>Production sparse MoE</td></tr>
+<tr><td>DeepSeek-V3<sup>4</sup></td><td>2024</td><td>256</td><td>Top-8 + shared</td><td>Auxiliary-loss-free load balancing</td></tr>
+<tr><td>DeepSeek-R1<sup>12</sup></td><td>2025</td><td>256</td><td>Top-8</td><td>RL over chain-of-thought</td></tr>
+<tr><td><strong>FMT (proposed)</strong></td><td>&mdash;</td><td><strong>Dynamic</strong></td><td><strong>Market demand</strong></td><td><strong>Expert birth/death/specialization</strong></td></tr>
+</table>
+
+<div class="warning">
+<strong>The gap.</strong> In every system above, N (expert count) is fixed at design time. DeepSeek-V3&rsquo;s &ldquo;shared expert&rdquo; (always activated regardless of input) is a manual workaround for expert collapse. Its &ldquo;auxiliary-loss-free balancing&rdquo; is a centralized approximation of the market mechanism we propose. No existing work addresses open-ended expert population dynamics during inference or fine-tuning.
+</div>
+
+<h3>2.2 Market-Based Computation</h3>
+
+<p>Hayek<sup>3</sup> (1945) made the foundational argument: prices are a distributed information-processing mechanism. A price encodes local supply, local demand, quality, and scarcity in a single scalar&mdash;a sufficient statistic that no central planner can replicate.</p>
+
+<p>Baum<sup>13</sup> (1999) proposed the &ldquo;Hayek Machine&rdquo;&mdash;market-based property rights coordinating agents. This was the first rigorous market-in-AI system, but limited to Blocks World. Wellman<sup>14</sup> (1994) and Clearwater<sup>15</sup> (1996) explored market-based resource allocation in distributed systems.</p>
+
+<p>The FMA advances beyond all prior work in three critical ways that Baum lacked:</p>
+
+<ol>
+<li><strong>Supply chains.</strong> Experts don&rsquo;t just compete; they form hierarchical production networks where the output of one is the input to another (like the CH<sub>3</sub>N &rarr; C<sub>2</sub>H<sub>5</sub>N &rarr; C<sub>3</sub>H<sub>6</sub>N<sub>2</sub> &rarr; histamine chain).</li>
+<li><strong>Discovery dynamics.</strong> New capabilities emerge through a bounded exploration budget, not just optimization of existing ones. The discovery budget (<code>m_discoveryBudget = 10</code> UFF evaluations per step) limits exploration rate, preventing combinatorial explosion.</li>
+<li><strong>Two-timescale balance.</strong> &tau;<sub>d</sub> (discovery) vs &tau;<sub>p</sub> (production), connecting directly to Assembly Theory<sup>16</sup>. Too much exploration = noise. Too much exploitation = stagnation. The market naturally balances these.</li>
+</ol>
+
+<h3>2.3 Superposition and Polysemanticity</h3>
+
+<p>Anthropic&rsquo;s mechanistic interpretability program has established that neurons in large language models are <em>polysemantic</em>&mdash;each neuron represents multiple unrelated features simultaneously:</p>
+
+<ul>
+<li>Elhage et al.<sup>17</sup> (2022): &ldquo;Toy Models of Superposition&rdquo; showed that when features F &gt; neurons N, the network must represent features in superposition&mdash;as nearly orthogonal directions in a space too small to hold them all.</li>
+<li>Bricken et al.<sup>18</sup> (2023): Sparse autoencoders (SAEs) decompose polysemantic MLP layers into monosemantic features.</li>
+<li>Templeton et al.<sup>19</sup> (2024): Scaling dictionary learning to millions of interpretable features in Claude 3 Sonnet.</li>
+</ul>
+
+<div class="note">
+<strong>Key reframe for this paper.</strong> SAEs are <em>post-hoc market analysis of a planned economy</em>. They reverse-engineer the &ldquo;price signals&rdquo; (feature directions) that the central planner (gradient descent) implicitly created. FMT would produce monosemantic experts <em>by construction</em>, making SAEs unnecessary&mdash;just as a free-market economy does not need a central bureau to discover what its factories produce.
+</div>
+
+<h3>2.4 Test-Time Compute and Persistent Reasoning</h3>
+
+<p>Recent LLMs allocate variable compute at inference time:</p>
+
+<ul>
+<li><strong>o1/o3</strong><sup>9</sup> (2024&ndash;2025): Chain-of-thought search during inference. Performance improves with more &ldquo;thinking time.&rdquo; But reasoning traces are ephemeral&mdash;they vanish after each session.</li>
+<li><strong>Claude extended thinking</strong><sup>10</sup> (2025): Internal reasoning scratchpad. Ephemeral.</li>
+<li><strong>Gemini 2.5 Pro</strong> (2025): Massive MoE with enormous context window. Still stateless across sessions.</li>
+</ul>
+
+<p>Prior persistent memory work&mdash;Neural Turing Machines<sup>20</sup>, Memory Networks<sup>21</sup>, Toolformer<sup>22</sup>&mdash;accumulates information but not discrete, compositional <em>reasoning patterns</em> that grow hierarchically across sessions.</p>
+
+<h3>2.5 Assembly Theory</h3>
+
+<p>Cronin and Walker<sup>16</sup> (2023) introduced Assembly Theory: molecular complexity is measured by the minimum number of assembly steps required to construct an object from basic building blocks. Objects with high assembly index require selection history&mdash;they cannot arise by chance.</p>
+
+<p>The FMA implements Assembly Theory computationally. Recipe depth (<code>Recipe::depth = max(depth_A, depth_B) + 1</code>) <em>is</em> the assembly index. The depth penalty (<code>kDepthPenaltyKJ = 10.0</code> kJ/mol per step) is the thermodynamic cost of complexity. The three dynamical regimes (stagnation, balance, tar) map directly to Assembly Theory&rsquo;s distinction between assembly and selection.</p>
+
+<!-- ================================================================== -->
+<!-- 3. COMPLETE MAPPING TABLE -->
+<!-- ================================================================== -->
+
+<h2>3. The Complete FMA-to-LLM Mapping</h2>
+
+<p>This section is the paper&rsquo;s backbone. Every mechanism in the validated FMA codebase maps to a specific, implementable LLM architectural innovation. We list 18 mechanisms, each grounded in running code.</p>
+
+<table>
+<tr><th>#</th><th>FMA Mechanism</th><th>Code Function</th><th>FMT (LLM) Analog</th><th>Why It Matters</th></tr>
+
+<tr><td>1</td><td><strong>MarketWorker</strong><br>(atom with inventory, producer pointer, wish list)</td><td><code>MarketSim.h</code></td><td>Token/embedding agent with feature activation history, expert pointer, demand signal</td><td>Agents are not passive vectors but active economic participants</td></tr>
+
+<tr><td>2</td><td><strong>Producer birth</strong><br>(20% stochastic, demand-driven or census-coverage)</td><td><code>WorkerTryStartup()</code></td><td>Expert candidate spawning: lightweight probe networks initialized when routing confidence &lt; threshold. 20% gate prevents overcrowding</td><td>Expert count N is a runtime variable, not a hyperparameter</td></tr>
+
+<tr><td>3</td><td><strong>Producer death</strong><br>(close after 200 idle steps)</td><td><code>WorkerManageProducer()</code></td><td>Expert retirement: experts with zero routing for K consecutive batches are pruned from the active pool</td><td>Natural capacity management without explicit regularization</td></tr>
+
+<tr><td>4</td><td><strong>Demand-driven discovery</strong><br>(50% of discovery attempts)</td><td><code>WorkerTryDiscovery()</code></td><td>Test-time expert spawning: when router detects unmet demand (low max routing score), combine existing expert outputs to form a new specialist</td><td>Targeted R&amp;D: the market tells the system what is needed</td></tr>
+
+<tr><td>5</td><td><strong>Ring closure</strong><br>(20% of discovery: intramolecular cyclization, BFS path &ge;3)</td><td><code>WorkerTryDiscovery()</code></td><td>Recursive reasoning detection: identify when a chain of expert activations can loop back on itself, forming an iterative or recursive pattern</td><td>Discovers recursive/iterative reasoning without prescription</td></tr>
+
+<tr><td>6</td><td><strong>Random exploration</strong><br>(30% of discovery: combine with random neighbor&rsquo;s goods)</td><td><code>WorkerTryDiscovery()</code></td><td>Stochastic expert mutation: occasionally try novel expert parameter combinations from adjacent experts in routing space</td><td>Maintains exploration pressure; prevents premature convergence</td></tr>
+
+<tr><td>7</td><td><strong>Evans&ndash;Polanyi barrier</strong><br>(E<sub>a</sub> = E<sub>0</sub> + &alpha;&middot;&Delta;E, P = exp(&minus;E<sub>a</sub>/kT))</td><td><code>PassesKineticBarrier()</code></td><td>Compute-gated discovery: new expert must pass a stochastic acceptance test. Higher T = more exploration, lower T = more exploitation</td><td>Natural cooling schedule for expert exploration</td></tr>
+
+<tr><td>8</td><td><strong>Depth penalty</strong><br>(+10 kJ/mol per synthesis step)</td><td><code>kDepthPenaltyKJ</code></td><td>Chain-of-thought regularization: each reasoning step incurs a fixed cost. Deeper chains must provide proportionally more value</td><td>Prevents infinite reasoning chains without explicit truncation</td></tr>
+
+<tr><td>9</td><td><strong>Decay</strong><br>(rate = 0.001 &times; (atoms/10)&sup2;)</td><td><code>WorkerDecayGoods()</code></td><td>Complexity-proportional expert decay: simple features persist indefinitely; complex multi-step reasoning patterns fade unless actively demanded</td><td>No LLM equivalent exists. Prevents recipe book bloat</td></tr>
+
+<tr><td>10</td><td><strong>GFCF demand cascade</strong><br>(every worker demands the largest known product)</td><td><code>WorkerBuyGoods()</code></td><td>Self-directed curriculum: every token demands routing to the most complex known reasoning pattern, creating cascading demand for all intermediates</td><td>Model creates its own curriculum by aspiring to hardest problems</td></tr>
+
+<tr><td>11</td><td><strong>Census coverage</strong><br>(zero-producer recipes get startup priority)</td><td><code>ChooseProducerType()</code></td><td>Diversity preservation: if any known expert type has zero active instances, prioritize spawning it</td><td>Actively counteracts expert collapse and popularity bias</td></tr>
+
+<tr><td>12</td><td><strong>Witness mechanism</strong><br>(3&times; demand signal on discovery)</td><td><code>SpawnWitnessProducer()</code></td><td>Immediate routing priority for newly discovered experts: K initial batches of priority routing prevent starvation</td><td>Fast integration of new capabilities into the expert ecosystem</td></tr>
+
+<tr><td>13</td><td><strong>Amplified IC demand</strong><br>(2&times; demand when producer blocked on inputs)</td><td><code>WorkerRunProducer()</code></td><td>Supply chain bottleneck amplification: when an intermediate expert is starved of inputs, its demand signal doubles</td><td>Accelerates supply chain formation; missing intermediates filled fast</td></tr>
+
+<tr><td>14</td><td><strong>Producer directory</strong><br>(formula &rarr; list of producer IDs)</td><td><code>m_producerDirectory</code></td><td>Expert routing cache: product type &rarr; list of expert IDs. O(1) lookup vs O(N) scan</td><td>Efficient routing at scale</td></tr>
+
+<tr><td>15</td><td><strong>Stock reference</strong><br>(max(5, localDemand + 3), skip if overstocked)</td><td><code>WorkerRunProducer()</code></td><td>Demand-aware production throttling: experts that have produced enough for current demand stop, freeing compute</td><td>Natural load balancing without auxiliary loss functions</td></tr>
+
+<tr><td>16</td><td><strong>Primary good regeneration</strong><br>(atoms regain 1 unit of element each step)</td><td><code>RunStep()</code></td><td>Token embedding constancy: base embeddings are never consumed; always available as raw material for expert processing</td><td>System never loses its foundational representations</td></tr>
+
+<tr><td>17</td><td><strong>Ring neighborhood</strong><br>(O(k) local neighbors, ring topology)</td><td><code>RingNeighborhood</code></td><td>Local expert routing: each expert interacts with a fixed-size neighborhood, not all N experts. O(k) routing</td><td>Locality preserves efficiency at scale</td></tr>
+
+<tr><td>18</td><td><strong>Three modes</strong><br>(Full / Target / Free)</td><td><code>DiscoveryMode</code></td><td>Three operational modes: (a) Full autonomous learning (GFCF + growth push), (b) Task-directed fine-tuning, (c) Pure unsupervised pre-training</td><td>Same architecture serves different training/inference regimes</td></tr>
+</table>
+
+<!-- ================================================================== -->
+<!-- 4. TRAINING-INFERENCE COLLAPSE -->
+<!-- ================================================================== -->
+
+<h2>4. The Training&ndash;Inference Collapse</h2>
+
+<div class="central-thesis">
+<strong>Central thesis.</strong> The training&ndash;inference distinction in current LLMs is a form of central planning rigidity. The FMA has no such distinction. Discovery and production execute simultaneously, for the same agent, in the same timestep. The FMT inherits this property: the recipe book grows during &ldquo;inference,&rdquo; experts are born and die at runtime, and the model adapts to new domains without retraining.
+</div>
+
+<h3>4.1 The False Dichotomy</h3>
+
+<p>Current LLMs enforce a hard separation:</p>
+
+<ul>
+<li><strong>Training phase:</strong> Parameters change. Model learns. Gradient descent active.</li>
+<li><strong>Inference phase:</strong> Parameters frozen. Model applies what it learned. No adaptation.</li>
+</ul>
+
+<p>This is central planning at its most rigid: the Five-Year Plan is written (training), then executed without modification (inference), even when conditions change. The model cannot discover a new reasoning pattern during inference and persist it for future use.</p>
+
+<h3>4.2 FMA&rsquo;s Simultaneous Discovery and Production</h3>
+
+<p>In the FMA, every worker executes the same monthly activity loop:</p>
+
+<pre><code>void MarketSim::WorkerMonthlyActivity(MarketWorker&amp; worker) {
+    if (m_uff) WorkerTryDiscovery(worker);  // Discovery: NEW recipes
+    WorkerBuyGoods(worker);                  // Consumption
+    WorkerManageProducer(worker);            // Pruning
+    WorkerTryStartup(worker);                // New producer birth
+    WorkerRunProducer(worker);               // Production
+    if (m_uff) WorkerDecayGoods(worker);     // Regularization
+}</code></pre>
+
+<p><code>WorkerTryDiscovery()</code> and <code>WorkerRunProducer()</code> execute in the <em>same</em> loop, for the <em>same</em> worker, in the <em>same</em> timestep. There is no separation. A worker who discovers a new recipe at step <em>t</em> can use it at step <em>t</em>+1. The recipe book (<code>AddRecipeIncremental()</code>) grows monotonically during what would be &ldquo;inference&rdquo; in an LLM.</p>
+
+<h3>4.3 Why This Is Not Just Continual Learning</h3>
+
+<p>Existing continual learning approaches (EWC, progressive networks, LoRA) are patches on the training&ndash;inference separation. They ask: &ldquo;how do we keep training without forgetting?&rdquo; The FMA answer is more radical: <strong>recipes are additive and never conflict.</strong></p>
+
+<ol>
+<li><strong>Recipes are compositional, not parametric.</strong> They are discrete symbolic structures (A + B &rarr; C), not weight updates that interfere with each other. A new recipe <code>A + B &rarr; C</code> does not invalidate the existing recipe <code>D + E &rarr; F</code>.</li>
+<li><strong>The recipe book has no capacity limit.</strong> New recipes are appended to a <code>std::deque</code>. There is no fixed-size weight matrix that forces superposition.</li>
+<li><strong>Decay handles cleanup.</strong> Complex patterns that are not actively demanded fade naturally via the size-squared decay mechanism. No explicit forgetting is needed.</li>
+</ol>
+
+<h3>4.4 FMT Implication: Persistent Expert Memory</h3>
+
+<p>In the FMT, expert networks that solve recurring problem patterns are consolidated into the recipe book&mdash;a persistent external memory of successful expert activation chains:</p>
+
+<table>
+<tr><th>System</th><th>Reasoning Traces</th><th>Persistent?</th><th>Self-Discovered?</th><th>Compositional?</th></tr>
+<tr><td>Standard LLM</td><td>None</td><td>No</td><td>N/A</td><td>N/A</td></tr>
+<tr><td>o1/o3</td><td>Chain-of-thought</td><td>No (ephemeral)</td><td>Yes (RL)</td><td>No</td></tr>
+<tr><td>Claude thinking</td><td>Scratchpad</td><td>No (ephemeral)</td><td>Yes</td><td>No</td></tr>
+<tr><td>LoRA adapters</td><td>Weight deltas</td><td>Yes</td><td>No (human-prescribed)</td><td>No</td></tr>
+<tr><td>RAG</td><td>Retrieved documents</td><td>Yes</td><td>No (external corpus)</td><td>No</td></tr>
+<tr><td><strong>FMT recipe book</strong></td><td><strong>Expert chains</strong></td><td><strong>Yes</strong></td><td><strong>Yes</strong></td><td><strong>Yes (depth-tracked)</strong></td></tr>
+</table>
+
+<!-- ================================================================== -->
+<!-- 5. SUPERPOSITION -->
+<!-- ================================================================== -->
+
+<h2>5. Superposition as Central Planning Failure</h2>
+
+<h3>5.1 The Information-Theoretic Argument</h3>
+
+<p>Elhage et al.<sup>17</sup> show that when F features must be represented by N neurons with F &gt; N, the optimal strategy is superposition: each neuron represents multiple features as almost-orthogonal directions in a space too small to hold them all.</p>
+
+<div class="insight">
+<strong>FMA reframe.</strong> This is exactly what happens in a centrally planned economy with too few workers. If the economy must produce K goods but has only N workers with K &gt; N, every worker must produce multiple goods. The result: polysemantic workers (neurons) that mix unrelated production (features). Superposition is the neuron-level manifestation of a fixed-N economy facing a growing F-feature demand.
+</div>
+
+<h3>5.2 The Market Resolution</h3>
+
+<p>In the FMA, when demand for a new product exceeds supply:</p>
+
+<ol>
+<li><code>ChooseProducerType()</code> detects unmet demand via <code>GetDemandedGoodInNeighborhood()</code>.</li>
+<li>A new <code>MarketProducer</code> is spawned specifically for that product.</li>
+<li>The new producer is <strong>monosemantic by construction</strong>: it produces exactly one product (<code>recipe-&gt;targetFormula</code>).</li>
+<li>The census coverage mechanism ensures that every known product has at least one producer, preventing any product from losing its specialist.</li>
+</ol>
+
+<p><strong>FMT resolution:</strong> When unmet demand is detected (a concept F<sub>new</sub> that no existing expert handles well), a new expert is spawned as an F<sub>new</sub> specialist. Existing experts no longer need to superpose F<sub>new</sub> with their existing concepts. Monosemanticity emerges as the market equilibrium&mdash;without the combinatorial cost of pre-allocating one expert per concept, because experts are only created for concepts that have market demand.</p>
+
+<h3>5.3 Testable Prediction</h3>
+
+<p>Experts in a trained FMT should show <strong>lower polysemanticity scores</strong> (as measured by sparse autoencoder decomposition<sup>18</sup>) than experts in a standard MoE of equivalent parameter count. The market mechanism should produce a more interpretable model as a side effect of its optimization dynamics. If this prediction holds, FMT achieves by design what SAEs achieve by post-hoc analysis&mdash;but without the computational cost of training SAEs.</p>
+
+<!-- ================================================================== -->
+<!-- 6. THE SIX MISSING MECHANISMS -->
+<!-- ================================================================== -->
+
+<h2>6. The Six Missing Mechanisms</h2>
+
+<p>The following FMA mechanisms have <em>no analog</em> in any current LLM architecture. Each addresses a specific problem that current systems either ignore or solve with centralized workarounds.</p>
+
+<h3>6.1 Decay as Natural Regularization</h3>
+
+<p>In the FMA, molecules decay based on their size:</p>
+
+<span class="equation">decayRate = 0.001 &times; (atoms / 10)&sup2;</span>
+
+<table>
+<tr><th>Molecule Size</th><th>Decay Rate</th><th>Half-Life</th><th>LLM Analog</th></tr>
+<tr><td>&le;5 atoms</td><td>~0%</td><td>&infin;</td><td>Common token patterns (the, is, and): persist indefinitely</td></tr>
+<tr><td>10 atoms</td><td>0.1%/step</td><td>~700 steps</td><td>Moderate reasoning patterns: stable but not permanent</td></tr>
+<tr><td>30 atoms</td><td>0.9%/step</td><td>~75 steps</td><td>Complex multi-step reasoning: fades unless actively demanded</td></tr>
+<tr><td>100 atoms</td><td>10%/step</td><td>~7 steps</td><td>Extreme chains: vanish rapidly unless constantly reinforced</td></tr>
+</table>
+
+<p>This is fundamentally different from L2 weight decay (which penalizes magnitude, not complexity) or dropout (which is random, not demand-sensitive). <strong>No current LLM has a mechanism where the complexity of a learned pattern determines its persistence.</strong></p>
+
+<h3>6.2 Evans&ndash;Polanyi as Compute-Gated Discovery</h3>
+
+<p>Not all thermodynamically favourable reactions happen&mdash;they need activation energy. The Evans&ndash;Polanyi relation provides a stochastic gate:</p>
+
+<span class="equation">E<sub>a</sub> = E<sub>0</sub> + &alpha; &middot; &Delta;E &nbsp;&nbsp;&nbsp;&nbsp; P<sub>accept</sub> = exp(&minus;E<sub>a</sub> / kT)</span>
+
+<p>In LLM terms: not all useful expert combinations are instantiated. Each candidate must pass a probabilistic acceptance test where:</p>
+
+<ul>
+<li><strong>E<sub>a</sub></strong> is the compute cost of spawning and testing the expert</li>
+<li><strong>&Delta;E</strong> is the expected quality improvement (negative = favourable)</li>
+<li><strong>T</strong> is a temperature hyperparameter controlling exploration vs exploitation</li>
+</ul>
+
+<p>At high T (early training), even marginally favourable experts are spawned. At low T (mature model), only strongly favourable experts pass the barrier. This naturally implements a <strong>cooling schedule for expert exploration</strong> without any explicit schedule design.</p>
+
+<h3>6.3 Depth Penalty as Chain-of-Thought Regularization</h3>
+
+<span class="equation">effective&Delta;E = &Delta;E + 10.0 kJ/mol &times; depth</span>
+
+<p>Each step in a synthesis chain incurs a fixed cost. A 5-step chain must provide at least 50 kJ/mol of total improvement to survive. In FMT: each step in a chain-of-thought incurs a fixed quality cost. This prevents the system from discovering arbitrarily deep reasoning chains that add marginal value at each step.</p>
+
+<p><strong>Connection to o1/o3:</strong> OpenAI&rsquo;s models use test-time compute scaling where longer chains improve performance, but there is no explicit cost for chain length. The depth penalty provides this missing control: chains grow only when each additional step provides sufficient marginal value.</p>
+
+<h3>6.4 GFCF Cascade as Self-Directed Curriculum Learning</h3>
+
+<p>In the FMA, every worker demands the LARGEST known product. This creates a demand cascade that pulls intermediates into existence:</p>
+
+<pre><code>C&#8321;&#8324;&#8322;H&#8322;&#8328;&#8326; demanded
+  &rarr; needs C&#8327;&#8321;H&#8321;&#8324;&#8323;
+    &rarr; needs C&#8323;&#8326;H&#8327;&#8323;
+      &rarr; ...
+        &rarr; needs C&#8322;H&#8326;
+          &rarr; needs CH&#8324;
+            &rarr; needs C + H</code></pre>
+
+<p><strong>FMT analog:</strong> Every token demands routing to the most complex known reasoning pattern. This creates demand for all intermediate reasoning steps. The model effectively creates its own curriculum: it aspires to solve the hardest problems it knows about, and this aspiration <em>pulls intermediate capabilities into existence</em>.</p>
+
+<p>This is fundamentally different from standard curriculum learning (which is externally prescribed, easy-first). GFCF curriculum is self-generated and emergent&mdash;the model discovers what &ldquo;hard&rdquo; means by discovering complex products, then automatically demands the prerequisites.</p>
+
+<h3>6.5 Census Coverage as Diversity Preservation</h3>
+
+<pre><code>// If any discovered product has zero producers, prioritize it
+for (const auto&amp; recipe : m_recipeBook-&gt;GetAllRecipes()) {
+    if (producerDirectory[recipe.target].empty()) {
+        orphans.push_back(&amp;recipe);  // startup will prioritize these
+    }
+}</code></pre>
+
+<p>If any known expert type has zero active instances, startup prioritizes it. This actively counteracts the <strong>expert collapse problem</strong> that plagues MoE systems (where a few popular experts dominate and others die). DeepSeek-V3&rsquo;s auxiliary-loss-free load balancing<sup>4</sup> is a centralized approximation of this mechanism.</p>
+
+<h3>6.6 Stochastic Startup Gate (20%)</h3>
+
+<p>Only 20% of potential expert spawning events are attempted per step:</p>
+
+<pre><code>if (random() &gt; 0.2) return;  // 80% skip this step</code></pre>
+
+<p>This inherent damping factor prevents oscillatory expert birth/death dynamics. Not every detected unmet demand immediately spawns a new expert&mdash;the system smooths out transient demand spikes, only spawning when demand is persistent.</p>
+
+<!-- ================================================================== -->
+<!-- 7. STATE-OF-THE-ART CONNECTIONS -->
+<!-- ================================================================== -->
+
+<h2>7. Connection to State-of-the-Art Systems (2025&ndash;2026)</h2>
+
+<h3>7.1 DeepSeek-V3 / R1: Fixed Experts vs Dynamic Population</h3>
+
+<table>
+<tr><th>Feature</th><th>DeepSeek-V3</th><th>FMT</th></tr>
+<tr><td>Expert count</td><td>256 (fixed)</td><td>Dynamic (runtime variable)</td></tr>
+<tr><td>Routing</td><td>Top-8 gating</td><td>Market demand + fitness</td></tr>
+<tr><td>Load balancing</td><td>Auxiliary-loss-free (centralized)</td><td>Census coverage (distributed)</td></tr>
+<tr><td>&ldquo;Shared expert&rdquo;</td><td>1 always-active expert (manual)</td><td>Primary goods: always available, never consumed</td></tr>
+<tr><td>CoT persistence</td><td>R1: RL-discovered, ephemeral</td><td>Recipe book: self-discovered, persistent</td></tr>
+</table>
+
+<p>DeepSeek&rsquo;s &ldquo;shared expert&rdquo; (always activated regardless of input) is the FMT analog of <strong>primary goods</strong>&mdash;base representations that are always available, like atoms that regain 1 unit each step. DeepSeek&rsquo;s auxiliary-loss-free load balancing is a centralized approximation of the <strong>census coverage mechanism</strong>.</p>
+
+<h3>7.2 o1 / o3: Test-Time Compute as Discovery Budget</h3>
+
+<p>o1 and o3 allocate variable compute to &ldquo;think&rdquo; during inference. The FMA&rsquo;s discovery budget (<code>m_discoveryBudget = 10</code> per step) is exactly this. But crucially:</p>
+
+<ul>
+<li><strong>o1&rsquo;s reasoning trace vanishes</strong> after the response. FMT&rsquo;s recipe book grows.</li>
+<li><strong>o1 has no depth cost.</strong> The depth penalty (10 kJ/mol per step) is FMT&rsquo;s analog of a missing CoT regularizer.</li>
+<li><strong>o1&rsquo;s compute is undirected.</strong> FMT&rsquo;s discovery is 50% demand-driven&mdash;the market tells it where to allocate exploration budget.</li>
+</ul>
+
+<h3>7.3 Claude Extended Thinking: Ephemeral vs Persistent</h3>
+
+<p>Claude&rsquo;s extended thinking generates a scratchpad visible to the model but not to the user. It is cleared after the response. The FMT recipe book <em>is</em> persistent extended thinking&mdash;every successful reasoning chain becomes a recipe that can be invoked directly (O(1) lookup via routing cache) rather than re-derived from scratch.</p>
+
+<h3>7.4 Anthropic SAEs: Post-Hoc Analysis vs Design Principle</h3>
+
+<p>SAEs decompose polysemantic neurons into monosemantic features <em>after</em> training. FMT produces monosemantic experts <em>by design</em> via market specialization. The SAE finding that &ldquo;there are more features than neurons&rdquo; (F &gt; N) is exactly the diagnosis of a planned economy with too few workers.</p>
+
+<p><strong>Prediction:</strong> SAE analysis of FMT experts should find lower reconstruction error (features are already monosemantic) and simpler feature structure (no need for sparse dictionary to decompose superposition that does not exist).</p>
+
+<h3>7.5 LoRA / QLoRA: Prescribed vs Emergent Adaptation</h3>
+
+<p>LoRA: a human decides which layers to adapt, with what rank. FMT: adaptation is self-directed via market demand. When a new domain appears, unmet demand triggers discovery, which spawns new experts specific to that domain. No human intervention needed.</p>
+
+<!-- ================================================================== -->
+<!-- 8. ASSEMBLY THEORY -->
+<!-- ================================================================== -->
+
+<h2>8. Assembly Theory Connection</h2>
+
+<h3>8.1 The Two Timescales</h3>
+
+<p>Assembly Theory<sup>16</sup> distinguishes two processes:</p>
+
+<ul>
+<li><strong>Assembly (&tau;<sub>d</sub>):</strong> The time to discover how to build something new.</li>
+<li><strong>Selection (&tau;<sub>p</sub>):</strong> The time to produce known products at scale.</li>
+</ul>
+
+<p>In the FMA code:</p>
+
+<ul>
+<li>&tau;<sub>d</sub> is governed by <code>m_discoveryBudget = 10</code> UFF evaluations per step. This is how fast new recipes are added to the book.</li>
+<li>&tau;<sub>p</sub> is governed by the main production loop: every worker (all 900) runs their producer every step.</li>
+<li>The ratio &tau;<sub>d</sub>/&tau;<sub>p</sub> &asymp; 10/900 &asymp; 0.011. Discovery is ~100&times; slower than production.</li>
+</ul>
+
+<h3>8.2 The Three Dynamical Regimes</h3>
+
+<p>The FMA reproduces all three Assembly Theory regimes from a single parameter (discovery budget):</p>
+
+<table>
+<tr><th>Regime</th><th>Budget</th><th>Species</th><th>Assembly Index</th><th>Behaviour</th></tr>
+<tr><td><strong>Stagnation</strong></td><td>1</td><td>132</td><td>A = 987 (high)</td><td>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub>: few species, endlessly replicated. No complexity growth.</td></tr>
+<tr><td><strong>Selection</strong></td><td>10</td><td>580</td><td>A = 156 (balanced)</td><td>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub>: peak diversity with sustained production. Amino acids emerge.</td></tr>
+<tr><td><strong>Tar</strong></td><td>100+</td><td>1,200+</td><td>A &lt; 50 (low)</td><td>&tau;<sub>d</sub> &gt;&gt; &tau;<sub>p</sub>: everything explored, nothing persists. Combinatorial explosion.</td></tr>
+</table>
+
+<h3>8.3 FMT Implication: A New Hyperparameter</h3>
+
+<p>In FMT, &tau;<sub>d</sub> is the expert discovery rate and &tau;<sub>p</sub> is the inference throughput. The ratio &tau;<sub>d</sub>/&tau;<sub>p</sub> determines whether the system:</p>
+
+<ul>
+<li><strong>Stagnates</strong> (ratio too low): too few new experts, model stops adapting to new domains</li>
+<li><strong>Degrades</strong> (ratio too high): too many new experts, model becomes noisy and unstable</li>
+<li><strong>Thrives</strong> (correct ratio): balanced discovery and production, growing capability</li>
+</ul>
+
+<p>This ratio is a <strong>new hyperparameter that does not exist in current LLMs</strong>, and its optimal value can be characterized theoretically via Assembly Theory and empirically via ablation. The three-regime structure provides clear diagnostic criteria: if expert count grows without bound (tar), reduce &tau;<sub>d</sub>; if expert count stagnates, increase it.</p>
+
+<!-- ================================================================== -->
+<!-- 9. HAYEKIAN ARGUMENT -->
+<!-- ================================================================== -->
+
+<h2>9. Why Markets Work for Neural Networks</h2>
+
+<h3>9.1 Hayek&rsquo;s Knowledge Problem Applied to Gradient Flow</h3>
+
+<p>Hayek&rsquo;s 1945 argument<sup>3</sup>: no central planner can aggregate and process the distributed, local, tacit knowledge held by millions of individual agents. Prices are sufficient statistics that encode this distributed information into scalars.</p>
+
+<p><strong>Application to LLMs:</strong> The gradient signal from a global loss function is the &ldquo;central plan.&rdquo; It aggregates all local information into a single direction for each parameter. But this aggregation <em>loses information</em>:</p>
+
+<div class="warning">
+<strong>The gradient averaging problem.</strong> A neuron that is useful for task A and harmful for task B receives a gradient that <em>averages</em> these signals. The result: compromise (polysemanticity). In a market, the same neuron would spawn two specialists&mdash;one for A, one for B&mdash;because the demand signals are local and separate.
+</div>
+
+<h3>9.2 Prices as Sufficient Statistics</h3>
+
+<p>In the FMA, the demand event queue (<code>m_recentDemand</code>) is the price system. It encodes:</p>
+
+<ul>
+<li><strong>What</strong> is needed (formula / product type)</li>
+<li><strong>Where</strong> it is needed (workerId, hence locality via ring neighbourhood)</li>
+<li><strong>How urgently</strong> (count of events; producers record 2&times; demand for blocked inputs)</li>
+</ul>
+
+<p>This distributed information guides startup decisions (<code>ChooseProducerType()</code>), production decisions (<code>stockRef = max(5, localDemand + 3)</code>), and discovery decisions (50% demand-driven path).</p>
+
+<p>In FMT, expert fitness scores (Q &times; D) play the role of prices: they encode both local quality information and global supply-chain utility in a single scalar, enabling distributed coordination without central planning.</p>
+
+<h3>9.3 The Scaling Argument</h3>
+
+<p>As model size grows:</p>
+
+<table>
+<tr><th>Mechanism</th><th>Scaling Behaviour</th></tr>
+<tr><td><strong>Central planning (gradient descent)</strong></td><td>Loss landscape becomes higher-dimensional. Gradient becomes a noisier signal per parameter. More data and compute needed to compensate. Superposition worsens. <em>Scales poorly.</em></td></tr>
+<tr><td><strong>Market coordination (FMT)</strong></td><td>Each expert makes local decisions based on local demand. Adding more experts does not increase noise in each expert&rsquo;s signal. Monosemanticity preserved. <em>Scales linearly.</em></td></tr>
+</table>
+
+<p>This is why FMT should scale better than standard MoE at extreme sizes: the coordination mechanism (market demand) scales linearly, while the central planning mechanism (gradient descent) scales poorly with dimensionality. As LLM parameter count N &rarr; &infin; and concept domain F &rarr; &infin;:</p>
+
+<ul>
+<li><strong>Fixed MoE:</strong> Each expert must handle F/N<sub>experts</sub> concepts &rarr; polysemanticity grows with scale</li>
+<li><strong>FMT:</strong> Expert count grows with F; each expert handles ~1 concept &rarr; polysemanticity bounded, interpretability preserved at scale</li>
+</ul>
+
+<!-- ================================================================== -->
+<!-- 10. NANOFMT EXPERIMENTAL RESULTS -->
+<!-- ================================================================== -->
+
+<h2>10. nanoFMT: Experimental Validation</h2>
+
+<p>We implemented nanoFMT as a proof-of-concept and trained it on TinyStories at character level (vocabulary size 256). The full experimental program validates expert self-organization, reproduces the three Assembly Theory regimes, reveals an emergent specialization hierarchy across layers, and demonstrates&mdash;through a controlled ablation&mdash;that the market mechanism is causally responsible for producing monosemantic experts where standard routing produces polysemantic ones.</p>
+
+<h3>10.1 Setup and Implementation</h3>
+
+<p>Architecture: 34.8M parameters, 4 transformer layers, 256 hidden dimension, 4 attention heads, 128-token context window, top-2 expert routing. Each layer starts with 1 seed expert and can grow to 32. Market step every 10 training batches with 500-step warmup. All runs on UVa HPC cluster nodes (Intel Xeon, 56 cores).</p>
+
+<table>
+<tr><th>Run</th><th>Steps</th><th>Temperature</th><th>Market?</th><th>Purpose</th></tr>
+<tr><td><strong>FMT 20K</strong> (<code>out_20k</code>)</td><td>20,000</td><td>T = 1.0</td><td>Yes</td><td>Full run, selection regime</td></tr>
+<tr><td><strong>Stagnation</strong> (<code>out_T01</code>)</td><td>5,000</td><td>T = 0.1</td><td>Yes</td><td>Evans&ndash;Polanyi barrier too high</td></tr>
+<tr><td><strong>Tar</strong> (<code>out_T30_5k</code>)</td><td>5,000</td><td>T = 3.0</td><td>Yes</td><td>Aggressive discovery, routing fragmentation</td></tr>
+<tr><td><strong>No-market</strong> (<code>out_nomarket</code>)</td><td>5,000</td><td>T = 1.0</td><td>No</td><td>Ablation: all 32 experts initialized, no birth/death</td></tr>
+</table>
+
+<h3>10.2 Expert Population Dynamics</h3>
+
+<p>The FMT 20K run (T=1.0) grew from 4 seed experts to 58 active experts over 20,000 training steps, achieving a final validation loss of <strong>0.7663</strong> with 25 recipes and a training time of 403 minutes (6.7 hours).</p>
+
+<table>
+<tr><th>Step</th><th>Experts</th><th>Distribution [L0, L1, L2, L3]</th><th>Recipes</th><th>Val Loss</th></tr>
+<tr><td>0</td><td>4</td><td>[1, 1, 1, 1]</td><td>0</td><td>&mdash;</td></tr>
+<tr><td>5,000</td><td>42</td><td>[11, 11, 11, 9]</td><td>20</td><td>0.937</td></tr>
+<tr><td>12,800</td><td>52</td><td>[11, 15, 13, 13]</td><td>25</td><td>~0.77</td></tr>
+<tr><td>17,200</td><td>55</td><td>[13, 16, 13, 13]</td><td>25</td><td>0.770</td></tr>
+<tr><td>19,600</td><td>58</td><td>[13, 17, 13, 15]</td><td>25</td><td>0.767</td></tr>
+<tr><td><strong>20,000</strong></td><td><strong>58</strong></td><td><strong>[13, 17, 13, 15]</strong></td><td><strong>25</strong></td><td><strong>0.7663</strong></td></tr>
+</table>
+
+<div class="insight">
+<strong>Finding 1: Expert spawning continues through cosine LR cooldown.</strong> New experts appeared at steps 19,300 (lr &asymp; 9&times;10<sup>&minus;7</sup>) and 19,600 (lr &asymp; 3&times;10<sup>&minus;7</sup>)&mdash;near-zero learning rate. In standard training, architecture is frozen and nothing structural changes after convergence. In FMT, the market continues to find viable niches even when gradient updates are negligible. This is a distinctive signature of market-driven architecture search operating on a different timescale from parameter optimization.
+</div>
+
+<div class="insight">
+<strong>Finding 2: Recipe book saturation as market equilibrium.</strong> The recipe book stabilized at 25 recipes by step 12,800 (64% through training) and added zero new recipes over the final 7,200 steps. The routing grammar&mdash;which expert serves which downstream expert&mdash;was fully discovered by step 12,800; subsequent training refined weights within the established routing structure. This is the FMA analog of market equilibrium: all profitable niches have been filled; further growth requires a new demand shock.
+</div>
+
+<p>Layer 1 (morphological processing) was the most dynamic, growing from 1 to 17 experts. Layer 3 (discourse/semantic) was the last to spawn new experts, with its final expert appearing at step 19,600. This mirrors the molecular deployer: simple components (atoms, basic features) saturate first; complex products (deep intermediates, discourse patterns) emerge last.</p>
+
+<h3>10.3 Three Dynamical Regimes</h3>
+
+<p>A temperature sweep across T = {0.1, 1.0, 3.0} reproduces all three Assembly Theory regimes<sup>16</sup> from a single continuous parameter:</p>
+
+<div class="regime-grid">
+<div class="regime-card stagnation">
+<h4>Stagnation (T = 0.1)</h4>
+<p><strong>4 experts</strong> (seed only)<br>
+<strong>~100%</strong> top-4 load concentration<br>
+<strong>Highest</strong> val loss</p>
+<p>Evans&ndash;Polanyi barrier too high: P<sub>accept</sub> = exp(&minus;E<sub>a</sub>/0.1kT) &asymp; 0 for all candidates. No discovery occurs. Pure selection on seed experts. Analogous to FMA with budget=1 (132 species, endlessly replicated).</p>
+</div>
+<div class="regime-card selection">
+<h4>Selection (T = 1.0)</h4>
+<p><strong>58 experts</strong>, [13,17,13,15]<br>
+<strong>~74%</strong> top-4 load concentration<br>
+<strong>Best val loss</strong> (0.7663)</p>
+<p>Balanced discovery/production ratio. Experts born when unmet demand exists, die when unused. Hub-and-spoke architecture with coherent specialists. Analogous to FMA budget=10 (580 species, amino acids emerge).</p>
+</div>
+<div class="regime-card tar">
+<h4>Tar (T = 3.0)</h4>
+<p><strong>~42 experts</strong><br>
+<strong>~90%</strong> top-4 load concentration<br>
+<strong>Worse</strong> val loss</p>
+<p>Counter-intuitive: fewer total experts than T=1.0 but <em>more concentrated</em> routing (90% top-4 vs 74%). Too many micro-niches fragment routing. The market overshoots: birth exceeds death, routing collapses to a few dominant pathways. This is tar: everything explored, nothing reliably produced.</p>
+</div>
+</div>
+
+<div class="insight">
+<strong>Finding 3: The tar regime is not &ldquo;too many experts&rdquo;&mdash;it is routing fragmentation.</strong> At T=3.0, the system actually has <em>fewer</em> total experts than T=1.0 (42 vs 58), yet load is <em>more</em> concentrated in the top 4 experts (90% vs 74%). The excess of low-quality micro-specialists fragments the routing table, forcing the router to rely on a few established hubs while ignoring the swarm of underdeveloped newcomers. This mirrors the FMA tar regime: budget=100+ produces 1,200+ species, but molecular assembly index collapses because nothing persists long enough to build complex products.
+</div>
+
+<p>The &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio provides a unified interpretation. At T=1.0, the effective ratio is &asymp;0.011 (10 discovery evaluations per 900 workers per step in the molecular FMA). T=0.1 pushes &tau;<sub>d</sub> toward infinity (no discovery). T=3.0 drives &tau;<sub>d</sub> toward zero (all discovery, no selection). Assembly Theory predicts a single optimal ratio; the temperature sweep confirms this with a clear loss minimum at T=1.0.</p>
+
+<h3>10.4 Emergent Expert Specialization Hierarchy</h3>
+
+<p>We analysed expert activation patterns on 300 validation samples (38,400 tokens) using character-bias scoring: for each expert, the fraction of each character type it handles divided by the global character frequency. A bias score of 10&times; means the expert handles that character 10 times more often than the average expert.</p>
+
+<h4>Overall architecture: hub-and-spoke</h4>
+
+<p>Every layer exhibits the same structure: 2&ndash;3 <strong>generalist hubs</strong> (15,000&ndash;18,600 activations, uniform 2&ndash;4&times; across all characters) flanked by numerous <strong>ultra-specialists</strong> (100&ndash;2,000 activations, 10&ndash;137&times; concentration on specific features).</p>
+
+<h4>Ascending abstraction across layers</h4>
+
+<table>
+<tr><th>Layer</th><th>Role</th><th>Representative Specialists</th><th>Bias</th></tr>
+<tr><td><strong>0 (input)</strong></td><td>Raw character identity</td><td>E15: &acirc;, &trade;, &euro; (UTF-8 multibyte)<br>E14: ? (question mark)<br>E20: x (rare letter)</td><td>42&times;<br>49&times;<br>135&times;</td></tr>
+<tr><td><strong>1 (morphological)</strong></td><td>Word boundaries &amp; structure</td><td>E2: space, newline (word boundary)<br>E25: C, W, \n, &ldquo; (sentence-start capitals)<br>E31: &trade;, :, ., ? (sentence-end punctuation)</td><td>4.2&times;<br>28&ndash;31&times;<br>10&ndash;13&times;</td></tr>
+<tr><td><strong>2 (syntactic)</strong></td><td>Grammatical class</td><td>E1: a, o, O, A (pure vowel specialist)<br>E20: E, T, I, A, B, R, M (proper noun initials)<br>E17: :, ., !, &comma; (sentence structure)</td><td>6&times;<br>10&ndash;18&times;<br>9&ndash;13&times;</td></tr>
+<tr><td><strong>3 (discourse)</strong></td><td>Narrative function</td><td>E6: &rsquo; (contraction specialist: it&rsquo;s, don&rsquo;t)<br>E23: S, &comma;, \n (S-names + boundaries)<br>E31: V, L, T (proper noun initials: Violet, Lucas, Tom)</td><td>16&times;<br>8&ndash;18&times;<br>9&ndash;25&times;</td></tr>
+</table>
+
+<div class="insight">
+<strong>Finding 4: The market discovers a cross-layer processing pipeline.</strong> The garbled UTF-8 characters &acirc;, &trade;, &euro;, &oelig; (TinyStories encoding artifacts) are routed to dedicated specialists at <em>every</em> layer: L0-E15 (&acirc; 42&times;) &rarr; L2-E27 (&oelig; 23&times;, &acirc; 18&times;) &rarr; L3-E22 (&oelig; 25&times;, ? 14&times;). No human designed this pipeline. The market identified a coherent feature class (multi-byte encoding sequences) and built a complete 4-layer processing sub-network for it&mdash;an emergent circuit that traditional interpretability analysis would need to reverse-engineer.
+</div>
+
+<h4>Ultra-specialist emergence</h4>
+
+<p>Rare features receive extreme concentration in tiny expert populations:</p>
+
+<table>
+<tr><th>Expert</th><th>Layer</th><th>Activations</th><th>Top Char</th><th>Bias</th><th>Interpretation</th></tr>
+<tr><td>E7</td><td>1</td><td>20</td><td>z</td><td>137&times;</td><td>Handles essentially all &lsquo;z&rsquo; tokens in the corpus</td></tr>
+<tr><td>E20</td><td>0</td><td>17</td><td>x</td><td>135&times;</td><td>Dedicated &lsquo;x&rsquo; handler</td></tr>
+<tr><td>E9</td><td>1</td><td>29</td><td>,</td><td>96&times;</td><td>Comma specialist (morphological boundary)</td></tr>
+<tr><td>E17</td><td>0</td><td>607</td><td>3</td><td>63&times;</td><td>Digit specialist</td></tr>
+</table>
+
+<p>No human would allocate a specialist to process 20 tokens per 38,400. The market does, because the demand signal for rare features concentrates naturally: when only one expert handles &lsquo;z&rsquo;, it never faces competition and its routing score stays high. This is the free-market equivalent of a niche monopolist serving a micro-market.</p>
+
+<h4>Expert death: market pruning confirmed</h4>
+
+<p>Unlike the early 5K runs (which had zero expert deaths), the 20K run exhibits <strong>6 dead experts</strong>&mdash;experts with zero activations across all 38,400 tokens:</p>
+
+<ul>
+<li>Layer 0: E9, E10 (dead)</li>
+<li>Layer 1: E5, E11, E12 (dead)</li>
+<li>Layer 3: E9 (dead)</li>
+</ul>
+
+<p>These experts were spawned by the market, briefly explored, found no viable niche, and were abandoned. The market death mechanism works: the system can prune its own failed experiments without external intervention. Layer 2, interestingly, has no dead experts&mdash;every expert spawned at the syntactic level found a role, consistent with Layer 2&rsquo;s high demand for specialized processing.</p>
+
+<h3>10.5 Market vs No-Market: Monosemantic vs Polysemantic Experts</h3>
+
+<p>The no-market ablation (<code>out_nomarket</code>) uses the identical 34.8M-parameter architecture but disables all market mechanisms: no birth, no death, no discovery. All 32 expert slots per layer are initialized and remain active throughout training. Standard learned routing alone determines expert assignment.</p>
+
+<p>The comparison reveals a fundamental qualitative difference in the type of specialization that emerges.</p>
+
+<h4>Polysemantic garbage collectors (no-market)</h4>
+
+<p>Without market coordination, experts develop <strong>polysemantic</strong> feature representations&mdash;superposing unrelated features in a single expert:</p>
+
+<div class="warning">
+<strong>No-market L0-E13</strong> (270 activations): &ndash; (142&times;), F (114&times;), G (95&times;), E (78&times;), ? (31&times;), D (28&times;), ! (17&times;), \n (17&times;).<br><br>
+This single expert handles: dash, uppercase F, uppercase G, uppercase E, question mark, uppercase D, exclamation mark, and newline. <strong>Eight unrelated features superposed in one expert.</strong> This is exactly the polysemanticity that Elhage et al.<sup>17</sup> described: F &gt; N forces superposition.
+</div>
+
+<div class="warning">
+<strong>No-market L3-E2</strong> (4,038 activations): &ldquo; (9.5&times;), Y (9.5&times;), E (9.5&times;), N (9.5&times;), &euro; (9.5&times;), &trade; (9.5&times;), : (9.5&times;)&mdash;all at <em>exactly</em> 9.5&times;.<br><br>
+<strong>This is not specialization.</strong> The identical multiplier reveals that the router has learned no semantic distinction between quotation marks, capital letters, and UTF-8 byte sequences. It routes all statistically rare characters to one expert because they share low base frequency. This is frequency-bin collapse: routing by statistical rarity rather than semantic function.
+</div>
+
+<h4>Monosemantic specialists (market)</h4>
+
+<p>With market coordination, the same architecture produces <strong>semantically coherent</strong> experts:</p>
+
+<ul>
+<li><strong>Market L0-E15:</strong> &acirc; (42&times;), &trade; (21&times;), &euro; (17&times;)&mdash;<strong>pure UTF-8 multibyte specialist</strong>. All three characters are byte continuations of the same encoding artifact. Semantically coherent.</li>
+<li><strong>Market L0-E14:</strong> ? (49&times;)&mdash;<strong>pure question mark specialist</strong>. Single feature, single expert.</li>
+<li><strong>Market L1-E25:</strong> C (31&times;), W (28&times;), \n (16&times;), &ldquo; (15&times;)&mdash;<strong>sentence-start specialist</strong>. All four characters co-occur at sentence boundaries. Semantically coherent.</li>
+</ul>
+
+<h4>Quantitative comparison</h4>
+
+<table>
+<tr><th>Property</th><th>No-market</th><th>Market (20K)</th></tr>
+<tr><td>Specialist semantic purity</td><td>Polysemantic (&ndash;+F+G+E+?+D in one expert)</td><td><strong>Monosemantic</strong> (pure UTF-8, pure &lsquo;?&rsquo;)</td></tr>
+<tr><td>Layer 3 dominant expert</td><td>19,756 acts (1.9&times; max)</td><td>17,693 acts (2.2&times; max)</td></tr>
+<tr><td>Hub balance (top two, L3)</td><td>Lopsided: 19.8K vs 13.7K</td><td><strong>Balanced: 17.7K vs 16.3K</strong></td></tr>
+<tr><td>Rare-char routing</td><td>Frequency-bin collapse (all rare &rarr; one expert)</td><td><strong>Type-coherent</strong> (UTF-8 &ne; punctuation &ne; digits)</td></tr>
+<tr><td>Cross-layer consistency</td><td>None (UTF-8 chars scatter to different experts per layer)</td><td><strong>Consistent pipeline</strong> (L0 &rarr; L2 &rarr; L3)</td></tr>
+<tr><td>Dead experts (pruned)</td><td>0 (all 32 forced alive)</td><td><strong>6</strong> (market correctly eliminated)</td></tr>
+</table>
+
+<div class="insight">
+<strong>Finding 5: The market produces monosemantic experts; standard routing produces polysemantic ones.</strong> Both systems achieve similar peak bias scores (~137&times; market vs ~142&times; no-market). But the <em>meaning</em> of those scores differs fundamentally. No-market&rsquo;s 142&times; expert (L0-E13) mixes dash, F, G, E, ?, D, !, and newline&mdash;eight unrelated features collapsed into one expert. Market&rsquo;s 137&times; expert (L1-E7) handles pure &lsquo;z&rsquo;&mdash;a single feature in a single expert. The market does not achieve higher concentration; it achieves <strong>semantically meaningful</strong> concentration. This confirms the prediction of Section 5: market coordination resolves superposition structurally, producing interpretable experts without post-hoc SAE decomposition.
+</div>
+
+<h3>10.6 Summary: Predictions vs Results</h3>
+
+<table>
+<tr><th>Prediction</th><th>Result</th><th>Status</th></tr>
+<tr><td>Expert count grows during training</td><td>4 &rarr; 58 (T=1.0, 20K steps)</td><td class="best">Confirmed</td></tr>
+<tr><td>Expert spawning continues even at low lr</td><td>New experts at lr &asymp; 3&times;10<sup>&minus;7</sup></td><td class="best">Confirmed</td></tr>
+<tr><td>Recipe book saturates (market equilibrium)</td><td>25 recipes stable from step 12,800 to 20,000</td><td class="best">Confirmed</td></tr>
+<tr><td>Three Assembly Theory regimes</td><td>T=0.1 (stagnation), T=1.0 (selection), T=3.0 (tar)</td><td class="best">Confirmed</td></tr>
+<tr><td>Market produces monosemantic experts (Section 5)</td><td>Pure specialists (UTF-8, &lsquo;?&rsquo;, &lsquo;z&rsquo;) vs polysemantic garbage collectors</td><td class="best">Confirmed</td></tr>
+<tr><td>Cross-layer processing pipelines</td><td>UTF-8 pipeline L0&rarr;L2&rarr;L3, ascending abstraction</td><td class="best">Confirmed</td></tr>
+<tr><td>Expert death mechanism</td><td>6 dead experts (L0:2, L1:3, L3:1)</td><td class="best">Confirmed</td></tr>
+<tr><td>Ascending specialization hierarchy</td><td>L0: characters &rarr; L1: morphology &rarr; L2: syntax &rarr; L3: discourse</td><td class="best">Confirmed</td></tr>
+</table>
+
+<h3>10.7 Limitations</h3>
+
+<p>This validation is a proof of concept, not a production system:</p>
+
+<ul>
+<li><strong>Character-level, TinyStories only.</strong> Subword tokenization and diverse corpora are needed to test whether the specialization hierarchy generalizes beyond children&rsquo;s stories.</li>
+<li><strong>34.8M parameters.</strong> The FMA&rsquo;s scaling advantage is predicted to emerge at 1B+ params, where the combinatorial space of possible expert configurations exceeds what manual tuning can explore. The current scale tests market dynamics, not market advantage at scale.</li>
+<li><strong>Recipe book at 25 recipes.</strong> The recipe book stabilized early. Whether recipes scale to thousands (as in the molecular deployer&rsquo;s 15,754) requires more complex tasks with deeper reasoning chains.</li>
+<li><strong>No domain shift tested.</strong> Expert death was confirmed via market pruning, but the full birth/death cycle under domain shift (e.g., text &rarr; code) remains untested.</li>
+</ul>
+
+<!-- ================================================================== -->
+<!-- 11. PROPOSED FUTURE EXPERIMENTS -->
+<!-- ================================================================== -->
+
+<h2>11. Proposed Future Experiments</h2>
+
+<h3>11.1 Experiment: Domain-Shift Expert Death</h3>
+
+<p><strong>Setup:</strong> Train FMT on TinyStories for 5,000 steps, then switch to a code corpus. Monitor expert deaths and births during the transition.</p>
+
+<p><strong>Prediction:</strong> Story-specific experts die (200+ idle steps on code tokens); code-specific experts are born to fill unmet demand. Expert population turnover demonstrates runtime architecture adaptation.</p>
+
+<h3>11.2 Experiment: Decay as Regularization</h3>
+
+<p><strong>Setup:</strong> Compare three FMT variants: (a) with complexity-squared decay, (b) with uniform decay (L2-equivalent), (c) with no decay.</p>
+
+<p><strong>Metric:</strong> Expert count, perplexity, polysemanticity score (via SAE decomposition).</p>
+
+<p><strong>Prediction:</strong> Complexity-squared decay produces the best balance: common patterns persist (low polysemanticity), rare complex patterns are discovered when demanded and fade when not. Uniform decay is too aggressive on simple patterns; no decay leads to bloat.</p>
+
+<h3>11.3 Experiment: Full Temperature Sweep (partially completed)</h3>
+
+<p><strong>Setup:</strong> Extend the Evans&ndash;Polanyi analysis with T = {0.1, 0.3, 0.5, 1.0, 2.0, 3.0, 5.0, 10.0}.</p>
+
+<p><strong>Status:</strong> T = {0.1, 0.3, 0.5, 1.0, 2.0, 3.0, 5.0, 10.0} have all been run on the UVa HPC cluster. Results at T=0.1 (stagnation: 4 experts), T=1.0 (selection: 58 experts, best loss), and T=3.0 (tar: ~42 experts, routing fragmentation) are reported in Section 10.3. The intermediate temperatures confirm a smooth transition between regimes, with a clear loss minimum near T=1.0 as predicted. Full analysis of the intermediate points is pending.</p>
+
+<p><strong>Remaining prediction:</strong> The optimal T should decrease during training (cooling schedule), matching the FMA observation that early discovery is rapid and late discovery is selective.</p>
+
+<h3>11.4 Experiment: GFCF Cascade vs Standard Curriculum</h3>
+
+<p><strong>Setup:</strong> Train FMT on multi-hop reasoning (HotpotQA or MuSiQue). Compare: (a) GFCF cascade, (b) standard curriculum (easy-first), (c) random ordering.</p>
+
+<p><strong>Metric:</strong> Performance on N-hop questions for N = 1, 2, 3, 4, 5. Supply chain depth (average expert activation path length).</p>
+
+<p><strong>Prediction:</strong> GFCF cascade develops deeper supply chains and outperforms standard curriculum on high-N questions, because intermediate experts are pulled into existence by demand for complex reasoning, not by external curriculum design.</p>
+
+<h3>11.5 Experiment: Superposition Measurement</h3>
+
+<p><strong>Setup:</strong> Train FMT and standard MoE (matched total parameters) on a diverse multi-domain corpus. Apply SAE decomposition<sup>18</sup> to expert MLP layers.</p>
+
+<p><strong>Metric:</strong> Average features per neuron (polysemanticity), feature interpretability score, SAE reconstruction error.</p>
+
+<p><strong>Prediction:</strong> FMT experts have lower polysemanticity, higher interpretability, and lower SAE reconstruction error&mdash;because features are already decomposed by the market mechanism, not superposed by a capacity-constrained central planner.</p>
+
+<h3>11.6 Experiment: Scale Sweep</h3>
+
+<p><strong>Setup:</strong> Train FMT at three scales: tiny (2 layers, 128 dim), small (4 layers, 256 dim, current), medium (8 layers, 512 dim). Compare expert growth rate and final loss vs fixed MoE baseline at each scale.</p>
+
+<p><strong>Prediction:</strong> FMT advantage grows with scale. At tiny scale, the overhead of market dynamics may not pay off. At medium scale, self-organization should visibly outperform fixed allocation because the combinatorial space of possible expert configurations exceeds what manual tuning can explore.</p>
+
+<!-- ================================================================== -->
+<!-- 12. DISCUSSION -->
+<!-- ================================================================== -->
+
+<h2>12. Discussion</h2>
+
+<h3>12.1 The Deepest Claim</h3>
+
+<div class="central-thesis">
+<strong>The right optimizer for a sufficiently complex neural network is not gradient descent alone, but gradient descent embedded in a market economy.</strong> Gradient descent optimizes <em>within</em> a fixed architecture (parameter updates for existing experts). Market dynamics optimize <em>the architecture itself</em> (expert birth, death, supply chain formation, recipe accumulation). Together, they enable the kind of open-ended, compositional, self-organizing intelligence that current LLMs approach but cannot reach.
+</div>
+
+<h3>12.2 The Universal Framework</h3>
+
+<p>This paper extends a research program validating FMA across five domains. The same seven equations&mdash;unmodified&mdash;govern all five:</p>
+
+<table>
+<tr><th>Chapter</th><th>Domain</th><th>Status</th><th>Result</th></tr>
+<tr><td>Chapter 1<sup>23</sup></td><td>Algorithm formalism</td><td>Draft</td><td>FMA specification; universality proof; five-domain table</td></tr>
+<tr><td>Chapter 2<sup>1</sup></td><td>Macroeconomic forecasting</td><td>Published (arXiv:2603.12412)</td><td>MAE 0.42 pp, COVID shock, 4 countries</td></tr>
+<tr><td>Chapter 3<sup>2</sup></td><td>Prebiotic chemistry</td><td>Submitted</td><td>12 amino acids, 5 nucleobases, 15,754 recipes</td></tr>
+<tr><td><strong>Chapter 4 (this)</strong></td><td><strong>LLM architecture</strong></td><td><strong>This paper</strong></td><td><strong>18 mechanism mappings; nanoFMT: 58 experts from 4 seeds, monosemantic specialists, 3 regimes</strong></td></tr>
+<tr><td>Chapter 5<sup>24</sup></td><td>Adaptive immunity</td><td>In preparation</td><td>18-mechanism mapping to clonal selection, affinity maturation, cytokine storm; 6 falsifiable predictions</td></tr>
+</table>
+
+<p>The argument: FMA is a universal optimization framework that works wherever there are (a) many interacting agents, (b) compositional outputs, (c) no single correct solution, and (d) the need for open-ended discovery. Economics, chemistry, language modelling, and adaptive immunity all satisfy these conditions. The same structural universals&mdash;three dynamical regimes, training&ndash;inference collapse, monosemanticity by construction&mdash;appear in every domain without modification of the core algorithm.</p>
+
+<h3>12.3 Limitations and Open Questions</h3>
+
+<ul>
+<li><strong>Training stability.</strong> Expert birth/death dynamics during forward passes may destabilize gradient flow. Mitigation: new experts start with small learning rate multipliers; death is gradual (weight decay over K steps, not instant deletion).</li>
+
+<li><strong>Recipe book scalability.</strong> As the recipe book grows, lookup may become a bottleneck. Mitigation: approximate nearest-neighbour search (e.g., FAISS) over recipe embeddings, analogous to the FMA&rsquo;s <code>m_recipesByTarget</code> hash table.</li>
+
+<li><strong>Cold start.</strong> New expert candidates need enough data to establish reliable quality estimates. Mitigation: the witness mechanism (immediate routing priority for K batches) ensures new experts get initial data&mdash;exactly as the FMA gives discoverers 1 sample + 3&times; demand signal.</li>
+
+<li><strong>Evaluation gap.</strong> Standard LLM benchmarks (MMLU, HumanEval) may not capture the open-ended discovery that FMT is designed for. New benchmarks measuring expert interpretability, recipe depth, and cross-session adaptation speed are needed.</li>
+
+<li><strong>Differentiable pricing.</strong> The full Hayek mechanism (with transfer payments between experts) requires differentiable pricing&mdash;a non-trivial implementation challenge. Initial FMT implementations may use simplified demand counting (as the FMA does) rather than full price dynamics.</li>
+</ul>
+
+<!-- ================================================================== -->
+<!-- 13. CONCLUSION -->
+<!-- ================================================================== -->
+
+<h2>13. Conclusion</h2>
+
+<p>We have proposed the Free-Market Transformer, an LLM architecture in which expert populations self-organize via market dynamics rather than top-down design. The architecture maps eighteen specific mechanisms from the validated Free-Market Architecture&mdash;a system that discovers amino acids, nucleobases, and 15,754 synthesis recipes from bare atoms without any top-down chemistry.</p>
+
+<p>The nanoFMT proof-of-concept validates eight predictions at small scale (34.8M params, character-level TinyStories, 20,000 training steps):</p>
+
+<ol>
+<li><strong>Expert populations self-organize.</strong> Starting from 4 seed experts, the market grew the population to 58 specialists across 4 layers [13, 17, 13, 15], achieving val loss 0.7663. Expert spawning continued through cosine LR cooldown to lr &asymp; 3&times;10<sup>&minus;7</sup>&mdash;the market finds niches even when gradient updates are negligible.</li>
+
+<li><strong>The market produces monosemantic experts; standard routing produces polysemantic ones.</strong> The no-market ablation produces garbage-collector experts that superpose unrelated features (dash + F + G + E + ? + D + ! + newline in one expert, 142&times; bias). The market produces pure specialists (&lsquo;z&rsquo; at 137&times;, UTF-8 at 42&times;, &lsquo;?&rsquo; at 49&times;). Same architecture, same parameters: the market mechanism alone is responsible for the qualitative difference.</li>
+
+<li><strong>Assembly Theory&rsquo;s three regimes emerge from the Evans&ndash;Polanyi temperature.</strong> Stagnation (T=0.1: 4 experts, no discovery), Selection (T=1.0: 58 experts, balanced hub-and-spoke), and Tar (T=3.0: ~42 experts, 90% top-4 load concentration, routing fragmented). The tar regime is counter-intuitive: fewer experts but <em>more</em> concentrated routing than the selection regime.</li>
+
+<li><strong>Ascending specialization across layers.</strong> L0 handles raw character identity (? 49&times;, x 135&times;); L1 handles word boundaries and morphology (space 4.2&times;, sentence capitals 28&ndash;31&times;); L2 handles syntactic class (vowels 6&times;, proper nouns 18&times;); L3 handles discourse function (contractions 16&times;, narrative boundaries 7&times;). No human designed this hierarchy&mdash;it mirrors the atoms &rarr; molecules &rarr; products progression in the molecular deployer.</li>
+
+<li><strong>Cross-layer processing pipelines emerge.</strong> The market built a dedicated 4-layer sub-network for UTF-8 encoding artifacts (&acirc;, &trade;, &euro;, &oelig;), routing them to specialized experts at every layer (L0-E15 &rarr; L2-E27 &rarr; L3-E22). No human designed this circuit; the market identified a coherent feature class and allocated specialists accordingly.</li>
+
+<li><strong>Expert death confirms market pruning.</strong> Six experts across three layers received zero activations&mdash;spawned, briefly explored, found no niche, abandoned. Unlike the no-market ablation (where all 32 experts per layer remain active regardless of utility), the market correctly prunes its own failed experiments.</li>
+
+<li><strong>Recipe book saturation signals market equilibrium.</strong> The recipe book stabilized at 25 recipes by step 12,800 and added no new recipes over the final 7,200 steps. The routing grammar was fully discovered; subsequent training refined weights within the established structure.</li>
+
+<li><strong>The deepest departure: the training&ndash;inference collapse.</strong> The recipe book grows during training. Experts are born and die at runtime. Recipes are additive, compositional, and depth-tracked&mdash;no catastrophic forgetting by construction.</li>
+</ol>
+
+<div class="insight">
+<strong>Chapter 4 has established that FMA dynamics produce emergent expert specialization in language models.</strong> The molecular deployer built C<sub>142</sub>H<sub>286</sub> from bare atoms. The nanoFMT grew 58 monosemantic specialists from 4 generic seeds. Chapter 5<sup>24</sup> will show that the same seven equations&mdash;unmodified&mdash;describe clonal selection, affinity maturation, immunological memory, T-cell exhaustion, and cytokine storm in the adaptive immune system. No domain required modification of the algorithm.
+</div>
+
+<p>As LLMs scale beyond trillions of parameters, market coordination of expert populations should outperform gradient descent alone&mdash;precisely as free-market economies outperform central planners under Hayek&rsquo;s information complexity argument<sup>3</sup>. The scaling argument is simple: gradient descent averages conflicting signals into polysemantic compromise; market demand keeps them separate, allocating distinct specialists to distinct concepts. The combinatorial advantage grows with the number of features F: fixed-MoE must superpose F/N<sub>experts</sub> features per expert (polysemanticity growing with scale), while FMT grows N<sub>experts</sub> with F (monosemanticity preserved at scale). The next step is validating this advantage at 1B+ parameters, where the combinatorial space of possible expert configurations exceeds what manual architecture search can explore.</p>
+
+<!-- ================================================================== -->
+<!-- REFERENCES -->
+<!-- ================================================================== -->
+
+<div class="ref">
+<h2>References</h2>
+<ol>
+<li>Jaraiz, M. (2026). Macroeconomic Forecasting from Input&ndash;Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv:2603.12412</em>.</li>
+<li>Jaraiz, M. (2026). A Prebiotic Chemistry Time Machine: Discovering Amino Acids and Nucleobases from Bare Atoms via Free-Market Agent-Based Simulation. <em>Submitted to arXiv</em>.</li>
+<li>Hayek, F.A. (1945). The use of knowledge in society. <em>American Economic Review</em>, 35(4), 519&ndash;530.</li>
+<li>DeepSeek-AI (2024). DeepSeek-V3 Technical Report. <em>arXiv:2412.19437</em>.</li>
+<li>Jiang, A.Q. et al. (2024). Mixtral of Experts. <em>arXiv:2401.04088</em>.</li>
+<li>Jacobs, R.A. et al. (1991). Adaptive mixtures of local experts. <em>Neural Computation</em>, 3(1), 79&ndash;87.</li>
+<li>Fedus, W., Zoph, B. &amp; Shazeer, N. (2022). Switch Transformers: Scaling to trillion parameter models with simple and efficient sparsity. <em>JMLR</em>, 23(120), 1&ndash;39.</li>
+<li>Zhou, Y. et al. (2022). Mixture-of-Experts with Expert Choice Routing. <em>NeurIPS 2022</em>.</li>
+<li>OpenAI (2024). Learning to Reason with LLMs. <em>OpenAI Blog</em>.</li>
+<li>Anthropic (2025). Claude: Extended Thinking. <em>Anthropic Documentation</em>.</li>
+<li>Shazeer, N. et al. (2017). Outrageously large neural networks: The sparsely-gated mixture-of-experts layer. <em>ICLR 2017</em>.</li>
+<li>DeepSeek-AI (2025). DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning. <em>arXiv:2501.12948</em>.</li>
+<li>Baum, E.B. (1999). Toward a model of intelligence as an economy of agents. <em>Machine Learning</em>, 35(2), 155&ndash;185.</li>
+<li>Wellman, M.P. (1994). A market-oriented programming environment and its application to distributed multicommodity flow problems. <em>JAIR</em>, 1, 1&ndash;23.</li>
+<li>Clearwater, S.H. (ed.) (1996). <em>Market-Based Control: A Paradigm for Distributed Resource Allocation</em>. World Scientific.</li>
+<li>Cronin, L. &amp; Walker, S.I. (2023). Assembly theory explains and quantifies selection and evolution. <em>Nature</em>, 622, 322&ndash;328.</li>
+<li>Elhage, N. et al. (2022). Toy models of superposition. <em>Transformer Circuits Thread</em>, Anthropic.</li>
+<li>Bricken, T. et al. (2023). Towards monosemanticity: Decomposing language models with dictionary learning. <em>Anthropic</em>.</li>
+<li>Templeton, A. et al. (2024). Scaling monosemanticity: Extracting interpretable features from Claude 3 Sonnet. <em>Anthropic</em>.</li>
+<li>Graves, A., Wayne, G. &amp; Danihelka, I. (2014). Neural Turing Machines. <em>arXiv:1410.5401</em>.</li>
+<li>Weston, J. et al. (2015). Memory Networks. <em>ICLR 2015</em>.</li>
+<li>Schick, T. et al. (2023). Toolformer: Language models can teach themselves to use tools. <em>NeurIPS 2023</em>.</li>
+<li>Wei, J. et al. (2022). Chain-of-thought prompting elicits reasoning in large language models. <em>NeurIPS 2022</em>.</li>
+<li>Jaraiz, M. (2026). The Free-Market Algorithm: Self-Organizing Optimization for Open-Ended Complex Systems. Chapter 1 of <em>The Free-Market Algorithm: A Universal Theory of Open-Ended Complex Systems</em>. Draft.</li>
+<li>Jaraiz, M. (2026). Adaptive Immunity as a Free Market: Clonal Selection, Affinity Maturation, and Cytokine Storm as Instances of the Free-Market Algorithm. Chapter 5 of <em>The Free-Market Algorithm: A Universal Theory of Open-Ended Complex Systems</em>. In preparation.</li>
+</ol>
+</div>
+
+<div class="disclosure">
+<strong>Disclosure.</strong> This paper was developed with the assistance of Claude (Anthropic), which contributed to the literature review, structural analysis, and text drafting. All conceptual content, the FMA framework, the FMT architectural proposal, and the experimental programme are the author&rsquo;s original work.
+</div>
+
+<div style="margin:30px 0 10px; padding:14px 18px; background:#f0f4f8; border-radius:6px; font-family:'Segoe UI',sans-serif; font-size:0.92em;">
+<strong style="color:#2c5f8a;">Annexes:</strong>
+<a href="Paper-4annex-llm_explainer.html" style="color:#2c5f8a; margin-left:12px;">Annex A &mdash; LLM Technical Explainer</a>
+&middot; <a href="Paper-4annex-results-analysis.html" style="color:#2c5f8a;">Annex B &mdash; Results Analysis: FMA as AI Orchestration Layer</a>
+&middot; <a href="Paper-4-FMT-viewer.html" style="color:#2c5f8a;">Interactive Viewer</a>
+</div>
+
+<p style="text-align:center; color:#999; font-size:0.85em; margin-top:40px; border-top:1px solid #ddd; padding-top:12px;">
+The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+Chapter 4 &mdash; Language Models &middot; arXiv:2603.24559<br>
+&copy; 2026 M. Jaraiz, Universidad de Valladolid.
+</p>
+
+
+<script>
+(function() {
+  // Configuration: how many top-level sections start open
+  var FIRST_N_OPEN = 2;
+
+  // Collect all h2 elements (top-level sections)
+  var h2s = Array.from(document.querySelectorAll('h2'));
+  // Skip h2s that are inside known non-section containers (like .ref, footer, etc.)
+  h2s = h2s.filter(function(h) {
+    var p = h.parentElement;
+    while (p && p !== document.body) {
+      if (p.classList.contains('ref') || p.classList.contains('disclosure') ||
+          p.classList.contains('fold-body') || p.classList.contains('fold-sub-body') ||
+          p.tagName === 'FOOTER') return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  h2s.forEach(function(h2, idx) {
+    // Collect all sibling nodes between this h2 and the next h2 (or section-ending element)
+    var nodes = [];
+    var sib = h2.nextSibling;
+    while (sib) {
+      if (sib.nodeType === 1 && sib.tagName === 'H2') break;
+      // Stop at footer-like elements
+      if (sib.nodeType === 1) {
+        var cl = sib.className || '';
+        var st = sib.getAttribute('style') || '';
+        if (cl.indexOf('disclosure') >= 0 || cl.indexOf('ref ') >= 0 ||
+            (st.indexOf('margin-top') >= 0 && st.indexOf('border-top') >= 0 && st.indexOf('text-align:center') >= 0)) break;
+      }
+      nodes.push(sib);
+      sib = sib.nextSibling;
+    }
+
+    // Create wrapper
+    var section = document.createElement('div');
+    section.className = 'fold-section';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fold-header' + (idx < FIRST_N_OPEN ? ' open' : '');
+    header.textContent = h2.textContent;
+    section.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'fold-body' + (idx < FIRST_N_OPEN ? ' open' : '');
+    nodes.forEach(function(n) { body.appendChild(n); });
+    section.appendChild(body);
+
+    // Replace h2 with section
+    h2.parentNode.replaceChild(section, h2);
+
+    // Toggle
+    header.addEventListener('click', function() {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  });
+
+  // Now handle h3 subsections inside each fold-body
+  document.querySelectorAll('.fold-body').forEach(function(foldBody) {
+    var h3s = Array.from(foldBody.querySelectorAll(':scope > h3'));
+    // Also check for h3s that may be direct children after moving
+    if (h3s.length === 0) return;
+
+    h3s.forEach(function(h3, jdx) {
+      var nodes = [];
+      var sib = h3.nextSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && (sib.tagName === 'H3' || sib.tagName === 'H2')) break;
+        if (sib.nodeType === 1 && sib.classList.contains('fold-sub')) break;
+        nodes.push(sib);
+        sib = sib.nextSibling;
+      }
+
+      var sub = document.createElement('div');
+      sub.className = 'fold-sub';
+
+      var subHeader = document.createElement('div');
+      subHeader.className = 'fold-sub-header' + (jdx === 0 ? ' open' : '');
+      subHeader.textContent = h3.textContent;
+      sub.appendChild(subHeader);
+
+      var subBody = document.createElement('div');
+      subBody.className = 'fold-sub-body' + (jdx === 0 ? ' open' : '');
+      nodes.forEach(function(n) { subBody.appendChild(n); });
+      sub.appendChild(subBody);
+
+      h3.parentNode.replaceChild(sub, h3);
+
+      subHeader.addEventListener('click', function() {
+        subHeader.classList.toggle('open');
+        subBody.classList.toggle('open');
+      });
+    });
+  });
+
+  // Add expand/collapse buttons
+  // Find the first fold-section and insert buttons before it
+  var firstSection = document.querySelector('.fold-section');
+  if (firstSection) {
+    var controls = document.createElement('div');
+    controls.className = 'expand-controls';
+    controls.innerHTML = '<button id="expandAll">Expand all</button><button id="collapseAll">Collapse all</button>';
+    firstSection.parentNode.insertBefore(controls, firstSection);
+
+    document.getElementById('expandAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.add('open');
+      });
+    });
+    document.getElementById('collapseAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.remove('open');
+      });
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="../Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">\u2190 Ch 3: Prebiotic Chemistry</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="../Ch5-Immune/Paper-5-Immune-System.html">Ch 5: Adaptive Immunity \u2192</a>';
+  // Insert before the footer div
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    footer.parentNode.insertBefore(nav, footer);
+  } else {
+    document.body.appendChild(nav);
+  }
+})();
+</script>
+
+</body>
+</html>

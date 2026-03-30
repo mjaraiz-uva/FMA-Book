@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>nanoImmune Results Analysis — FMA as Immunological Orchestration Layer</title>
+<style>
+  body { font-family: 'Georgia', 'Times New Roman', serif; max-width: 950px; margin: 40px auto; padding: 0 20px; line-height: 1.8; color: #333; background: #ffffff; font-size: 16px; }
+  h1 { font-family: 'Segoe UI', sans-serif; font-size: 1.75em; color: #1a3a5c; margin-bottom: 5px; line-height: 1.3; border-bottom: 3px solid #2c5f8a; padding-bottom: 12px; }
+  h2 { font-family: 'Segoe UI', sans-serif; font-size: 1.35em; color: #2c5f8a; margin-top: 0; }
+  h3 { font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #3a5a7c; margin-top: 28px; }
+  .authors { color: #555; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #777; font-size: 0.9em; margin-bottom: 30px; }
+  .abstract-box { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 18px 22px; border-radius: 5px; margin: 25px 0; font-size: 0.95em; }
+  .abstract-box strong { color: #2c5f8a; }
+  code { background: #e8ecef; padding: 2px 6px; border-radius: 3px; font-size: 0.92em; font-family: 'Consolas', monospace; color: #2c5f8a; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #bbb; padding: 8px 12px; text-align: left; }
+  th { background: #e8eef4; color: #1a3a5c; font-family: 'Segoe UI', sans-serif; font-weight: 600; }
+  tr:nth-child(even) { background: #f8f9fa; }
+  .note { background: #ffffff; border: 1px solid #b0cfe0; border-left: 4px solid #2c5f8a; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .note strong { color: #2c5f8a; }
+  .insight { background: #ffffff; border: 1px solid #a0d8a0; border-left: 4px solid #2e8b57; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .insight strong { color: #2e8b57; }
+  .central-thesis { background: #ffffff; border: 1px solid #d8a0a0; border-left: 4px solid #8b2e2e; padding: 14px 18px; border-radius: 5px; margin: 18px 0; font-size: 0.95em; }
+  .central-thesis strong { color: #8b2e2e; }
+  a { color: #2c5f8a; }
+  .viewer-link { display: inline-flex; align-items: center; gap: 6px; background: #2c5f8a; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-family: 'Segoe UI', sans-serif; font-size: 0.9em; font-weight: 600; margin: 8px 0; }
+  .viewer-link:hover { background: #1a3a5c; color: white; }
+  .nav-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+  .panel-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #2c5f8a; color: white; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 0.8em; flex-shrink: 0; vertical-align: middle; margin-right: 6px; }
+
+  /* Collapsible sections */
+  details.section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  details.section > summary { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid #d0d8e0; list-style: none; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  details.section > summary:hover { background: #e4eaf0; }
+  details.section > summary::-webkit-details-marker { display: none; }
+  details.section > summary::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  details.section[open] > summary::before { transform: rotate(90deg); }
+  details.section[open] > summary { border-bottom: 1px solid #d0d8e0; }
+  details.section > .section-body { padding: 16px 22px 22px; }
+
+  details.panel { margin-top: 16px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  details.panel > summary { font-family: 'Segoe UI', sans-serif; font-size: 1.05em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; list-style: none; }
+  details.panel > summary:hover { background: #eaeff4; }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  details.panel[open] > summary::before { transform: rotate(90deg); }
+  details.panel > .panel-body { padding: 12px 18px 16px; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+  .disclosure { background: #ffffff; border: 1px solid #ccc; padding: 16px 20px; border-radius: 5px; margin: 20px 0; font-size: 0.92em; color: #555; }
+  .footer { text-align: center; color: #888; font-size: 0.85em; margin-top: 30px; padding-top: 12px; border-top: 1px solid #ddd; font-family: 'Segoe UI', sans-serif; }
+  .footer a { color: #2c5f8a; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="nav-links">
+  <a href="Paper-5-Immune-viewer.html" class="viewer-link">Open interactive viewer &rarr;</a>
+  <a href="Paper-5-Immune-System.html" class="viewer-link" style="background:#3a5a7c;">Back to Chapter 5</a>
+  <a href="../index.html" class="viewer-link" style="background:#1a3a5c;">&larr; Index</a>
+</div>
+
+<h1>Annex B &mdash; Results Analysis:<br>FMA as Immunological Orchestration Layer</h1>
+<div class="authors">Martin Jaraiz</div>
+<div class="affiliations">Department of Electricity and Electronics, University of Valladolid, Spain &middot; 2026</div>
+
+<div class="abstract-box">
+<strong>Purpose of this annex.</strong> The <a href="Paper-5-Immune-viewer.html">nanoImmune interactive viewer</a> shows six simulation scenarios. This annex explains what each panel displays, how the scenarios map to immunological phenomena, and what these results mean for the claim that FMA provides a universal orchestration layer above the domain's native optimization.
+</div>
+
+<div class="central-thesis">
+<strong>Central thesis.</strong> Antigen-receptor binding optimizes <em>individual recognition events</em>. FMA orchestrates <em>the clonal population</em>&mdash;deciding which lymphocytes expand, which are suppressed, which form memory, and which are retired. The immune system is a free market in which lymphocyte clones are firms, antigens are demand signals, and cytokines are prices.
+</div>
+
+<div class="expand-controls">
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all</button>
+  <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all</button>
+</div>
+
+<!-- Section 1: Key Insight -->
+<details class="section" open>
+<summary>1. The Key Insight: Orchestration Above Molecular Recognition</summary>
+<div class="section-body">
+
+<p>Classical immunology treats the adaptive immune system as a collection of molecular interactions: TCR binding, MHC presentation, cytokine signalling. These interactions are well-characterized, but they describe <em>what happens at the molecular level</em>. They do not explain <em>who decides which clones expand, when expansion stops, and how memory is formed</em>.</p>
+
+<p>FMA provides the missing layer. Every named FMA mechanism has a precise immunological counterpart:</p>
+
+<table>
+<tr><th>FMA Mechanism</th><th>Immune Counterpart</th><th>Function</th></tr>
+<tr><td>Birth/Death</td><td>Clonal expansion &amp; contraction</td><td>Population dynamics of lymphocyte pools</td></tr>
+<tr><td>Evans-Polanyi barrier</td><td>Activation threshold</td><td>Minimum affinity required for lymphocyte activation</td></tr>
+<tr><td>Depth penalty</td><td>T-cell exhaustion</td><td>Functional decline after sustained antigen exposure</td></tr>
+<tr><td>Recipe book</td><td>Immunological memory</td><td>Persistent record of successful immune responses</td></tr>
+<tr><td>Census coverage</td><td>IL-7 homeostatic proliferation</td><td>Diversity maintenance in na&iuml;ve repertoire</td></tr>
+<tr><td>Temperature (EP)</td><td>Inflammatory milieu</td><td>Single parameter controlling all three dynamical regimes</td></tr>
+<tr><td>GFCF cascades</td><td>Cytokine amplification</td><td>Signal propagation through immune cell networks</td></tr>
+</table>
+
+<div class="insight">
+<strong>Key insight.</strong> The three FMA dynamical regimes&mdash;stagnation, selection, and tar&mdash;correspond precisely to immune tolerance (low inflammation, no clonal expansion), normal adaptive immunity (targeted expansion, contraction, memory), and cytokine storm (uncontrolled positive feedback overwhelming homeostasis). A single parameter (Evans-Polanyi temperature) controls all three, just as the inflammatory milieu controls the immune regime.
+</div>
+
+</div>
+</details>
+
+<!-- Section 2: Panel-by-Panel -->
+<details class="section" open>
+<summary>2. Panel-by-Panel Analysis of the nanoImmune Viewer</summary>
+<div class="section-body">
+
+<p>The viewer displays six real-time charts. Each panel corresponds to an FMA observable with a direct immunological interpretation.</p>
+
+<details class="panel" open>
+<summary><span class="panel-num">1</span> Population Dynamics</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> Total lymphocyte count (active + memory cells) over time.</p>
+<p><strong>FMA interpretation:</strong> This is the agent population&mdash;equivalent to firm count in the macroeconomic model. Birth events (clonal expansion) increase the population; death events (contraction, apoptosis) decrease it.</p>
+<p><strong>What to look for:</strong> In the <em>Normal</em> scenario, expect a sharp expansion peak followed by contraction to a slightly elevated baseline (memory pool). In <em>Cytokine Storm</em>, the population grows explosively without contraction. In <em>Chronic</em>, a sustained plateau reflects persistent antigenic stimulation preventing full contraction.</p>
+</div>
+</details>
+
+<details class="panel">
+<summary><span class="panel-num">2</span> Birth/Death Ratio</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> The ratio of clonal births to deaths, smoothed over a moving window. This is the primary regime indicator.</p>
+<p><strong>FMA interpretation:</strong> B/D &gt; 1 indicates net population growth (selection regime); B/D &lt; 1 indicates net decline (returning toward stagnation/homeostasis); B/D &gg; 1 indicates runaway expansion (tar regime = cytokine storm).</p>
+<p><strong>What to look for:</strong> The B/D ratio is the single most important diagnostic. In normal immunity, it spikes briefly above 1 then returns. In cytokine storm, it stays high. This confirms FMA Prediction 5: cytokine storm severity is predicted by birth/death ratio.</p>
+</div>
+</details>
+
+<details class="panel">
+<summary><span class="panel-num">3</span> Affinity Maturation</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> Average binding affinity of active lymphocyte clones over time.</p>
+<p><strong>FMA interpretation:</strong> This is the equivalent of firm profitability. Clones with higher affinity win more demand (antigen binding), expand more, and survive longer. Affinity maturation is the market's quality-improvement mechanism&mdash;unprofitable firms (low-affinity clones) die, profitable ones (high-affinity) expand.</p>
+<p><strong>What to look for:</strong> In the <em>Normal</em> scenario, affinity rises during the expansion phase as selection pressures improve the pool. In <em>Vaccination</em> scenarios, the second encounter starts at a higher baseline due to memory clones carrying pre-matured affinities.</p>
+</div>
+</details>
+
+<details class="panel">
+<summary><span class="panel-num">4</span> Average Exhaustion (Depth Penalty)</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> Mean exhaustion level across the active population.</p>
+<p><strong>FMA interpretation:</strong> The depth penalty&mdash;accumulated cost of deep processing cascades. In immunology: T-cell exhaustion from sustained antigen exposure. This is a key FMA prediction: exhaustion scales with cascade depth (number of sequential activation events), not with antigen dose per se.</p>
+<p><strong>What to look for:</strong> <em>Chronic</em> infection shows steadily rising exhaustion, eventually capping the immune response despite ongoing antigen presence. This is the hallmark of PD-1/LAG-3 upregulation in real chronic infections (HIV, HCV, tumours). The <em>Normal</em> scenario shows a brief exhaustion bump that resolves with contraction.</p>
+</div>
+</details>
+
+<details class="panel">
+<summary><span class="panel-num">5</span> Recipe Book (Immunological Memory)</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> Cumulative count of recipes (successful immune response chains) stored in the persistent memory.</p>
+<p><strong>FMA interpretation:</strong> The recipe book is FMA's equivalent of immunological memory&mdash;a permanent record of pathogen-specific response sequences. Each recipe encodes which clones responded, in what order, and with what effector profile.</p>
+<p><strong>What to look for:</strong> Recipes accumulate after successful responses (Normal, Vaccination). In the <em>Vaccination</em> scenario, the booster dose adds recipes on top of the primary response, creating a richer memory pool. In <em>Cytokine Storm</em>, few recipes are stored because the system never reaches controlled resolution.</p>
+</div>
+</details>
+
+<details class="panel">
+<summary><span class="panel-num">6</span> Dynamical Regime Timeline</summary>
+<div class="panel-body">
+<p><strong>What it shows:</strong> A colour-coded strip indicating the current regime at each simulation step&mdash;yellow for stagnation, green for selection, red for tar.</p>
+<p><strong>FMA interpretation:</strong> The three universal regimes, visible in real time. The regime transitions are determined by the Evans-Polanyi temperature parameter (= inflammatory milieu).</p>
+<p><strong>What to look for:</strong> Normal immunity traces yellow&rarr;green&rarr;yellow (homeostasis, targeted response, return to homeostasis). Cytokine Storm traces yellow&rarr;green&rarr;red (fails to return). Chronic Infection stays in a flickering green zone. Lymphopenia stays yellow (insufficient population for selection).</p>
+</div>
+</details>
+
+</div>
+</details>
+
+<!-- Section 3: Scenarios -->
+<details class="section">
+<summary>3. The Six Scenarios: Immunological Phenomena as FMA Dynamics</summary>
+<div class="section-body">
+
+<table>
+<tr>
+  <th>Scenario</th><th>FMA Regime</th><th>Immunological Phenomenon</th><th>What the Viewer Shows</th>
+</tr>
+<tr>
+  <td><strong>Normal</strong></td>
+  <td>Stagnation &rarr; Selection &rarr; Stagnation</td>
+  <td>Acute pathogen: clonal expansion, contraction, memory</td>
+  <td>Population spike with clean resolution; B/D ratio briefly &gt; 1; recipes accumulate; exhaustion mild</td>
+</tr>
+<tr>
+  <td><strong>Chronic</strong></td>
+  <td>Sustained Selection</td>
+  <td>Persistent virus (HIV, HCV): ongoing stimulation, progressive exhaustion</td>
+  <td>Population plateau instead of contraction; exhaustion steadily rises; B/D ratio hovers near 1</td>
+</tr>
+<tr>
+  <td><strong>Cytokine Storm</strong></td>
+  <td>Selection &rarr; Tar</td>
+  <td>Runaway positive feedback: ARDS, sepsis, severe COVID-19</td>
+  <td>Population explodes; B/D ratio stays very high; no contraction; exhaustion extreme; few recipes stored</td>
+</tr>
+<tr>
+  <td><strong>Vaccination</strong></td>
+  <td>Stagnation &rarr; Selection &rarr; Stagnation (repeated)</td>
+  <td>Primary immunization + booster: memory recall, accelerated secondary response</td>
+  <td>First response like Normal; second response faster and stronger; affinity starts higher; recipes accumulate</td>
+</tr>
+<tr>
+  <td><strong>Lymphopenia</strong></td>
+  <td>Stagnation (trapped)</td>
+  <td>Depleted na&iuml;ve pool: insufficient lymphocytes for effective selection</td>
+  <td>Population stays low; minimal expansion; B/D ratio near 0; no recipes; census coverage dominates dynamics</td>
+</tr>
+<tr>
+  <td><strong>Custom</strong></td>
+  <td>User-defined</td>
+  <td>Any parameter combination</td>
+  <td>Explore freely: adjust temperature, birth rate, depth penalty, Treg suppression</td>
+</tr>
+</table>
+
+<div class="note">
+<strong>The regime transitions are the result.</strong> No code switches between "normal" and "storm" modes. The same FMA engine, with different Evans-Polanyi temperatures, produces all six scenarios from a single set of equations. This is exactly what happens in real immunology: the same molecular machinery produces tolerance, targeted immunity, and lethal hyperinflammation depending on the inflammatory context.
+</div>
+
+</div>
+</details>
+
+<!-- Section 4: Six Predictions -->
+<details class="section">
+<summary>4. The Six Falsifiable Predictions</summary>
+<div class="section-body">
+
+<p>The FMA mapping generates six novel predictions that distinguish it from standard immunological models. Each can be tested experimentally and observed in the viewer:</p>
+
+<table>
+<tr><th>#</th><th>Prediction</th><th>Standard View</th><th>Observable in Viewer</th></tr>
+<tr>
+  <td>1</td>
+  <td>Exhaustion scales with cascade depth, not antigen dose</td>
+  <td>Exhaustion correlates with antigen load</td>
+  <td>Chronic scenario: exhaustion rises even as antigen load stabilizes</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Cytokine storm severity predicted by B/D ratio, not IL-6 alone</td>
+  <td>IL-6 is the primary storm biomarker</td>
+  <td>Storm scenario: B/D ratio diverges before population explosion</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Memory recall speed determined by recipe completeness, not antibody titre</td>
+  <td>Pre-existing antibodies provide protection</td>
+  <td>Vaccination scenario: second response faster due to recipe reuse</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>Lymphopenia pathology from census-coverage loss, not just cell count</td>
+  <td>Low cell count &rarr; immunodeficiency</td>
+  <td>Lymphopenia scenario: trapped in stagnation despite residual cells</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>Treg suppression works by modulating EP temperature, not direct killing</td>
+  <td>Tregs suppress via IL-10 / cell contact</td>
+  <td>Custom scenario: adjust Treg slider, observe regime shift</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>Autoimmunity as census-coverage defect, not molecular mimicry alone</td>
+  <td>Cross-reactive TCRs attack self</td>
+  <td>Custom scenario: reduce pool size, observe homeostatic expansion targeting self</td>
+</tr>
+</table>
+
+<div class="insight">
+<strong>Testable, not speculative.</strong> Each prediction is phrased as a quantitative relationship that can be measured in mouse or human studies. The viewer provides qualitative confirmation; the paper (Chapter 5, Section 9) provides the formal derivations.
+</div>
+
+</div>
+</details>
+
+<!-- Section 5: Cross-domain comparison -->
+<details class="section">
+<summary>5. Cross-Domain Regime Correspondence</summary>
+<div class="section-body">
+
+<p>The three FMA regimes appear identically across all four implemented domains. This table summarizes the correspondence:</p>
+
+<table>
+<tr><th>Regime</th><th>Economics</th><th>Chemistry</th><th>AI (nanoFMT)</th><th>Immunity</th></tr>
+<tr>
+  <td style="color:#e67e22; font-weight:600;">Stagnation</td>
+  <td>Economic stasis; no firm creation</td>
+  <td>Random chemistry; no selection</td>
+  <td>Expert pool static; no adaptation</td>
+  <td>Immune tolerance; homeostasis</td>
+</tr>
+<tr>
+  <td style="color:#27ae60; font-weight:600;">Selection</td>
+  <td>Growth; firms specialize, compete, innovate</td>
+  <td>Life's toolkit emerges; amino acids, nucleobases</td>
+  <td>Experts born/die based on utility; monosemanticity</td>
+  <td>Clonal expansion; targeted immunity</td>
+</tr>
+<tr>
+  <td style="color:#e74c3c; font-weight:600;">Tar</td>
+  <td>Bubble/crash; runaway speculation</td>
+  <td>Tar: over-polymerization, everything reacts</td>
+  <td>Expert churn; garbage-collector polysemanticity</td>
+  <td>Cytokine storm; uncontrolled hyperinflammation</td>
+</tr>
+</table>
+
+<div class="central-thesis">
+<strong>The universality result.</strong> These are not four separate models sharing a metaphor. They are four instantiations of <em>one algorithm</em> with <em>one set of equations</em>, where only the domain-specific interpretation layer changes. The same Evans-Polanyi temperature parameter controls the regime boundary in all four cases.
+</div>
+
+</div>
+</details>
+
+<!-- Section 6: Summary -->
+<details class="section">
+<summary>6. Summary: What nanoImmune Demonstrates</summary>
+<div class="section-body">
+
+<table>
+<tr><th>FMA Capability</th><th>What the Viewer Shows</th><th>Immunological Significance</th></tr>
+<tr>
+  <td>Three-regime dynamics</td>
+  <td>Regime timeline: stagnation / selection / tar</td>
+  <td>Tolerance, adaptive immunity, and cytokine storm from one equation</td>
+</tr>
+<tr>
+  <td>Birth/death population control</td>
+  <td>Population panel + B/D ratio</td>
+  <td>Clonal expansion/contraction without programmed cell death signals</td>
+</tr>
+<tr>
+  <td>Depth-dependent exhaustion</td>
+  <td>Exhaustion panel rising in chronic scenarios</td>
+  <td>T-cell exhaustion as emergent market property, not molecular fatigue</td>
+</tr>
+<tr>
+  <td>Persistent recipe memory</td>
+  <td>Recipe count accumulating after resolved infections</td>
+  <td>Immunological memory as market memory, not just long-lived cells</td>
+</tr>
+<tr>
+  <td>Census coverage homeostasis</td>
+  <td>Lymphopenia scenario: stagnation despite residual population</td>
+  <td>IL-7 homeostatic proliferation as diversity-maintenance mechanism</td>
+</tr>
+<tr>
+  <td>Single-parameter regime control</td>
+  <td>All scenarios generated by changing EP temperature</td>
+  <td>The inflammatory milieu as the universal immune thermostat</td>
+</tr>
+</table>
+
+</div>
+</details>
+
+<div class="disclosure">
+<strong>AI disclosure.</strong> This annex was drafted with AI assistance (Claude, Anthropic) and reviewed by the author. The interactive viewer and all simulation code are original work by M. Jaraiz.
+</div>
+
+<div class="footer">
+  <a href="Paper-5-Immune-viewer.html">Interactive Viewer</a> &middot;
+  <a href="Paper-5-Immune-System.html">Chapter 5 &mdash; Adaptive Immunity</a> &middot;
+  <a href="Paper-5-Evaluation-Report.html">Evaluation Report</a> &middot;
+  <a href="../index.html">Index</a><br>
+  The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+  &copy; 2026 M. Jaraiz, Universidad de Valladolid
+</div>
+
+</body>
+</html>

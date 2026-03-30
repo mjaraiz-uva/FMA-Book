@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forecasting complex evolutionary systems: A free-market agent-based modeling and simulation approach</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 1050px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; background: #f8f9fa; }
+  h1 { color: #1a5276; border-bottom: 3px solid #2980b9; padding-bottom: 10px; font-size: 1.75em; line-height: 1.3; }
+  h2 { color: #2c3e50; border: 1px solid #ddd; padding-bottom: 5px; margin-top: 40px; font-size: 1.3em; }
+  h3 { color: #34495e; margin-top: 25px; }
+  h4 { color: #1a5276; margin-top: 18px; }
+  a { color: #2980b9; }
+  code { background: #fff; padding: 2px 6px; border-radius: 3px; font-size: 0.93em; font-family: 'Consolas', monospace; color: #2c3e50; }
+  .authors { color: #555; font-size: 1.05em; margin-bottom: 2px; }
+  .affiliations { color: #777; font-size: 0.92em; margin-bottom: 30px; }
+  .abstract-box { background: #fef9e7; border: 1px solid #2980b9; border-left: 4px solid #2980b9; padding: 18px 22px; border-radius: 5px; margin: 25px 0; }
+  .abstract-box strong { color: #2c3e50; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 0.93em; }
+  th, td { border: 1px solid #ddd; padding: 7px 11px; text-align: left; }
+  th { background: #fff; color: #1a5276; font-weight: 600; }
+  tr:nth-child(even) { background: #f0f0f0; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.bold { font-weight: bold; color: #1a5276; }
+  .highlight { background: #fef9e7; border: 1px solid #2980b9; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .insight { background: #eafaf1; border: 1px solid #27ae6050; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .warning { background: #fdedec; border: 1px solid #e74c3c; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .success { background: #e8f8f5; border: 1px solid #27ae60; padding: 14px 18px; border-radius: 5px; margin: 18px 0; }
+  .equation { font-family: 'Consolas', monospace; background: #fff; display: block; padding: 14px 20px; border-radius: 6px; margin: 15px 0; font-size: 1.05em; color: #c0392b; text-align: center; border-left: 4px solid #2980b9; }
+  .fig { margin: 25px 0; padding: 18px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 8px; }
+  .fig-caption { font-size: 0.88em; color: #555; margin-top: 10px; }
+  .fig-caption strong { color: #34495e; }
+  .ref { font-size: 0.88em; color: #555; margin-top: 40px; padding-top: 20px; border: 1px solid #ddd; }
+  .ref ol { padding-left: 22px; }
+  .ref li { margin-bottom: 5px; }
+  sup { font-size: 0.75em; color: #2980b9; }
+  .formula { font-weight: bold; color: #8e44ad; }
+  .regime-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .regime-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+  .regime-card h4 { margin: 0 0 8px 0; }
+  .regime-card.stagnation { border-top: 3px solid #e67e22; }
+  .regime-card.stagnation h4 { color: #f39c12; }
+  .regime-card.selection { border-top: 3px solid #27ae60; }
+  .regime-card.selection h4 { color: #27ae60; }
+  .regime-card.tar { border-top: 3px solid #e74c3c; }
+  .regime-card.tar h4 { color: #e74c3c; }
+  .regime-card.free { border-top: 3px solid #818cf8; }
+  .regime-card.free h4 { color: #2c3e50; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; font-weight: 600; color: #fff; margin-left: 6px; }
+  .badge-key { background: #2980b9; }
+  .badge-at { background: #8e44ad; }
+  .badge-fm { background: #2980b9; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 18px 0; }
+  .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin: 18px 0; }
+  svg text { font-family: 'Segoe UI', sans-serif; }
+  .disclosure { margin-top: 50px; padding: 16px 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85em; color: #777; }
+  .toc { background: #f0f0f0; border: 1px solid #ddd; border-radius: 8px; padding: 18px 24px; margin: 25px 0; }
+  .toc h3 { margin-top: 0; color: #2c3e50; }
+  .toc ol { padding-left: 22px; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { text-decoration: none; color: #2980b9; }
+  .toc a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #2980b9; margin: 15px 0; padding: 10px 18px; background: #fef9e740; color: #555; font-style: italic; }
+  .mapping-arrow { color: #c0392b; font-weight: bold; }
+  .domain-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; }
+  .domain-card h4 { margin: 0 0 8px 0; }
+  .domain-card.chem { border-top: 3px solid #27ae60; }
+  .domain-card.chem h4 { color: #27ae60; }
+  .domain-card.econ { border-top: 3px solid #2980b9; }
+  .domain-card.econ h4 { color: #2c3e50; }
+  .domain-card.behav { border-top: 3px solid #e67e22; }
+  .domain-card.behav h4 { color: #f39c12; }
+  .layer-label { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 0.82em; font-weight: 600; color: #fff; }
+  .layer-universal { background: #2980b9; }
+  .layer-domain { background: #2980b9; }
+  .layer-observe { background: #8e44ad; }
+  @media (max-width: 800px) {
+    .regime-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: 1fr; }
+    .four-col { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Forecasting complex evolutionary systems: A free-market agent-based modeling and simulation approach</h1>
+<p class="authors">Martin Jaraiz</p>
+<p class="affiliations">Department of Electronics, University of Valladolid, 47011 Valladolid, Spain</p>
+
+<!-- ============================================================ -->
+<div class="abstract-box">
+<strong>Abstract</strong> &mdash;
+Complex systems resist forecasting because their behavior emerges from interactions among heterogeneous agents following diverse rules. We present a Free-Market Agent-Based Model (FM-ABM) framework that addresses this challenge by separating the universal mechanism (Darwinian economic optimization through supply, demand, and competition) from domain-specific behavioral rules. The framework models agents as economic participants in a free market where selection operates through consumption and competition, not through hand-designed fitness functions. We demonstrate the framework across three fundamentally different complexity domains: (i)&nbsp;assembly complexity in prebiotic chemistry, where bare C, H, O, N atoms self-organize into amino acids through BDE/UFF physics, reproducing the same &ldquo;early 10&rdquo; amino acids as Miller&ndash;Urey experiments; (ii)&nbsp;macroeconomic complexity, where FIGARO input&ndash;output tables drive GDP forecasting with MAE comparable to professional forecasters; and (iii)&nbsp;behavioral complexity, where agents with arbitrary decision rules (banking, regulation, trade policy) can be modeled without requiring assembly operations. We show that the framework naturally implements Assembly Theory&rsquo;s selection parameter through market dynamics, confirmed by reproducing AT&rsquo;s three &tau;<sub>d</sub>/&tau;<sub>p</sub> regimes from a single parameter. The FM-ABM approach is 4&ndash;6 orders of magnitude cheaper than molecular dynamics or DFT methods for chemistry, requires no time series or estimated parameters for economics, and provides not just equilibrium states but complete evolutionary trajectories with multiple independent pathways. These results suggest that Darwinian free-market optimization may be a universal mechanism for selection across complex systems.
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+<h3>Contents</h3>
+<ol>
+  <li><a href="#sec1">Introduction: The Landscape of Complexity</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec1-1">1.1 Multibody Complexity</a></li>
+      <li><a href="#sec1-2">1.2 Assembly Complexity</a></li>
+      <li><a href="#sec1-3">1.3 Behavioral Complexity</a></li>
+      <li><a href="#sec1-4">1.4 Evolutionary Complexity</a></li>
+      <li><a href="#sec1-5">1.5 The Forecasting Challenge</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec2">The Free-Market ABM Framework</a>
+    <ol style="list-style-type: none; padding-left: 14px;">
+      <li><a href="#sec2-1">2.1 Core Architecture</a></li>
+      <li><a href="#sec2-2">2.2 The Agent&rsquo;s Activity Cycle</a></li>
+      <li><a href="#sec2-3">2.3 Selection Without Design</a></li>
+      <li><a href="#sec2-4">2.4 Comparison with Other ABM Approaches</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec3">Application I: Assembly Complexity &mdash; Prebiotic Chemistry</a></li>
+  <li><a href="#sec4">Application II: Macroeconomic Complexity &mdash; GDP Forecasting</a></li>
+  <li><a href="#sec5">Application III: Behavioral Complexity &mdash; Beyond Assembly</a></li>
+  <li><a href="#sec6">The Universal Selection Mechanism</a></li>
+  <li><a href="#sec7">Computational Efficiency</a></li>
+  <li><a href="#sec8">Discussion</a></li>
+  <li><a href="#sec9">Conclusions</a></li>
+  <li><a href="#sec10">Methods</a></li>
+  <li><a href="#refs">References</a></li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec1">1. Introduction: The Landscape of Complexity</h2>
+
+<p>The scientific enterprise has made extraordinary progress in predicting the behavior of systems governed by known equations&mdash;planetary orbits, chemical equilibria, electromagnetic propagation. Yet the systems that matter most to humanity&mdash;economies, ecosystems, pandemics, technological evolution&mdash;resist forecasting with comparable reliability. These are <em>complex evolutionary systems</em>: ensembles of heterogeneous agents whose interactions generate emergent phenomena that cannot be deduced from individual-level rules alone.</p>
+
+<p>The difficulty is not merely computational. It is structural. Complex evolutionary systems violate the foundational assumptions of most forecasting methods: they have no fixed phase space, no representative agent, and no equilibrium to converge toward. To make progress, we must first understand what kinds of complexity exist and what each demands from a forecasting framework.</p>
+
+<!-- Complexity taxonomy SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#52525b"/>
+    </marker>
+    <marker id="arr-violet" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#8e44ad"/>
+    </marker>
+  </defs>
+  <!-- Title -->
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">A Taxonomy of Complexity</text>
+
+  <!-- Level 1: Multibody -->
+  <rect x="30" y="50" width="195" height="80" rx="8" fill="#f0f0f0" stroke="#52525b" stroke-width="1.5"/>
+  <text x="127" y="72" fill="#555" font-size="11" text-anchor="middle" font-weight="bold">Multibody</text>
+  <text x="127" y="88" fill="#71717a" font-size="9" text-anchor="middle">N-body, stat. mech., fluids</text>
+  <text x="127" y="102" fill="#71717a" font-size="9" text-anchor="middle">Fixed phase space</text>
+  <text x="127" y="116" fill="#71717a" font-size="9" text-anchor="middle">No novelty generation</text>
+
+  <!-- Level 2: Assembly -->
+  <rect x="255" y="50" width="195" height="80" rx="8" fill="#f0f0f0" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="352" y="72" fill="#27ae60" font-size="11" text-anchor="middle" font-weight="bold">Assembly</text>
+  <text x="352" y="88" fill="#71717a" font-size="9" text-anchor="middle">Recursive construction</text>
+  <text x="352" y="102" fill="#71717a" font-size="9" text-anchor="middle">Growing phase space</text>
+  <text x="352" y="116" fill="#71717a" font-size="9" text-anchor="middle">Adjacent possible expands</text>
+
+  <!-- Level 3: Behavioral -->
+  <rect x="480" y="50" width="195" height="80" rx="8" fill="#f0f0f0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="577" y="72" fill="#f39c12" font-size="11" text-anchor="middle" font-weight="bold">Behavioral</text>
+  <text x="577" y="88" fill="#71717a" font-size="9" text-anchor="middle">Arbitrary decision rules</text>
+  <text x="577" y="102" fill="#71717a" font-size="9" text-anchor="middle">Rules themselves evolve</text>
+  <text x="577" y="116" fill="#71717a" font-size="9" text-anchor="middle">Heterogeneous interactions</text>
+
+  <!-- Level 4: Evolutionary (union) -->
+  <rect x="255" y="180" width="420" height="90" rx="10" fill="#eef2f7" stroke="#2980b9" stroke-width="2"/>
+  <text x="465" y="205" fill="#1a5276" font-size="13" text-anchor="middle" font-weight="bold">Evolutionary Complexity</text>
+  <text x="465" y="224" fill="#333" font-size="10" text-anchor="middle">= Multibody + Assembly + Behavioral + Selection + Open-ended Novelty</text>
+  <text x="465" y="242" fill="#333" font-size="10" text-anchor="middle">+ Historical Contingency</text>
+  <text x="465" y="258" fill="#c0392b" font-size="10" text-anchor="middle" font-weight="bold">The target of FM-ABM</text>
+
+  <!-- Arrows down to evolutionary -->
+  <line x1="127" y1="130" x2="350" y2="178" stroke="#52525b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="352" y1="130" x2="420" y2="178" stroke="#52525b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="577" y1="130" x2="510" y2="178" stroke="#52525b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- FM-ABM box -->
+  <rect x="305" y="295" width="320" height="36" rx="6" fill="#2980b9" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="465" y="318" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">FM-ABM Framework</text>
+
+  <!-- Arrow from evolutionary to FM-ABM -->
+  <line x1="465" y1="270" x2="465" y2="293" stroke="#8e44ad" stroke-width="2" marker-end="url(#arr-violet)"/>
+
+  <!-- Side labels -->
+  <text x="790" y="85" fill="#52525b" font-size="9" text-anchor="start">Physics suffices</text>
+  <text x="790" y="100" fill="#52525b" font-size="9" text-anchor="start">(Boltzmann, MD)</text>
+  <line x1="677" y1="90" x2="785" y2="90" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <text x="790" y="215" fill="#818cf8" font-size="9" text-anchor="start">Requires new</text>
+  <text x="790" y="230" fill="#818cf8" font-size="9" text-anchor="start">framework</text>
+  <line x1="677" y1="220" x2="785" y2="220" stroke="#2980b9" stroke-width="1" stroke-dasharray="4,3"/>
+</svg>
+<p class="fig-caption"><strong>Figure 1 | A taxonomy of complexity.</strong> Multibody systems have fixed phase spaces and are well-served by physics. Assembly systems generate new possibilities through recursive construction. Behavioral systems feature agents with arbitrary evolving rules. Evolutionary complexity is the union of all three plus selection, open-ended novelty, and historical contingency&mdash;the target of the FM-ABM framework.</p>
+</div>
+
+<h3 id="sec1-1">1.1 Multibody Complexity</h3>
+
+<p>The simplest form of complexity arises from many particles interacting through known forces: N-body gravitational systems, molecular dynamics, fluid turbulence. These systems are conceptually straightforward&mdash;the equations of motion are known, conservation laws constrain the dynamics, and Boltzmann statistics describe equilibrium. The difficulty is purely computational: the phase space is vast but <em>fixed</em>. No genuinely new objects appear; the set of possible states is determined at the outset. This is why statistical mechanics succeeds: it needs only sample a pre-existing landscape.</p>
+
+<h3 id="sec1-2">1.2 Assembly Complexity</h3>
+
+<p>A qualitatively different kind of complexity emerges when objects are built recursively from simpler ones: atoms combine into molecules, molecules into polymers, polymers into functional complexes. Assembly Theory (AT), formalized by Sharma et al.<sup>1</sup>, provides a rigorous framework for measuring this complexity through two quantities: the <em>assembly index</em> (minimum recursive joining operations to construct an object from basic building blocks) and the <em>copy number</em> (how many identical copies exist in a sample). AT&rsquo;s central insight is that objects with both high assembly index and high copy number cannot arise from undirected physics alone&mdash;they require selection.</p>
+
+<p>The critical distinction from multibody complexity is that the phase space <em>grows</em>. Each newly assembled object creates possibilities that did not exist before&mdash;what Kauffman<sup>7</sup> calls the &ldquo;adjacent possible.&rdquo; A molecule that did not exist at step <em>t</em> becomes a potential reactant at step <em>t</em>+1, opening pathways that were previously inaccessible.</p>
+
+<h3 id="sec1-3">1.3 Behavioral Complexity</h3>
+
+<p>A third form of complexity arises when agents follow arbitrary decision rules that need not correspond to any assembly operation. A bank does not <em>assemble</em> anything when it sets interest rates based on risk assessment. A government does not <em>construct</em> objects when it allocates spending based on political priorities. A foraging animal does not <em>join</em> building blocks when it selects a migration route. Yet these agents participate in systems every bit as complex as molecular evolution&mdash;their interactions generate emergent patterns (business cycles, ecosystem dynamics, social hierarchies) that no individual agent intends or controls.</p>
+
+<p>The hallmark of behavioral complexity is that the rules themselves evolve: agents learn, adapt, imitate, and innovate. No single equation captures the system, because the system&rsquo;s dynamics depend on the heterogeneous, time-varying decision functions of its constituent agents.</p>
+
+<h3 id="sec1-4">1.4 Evolutionary Complexity</h3>
+
+<p>The most challenging systems combine all three forms above with three additional properties:</p>
+
+<ul>
+  <li><strong>Selection:</strong> some variants persist and proliferate while others disappear, but the selection criterion is not externally specified&mdash;it emerges from the system&rsquo;s dynamics.</li>
+  <li><strong>Open-ended novelty:</strong> genuinely new entities appear that could not have been predicted from initial conditions. The system continually expands its own state space.</li>
+  <li><strong>Historical contingency:</strong> what exists now depends on what existed before. The same initial conditions can produce radically different outcomes depending on the sequence of events.</li>
+</ul>
+
+<p>These are the systems&mdash;economies, ecosystems, technological evolution, prebiotic chemistry&mdash;where forecasting has the greatest value and the least reliability.</p>
+
+<h3 id="sec1-5">1.5 The Forecasting Challenge</h3>
+
+<p>Traditional forecasting methods fail on evolutionary complexity because they assume conditions that evolutionary systems violate:</p>
+
+<div class="warning">
+<strong>Why traditional approaches fail:</strong>
+<ul style="margin-bottom: 0;">
+  <li><strong>Fixed phase space</strong> &mdash; but evolution creates new possibilities that did not exist before</li>
+  <li><strong>Representative agents</strong> &mdash; but heterogeneity among agents <em>is</em> the mechanism driving emergence</li>
+  <li><strong>Equilibrium</strong> &mdash; but complex evolutionary systems are perpetually out of equilibrium</li>
+  <li><strong>Estimated parameters</strong> &mdash; but in novel regimes, historical parameter estimates are unreliable</li>
+</ul>
+</div>
+
+<p>What is needed is a framework that generates novelty endogenously, accommodates heterogeneous agents with diverse and evolving rules, operates out of equilibrium, and produces selection without hand-designed fitness functions. This paper presents such a framework.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec2">2. The Free-Market ABM Framework</h2>
+
+<h3 id="sec2-1">2.1 Core Architecture</h3>
+
+<p>The FM-ABM framework achieves generality through a strict separation of concerns into three layers: a universal market mechanism, pluggable domain-specific rules, and domain-specific observation. This layered architecture is the key to the framework&rsquo;s applicability across fundamentally different domains.</p>
+
+<!-- 3-Layer Architecture SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#52525b"/>
+    </marker>
+    <linearGradient id="layerGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2980b9" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2980b9" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="layerGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2980b9" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2980b9" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="layerGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8e44ad" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#8e44ad" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <text x="450" y="24" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">FM-ABM Three-Layer Architecture</text>
+
+  <!-- Layer 1: Market Mechanism -->
+  <rect x="30" y="45" width="840" height="95" rx="8" fill="url(#layerGrad1)" stroke="#2980b9" stroke-width="2"/>
+  <text x="55" y="67" fill="#1a5276" font-size="12" font-weight="bold">Layer 1: Market Mechanism</text>
+  <rect x="55" y="82" width="8" height="8" rx="2" fill="#2980b9"/>
+  <text x="70" y="90" fill="#555" font-size="9.5">UNIVERSAL</text>
+
+  <!-- Layer 1 components -->
+  <rect x="180" y="72" width="125" height="52" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="242" y="93" fill="#333" font-size="10" text-anchor="middle">Workers</text>
+  <text x="242" y="107" fill="#71717a" font-size="8.5" text-anchor="middle">(ring neighborhoods)</text>
+
+  <rect x="320" y="72" width="125" height="52" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="382" y="93" fill="#333" font-size="10" text-anchor="middle">Goods</text>
+  <text x="382" y="107" fill="#71717a" font-size="8.5" text-anchor="middle">(supply &amp; demand)</text>
+
+  <rect x="460" y="72" width="125" height="52" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="522" y="93" fill="#333" font-size="10" text-anchor="middle">Producers</text>
+  <text x="522" y="107" fill="#71717a" font-size="8.5" text-anchor="middle">(competition &amp; exit)</text>
+
+  <rect x="600" y="72" width="125" height="52" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="662" y="93" fill="#333" font-size="10" text-anchor="middle">GFCF Demand</text>
+  <text x="662" y="107" fill="#71717a" font-size="8.5" text-anchor="middle">(selection driver)</text>
+
+  <rect x="740" y="72" width="110" height="52" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="795" y="93" fill="#333" font-size="10" text-anchor="middle">Witness</text>
+  <text x="795" y="107" fill="#71717a" font-size="8.5" text-anchor="middle">(memory)</text>
+
+  <!-- Layer 2: Domain Rules -->
+  <rect x="30" y="155" width="840" height="105" rx="8" fill="url(#layerGrad2)" stroke="#2980b9" stroke-width="2"/>
+  <text x="55" y="177" fill="#1a5276" font-size="12" font-weight="bold">Layer 2: Domain-Specific Behavioral Rules</text>
+  <rect x="55" y="192" width="8" height="8" rx="2" fill="#2980b9"/>
+  <text x="70" y="200" fill="#555" font-size="9.5">PLUGGABLE</text>
+
+  <!-- Domain cards -->
+  <rect x="180" y="182" width="155" height="62" rx="6" fill="#f0f0f0" stroke="#27ae60" stroke-width="1"/>
+  <text x="257" y="200" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">Chemistry</text>
+  <text x="257" y="215" fill="#71717a" font-size="8.5" text-anchor="middle">BDE/UFF energy evaluation</text>
+  <text x="257" y="228" fill="#71717a" font-size="8.5" text-anchor="middle">Bond formation, ring closure</text>
+
+  <rect x="355" y="182" width="155" height="62" rx="6" fill="#f0f0f0" stroke="#2980b9" stroke-width="1"/>
+  <text x="432" y="200" fill="#2980b9" font-size="10" text-anchor="middle" font-weight="bold">Economics</text>
+  <text x="432" y="215" fill="#71717a" font-size="8.5" text-anchor="middle">I-O table coefficients</text>
+  <text x="432" y="228" fill="#71717a" font-size="8.5" text-anchor="middle">Labor/capital factors</text>
+
+  <rect x="530" y="182" width="155" height="62" rx="6" fill="#f0f0f0" stroke="#e67e22" stroke-width="1"/>
+  <text x="607" y="200" fill="#f39c12" font-size="10" text-anchor="middle" font-weight="bold">Banking / Policy</text>
+  <text x="607" y="215" fill="#71717a" font-size="8.5" text-anchor="middle">Interest rates, risk models</text>
+  <text x="607" y="228" fill="#71717a" font-size="8.5" text-anchor="middle">Regulation, tax policy</text>
+
+  <rect x="705" y="182" width="145" height="62" rx="6" fill="#f0f0f0" stroke="#ec4899" stroke-width="1"/>
+  <text x="777" y="200" fill="#ec4899" font-size="10" text-anchor="middle" font-weight="bold">Biology</text>
+  <text x="777" y="215" fill="#71717a" font-size="8.5" text-anchor="middle">Foraging, mating</text>
+  <text x="777" y="228" fill="#71717a" font-size="8.5" text-anchor="middle">Territory, social hierarchy</text>
+
+  <!-- Layer 3: Observation -->
+  <rect x="30" y="275" width="840" height="90" rx="8" fill="url(#layerGrad3)" stroke="#8e44ad" stroke-width="2"/>
+  <text x="55" y="297" fill="#1a5276" font-size="12" font-weight="bold">Layer 3: Observation &amp; Measurement</text>
+  <rect x="55" y="312" width="8" height="8" rx="2" fill="#8e44ad"/>
+  <text x="70" y="320" fill="#555" font-size="9.5">DOMAIN-SPECIFIC</text>
+
+  <rect x="180" y="302" width="155" height="48" rx="6" fill="#f0f0f0" stroke="#3f3f46" stroke-width="1"/>
+  <text x="257" y="320" fill="#333" font-size="9.5" text-anchor="middle">Molecular census</text>
+  <text x="257" y="335" fill="#71717a" font-size="8.5" text-anchor="middle">Assembly index, diversity</text>
+
+  <rect x="355" y="302" width="155" height="48" rx="6" fill="#f0f0f0" stroke="#3f3f46" stroke-width="1"/>
+  <text x="432" y="320" fill="#333" font-size="9.5" text-anchor="middle">GDP, employment</text>
+  <text x="432" y="335" fill="#71717a" font-size="8.5" text-anchor="middle">Sector output, firm size</text>
+
+  <rect x="530" y="302" width="155" height="48" rx="6" fill="#f0f0f0" stroke="#3f3f46" stroke-width="1"/>
+  <text x="607" y="320" fill="#333" font-size="9.5" text-anchor="middle">Systemic risk, stability</text>
+  <text x="607" y="335" fill="#71717a" font-size="8.5" text-anchor="middle">Policy effectiveness</text>
+
+  <rect x="705" y="302" width="145" height="48" rx="6" fill="#f0f0f0" stroke="#3f3f46" stroke-width="1"/>
+  <text x="777" y="320" fill="#333" font-size="9.5" text-anchor="middle">Population dynamics</text>
+  <text x="777" y="335" fill="#71717a" font-size="8.5" text-anchor="middle">Biodiversity indices</text>
+</svg>
+<p class="fig-caption"><strong>Figure 2 | FM-ABM three-layer architecture.</strong> Layer 1 (market mechanism) is universal and identical across all applications. Layer 2 (behavioral rules) is pluggable&mdash;different domains supply different rules for how agents interact and transform goods. Layer 3 (observation) extracts domain-specific measurements from the simulation state. The separation ensures that selection emerges from market dynamics (Layer 1), not from the domain rules (Layer 2).</p>
+</div>
+
+<p><strong>Layer 1: The Market Mechanism (universal).</strong> Workers (autonomous economic agents) occupy positions in a ring neighborhood topology. They trade goods (whatever entities the domain involves) through local markets. Producers (firms or workshops) transform input goods into output goods. Unprofitable producers close; successful ones expand. Workers preferentially demand the most complex or valuable goods available (GFCF&mdash;Gross Fixed Capital Formation), with idiosyncratic variability. The last remaining producer of any recipe is protected as a &ldquo;witness&rdquo; (analogous to state-owned enterprises that provide essential services not covered by the private sector). This layer is <em>identical</em> across all domains.</p>
+
+<p><strong>Layer 2: Domain-Specific Behavioral Rules (pluggable).</strong> These define <em>what</em> agents do, but not <em>how</em> selection operates. In chemistry: BDE/UFF energy evaluation, bond formation, ring closure. In economics: input&ndash;output table coefficients, labor/capital production factors, trade matrices. In banking: interest rate setting, risk evaluation, loan approval criteria. Each domain contributes its own physics, its own constraints, its own logic&mdash;but the selection mechanism remains the market.</p>
+
+<p><strong>Layer 3: Observation and Measurement (domain-specific).</strong> Any measurable emergent property of the system: molecular census and assembly index for chemistry; GDP, employment, and sector output for economics; systemic risk metrics for banking; population dynamics for biology.</p>
+
+<h3 id="sec2-2">2.2 The Agent&rsquo;s Activity Cycle</h3>
+
+<p>Each simulation step, every agent executes a five-phase economic cycle&mdash;the &ldquo;Workshop Manager&rsquo;s Day&rdquo;:</p>
+
+<!-- Agent Activity Cycle SVG -->
+<div class="fig">
+<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#52525b"/>
+    </marker>
+    <marker id="arr3-loop" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2980b9"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="22" fill="#2c3e50" font-size="14" text-anchor="middle" font-weight="bold">The Agent&rsquo;s Activity Cycle (one simulation step)</text>
+
+  <!-- Phase 1: Explore -->
+  <rect x="20" y="45" width="155" height="90" rx="10" fill="#f0f0f0" stroke="#2980b9" stroke-width="2"/>
+  <text x="97" y="68" fill="#2980b9" font-size="12" text-anchor="middle" font-weight="bold">1. Explore</text>
+  <text x="97" y="86" fill="#555" font-size="9" text-anchor="middle">Interact with neighbors,</text>
+  <text x="97" y="100" fill="#555" font-size="9" text-anchor="middle">discover new possibilities</text>
+  <text x="97" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT&rsquo;s &tau;d (discovery)</text>
+
+  <!-- Arrow -->
+  <line x1="178" y1="90" x2="198" y2="90" stroke="#52525b" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 2: Consume -->
+  <rect x="200" y="45" width="155" height="90" rx="10" fill="#f0f0f0" stroke="#27ae60" stroke-width="2"/>
+  <text x="277" y="68" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">2. Consume</text>
+  <text x="277" y="86" fill="#555" font-size="9" text-anchor="middle">Demand &amp; acquire goods</text>
+  <text x="277" y="100" fill="#555" font-size="9" text-anchor="middle">(GFCF / domain utility)</text>
+  <text x="277" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT&rsquo;s &alpha; (selection)</text>
+
+  <!-- Arrow -->
+  <line x1="358" y1="90" x2="378" y2="90" stroke="#52525b" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 3: Manage -->
+  <rect x="380" y="45" width="155" height="90" rx="10" fill="#f0f0f0" stroke="#e67e22" stroke-width="2"/>
+  <text x="457" y="68" fill="#f39c12" font-size="12" text-anchor="middle" font-weight="bold">3. Manage</text>
+  <text x="457" y="86" fill="#555" font-size="9" text-anchor="middle">Evaluate production,</text>
+  <text x="457" y="100" fill="#555" font-size="9" text-anchor="middle">close unprofitable ops</text>
+  <text x="457" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= decay / selection</text>
+
+  <!-- Arrow -->
+  <line x1="538" y1="90" x2="558" y2="90" stroke="#52525b" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 4: Innovate -->
+  <rect x="560" y="45" width="155" height="90" rx="10" fill="#f0f0f0" stroke="#818cf8" stroke-width="2"/>
+  <text x="637" y="68" fill="#6366f1" font-size="12" text-anchor="middle" font-weight="bold">4. Innovate</text>
+  <text x="637" y="86" fill="#555" font-size="9" text-anchor="middle">Start new production if</text>
+  <text x="637" y="100" fill="#555" font-size="9" text-anchor="middle">unmet demand exists</text>
+  <text x="637" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= entrepreneurship</text>
+
+  <!-- Arrow -->
+  <line x1="718" y1="90" x2="738" y2="90" stroke="#52525b" stroke-width="2" marker-end="url(#arr3)"/>
+
+  <!-- Phase 5: Produce -->
+  <rect x="740" y="45" width="140" height="90" rx="10" fill="#f0f0f0" stroke="#ec4899" stroke-width="2"/>
+  <text x="810" y="68" fill="#ec4899" font-size="12" text-anchor="middle" font-weight="bold">5. Produce</text>
+  <text x="810" y="86" fill="#555" font-size="9" text-anchor="middle">Transform inputs</text>
+  <text x="810" y="100" fill="#555" font-size="9" text-anchor="middle">into outputs</text>
+  <text x="810" y="118" fill="#8e44ad" font-size="9" text-anchor="middle" font-style="italic">= AT&rsquo;s &tau;p (production)</text>
+
+  <!-- Loop-back arrow -->
+  <path d="M 810 138 L 810 170 Q 810 185 795 185 L 112 185 Q 97 185 97 170 L 97 138" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arr3-loop)"/>
+  <text x="450" y="200" fill="#2980b9" font-size="10" text-anchor="middle">Next simulation step</text>
+
+  <!-- Key insight box -->
+  <rect x="120" y="218" width="660" height="34" rx="6" fill="#eef2f7" stroke="#2980b9" stroke-width="1"/>
+  <text x="450" y="240" fill="#333" font-size="10" text-anchor="middle">Key: Phases 1&ndash;2 implement AT&rsquo;s discovery+selection dynamics. Phases 3&ndash;4 provide decay+entrepreneurship. Phase 5 = amplification.</text>
+</svg>
+<p class="fig-caption"><strong>Figure 3 | The agent&rsquo;s activity cycle.</strong> Every agent executes these five phases each simulation step. The cycle maps directly onto Assembly Theory&rsquo;s dynamical processes: Explore controls &tau;<sub>d</sub>, Consume implements &alpha;, Manage provides decay, and Produce controls &tau;<sub>p</sub>. No phase is designed <em>for</em> AT&mdash;the mapping is emergent.</p>
+</div>
+
+<h3 id="sec2-3">2.3 Selection Without Design</h3>
+
+<p>In FM-ABM, selection is <em>not</em> an external force or a fitness function. It emerges from the interplay of five market mechanisms:</p>
+
+<div class="regime-grid">
+  <div class="regime-card selection">
+    <h4>Demand</h4>
+    <p>Agents want complex/valuable goods. This pulls production toward complexity&mdash;no one needs to specify <em>which</em> goods are &ldquo;fit.&rdquo;</p>
+  </div>
+  <div class="regime-card free">
+    <h4>Competition</h4>
+    <p>Multiple producers compete for the same inputs. Efficient ones survive, inefficient ones close. This is natural selection in economic form.</p>
+  </div>
+  <div class="regime-card stagnation">
+    <h4>Scarcity</h4>
+    <p>Finite resources force choices. Not everything can be produced simultaneously. This creates the selective pressure that drives specialization.</p>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="regime-card tar">
+    <h4>Decay</h4>
+    <p>Unused products decompose. Their constituent resources are recycled into better uses. This clears the population of unsuccessful variants.</p>
+  </div>
+  <div class="regime-card" style="border-top: 3px solid #8e44ad;">
+    <h4 style="color: #34495e;">Critical Producers</h4>
+    <p>The last producer of a recipe is protected as a witness. This preserves rare knowledge&mdash;like state-owned enterprises providing essential services.</p>
+  </div>
+</div>
+
+<div class="insight">
+<strong>Darwinian correspondence:</strong> Variation = discovery (combining existing things in new ways). Selection = market forces (demand, competition, scarcity). Inheritance = recipes persist across generations (simulation steps). The Lewontin conditions<sup>6</sup> for evolution by natural selection are satisfied naturally by market dynamics.
+</div>
+
+<h3 id="sec2-4">2.4 Comparison with Other ABM Approaches</h3>
+
+<table>
+<tr><th>Feature</th><th>Traditional ABM</th><th>Evolutionary ABM</th><th>FM-ABM</th></tr>
+<tr><td class="bold">Selection mechanism</td><td>Hand-designed fitness function</td><td>Genetic algorithm / tournament</td><td style="color:#27ae60;">Emerges from market dynamics</td></tr>
+<tr><td class="bold">Novelty generation</td><td>Pre-specified mutation set</td><td>Random perturbations of genomes</td><td style="color:#27ae60;">Thermodynamic / structural discovery</td></tr>
+<tr><td class="bold">Agent heterogeneity</td><td>Homogeneous or typed classes</td><td>Evolving genomes</td><td style="color:#27ae60;">Heterogeneous economic agents</td></tr>
+<tr><td class="bold">Interaction topology</td><td>Pairwise or global coupling</td><td>Tournament selection pools</td><td style="color:#27ae60;">Ring neighborhoods + trade</td></tr>
+<tr><td class="bold">Steady state</td><td>Pre-defined equilibrium</td><td>Convergence to optimum</td><td style="color:#27ae60;">Open-ended evolution</td></tr>
+<tr><td class="bold">Domain generality</td><td>Domain-specific design</td><td>Biology-inspired metaphor</td><td style="color:#27ae60;">Universal market + pluggable rules</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="sec3">3. Application I: Assembly Complexity &mdash; Prebiotic Chemistry</h2>
+
+<h3>3.1 Setup</h3>
+
+<p>We configured the FM-ABM with chemistry as the domain-specific behavioral rule. The initial endowment consisted of 200&nbsp;C + 500&nbsp;H + 100&nbsp;O + 100&nbsp;N atoms (900 total) as primary goods. Workers trade atoms and molecules through ring neighborhoods. Discovery proceeds by combining a worker&rsquo;s inventory molecule with a neighbor&rsquo;s molecule, evaluating the product through Bond Dissociation Energies (thermodynamic feasibility: &Delta;E &lt; 0 required) and Universal Force Field (3D geometric validation for molecules &le;&nbsp;30 atoms). Evans&ndash;Polanyi kinetic barriers gate reaction rates:</p>
+
+<div class="equation">E<sub>a</sub> = E<sub>0</sub> + &alpha;<sub>EP</sub> &times; &Delta;E &nbsp;&nbsp;&nbsp;&nbsp; P = exp(&minus;E<sub>a</sub> / kT)</div>
+
+<p>No target molecules, reaction templates, or rate constants are specified. The system explores chemical space blindly, guided only by thermodynamics and market demand.</p>
+
+<h3>3.2 Results</h3>
+
+<p>Within 500 simulation steps (~5 minutes on a standard laptop), the system discovered synthesis pathways for 10 of the 12 amino acids accessible from C, H, O, and N&mdash;the same &ldquo;early 10&rdquo; identified independently by Miller&ndash;Urey experiments<sup>4</sup>, meteorite analysis, and phylogenetic reconstruction. Full details of the chemistry application, including reactor scaling, thermodynamic evolution, and pathway analysis, are reported in a companion paper<sup>11</sup>.</p>
+
+<table>
+<tr><th>#</th><th>Amino Acid</th><th>Formula</th><th>First Step</th><th>Independent Routes</th><th>Phylogenetic Status</th></tr>
+<tr><td class="num">1</td><td class="bold">Threonine</td><td>C<sub>4</sub>H<sub>9</sub>NO<sub>3</sub></td><td class="num bold">9</td><td class="num">4</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">2</td><td class="bold">Valine</td><td>C<sub>5</sub>H<sub>11</sub>NO<sub>2</sub></td><td class="num bold">10</td><td class="num">6</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">3</td><td class="bold">Leucine</td><td>C<sub>6</sub>H<sub>13</sub>NO<sub>2</sub></td><td class="num bold">11</td><td class="num">2</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">4</td><td class="bold">Alanine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>2</sub></td><td class="num bold">12</td><td class="num">7</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">5</td><td class="bold">Aspartate</td><td>C<sub>4</sub>H<sub>7</sub>NO<sub>4</sub></td><td class="num bold">17</td><td class="num">4</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">6</td><td class="bold">Glycine</td><td>C<sub>2</sub>H<sub>5</sub>NO<sub>2</sub></td><td class="num bold">30</td><td class="num">15</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">7</td><td class="bold">Serine</td><td>C<sub>3</sub>H<sub>7</sub>NO<sub>3</sub></td><td class="num">35</td><td class="num">4</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">8</td><td class="bold">Glutamate</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>4</sub></td><td class="num">32</td><td class="num">&mdash;</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">9</td><td class="bold">Proline</td><td>C<sub>5</sub>H<sub>9</sub>NO<sub>2</sub></td><td class="num">42</td><td class="num">3</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">10</td><td class="bold">Asparagine</td><td>C<sub>4</sub>H<sub>8</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">59</td><td class="num">5</td><td style="color:#27ae60;">Early</td></tr>
+<tr><td class="num">11</td><td class="bold">Glutamine</td><td>C<sub>5</sub>H<sub>10</sub>N<sub>2</sub>O<sub>3</sub></td><td class="num">66</td><td class="num">1</td><td style="color:#fbbf24;">Intermediate</td></tr>
+<tr><td class="num">12</td><td>Histidine</td><td>C<sub>6</sub>H<sub>9</sub>N<sub>3</sub>O<sub>2</sub></td><td class="num">317</td><td class="num">&mdash;</td><td style="color:#e74c3c;">Late</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 1 | Amino acid emergence in the chemistry application.</strong> The 12 amino acids accessible from C, H, O, N atoms, ordered by first discovery step. All 10 canonical &ldquo;early&rdquo; amino acids appear before step 66. Amino acid formulas appear 14&times; earlier than expected by chance among the 5,056 molecular formulas discovered.</p>
+
+<div class="success">
+<strong>Key result:</strong> Amino acid formulas appear 14 times earlier than expected by chance. By step 50, 7 of 12 amino acid formulas are already among the 213 species discovered (3.3%), versus 0.24% at full exploration. The system finds up to 260 independent synthesis routes per amino acid, providing not a single pathway but a complete landscape of possibilities.
+</div>
+
+<h3>3.3 Assembly Theory Alignment</h3>
+
+<p>AT predicts three dynamical regimes based on the ratio &tau;<sub>d</sub>/&tau;<sub>p</sub>. We mapped this ratio to FM-ABM&rsquo;s <code>discoveryBudget</code> parameter (the number of discovery attempts per agent per step) and confirmed all three regimes from a single tunable parameter:</p>
+
+<div class="regime-grid">
+  <div class="regime-card stagnation">
+    <h4>Budget = 1: Stagnation</h4>
+    <p>&tau;<sub>p</sub> &lt;&lt; &tau;<sub>d</sub></p>
+    <p>Assembly <em>A</em> = 987. Few species discovered but heavily amplified. Selection signature visible. Production outpaces exploration.</p>
+  </div>
+  <div class="regime-card selection">
+    <h4>Budget = 10: Selection Sweet Spot</h4>
+    <p>&tau;<sub>d</sub> &asymp; &tau;<sub>p</sub></p>
+    <p>Assembly <em>A</em> = 377. 784 species discovered. Balanced exploration/exploitation. Maximal diversity with sustained production.</p>
+  </div>
+  <div class="regime-card tar">
+    <h4>Budget = 50: Tar</h4>
+    <p>&tau;<sub>p</sub> &gt;&gt; &tau;<sub>d</sub></p>
+    <p>Assembly <em>A</em> = 10. Only 22 species survive. Combinatorial explosion&mdash;everything is discovered, nothing persists.</p>
+  </div>
+</div>
+
+<p>The non-monotonic copy-number signature that AT identifies as evidence of selection appears spontaneously through market dynamics. Recipe depth equals AT&rsquo;s assembly index; census count equals AT&rsquo;s copy number. The mapping is not designed&mdash;it is emergent.</p>
+
+<h3>3.4 Temperature as Pathway Selector</h3>
+
+<p>The Evans&ndash;Polanyi barrier introduces temperature as a concrete mechanism for pathway selection, an aspect that AT&rsquo;s abstract framework cannot capture:</p>
+
+<div class="two-col">
+  <div class="highlight">
+    <strong>T = 300 K (27 &deg;C):</strong> 5 independent routes to histamine discovered, all at depth &ge; 4. Kinetic barriers restrict pathways to the most thermodynamically favorable multi-step sequences.
+  </div>
+  <div class="success">
+    <strong>T = 400 K (127 &deg;C):</strong> 7 routes discovered, including a depth-3 shortcut unlocked by the higher thermal energy. Practical implication: &ldquo;raise temperature to 127 &deg;C to access a shorter synthesis pathway.&rdquo;
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec4">4. Application II: Macroeconomic Complexity &mdash; GDP Forecasting</h2>
+
+<h3>4.1 Setup</h3>
+
+<p>For the economics application<sup>3</sup>, we configured FM-ABM with FIGARO 64-sector symmetric input&ndash;output tables as the <em>sole</em> input. The I-O table serves as the domain-specific behavioral rule (Layer 2): it specifies how economic sectors interact, what inputs each sector requires to produce its output, and the relative magnitudes of inter-sector flows. Workers represent economic sectors, goods represent intermediate and final products, and producers represent firms within sectors.</p>
+
+<div class="highlight">
+<strong>The forecasting protocol:</strong> One input&ndash;output table for year <em>N</em> &rarr; FM-ABM forecast of GDP for year <em>N</em>+1. No time series. No estimated parameters. No external forecasts. No behavioral assumptions about expectations, policy responses, or market sentiment. The economy self-organizes from its structural information alone.
+</div>
+
+<h3>4.2 Results</h3>
+
+<table>
+<tr><th>Metric</th><th>FM-ABM</th><th>WIFO (best professional)</th><th>EC (European Commission)</th></tr>
+<tr><td class="bold">Austrian 9-year panel MAE (2010&ndash;2018)</td><td class="bold" style="color:#27ae60;">1.22 pp</td><td>0.91 pp</td><td>1.15 pp</td></tr>
+<tr><td class="bold">Non-crisis years MAE</td><td class="bold" style="color:#27ae60;">0.42 pp</td><td>0.48 pp</td><td>0.72 pp</td></tr>
+<tr><td class="bold">Swedish 9-year panel MAE (normal years)</td><td class="bold" style="color:#27ae60;">0.80 pp</td><td colspan="2">Independent second validation</td></tr>
+<tr><td class="bold">COVID-19 Year 1 simulation</td><td class="bold" style="color:#27ae60;">&minus;3.45%</td><td colspan="2">Empirical: &minus;6.6%</td></tr>
+<tr><td class="bold">Parameter calibration required</td><td class="bold" style="color:#27ae60;">None</td><td>Expert judgment</td><td>Econometric models</td></tr>
+<tr><td class="bold">Cross-country convergence</td><td class="bold" style="color:#27ae60;">33 of 37 countries</td><td>Country-specific</td><td>Country-specific</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 2 | GDP forecasting performance.</strong> FM-ABM achieves MAE comparable to professional forecasters for non-crisis years, with the critical advantage of requiring no estimated parameters, no time series data, and zero country-specific calibration. pp = percentage points.</p>
+
+<div class="success">
+<strong>Key result:</strong> In non-crisis years, FM-ABM&rsquo;s MAE of 0.42 pp is <em>lower</em> than the best Austrian professional forecaster (WIFO: 0.48 pp), using only structural information from I-O tables&mdash;no historical data, no expert judgment, no estimated parameters. A Swedish 9-year panel independently confirms the accuracy (normal-year MAE 0.80 pp). Thirty-three of 37 tested FIGARO countries converge with zero parameter changes. Emergent firm size distributions match European Commission data without being calibrated to do so.
+</div>
+
+<h3>4.3 Why It Works</h3>
+
+<p>The I-O table <em>is</em> the behavioral rule: it specifies how sectors interact, what each sector needs, and what each sector produces. The market mechanism (Layer 1) provides the selection and dynamics: firms that efficiently satisfy demand survive, those that don&rsquo;t are replaced. No need to model expectations, policy responses, or behavioral assumptions. The economy self-organizes from structural information alone.</p>
+
+<p>This explains both the framework&rsquo;s successes and its limitations. For structurally stable economies (Austria, Sweden), the I-O table captures the essential production relationships that determine next-year output. For economies with persistent low growth (France: MAE 2.76 pp) or high export dependency (Germany: MAE 3.68 pp), a household wealth-consumption feedback loop produces systematic positive bias&mdash;a limitation of the <em>data</em> (Layer 2), not the <em>framework</em> (Layer 1). Multi-country network simulations using FIGARO&rsquo;s bilateral inter-country tables represent the natural extension.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec5">5. Application III: Behavioral Complexity &mdash; Beyond Assembly</h2>
+
+<h3>5.1 The Generality Argument</h3>
+
+<p>The chemistry and economics applications share a common structure: agents transform inputs into outputs through defined operations (chemical reactions, production functions). But many important complex systems involve agents whose rules are purely behavioral&mdash;they do not assemble or produce anything in the traditional sense.</p>
+
+<div class="three-col">
+  <div class="domain-card behav">
+    <h4>Banking Agent</h4>
+    <ul style="font-size: 0.9em; color: #555; padding-left: 16px; margin: 0;">
+      <li>Set interest rates based on risk assessment</li>
+      <li>Decide loan terms based on collateral</li>
+      <li>Manage reserves per regulatory requirements</li>
+      <li>Compete for depositors and borrowers</li>
+    </ul>
+  </div>
+  <div class="domain-card behav">
+    <h4>Government Agent</h4>
+    <ul style="font-size: 0.9em; color: #555; padding-left: 16px; margin: 0;">
+      <li>Set tax rates based on revenue targets</li>
+      <li>Allocate spending by political priorities</li>
+      <li>Regulate based on policy objectives</li>
+      <li>Issue debt based on fiscal position</li>
+    </ul>
+  </div>
+  <div class="domain-card behav">
+    <h4>Biological Agent</h4>
+    <ul style="font-size: 0.9em; color: #555; padding-left: 16px; margin: 0;">
+      <li>Forage based on energy optimization</li>
+      <li>Migrate based on resource availability</li>
+      <li>Compete for territory and mates</li>
+      <li>Form and dissolve social alliances</li>
+    </ul>
+  </div>
+</div>
+
+<p>None of these agents <em>assembles</em> anything. A bank does not join building blocks to create loans&mdash;it evaluates risk and makes decisions. A government does not recursively construct policy&mdash;it weighs competing priorities and allocates resources. Yet these agents participate in systems every bit as complex as molecular evolution, and the FM-ABM framework handles them identically: agents in a market, trading goods, competing for resources, being selected by their economic performance.</p>
+
+<div class="insight">
+<strong>The deep insight:</strong> Assembly is one <em>kind</em> of behavioral rule. In chemistry, the rule is &ldquo;combine if &Delta;E &lt; 0.&rdquo; In economics, the rule is &ldquo;follow I-O coefficients.&rdquo; In banking, the rule is &ldquo;lend if expected return exceeds risk-adjusted cost.&rdquo; These are all equally valid Layer 2 rules. The selection mechanism (Layer 1) is the same in every case: supply, demand, competition, scarcity, and the persistence of successful strategies.
+</div>
+
+<h3>5.2 Implications for Future Applications</h3>
+
+<p>The three-layer architecture opens the framework to any domain where heterogeneous agents interact in resource-constrained environments:</p>
+
+<table>
+<tr><th>Domain</th><th>Agents</th><th>Goods</th><th>Behavioral Rules (Layer 2)</th><th>Observable (Layer 3)</th></tr>
+<tr><td class="bold">Climate policy</td><td>Countries</td><td>Emissions permits</td><td>Abatement cost functions, treaty compliance</td><td>Global temperature trajectory</td></tr>
+<tr><td class="bold">Epidemiology</td><td>Individuals</td><td>Health status</td><td>Contact patterns, vaccination decisions</td><td>Infection curves, herd immunity</td></tr>
+<tr><td class="bold">Urban planning</td><td>Developers, residents</td><td>Land, housing</td><td>Zoning, preferences, commute tolerance</td><td>City structure, segregation</td></tr>
+<tr><td class="bold">Supply chains</td><td>Firms</td><td>Components</td><td>Sourcing, inventory, quality rules</td><td>Resilience, disruption propagation</td></tr>
+<tr><td class="bold">Technology evolution</td><td>Innovators, adopters</td><td>Technologies</td><td>R&amp;D investment, adoption thresholds</td><td>Diffusion curves, lock-in</td></tr>
+</table>
+<p class="fig-caption"><strong>Table 3 | Potential FM-ABM application domains.</strong> In each case, the market mechanism (Layer 1) is universal. Only the behavioral rules (Layer 2) and observables (Layer 3) change.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec6">6. The Universal Selection Mechanism</h2>
+
+<h3>6.1 Why Free Markets?</h3>
+
+<p>The choice of free-market dynamics as the universal selection mechanism is not arbitrary. Markets possess four properties that make them uniquely suited to modeling selection in complex systems:</p>
+
+<ol>
+  <li><strong>Distributed information aggregation.</strong> Markets are the most efficient known mechanism for aggregating information dispersed among heterogeneous agents<sup>5</sup>. No central authority needs to know what every agent knows&mdash;prices encode the relevant information and transmit it through the system.</li>
+  <li><strong>Natural selection dynamics.</strong> Profitable activities survive and expand; unprofitable ones contract and disappear. This is Darwin&rsquo;s natural selection, implemented through economic rather than biological mechanisms.</li>
+  <li><strong>Heterogeneity accommodation.</strong> Every agent can have different rules, preferences, information, and capabilities. The market does not require representative agents or homogeneous populations.</li>
+  <li><strong>Perpetual disequilibrium.</strong> Markets operate continuously out of equilibrium: prices adjust, new products appear, firms enter and exit. This matches the behavior of complex evolutionary systems far better than equilibrium-based models.</li>
+</ol>
+
+<h3>6.2 Connection to Darwinian Evolution</h3>
+
+<p>Lewontin<sup>6</sup> identified three necessary and sufficient conditions for evolution by natural selection: variation, differential fitness, and heritability. FM-ABM satisfies all three through market dynamics:</p>
+
+<table>
+<tr><th>Lewontin Condition</th><th>FM-ABM Implementation</th><th>Mechanism</th></tr>
+<tr><td class="bold">Variation</td><td>Discovery phase</td><td>Combining existing entities in new ways through neighbor interaction</td></tr>
+<tr><td class="bold">Differential fitness</td><td>Market selection</td><td>Demand, competition, and scarcity determine which variants persist</td></tr>
+<tr><td class="bold">Heritability</td><td>Recipe persistence</td><td>Recipes/knowledge persist across simulation steps; witness producers protect rare knowledge</td></tr>
+</table>
+
+<h3>6.3 Connection to Assembly Theory</h3>
+
+<p>FM-ABM and Assembly Theory are complementary frameworks that address the same phenomenon from different directions:</p>
+
+<div class="two-col">
+  <div class="highlight">
+    <strong>Assembly Theory</strong> measures selection <em>post-hoc</em>: given an ensemble of objects, AT computes assembly index and copy number to determine whether selection has acted. AT&rsquo;s &alpha; parameter is abstract&mdash;it parameterizes selection strength but does not specify the mechanism. AT&rsquo;s authors acknowledge: &ldquo;We are putting selection in by hand.&rdquo;<sup>1</sup>
+  </div>
+  <div class="success">
+    <strong>FM-ABM</strong> implements selection <em>forward</em>: given initial conditions, FM-ABM generates the evolutionary trajectory and produces the final ensemble. GFCF demand is AT&rsquo;s &alpha; made concrete. Market dynamics provide the mechanism AT identifies as missing. Selection <em>emerges</em>&mdash;it is not put in by hand.
+  </div>
+</div>
+
+<p>Our experiments confirm the correspondence: the three &tau;<sub>d</sub>/&tau;<sub>p</sub> regimes (stagnation, selection, tar), the non-monotonic copy-number signature, and the entropy trajectory all emerge from FM-ABM without being designed into it. The mapping between <code>discoveryBudget</code> and &tau;<sub>d</sub>/&tau;<sub>p</sub> ratio is monotonic and predictable.</p>
+
+<!-- ============================================================ -->
+<h2 id="sec7">7. Computational Efficiency</h2>
+
+<p>A practical framework must be computationally accessible. FM-ABM achieves forecasting capabilities comparable to vastly more expensive methods at a fraction of the cost:</p>
+
+<table>
+<tr><th>Method</th><th>Domain</th><th>Hardware</th><th>Time</th><th>Output</th></tr>
+<tr><td class="bold">DFT / ab initio</td><td>Chemistry</td><td>Supercomputer</td><td>Weeks per reaction</td><td>1 pathway, high accuracy</td></tr>
+<tr><td class="bold">Molecular dynamics</td><td>Chemistry</td><td>HPC cluster</td><td>Months</td><td>Equilibrium properties only</td></tr>
+<tr><td class="bold">Ab initio nanoreactor</td><td>Chemistry</td><td>GPU cluster</td><td>~130,000 GPU-hours</td><td>Reaction discovery, limited scale</td></tr>
+<tr><td class="bold">DSGE models</td><td>Economics</td><td>Workstation</td><td>Months of calibration</td><td>Poor out-of-sample</td></tr>
+<tr><td class="bold">VAR / time series</td><td>Economics</td><td>Workstation</td><td>Weeks of data prep</td><td>Trend extrapolation</td></tr>
+<tr><td class="bold" style="color:#27ae60;">FM-ABM</td><td style="color:#27ae60;">Chemistry</td><td style="color:#27ae60;">Laptop</td><td style="color:#27ae60;"><strong>5 minutes</strong></td><td style="color:#27ae60;"><strong>Multiple pathways, full trajectory</strong></td></tr>
+<tr><td class="bold" style="color:#27ae60;">FM-ABM</td><td style="color:#27ae60;">Economics</td><td style="color:#27ae60;">Laptop</td><td style="color:#27ae60;"><strong>Minutes</strong></td><td style="color:#27ae60;"><strong>GDP forecast, firm distributions</strong></td></tr>
+</table>
+<p class="fig-caption"><strong>Table 4 | Computational cost comparison.</strong> FM-ABM is 4&ndash;6 orders of magnitude cheaper than competing methods for chemistry, and requires no calibration period for economics. The efficiency comes from replacing quantum-mechanical calculations with BDE/UFF heuristics (chemistry) and replacing econometric estimation with structural simulation (economics).</p>
+
+<div class="insight">
+<strong>The efficiency argument:</strong> FM-ABM achieves its speed not by being less accurate per calculation, but by asking a different question. Instead of &ldquo;what is the exact energy of this molecule?&rdquo; (DFT) or &ldquo;what are the estimated coefficients of this time series?&rdquo; (econometrics), FM-ABM asks: &ldquo;given these agents, these rules, and this market, what gets selected?&rdquo; The answer emerges from the simulation in minutes because selection, not precision, is the computational bottleneck.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec8">8. Discussion</h2>
+
+<h3>8.1 What FM-ABM Adds to the Complexity Toolkit</h3>
+
+<p>Existing approaches to complex systems each address a piece of the puzzle. Statistical mechanics handles multibody interactions. Assembly Theory measures selection in recursive construction. Agent-based models simulate heterogeneous interactions. FM-ABM contributes four capabilities that no existing approach provides simultaneously:</p>
+
+<ol>
+  <li><strong>A universal selection mechanism.</strong> The free market provides selection across all domains through a single, well-understood mechanism&mdash;supply, demand, and competition. No domain-specific fitness function needs to be designed.</li>
+  <li><strong>Physics-grounded forward dynamics.</strong> FM-ABM does not operate on abstract mathematical objects. It uses real BDE tables, real I-O data, real behavioral rules. The simulation is grounded in the actual physics (or economics, or biology) of the domain.</li>
+  <li><strong>Complete evolutionary trajectories.</strong> Unlike methods that compute only endpoints (equilibrium states, steady-state distributions), FM-ABM produces the full time series of the system&rsquo;s evolution&mdash;including transient dynamics, regime transitions, and path dependencies.</li>
+  <li><strong>Multiple independent pathways.</strong> For any outcome, FM-ABM typically discovers multiple routes. In chemistry, up to 260 independent synthesis routes per amino acid. In economics, multiple firm configurations that produce similar aggregate output. This pathway multiplicity provides robustness information that single-pathway methods cannot.</li>
+</ol>
+
+<h3>8.2 Limitations</h3>
+
+<p>Transparency about limitations is essential. The current FM-ABM implementation has known constraints in each application domain:</p>
+
+<div class="warning">
+<strong>Chemistry limitations:</strong>
+<ul style="margin-bottom: 0;">
+  <li><strong>Structural isomers:</strong> The model produces correct molecular formulas but not always correct 3D structures (e.g., imine-peroxide isomers instead of amino acid tautomers)</li>
+  <li><strong>Aromatic rings:</strong> No formation of aromatic rings from intermolecular C=C cyclization</li>
+  <li><strong>Kinetic barriers:</strong> Evans&ndash;Polanyi is approximate; DFT-level barriers would improve accuracy</li>
+</ul>
+</div>
+
+<div class="warning">
+<strong>Economics limitations:</strong>
+<ul style="margin-bottom: 0;">
+  <li><strong>Export-dependent economies:</strong> Systematic bias for countries with large multinational/external dependencies (e.g., Ireland)</li>
+  <li><strong>Crisis periods:</strong> MAE increases during economic crises where structural relationships shift rapidly</li>
+  <li><strong>I-O table lag:</strong> FIGARO tables are published with a 2&ndash;3 year delay</li>
+</ul>
+</div>
+
+<p>Critically, these limitations reside in the <em>domain-specific rules</em> (Layer 2), not in the <em>framework</em> (Layer 1). Improving the chemistry rules (e.g., adding aromatic ring handling, using ML-augmented barriers) or the economics data (e.g., more timely I-O estimates, trade flow corrections) would improve results without any change to the market mechanism.</p>
+
+<h3>8.3 Future Directions</h3>
+
+<p>The three-layer architecture provides a clear roadmap for extending the framework:</p>
+
+<table>
+<tr><th>Direction</th><th>Layer Affected</th><th>Expected Impact</th></tr>
+<tr><td class="bold">Weak interactions (van der Waals, H-bonds)</td><td>Layer 2 (Chemistry)</td><td>Supramolecular assembly, micelle formation</td></tr>
+<tr><td class="bold">Multi-scale coupling</td><td>Layer 1 + Layer 2</td><td>Molecules &rarr; micelles &rarr; protocells</td></tr>
+<tr><td class="bold">Real-time I-O data</td><td>Layer 2 (Economics)</td><td>Nowcasting GDP with streaming data</td></tr>
+<tr><td class="bold">Banking regulation rules</td><td>Layer 2 (Behavioral)</td><td>Systemic risk assessment, stress testing</td></tr>
+<tr><td class="bold">Climate policy agents</td><td>Layer 2 (Behavioral)</td><td>Treaty effectiveness, carbon market dynamics</td></tr>
+<tr><td class="bold">ML-augmented rule discovery</td><td>Layer 2 (all domains)</td><td>Learning behavioral rules from data</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="sec9">9. Conclusions</h2>
+
+<p>We have presented the Free-Market Agent-Based Model (FM-ABM) as a general framework for forecasting complex evolutionary systems. The key contributions are:</p>
+
+<ol>
+  <li><strong>A universal selection mechanism.</strong> Darwinian free-market optimization&mdash;supply, demand, competition, scarcity, and decay&mdash;provides selection across all domains through a single mechanism. No domain-specific fitness function is required.</li>
+
+  <li><strong>Demonstrated cross-domain applicability.</strong> The framework has been validated across three fundamentally different types of complexity:
+    <ul>
+      <li><em>Assembly complexity</em> (prebiotic chemistry): 10/12 feasible amino acids discovered in 5 minutes, reproducing Miller&ndash;Urey results</li>
+      <li><em>Macroeconomic complexity</em> (GDP forecasting): MAE 0.42 pp (Austria) and 0.80 pp (Sweden) in non-crisis years, comparable to best professional forecasters; 33 of 37 countries converge with zero parameter changes</li>
+      <li><em>Behavioral complexity</em> (banking, policy, biology): framework architecture demonstrated for agents with arbitrary decision rules</li>
+    </ul>
+  </li>
+
+  <li><strong>Assembly Theory confirmation.</strong> AT&rsquo;s three &tau;<sub>d</sub>/&tau;<sub>p</sub> regimes, non-monotonic copy-number signature, and selection dynamics all emerge naturally from FM-ABM&rsquo;s market dynamics, confirming the correspondence between economic selection and AT&rsquo;s abstract selection parameter.</li>
+
+  <li><strong>Computational efficiency.</strong> 4&ndash;6 orders of magnitude cheaper than competing methods for chemistry; zero-parameter, zero-calibration forecasting for economics.</li>
+
+  <li><strong>Architectural clarity.</strong> The three-layer separation (universal market, pluggable rules, domain-specific observation) ensures that improvements to any layer benefit all applications, and that new domains can be added by specifying only their behavioral rules.</li>
+</ol>
+
+<div class="highlight">
+<strong>Broader implication:</strong> The fact that a single selection mechanism&mdash;free-market dynamics&mdash;reproduces selection phenomena across chemistry, economics, and behavioral systems suggests that Darwinian economic optimization may be a fundamental mechanism for selection in complex evolutionary systems. The primordial soup, the modern economy, and the biosphere may all be, at their core, free markets.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sec10">10. Methods</h2>
+
+<p>The FM-ABM framework is implemented in C++20 with the following computational stack:</p>
+
+<table>
+<tr><th>Component</th><th>Technology</th><th>Role</th></tr>
+<tr><td class="bold">Core simulation engine</td><td>C++20 (MSVC)</td><td>Agent lifecycle, market dynamics, producer management</td></tr>
+<tr><td class="bold">Chemical structure handling</td><td>RDKit (open-source cheminformatics)</td><td>SMILES parsing, molecular formula, substructure matching</td></tr>
+<tr><td class="bold">3D geometry validation</td><td>Universal Force Field (UFF via RDKit)</td><td>Strain energy evaluation for molecules &le; 30 atoms</td></tr>
+<tr><td class="bold">Thermodynamic evaluation</td><td>Bond Dissociation Energy (BDE) tables</td><td>&Delta;E calculation for reaction feasibility</td></tr>
+<tr><td class="bold">Kinetic barriers</td><td>Evans&ndash;Polanyi relation</td><td>E<sub>a</sub> = E<sub>0</sub> + &alpha;<sub>EP</sub> &times; &Delta;E, acceptance P = exp(&minus;E<sub>a</sub>/kT)</td></tr>
+<tr><td class="bold">Visualization</td><td>Dear ImGui</td><td>Real-time simulation monitoring, census display, parameter control</td></tr>
+<tr><td class="bold">Economic data</td><td>FIGARO symmetric I-O tables (Eurostat)</td><td>64-sector inter-industry flow matrices</td></tr>
+</table>
+
+<p><strong>Chemistry configuration:</strong> 200 C + 500 H + 100 O + 100 N atoms (900 total). Ring neighborhood size <em>k</em> = 5. Discovery budget = 10 (default). Evans&ndash;Polanyi parameters: E<sub>0</sub> = 50 kJ/mol, &alpha;<sub>EP</sub> = 0.3, T = 300 K (configurable). UFF validation applied to molecules with &le; 30 atoms. Simulation runs of 500&ndash;2,000 steps.</p>
+
+<p><strong>Economics configuration:</strong> FIGARO 64-sector symmetric input&ndash;output tables for each target country and year. Workers represent sectors. Production functions derived directly from I-O coefficients. No estimated parameters. No external calibration data. Single-year I-O table as sole input.</p>
+
+<p><strong>Reactor scaling experiments:</strong> Four reactor sizes tested (900, 1,800, 3,600, 7,200 atoms) in extended overnight runs (2,000+ steps). Species diversity, Shannon entropy, production rates, and maximum molecule size tracked as functions of reactor size and simulation time.</p>
+
+<!-- ============================================================ -->
+<div class="ref">
+<h2 id="refs" style="border-top: none; margin-top: 10px;">References</h2>
+<ol>
+  <li>Sharma, A., Czégel, D., Lachmann, M., Kempes, C. P., Walker, S. I. &amp; Cronin, L. Assembly Theory explains and quantifies selection and evolution. <em>Nature</em> <strong>622</strong>, 321&ndash;328 (2023).</li>
+  <li>Jaraiz, M. Ants, robots, humans: a self-organizing, complex systems modeling approach. <em>arXiv:2009.10823</em> (2020).</li>
+  <li>Jaraiz, M. Macroeconomic Forecasting from Input-Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data. <em>arXiv:2603.12412</em> (2026).</li>
+  <li>Miller, S. L. A production of amino acids under possible primitive Earth conditions. <em>Science</em> <strong>117</strong>, 528&ndash;529 (1953).</li>
+  <li>Hayek, F. A. The use of knowledge in society. <em>American Economic Review</em> <strong>35</strong>, 519&ndash;530 (1945).</li>
+  <li>Lewontin, R. C. The units of selection. <em>Annual Review of Ecology and Systematics</em> <strong>1</strong>, 1&ndash;18 (1970).</li>
+  <li>Kauffman, S. A. <em>The Origins of Order: Self-Organization and Selection in Evolution</em> (Oxford University Press, 1993).</li>
+  <li>Higgs, P. G. &amp; Pudritz, R. E. A thermodynamic basis for prebiotic amino acid synthesis and the nature of the first genetic code. <em>Astrobiology</em> <strong>9</strong>, 483&ndash;490 (2009).</li>
+  <li>Trifonov, E. N. Consensus temporal order of amino acids and evolution of the triplet code. <em>Gene</em> <strong>261</strong>, 139&ndash;151 (2001).</li>
+  <li>Krug, R. A. &amp; Wang, L.-P. Ab initio nanoreactor simulations of prebiotic chemistry. <em>Nature Chemistry</em> <strong>6</strong>, 1044&ndash;1048 (2014).</li>
+  <li>Jaraiz, M. A Prebiotic Chemistry &ldquo;Time Machine&rdquo;: Compressing the Chemical Clock with a Darwinian Agent-Based Model. <em>arXiv:XXXX.XXXXX</em> (2026).</li>
+</ol>
+</div>
+
+<!-- AI DISCLOSURE -->
+<div class="disclosure">
+<strong>AI Disclosure.</strong> Portions of the computational implementation of the author&rsquo;s research ideas, simulation code, data analysis, and manuscript drafting were performed with the assistance of Claude (Anthropic), an AI language model operating as Claude Code, which contributed implementation of the author&rsquo;s driving ideas, code development, simulation execution, data analysis, and debugging under continuous human supervision and direction. The chemistry domain (prebiotic chemistry and origin-of-life research) is largely unfamiliar to the author, whose background is in semiconductor process modeling and agent-based economic simulation. This experience reinforces the observation from previous work (Jaraiz, 2026) that AI-assisted research may substantially lower the barriers for cross-disciplinary contributions, enabling domain outsiders to engage productively with fields where they lack formal training but can bring fresh methodological perspectives.
+</div>
+
+<!-- AUTHOR'S DISCLOSURE -->
+<div class="disclosure">
+<strong>Author&rsquo;s Disclosure.</strong> For this report I only provided the title and asked Claude to generate it. And all the chemistry-related work, from scratch, took &ldquo;us&rdquo; less than a week.
+</div>
+
+</body>
+</html>

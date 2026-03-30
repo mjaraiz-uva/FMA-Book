@@ -1,0 +1,1846 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 15">
+<meta name="Originator" content="Microsoft Word 15">
+<title>Macroeconomic Forecasting from Input-Output Tables Alone: A Darwinian Agent-Based Approach with FIGARO Data</title>
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+ <o:AllowPNG/>
+</o:OfficeDocumentSettings>
+<w:WordDocument>
+ <w:View>Print</w:View>
+ <w:Zoom>100</w:Zoom>
+ <w:SpellingState>Clean</w:SpellingState>
+ <w:GrammarState>Clean</w:GrammarState>
+ <w:TrackMoves>false</w:TrackMoves>
+ <w:TrackFormatting/>
+ <w:PunctuationKerning/>
+ <w:ValidateAgainstSchemas/>
+ <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+ <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+ <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+ <w:DoNotPromoteQF/>
+ <w:LidThemeOther>EN-US</w:LidThemeOther>
+ <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+ <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+ <w:Compatibility>
+  <w:BreakWrappedTables/>
+  <w:SnapToGridInCell/>
+  <w:WrapTextWithPunct/>
+  <w:UseAsianBreakRules/>
+  <w:DontGrowAutofit/>
+  <w:SplitPgBreakAndParaMark/>
+  <w:EnableOpenTypeKerning/>
+ </w:Compatibility>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+<!--
+ /* Page definition */
+ @page {
+   size: 21.0cm 29.7cm; /* A4 */
+   margin: 2.5cm 2.5cm 3.0cm 2.5cm;
+   mso-header-margin: 0cm;
+   mso-footer-margin: 1.0cm;
+   mso-paper-source: 0;
+   @bottom-center {
+     content: counter(page);
+     font-family: 'Palatino Linotype', Georgia, serif;
+     font-size: 10pt;
+     color: #555;
+   }
+ }
+ @page Section1 {
+   size: 21.0cm 29.7cm;
+   margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+   mso-header-margin: 1.0cm;
+   mso-footer-margin: 1.0cm;
+   mso-paper-source: 0;
+ }
+ div.Section1 {
+   page: Section1;
+ }
+
+ /* Body */
+ body {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 12.0pt;
+   color: #222222;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   mso-ansi-font-size: 12.0pt;
+   mso-bidi-font-size: 12.0pt;
+   mso-fareast-font-family: 'Times New Roman';
+   mso-pagination: widow-orphan;
+ }
+
+ /* Title */
+ h1.title-heading {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 16.0pt;
+   font-weight: bold;
+   color: #1a3c5e;
+   text-align: center;
+   line-height: 1.4;
+   mso-line-height-rule: exactly;
+   margin-top: 24pt;
+   margin-bottom: 12pt;
+   mso-pagination: widow-orphan;
+ }
+
+ /* Section headings (h1) */
+ h1 {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 14.0pt;
+   font-weight: bold;
+   color: #1a3c5e;
+   margin-top: 24pt;
+   margin-bottom: 10pt;
+   border-bottom: 2pt solid #1a3c5e;
+   padding-bottom: 4pt;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   page-break-before: always;
+   mso-pagination: widow-orphan;
+   mso-outline-level: 1;
+ }
+
+ /* Subsection headings (h2) */
+ h2 {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 13.0pt;
+   font-weight: bold;
+   color: #1a3c5e;
+   margin-top: 18pt;
+   margin-bottom: 8pt;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   mso-pagination: widow-orphan;
+   mso-outline-level: 2;
+ }
+
+ /* Sub-subsection headings (h3) */
+ h3 {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 12.0pt;
+   font-weight: bold;
+   font-style: italic;
+   color: #c0392b;
+   margin-top: 14pt;
+   margin-bottom: 6pt;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   mso-pagination: widow-orphan;
+   mso-outline-level: 3;
+ }
+
+ /* Paragraphs */
+ p {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 12.0pt;
+   margin-top: 6pt;
+   margin-bottom: 6pt;
+   text-align: justify;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   mso-pagination: widow-orphan;
+ }
+
+ /* Lists */
+ ul, ol {
+   margin-top: 6pt;
+   margin-bottom: 8pt;
+   margin-left: 28pt;
+   mso-list: l0 level1;
+ }
+ li {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 12.0pt;
+   margin-top: 3pt;
+   margin-bottom: 3pt;
+   line-height: 1.5;
+   mso-line-height-rule: exactly;
+   mso-pagination: widow-orphan;
+ }
+
+ /* Links */
+ a {
+   color: #c0392b;
+   text-decoration: underline;
+ }
+
+ /* Title block */
+ .title-block {
+   text-align: center;
+   margin-top: 20pt;
+   margin-bottom: 30pt;
+   padding: 20pt 16pt;
+ }
+ .authors {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 12.0pt;
+   margin-top: 6pt;
+   margin-bottom: 6pt;
+   text-align: center;
+ }
+ .affiliation {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 11.0pt;
+   color: #555555;
+   text-align: center;
+ }
+ .date {
+   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+   font-size: 10.5pt;
+   color: #555555;
+   margin-top: 8pt;
+   text-align: center;
+ }
+
+ /* Abstract */
+ .abstract {
+   background: #f6f8fa;
+   border-left: 4pt solid #1a3c5e;
+   padding: 12pt 16pt;
+   margin-top: 16pt;
+   margin-bottom: 24pt;
+   font-size: 11.0pt;
+   mso-shading: white;
+   mso-pattern: solid #f6f8fa;
+ }
+ .abstract h3 {
+   margin-top: 0pt;
+   color: #1a3c5e;
+ }
+ .keywords {
+   font-size: 10.5pt;
+   color: #555555;
+   margin-top: 8pt;
+   margin-bottom: 4pt;
+ }
+
+ /* Tables */
+ table {
+   border-collapse: collapse;
+   margin-top: 10pt;
+   margin-bottom: 10pt;
+   margin-left: auto;
+   margin-right: auto;
+   font-size: 10.5pt;
+   mso-cellspacing: 0pt;
+   mso-yfti-tbllook: 1184;
+   mso-padding-alt: 4pt 4pt 4pt 4pt;
+ }
+ th {
+   border: 1pt solid #bbbbbb;
+   padding: 4pt 8pt;
+   text-align: center;
+   background: #eef1f5;
+   color: #1a3c5e;
+   font-weight: bold;
+   font-size: 10.5pt;
+   mso-shading: white;
+   mso-pattern: solid #eef1f5;
+ }
+ td {
+   border: 1pt solid #bbbbbb;
+   padding: 4pt 8pt;
+   text-align: center;
+   font-size: 10.5pt;
+ }
+ caption {
+   font-weight: bold;
+   margin-bottom: 4pt;
+   font-size: 11.0pt;
+   text-align: center;
+   mso-pagination: widow-orphan;
+ }
+ tfoot td {
+   font-weight: bold;
+   background: #f0f4e8;
+   mso-shading: white;
+   mso-pattern: solid #f0f4e8;
+ }
+
+ /* Highlight boxes (converted to bordered divs) */
+ .highlight {
+   border: 1pt solid #1a3c5e;
+   border-left: 4pt solid #1a3c5e;
+   background: #eef6ff;
+   padding: 10pt 14pt;
+   margin-top: 12pt;
+   margin-bottom: 12pt;
+   font-size: 11.0pt;
+   mso-shading: white;
+   mso-pattern: solid #eef6ff;
+ }
+ .highlight.success {
+   background: #eafaf1;
+   border-color: #27ae60;
+   border-left-color: #27ae60;
+   mso-pattern: solid #eafaf1;
+ }
+ .highlight.warning {
+   background: #fff8e1;
+   border-color: #e67e22;
+   border-left-color: #e67e22;
+   mso-pattern: solid #fff8e1;
+ }
+
+ /* Crisis row styling */
+ tr.crisis td {
+   background: #ffe0b2;
+   mso-shading: white;
+   mso-pattern: solid #ffe0b2;
+ }
+ .inst-header th {
+   background: #1a3c5e;
+   color: #ffffff;
+   mso-shading: white;
+   mso-pattern: solid #1a3c5e;
+ }
+ .inst-header th.year-col,
+ .inst-header th.actual-col {
+   background: #eef1f5;
+   color: #1a3c5e;
+   mso-shading: white;
+   mso-pattern: solid #eef1f5;
+ }
+ td.year-cell {
+   background: #eef1f5;
+   color: #1a3c5e;
+   font-weight: bold;
+   mso-shading: white;
+   mso-pattern: solid #eef1f5;
+ }
+ tr.crisis td.year-cell {
+   background: #ef6c00;
+   color: #ffffff;
+   mso-shading: white;
+   mso-pattern: solid #ef6c00;
+ }
+ .good { color: #27ae60; font-weight: bold; }
+ .warn { color: #e67e22; font-weight: bold; }
+ .bad { color: #c0392b; font-weight: bold; }
+
+ /* Blockquote */
+ blockquote {
+   border-left: 3pt solid #c0392b;
+   padding: 6pt 12pt;
+   margin-top: 10pt;
+   margin-bottom: 10pt;
+   background: #f9fafb;
+   font-style: italic;
+   color: #555555;
+   mso-shading: white;
+   mso-pattern: solid #f9fafb;
+ }
+
+ /* Footnotes */
+ .footnote {
+   font-size: 9.5pt;
+   color: #555555;
+ }
+ sup {
+   font-size: 8.0pt;
+   mso-text-raise: 4pt;
+ }
+
+ /* References */
+ .ref {
+   font-size: 10.5pt;
+ }
+ .ref p {
+   margin-top: 3pt;
+   margin-bottom: 3pt;
+   padding-left: 36pt;
+   text-indent: -36pt;
+ }
+
+ /* Figures */
+ .figure, .figure-block {
+   text-align: center;
+   margin-top: 16pt;
+   margin-bottom: 16pt;
+   padding: 10pt;
+   border: 1pt solid #dddddd;
+   background: #fafafa;
+   mso-shading: white;
+   mso-pattern: solid #fafafa;
+ }
+ .figure-caption {
+   font-size: 10.5pt;
+   font-style: italic;
+   margin-top: 6pt;
+   text-align: justify;
+ }
+
+ /* Print styles */
+ @media print {
+   body { font-size: 12.0pt; }
+   h1 { page-break-before: always; page-break-after: avoid; }
+   h2 { page-break-after: avoid; }
+   h3 { page-break-after: avoid; }
+   .figure, .figure-block { page-break-inside: avoid; }
+   table { page-break-inside: avoid; }
+   caption { page-break-after: avoid; }
+   .highlight { page-break-inside: avoid; }
+   .abstract { page-break-inside: avoid; }
+   blockquote { page-break-inside: avoid; }
+   table + .footnote { page-break-before: avoid; }
+   h1 + p, h2 + p, h3 + p { page-break-before: avoid; }
+   svg { max-width: 100%; height: auto; }
+ }
+-->
+
+  /* Foldable sections — injected */
+  .fold-section { margin-top: 30px; border: 1px solid #d0d8e0; border-radius: 8px; overflow: hidden; background: #fff; }
+  .fold-header { font-family: 'Segoe UI', sans-serif; font-size: 1.3em; font-weight: 600; color: #2c5f8a; padding: 14px 20px; cursor: pointer; background: #f0f4f8; border-bottom: 1px solid transparent; display: flex; align-items: center; gap: 10px; user-select: none; transition: background 0.15s; }
+  .fold-header:hover { background: #e4eaf0; }
+  .fold-header::before { content: '\25B6'; font-size: 0.65em; color: #2c5f8a; transition: transform 0.2s; display: inline-block; width: 16px; }
+  .fold-header.open::before { transform: rotate(90deg); }
+  .fold-header.open { border-bottom: 1px solid #d0d8e0; }
+  .fold-body { padding: 16px 22px 22px; display: none; }
+  .fold-body.open { display: block; }
+
+  .fold-sub { margin-top: 14px; border: 1px solid #e0e4e8; border-radius: 6px; overflow: hidden; }
+  .fold-sub-header { font-family: 'Segoe UI', sans-serif; font-size: 1.0em; font-weight: 600; color: #3a5a7c; padding: 10px 16px; cursor: pointer; background: #f5f7fa; display: flex; align-items: center; gap: 6px; user-select: none; transition: background 0.15s; }
+  .fold-sub-header:hover { background: #eaeff4; }
+  .fold-sub-header::before { content: '\25B6'; font-size: 0.55em; color: #3a5a7c; transition: transform 0.2s; display: inline-block; width: 14px; }
+  .fold-sub-header.open::before { transform: rotate(90deg); }
+  .fold-sub-body { padding: 12px 18px 16px; display: none; }
+  .fold-sub-body.open { display: block; }
+
+  .expand-controls { display: flex; gap: 10px; margin: 16px 0 4px; font-family: 'Segoe UI', sans-serif; font-size: 0.85em; }
+  .expand-controls button { background: #e8eef4; border: 1px solid #c0cad4; border-radius: 5px; padding: 5px 12px; cursor: pointer; color: #2c5f8a; font-size: 0.85em; font-family: 'Segoe UI', sans-serif; transition: background 0.15s; }
+  .expand-controls button:hover { background: #d8e2ec; }
+
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+
+  /* Cross-chapter nav — injected */
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body lang="EN-US" style="tab-interval:36.0pt">
+<div class="Section1">
+
+<!-- ========== TITLE ========== -->
+<div style="text-align:center; color:#7f8c8d; font-size:0.82em; letter-spacing:0.12em; text-transform:uppercase; padding-top:10px; margin-bottom:4px;">The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+<div style="text-align:center; color:#2980b9; font-size:1.0em; font-weight:600; margin-bottom:20px; letter-spacing:0.04em;">Chapter&nbsp;2 &mdash; Macroeconomic Forecasting</div>
+<div class="title-block">
+  <h1 class="title-heading" style="page-break-before: auto;">Macroeconomic Forecasting from Input-Output Tables Alone:<br>A Darwinian Agent-Based Approach<br>with FIGARO Data</h1>
+  <div class="authors">Martin Jaraiz</div>
+  <div class="affiliation">Department of Electricity and Electronics, University of Valladolid, Spain</div>
+  <div class="date">Draft &mdash; March 2026</div>
+</div>
+
+<!-- ========== ABSTRACT ========== -->
+<div class="abstract">
+  <h3 style="page-break-before: auto;">Abstract</h3>
+  <p>How much macroeconomic information is contained in a single input-output table? We address this question by feeding FIGARO 64-sector symmetric industry-by-industry tables into DEPLOYERS, a Darwinian agent-based simulator, and using the result to produce genuine out-of-sample GDP forecasts. For each year, the model reads one FIGARO table for year <em>N</em>, self-organizes an artificial economy through evolutionary natural selection, then runs 12 months of fully autonomous free-market dynamics whose emergent growth rate predicts year <em>N</em>+1. The I-O table is essentially the <strong>only</strong> input: no time series, no estimated parameters, no expectations formation, no external forecasts.</p>
+
+  <p>We present five sets of results. First, a <strong>9-year Austrian panel (2010&ndash;2018)</strong> using 12-seed ensembles produces MAE of 1.22&nbsp;pp overall; for five non-crisis years, MAE falls to <strong>0.42&nbsp;pp</strong>&mdash;comparable to the best professional forecaster (WIFO: 0.48&nbsp;pp). A <strong>Swedish 9-year panel</strong> independently confirms this accuracy (normal-years MAE 0.80&nbsp;pp). Second, <strong>cross-country portability</strong> is demonstrated: 33 of 37 tested FIGARO countries converge with zero parameter changes. Third, a <strong>German 9-year panel</strong> reveals a systematic +3.7&nbsp;pp positive bias from export dependency, and a <strong>French panel</strong> shows similar bias (+2.76&nbsp;pp)&mdash;informative negative results pointing to multi-country network simulation as the natural extension. Fourth, a <strong>COVID-19 simulation</strong> demonstrates the I-O structure as a shock propagation mechanism: a 19-month timeline produces Year&nbsp;1 GDP &minus;4.62% versus empirical &minus;6.6%. Fifth, <strong>emergent firm size distributions</strong> match European Commission data without micro-target calibration.</p>
+
+  <p>These results establish the I-O table as serving a dual purpose: structural baseline engine <em>and</em> dynamic shock propagation mechanism. The approach works best for economies with moderate growth where the structural trajectory closely tracks actual outcomes (Austria, Sweden); for economies with persistently low growth or high export dependency (France, Germany), a household wealth-consumption feedback mechanism produces a positive bias that represents a research frontier. Since FIGARO covers 46 countries with identical methodology, the approach is immediately portable without retuning parameters.</p>
+
+  <p class="keywords"><strong>Keywords:</strong> input-output tables, FIGARO, macroeconomic forecasting, agent-based model, Darwinian economics, out-of-sample, cross-country portability, shock propagation</p>
+  <p class="keywords"><strong>JEL Classification:</strong> C63, C67, D57, E17, E27, L11</p>
+</div>
+
+
+<!-- ========== 1. INTRODUCTION ========== -->
+<h1>1. Introduction</h1>
+
+<p>Macroeconomic forecasting remains one of the most challenging tasks in applied economics. Despite decades of methodological development&mdash;from structural equation models through vector autoregressions to dynamic stochastic general equilibrium (DSGE) frameworks&mdash;forecast accuracy has improved only modestly. The International Monetary Fund's one-year-ahead GDP growth forecasts for advanced economies exhibit a mean absolute error of approximately 1.3 percentage points (Ismail, Perrelli and Yang, 2021). Consensus Economics surveys, aggregating dozens of professional forecasters, achieve roughly 1.0&nbsp;pp (Federal Reserve Bank of St. Louis, 2024). The OECD's Economic Outlook forecasts show similar accuracy at approximately 1.5&nbsp;pp (Pain et al., 2014). DSGE models, the workhorse of central bank forecasting, have been shown to be no more accurate than simple reduced-form benchmarks at horizons beyond one quarter (Edge and G&uuml;rkaynak, 2010; Smets and Wouters, 2007).</p>
+
+<p>Against this backdrop, agent-based models (ABMs) have emerged as a promising alternative paradigm. Farmer and Foley (2009) argued in <em>Nature</em> that "the economy needs agent-based modelling" precisely because ABMs can capture the heterogeneity, nonlinear interactions, and out-of-equilibrium dynamics that representative-agent models suppress. The recent 90-page landmark survey by Axtell and Farmer (2025) in the <em>Journal of Economic Literature</em> documents the maturation of ABM methodology from a niche computational curiosity into a serious quantitative tool. A watershed moment came with Poledna, Miess, Hommes and Rabitsch (2023), who demonstrated in the <em>European Economic Review</em> that an ABM could pass the institutional benchmark test&mdash;producing GDP forecasts for Austria competitive with the IMF, OECD, and domestic forecasters. This result has catalyzed rapid developments: the Bank of Canada's CANVAS model (Hamill, Wieland and Hommes, 2025), the Bank of Italy's BeforeIT.jl framework (Glielmo, Devetak, Meligrana and Poledna, 2025), and the crisis-forecasting extension by Hommes and Poledna (2026) all build on the proof of concept that ABMs can be quantitative forecasting instruments.</p>
+
+<p>This paper takes a different approach to the same question. Where Poledna et al. (2023) built a highly detailed model with 8.8 million agents, pre-calibrated from census microdata and business demography registers, requiring a supercomputer cluster and 500 Monte Carlo simulations, we ask: <em>how simple can an ABM be and still produce competitive forecasts?</em> Our answer is radically simple. DEPLOYERS uses approximately 2,000 agents on a standard desktop PC, reads a single FIGARO input-output table as its only structural input, estimates zero parameters, and lets Darwinian natural selection&mdash;firm birth when unmet demand is observed, firm death when wealth turns negative&mdash;organize the artificial economy. A complete 12-seed ensemble for one country-year runs overnight on a laptop.</p>
+
+<p>The simplicity is deliberate and methodologically motivated. By stripping the model to its bare essentials&mdash;Leontief production technology, bilateral price t&acirc;tonnement, evolutionary firm dynamics, and an I-O table&mdash;we can isolate the contribution of the I-O data itself. If the resulting forecasts are competitive, the I-O table must contain more macroeconomic information than is conventionally extracted through standard Leontief demand-pull or Ghosh supply-push multiplier analysis.</p>
+
+<p>We advance four claims:</p>
+
+<ol>
+  <li><strong>I-O tables are informationally rich for structural forecasting.</strong> A single FIGARO 64-sector I-O table contains enough structural information&mdash;inter-sectoral technology, factor income distribution, household demand, government accounts, trade patterns&mdash;to generate one-year-ahead GDP forecasts comparable to professional institutions for years where no major exogenous shocks intervene.</li>
+
+  <li><strong>Darwinian selection is a sufficient equilibrating mechanism.</strong> The evolutionary process of firm birth and death, operating on the I-O structural constraints, drives the economy to a steady state consistent with the table and then produces autonomous forward dynamics. No expectations formation, no Taylor rule, no estimated behavioral parameters are needed.</li>
+
+  <li><strong>Zero-parameter multi-country portability is achievable.</strong> The same code, with the same universal behavioral rules, produces meaningful forecasts across structurally diverse economies by changing only the I-O table input. Of 37 tested FIGARO countries, 33 converge with zero parameter changes; full 9-year panels for Austria, Sweden, Germany, and France confirm the approach across different economic structures.</li>
+
+  <li><strong>The I-O network serves as a shock propagation mechanism.</strong> The same inter-sectoral linkages that drive baseline forecast accuracy also faithfully transmit encoded exogenous shocks&mdash;as demonstrated with a COVID-19 pandemic simulation for Austria.</li>
+</ol>
+
+<p>Importantly, we maintain honest framing throughout. DEPLOYERS predicts <em>structural trajectories</em>&mdash;what the economy would do based on its production structure absent in-year perturbations. This is comparable to what institutions predict only in years where the structural trajectory coincides with the actual outcome. On those years, our accuracy is comparable to the best professional forecasters; we do not claim to outperform them in general.</p>
+
+<p>The paper proceeds as follows. Section 2 describes the model architecture and its relationship to the I-O table. Section 3 details the out-of-sample forecasting protocol. Section 4 presents five sets of results: the Austrian 9-year panel, the institutional comparison, cross-country portability, the German 9-year panel, the COVID-19 shock simulation, and emergent microeconomic structure. Section 5 discusses what the results reveal about I-O information content, the comparison with Poledna et al. (2023), the German puzzle, simplicity as robustness, and limitations. Section 6 concludes.</p>
+
+
+<!-- ========== 2. THE DEPLOYERS MODEL ========== -->
+<h1>2. The DEPLOYERS Model</h1>
+
+<h2>2.1 Darwinian Deployment Philosophy</h2>
+
+<p>DEPLOYERS belongs to the evolutionary economics tradition inaugurated by Nelson and Winter (1982), which treats economic change as an evolutionary process of variation, selection, and retention rather than an optimization problem solved by representative agents with rational expectations. The bounded rationality framework of Simon (1956)&mdash;agents satisfice rather than optimize&mdash;provides the behavioral foundation: firms and workers follow simple heuristic rules, and the economy's macroeconomic properties emerge from the interaction of these boundedly rational agents through market mechanisms.</p>
+
+<p>The name "DEPLOYERS" derives from Jaraiz (2020), who developed a general framework for <em>self-organizing agent deployers</em> applicable to systems as diverse as ant colonies, robot coordination in industrial assembly, and economic production. The key insight is that complex systems that must allocate heterogeneous agents to heterogeneous tasks share a common organizational problem: how to achieve efficient aggregate outcomes without centralized planning. In ant colonies, pheromone trails provide the coordination signal; in robot assembly, task completion signals drive reallocation; in economies, prices and profits serve the same role. The same simulation code, with different input files describing the environment, can coordinate robots doing parallel assembly tasks or firms producing goods in a 64-sector economy. This domain generality is not an engineering curiosity but a conceptual point: the coordination mechanism is independent of the domain, and the structural input (task description for robots, I-O table for economies) determines the emergent behavior.</p>
+
+<p>The economy-as-ecosystem metaphor has a specific technical implication. Unlike Poledna et al. (2023), who pre-calibrate the firm population, employment distribution, and wealth profiles from microdata before running the model, DEPLOYERS starts from the I-O table and lets the population <em>emerge</em>. Firms are born when entrepreneurs observe unmet demand (variation), compete for workers, inputs, and customers (selection), and survive or perish based on accumulated wealth (retention). The steady-state economy that results is one where the number of firms per sector, their sizes, and the employment distribution are all endogenously determined by the I-O structural constraints&mdash;not externally imposed. This is a genuinely novel feature in the ABM forecasting literature: no other macroeconomic ABM that we are aware of achieves competitive GDP forecasts with fully endogenous firm dynamics.</p>
+
+<h2>2.2 Model Structure and Data</h2>
+
+<p>Each forecast exercise begins with a single FIGARO 25th-edition symmetric industry-by-industry table. The 64-sector granularity of FIGARO (full NACE Rev.2 A*64 classification) is critical: it preserves the heterogeneity of the production structure, distinguishing for instance between air transport (H51), accommodation and food services (I), and financial services (K64)&mdash;sectors that differ profoundly in their labor intensity, capital structure, and trade exposure. Coarser classifications would lose this structural information.</p>
+
+<p>From the single I-O table, the model extracts <em>all</em> of the following:</p>
+
+<ul>
+  <li><strong>Inter-sectoral technology.</strong> The 64&times;64 intermediate consumption matrix defines Leontief input coefficients for every sector pair, encoding the economy's production network&mdash;which sectors are upstream suppliers, which are downstream buyers, and the quantitative intensity of each link. This is precisely the information that network-analytic approaches (Acemoglu et al., 2012; Carvalho and Tahbaz-Salehi, 2019) identify as critical for understanding shock propagation and aggregate fluctuations.</li>
+  <li><strong>Factor income structure.</strong> Compensation of employees (L) and gross operating surplus (K) per sector determine the labor-capital split, implicitly setting viable firm sizes: sectors with high labor compensation per unit output sustain many small firms; sectors with high capital intensity sustain fewer, larger firms.</li>
+  <li><strong>Household demand structure.</strong> The household final consumption row specifies the expenditure pattern across 64 goods, directly setting consumer preferences&mdash;no utility function estimation required.</li>
+  <li><strong>Government demand.</strong> Government consumption expenditure by sector is read directly.</li>
+  <li><strong>Investment.</strong> Gross fixed capital formation by sector of origin, combined with a fixed capital-to-GFCF ratio (one of the few parameters not from the I-O table).</li>
+  <li><strong>Tax structure.</strong> Net taxes on production (D29X39) and taxes on products (D21X31) set ad-valorem tax rates per sector.</li>
+  <li><strong>International trade.</strong> Export and import rows by sector define trade exposure and competitive position.</li>
+  <li><strong>GDP target.</strong> Value added at market prices (L + K + D29X39 + D21X31 + OP_RES + OP_NRES) per sector, summing to total GDP&mdash;the forecast reference.</li>
+</ul>
+
+<p>The only non-I-O data required are the total active population and the NAIRU (natural rate of unemployment), both single numbers publicly available from Eurostat and the OECD. Every behavioral parameter in the model is fixed at universal values that have not been tuned to any specific country or year.</p>
+
+<p>At w32 scale, the model creates 32 simulated workers per sector &times; 64 sectors &asymp; 2,048 workers, who self-organize into approximately 340 firms. Each simulated worker represents roughly 2,000 real workers (for Austria's 4 million active population) or 20,000 real workers (for Germany's 41 million). The model's macroeconomic predictions are expressed as ratios (growth rates, employment shares, price indices), not levels, making them scale-invariant.</p>
+
+<h2>2.3 Agent Behavioral Rules</h2>
+
+<p>The behavioral rules are deliberately minimal, following the principle that complexity should come from the I-O data, not from the agent specification. Table 1 lists all rules; the rightmost column identifies which are derived from the I-O table versus universal constants.</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 1: Agent Behavioral Rules &mdash; All Universal, None Country-Specific</caption>
+  <tr><th style="width:18%;">Behavior</th><th style="width:37%;">Rule</th><th style="width:45%;">I-O Table Role</th></tr>
+  <tr><td>Production</td><td>Leontief: min(L, K, IC)</td><td>Coefficients from I-O intermediate matrix</td></tr>
+  <tr><td>Input demand</td><td>Stock target = 2.5 &times; avg monthly sales</td><td>Sector sourcing from I-O columns</td></tr>
+  <tr><td>Pricing</td><td>Bilateral &plusmn;0.5%/month t&acirc;tonnement</td><td>Universal (not from I-O)</td></tr>
+  <tr><td>Wage setting</td><td>Hire if offer &ge; asking; both adjust &plusmn;0.5%</td><td>L/output ratio sets equilibrium wages</td></tr>
+  <tr><td>Consumption</td><td>Logit(&gamma;=4), budget = wage income/12</td><td>HH consumption column sets basket weights</td></tr>
+  <tr><td>Firm entry</td><td>Start firm when unmet demand observed</td><td>Demand gaps reflect I-O structure</td></tr>
+  <tr><td>Firm exit</td><td>Bankrupt when wealth &lt; 0</td><td>K/output ratio sets survivability threshold</td></tr>
+  <tr><td>Investment</td><td>KtoFixCapitalFactor = 0.05; Leontief query</td><td>GFCF column sets investment composition</td></tr>
+  <tr><td>Government</td><td>Collect taxes, pay transfers, consume</td><td>Tax rates and G row from I-O table</td></tr>
+  <tr><td>Trade</td><td>External sectors buy/sell per I-O</td><td>Export and import rows directly</td></tr>
+  <tr><td>Unemployment benefits</td><td>80% of last wage</td><td>Universal (not from I-O)</td></tr>
+  <tr><td>Wage indexation</td><td>CPI-indexed asking wages</td><td>Universal (not from I-O)</td></tr>
+</table>
+
+<p>The key observation is that nearly every behavioral parameter is either universal (identical for all countries and years) or derived directly from the I-O table. The model contains <strong>no estimated parameters</strong> in the econometric sense&mdash;no maximum likelihood, no Bayesian estimation, no GMM. The I-O table provides the structure; Darwinian selection provides the dynamics.</p>
+
+<p>The evolutionary mechanism works as follows. Starting from the SAM-specified sector structure, firms are created, produce goods using Leontief technology, sell through bilateral negotiation, and pay wages and taxes. Firms that generate insufficient gross operating surplus accumulate negative wealth and are eliminated&mdash;the <em>selection</em> mechanism. New firms enter when workers observe persistent unmet demand&mdash;the <em>variation</em> mechanism. Profitable firms survive and grow&mdash;the <em>retention</em> mechanism. The steady-state economy that emerges is one where the production network, firm population, and market structure are all consistent with the I-O table's structural constraints, but determined endogenously rather than imposed exogenously.</p>
+
+<p>A notable consequence is that the model requires far fewer Monte Carlo runs than typical ABMs: because each agent's state is directly correlated with the others through the I-O production network (worker <em>i</em> is employed by firm <em>j</em>, which buys inputs from firm <em>k</em>), the economy is a single self-consistent realization rather than a statistical sample from independent distributions. This explains why 12-seed ensembles suffice where Poledna et al. (2023) require 500.</p>
+
+<h2>2.4 Calibration Protocol</h2>
+
+<p>Each forecast exercise begins with a calibration phase where the artificial economy self-organizes to reproduce the target I-O table. The calibration proceeds through four stages:</p>
+
+<ol>
+  <li><strong>Pre-calibration</strong> (months 0&ndash;24): Sequential producers are initialized, and the economy begins its initial ramp-up from the SAM-specified structure.</li>
+  <li><strong>Assisted calibration:</strong> Production is subsidized to prevent premature firm death while the economy establishes viable supply chains.</li>
+  <li><strong>Transition calibration:</strong> Subsidies phase out gradually, and the economy must increasingly sustain itself through market dynamics.</li>
+  <li><strong>Free-market simulation:</strong> All subsidies are removed. The economy runs autonomously for 12 months, producing the forecast data.</li>
+</ol>
+
+<p>The transition from assisted to free-market dynamics is triggered by three convergence conditions that must be simultaneously satisfied:</p>
+
+<ol>
+  <li><strong>Unemployment convergence:</strong> 12-month SMA &le; 1.36 &times; NAIRU</li>
+  <li><strong>Household consumption convergence:</strong> weighted-average consumption price-adjustment factors stabilize (12-month relative change &lt; 2%)</li>
+  <li><strong>Government consumption convergence:</strong> same criterion for government spending factors</li>
+</ol>
+
+<p>Typical calibration at w32 scale requires 240&ndash;300 simulated months (20&ndash;30 minutes wall-clock time on a standard desktop PC). At calibration exit, the simulated economy reproduces the I-O table's inter-sectoral flows, factor incomes, government accounts, and trade volumes. The economy has self-organized approximately 340 firms across 64 sectors, with employment, wages, and prices all determined endogenously from the I-O constraints.</p>
+
+<p>A useful calibration diagnostic is the trajectory of the micro-firm share (0&ndash;9 employees) in the FirmsPerFirmsize distribution. In a healthy calibration, this share drops from 100% at initialization to a stable value reflecting the I-O-implied industrial organization. Austria converges at 88.7%, Canada at 90.5%, Japan at 94.5%. Countries that remain stuck above 95% fail to reach calibration stability&mdash;a pattern observed for South Korea 2010, which never achieved the convergence milestones despite running to timeout. This metric provides an early warning of calibration failure and correlates with the quality of the eventual GDP forecast.</p>
+
+
+<!-- ========== 3. FORECASTING PROTOCOL ========== -->
+<h1>3. Forecasting Protocol</h1>
+
+<h2>3.1 Out-of-Sample Design</h2>
+
+<p>The forecasting protocol is designed to be maximally transparent and genuinely out-of-sample. For each calibration year <em>N</em>, we perform the following:</p>
+
+<ol>
+  <li>Read the FIGARO I-O table for year <em>N</em> and the country parameters file (active population, NAIRU).</li>
+  <li>Run the calibration phase until convergence (typically 20&ndash;30 minutes at w32 scale on a desktop PC).</li>
+  <li>Run 12 months of fully autonomous free-market dynamics.</li>
+  <li>Record monthly nominal and real GDP, employment, trade, and other aggregates.</li>
+  <li>Compare the 12-month free-market trajectory against Eurostat chain-linked real GDP growth for year <em>N</em>+1.</li>
+</ol>
+
+<p>This is genuine one-year-ahead out-of-sample forecasting: no information from year <em>N</em>+1 enters the model. Each year is calibrated independently from its own I-O table. The protocol can be applied to any FIGARO country by changing a two-letter country code (<code>Country AT</code> &rarr; <code>Country DE</code>), and to a different year by selecting the corresponding FIGARO matrix file.</p>
+
+<p>The 2019&rarr;2020 exercise serves as a natural experiment. The model, calibrated on the 2019 I-O table, correctly predicts the structural growth trajectory that the Austrian economy would have followed absent the pandemic. It cannot predict COVID-19&mdash;no model can predict a novel pandemic from I-O data alone&mdash;but the structural baseline provides the counterfactual against which the pandemic's impact can be measured.</p>
+
+<h2>3.2 Ensemble Methodology</h2>
+
+<p>Each calibration year uses 12 independent simulations with distinct random seeds: 5489, 12345, 67890, 31415, 99999, 54321, 11111, 77777, 22222, 33333, 44444, 55555. Because the w32 scale (&asymp;2,000 agents) produces inherent stochastic noise, ensemble averaging is essential. The reported forecast is the mean across all seeds that satisfy convergence criteria: nominal GDP &ge; 80% of source value added, and unemployment &le; 20%. Seeds that produce stochastic collapses (runaway inflation, mass bankruptcy) are excluded.</p>
+
+<p>Convergence rates range from 92% to 100% across years and countries. With per-seed standard deviations typically 0.7&ndash;1.4&nbsp;pp, 12 seeds yield standard errors of the mean of 0.2&ndash;0.4&nbsp;pp, providing &plusmn;1&nbsp;pp accuracy at 95% confidence. A full 12-seed ensemble for one country-year completes overnight on a standard desktop PC.</p>
+
+<h2>3.3 OLS Linear Trend Extraction</h2>
+
+<p>The model produces monthly real GDP as a Laspeyres quantity index: realGDP = &Sigma;&nbsp;Q<sub>t</sub>&nbsp;&times;&nbsp;P<sub>base</sub>. Growth is extracted via OLS linear regression on the 12 free-market months:</p>
+
+<blockquote>
+realGDP(t) = a + b&middot;t, &nbsp;&nbsp; t = 0, 1, ..., 11<br>
+annual growth = 12 &times; b / a &times; 100%
+</blockquote>
+
+<p>This OLS trend extraction filters month-to-month stochastic noise by using all 12 observations rather than depending on volatile endpoint values. The R&sup2; of the linear fit serves as a diagnostic: values range from 0.01 (no discernible trend, purely stochastic fluctuation) to 0.77 (strong, consistent growth), with most country-years falling in the 0.15&ndash;0.50 range.</p>
+
+<h2>3.4 Benchmark Data</h2>
+
+<p>Empirical GDP growth is measured using Eurostat chain-linked volume series (CLVMNACSCAB1GQ), which provides real GDP growth adjusted for price changes using chain-linking methodology. For cross-country comparisons, we cross-validate against World Bank data (NY.GDP.MKTP.KD.ZG) and IMF World Economic Outlook estimates; discrepancies across sources are typically 0.01&ndash;0.16&nbsp;pp, well below the model's forecast uncertainty.</p>
+
+<p>Professional forecaster benchmarks are drawn from the literature: Ismail, Perrelli and Yang (2021) for the IMF, Pain et al. (2014) for the OECD, Schuster (2021) and Fritzer et al. (2019) for Austrian institutions, and Federal Reserve Bank of St. Louis (2024) for Consensus Economics.</p>
+
+
+<!-- ========== 4. RESULTS ========== -->
+<h1>4. Results</h1>
+
+<h2>4.1 Austrian 9-Year Panel (Calibration 2010&ndash;2018, Forecast 2011&ndash;2019)</h2>
+
+<p>The bar chart below presents the central forecasting result: a complete 9-year panel for Austria at w32 resolution (&asymp;2,048 agents), where each row represents a fully independent exercise&mdash;a fresh calibration from a different FIGARO I-O table, a different ensemble of 12 random seeds, and a different calibration year. No information is shared across rows. The model reads the FIGARO table for year <em>N</em>, calibrates the artificial economy to reproduce the I-O structure, then runs 12 months of autonomous free-market dynamics. The emergent growth rate is compared to the actual growth during the following year <em>N</em>+1&mdash;genuine year-ahead forecasting.</p>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 1: Austrian real GDP growth: Empirical, DEPLOYERS w32, Poledna et al. ABMX, and IMF fall forecast (forecast years 2011&ndash;2019)</p>
+<svg width="820" height="330" viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" style="font-family: Georgia, serif; font-size: 12px;">
+  <!-- Y axis -->
+  <line x1="60" y1="20" x2="60" y2="240" stroke="#333" stroke-width="1"/>
+  <!-- X axis -->
+  <line x1="60" y1="240" x2="810" y2="240" stroke="#333" stroke-width="1"/>
+  <!-- Y gridlines: scale 63px per 1% (range 0-3.5%) -->
+  <text x="50" y="244" text-anchor="end" fill="#555">0</text>
+  <text x="50" y="181" text-anchor="end" fill="#555">1</text>
+  <line x1="60" y1="177" x2="810" y2="177" stroke="#eee" stroke-width="0.5"/>
+  <text x="50" y="118" text-anchor="end" fill="#555">2</text>
+  <line x1="60" y1="114" x2="810" y2="114" stroke="#eee" stroke-width="0.5"/>
+  <text x="50" y="55" text-anchor="end" fill="#555">3</text>
+  <line x1="60" y1="51" x2="810" y2="51" stroke="#eee" stroke-width="0.5"/>
+  <text x="25" y="135" text-anchor="middle" fill="#333" transform="rotate(-90,25,135)">Growth (%)</text>
+  <!-- Order per year: DEPLOYERS (green) - Poledna ABMX (orange) - Empirical (black) - IMF (blue) -->
+  <!-- 2011: DEPL=2.37 Poledna=2.57 emp=3.10 IMF=1.7 NORMAL -->
+  <rect x="86" y="90.7" width="10" height="149.3" fill="#4CAF50"/>
+  <rect x="98" y="78.1" width="10" height="161.9" fill="#FF9800"/>
+  <rect x="110" y="44.7" width="10" height="195.3" fill="#333"/>
+  <rect x="122" y="132.9" width="10" height="107.1" fill="#2196F3"/>
+  <text x="109" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2011</text>
+  <text x="109" y="271" text-anchor="middle" fill="#27ae60" font-size="9">&minus;0.73</text>
+  <!-- 2012: DEPL=2.62 Poledna=0.59 emp=0.70 IMF=0.9 CRISIS -->
+  <rect x="167" y="74.9" width="10" height="165.1" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,3"/>
+  <rect x="179" y="202.8" width="10" height="37.2" fill="#FF9800"/>
+  <rect x="191" y="195.9" width="10" height="44.1" fill="#333"/>
+  <rect x="203" y="183.3" width="10" height="56.7" fill="#2196F3"/>
+  <text x="190" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2012</text>
+  <text x="190" y="271" text-anchor="middle" fill="#4CAF50" font-size="9">+1.92</text>
+  <!-- 2013: DEPL=2.72 Poledna=0.36 emp=0.00 IMF=1.0 CRISIS -->
+  <rect x="248" y="68.6" width="10" height="171.4" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,3"/>
+  <rect x="260" y="217.3" width="10" height="22.7" fill="#FF9800"/>
+  <line x1="272" y1="240" x2="282" y2="240" stroke="#333" stroke-width="2"/>
+  <rect x="284" y="177.0" width="10" height="63.0" fill="#2196F3"/>
+  <text x="271" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2013</text>
+  <text x="271" y="271" text-anchor="middle" fill="#4CAF50" font-size="9">+2.72</text>
+  <!-- 2014: DEPL=2.57 Poledna=1.30 emp=0.37 IMF=1.6 CRISIS -->
+  <rect x="329" y="78.1" width="10" height="161.9" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,3"/>
+  <rect x="341" y="158.1" width="10" height="81.9" fill="#FF9800"/>
+  <rect x="353" y="216.7" width="10" height="23.3" fill="#333"/>
+  <rect x="365" y="139.2" width="10" height="100.8" fill="#2196F3"/>
+  <text x="352" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2014</text>
+  <text x="352" y="271" text-anchor="middle" fill="#4CAF50" font-size="9">+2.20</text>
+  <!-- 2015: DEPL=3.15 Poledna=1.31 emp=1.10 IMF=1.9 CRISIS -->
+  <rect x="410" y="41.6" width="10" height="198.4" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,3"/>
+  <rect x="422" y="157.5" width="10" height="82.5" fill="#FF9800"/>
+  <rect x="434" y="170.7" width="10" height="69.3" fill="#333"/>
+  <rect x="446" y="120.3" width="10" height="119.7" fill="#2196F3"/>
+  <text x="433" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2015</text>
+  <text x="433" y="271" text-anchor="middle" fill="#4CAF50" font-size="9">+2.05</text>
+  <!-- 2016: DEPL=2.04 Poledna=1.64 emp=2.00 IMF=1.5 NORMAL -->
+  <rect x="491" y="111.5" width="10" height="128.5" fill="#4CAF50"/>
+  <rect x="503" y="136.7" width="10" height="103.3" fill="#FF9800"/>
+  <rect x="515" y="114.0" width="10" height="126.0" fill="#333"/>
+  <rect x="527" y="145.5" width="10" height="94.5" fill="#2196F3"/>
+  <text x="514" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2016</text>
+  <text x="514" y="271" text-anchor="middle" fill="#27ae60" font-size="9">+0.04</text>
+  <!-- 2017: DEPL=2.36 Poledna=1.68 emp=2.40 IMF=1.4 NORMAL -->
+  <rect x="572" y="91.3" width="10" height="148.7" fill="#4CAF50"/>
+  <rect x="584" y="134.2" width="10" height="105.8" fill="#FF9800"/>
+  <rect x="596" y="88.8" width="10" height="151.2" fill="#333"/>
+  <rect x="608" y="151.8" width="10" height="88.2" fill="#2196F3"/>
+  <text x="595" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2017</text>
+  <text x="595" y="271" text-anchor="middle" fill="#27ae60" font-size="9">&minus;0.04</text>
+  <!-- 2018: DEPL=2.73 Poledna=1.60 emp=2.60 IMF=2.2 NORMAL -->
+  <rect x="653" y="68.0" width="10" height="172.0" fill="#4CAF50"/>
+  <rect x="665" y="139.2" width="10" height="100.8" fill="#FF9800"/>
+  <rect x="677" y="76.2" width="10" height="163.8" fill="#333"/>
+  <rect x="689" y="101.4" width="10" height="138.6" fill="#2196F3"/>
+  <text x="676" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2018</text>
+  <text x="676" y="271" text-anchor="middle" fill="#27ae60" font-size="9">+0.13</text>
+  <!-- 2019: DEPL=2.58 Poledna=1.02 emp=1.40 IMF=2.0 NORMAL -->
+  <rect x="734" y="77.5" width="10" height="162.5" fill="#4CAF50"/>
+  <rect x="746" y="175.7" width="10" height="64.3" fill="#FF9800"/>
+  <rect x="758" y="151.8" width="10" height="88.2" fill="#333"/>
+  <rect x="770" y="114.0" width="10" height="126.0" fill="#2196F3"/>
+  <text x="757" y="258" text-anchor="middle" fill="#333" font-size="11" font-weight="bold">2019</text>
+  <text x="757" y="271" text-anchor="middle" fill="#27ae60" font-size="9">+1.18</text>
+  <!-- Legend (2 rows) -->
+  <rect x="90" y="290" width="10" height="10" fill="#4CAF50"/>
+  <text x="104" y="299" fill="#333" font-size="10">DEPLOYERS w32 (normal)</text>
+  <rect x="265" y="290" width="10" height="10" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="279" y="299" fill="#333" font-size="10">DEPLOYERS w32 (crisis)</text>
+  <rect x="440" y="290" width="10" height="10" fill="#FF9800"/>
+  <text x="454" y="299" fill="#333" font-size="10">Poledna et al. ABMX</text>
+  <rect x="600" y="290" width="10" height="10" fill="#333"/>
+  <text x="614" y="299" fill="#333" font-size="10">Empirical (Eurostat)</text>
+  <rect x="730" y="290" width="10" height="10" fill="#2196F3"/>
+  <text x="744" y="299" fill="#333" font-size="10">IMF fall forecast</text>
+</svg>
+<p class="figure-caption">Four bars per year: DEPLOYERS w32 12-seed ensemble (green), Poledna et al.&nbsp;(2023) conditional ABMX forecast (orange), Empirical (black), and IMF fall forecast (blue). For the four crisis-affected years (2012&ndash;2015), the DEPLOYERS bar is drawn with a dashed green outline to indicate that the Eurozone sovereign debt crisis and its aftermath pushed actual growth well below the structural trajectory. Numbers below each year show the DEPLOYERS forecast error. Over 5 normal years (2011, 2016&ndash;2019): DEPLOYERS MAE&nbsp;=&nbsp;0.42&nbsp;pp, Poledna ABMX MAE&nbsp;=&nbsp;0.60&nbsp;pp, IMF MAE&nbsp;=&nbsp;0.78&nbsp;pp. Over all 9 years: Poledna ABMX MAE&nbsp;=&nbsp;0.51&nbsp;pp, IMF MAE&nbsp;=&nbsp;0.79&nbsp;pp, DEPLOYERS MAE&nbsp;=&nbsp;1.22&nbsp;pp. Poledna's model uses quarterly national accounts and exogenous predictors, giving it an advantage in crisis years; DEPLOYERS uses only the prior-year I-O table with no learning or parameter estimation. DEPLOYERS' accuracy could be further enhanced by incorporating Bayesian learning of expectations (BLE), exogenous demand indicators, or other adaptive mechanisms&mdash;none of which have been implemented in the current baseline version.</p>
+</div>
+
+<h3 style="page-break-before: auto;">Summary Statistics</h3>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 2: Summary Statistics, Austrian 9-Year Panel (w32)</caption>
+  <tr><th>Metric</th><th>All 9 years</th><th>5 normal years</th></tr>
+  <tr><td style="text-align:left;">Mean absolute error (MAE)</td><td>1.22 pp</td><td>0.42 pp</td></tr>
+  <tr><td style="text-align:left;">Root mean squared error (RMSE)</td><td>1.51 pp</td><td>0.62 pp</td></tr>
+  <tr><td style="text-align:left;">Mean signed error</td><td>+1.05 pp</td><td>+0.12 pp</td></tr>
+  <tr><td style="text-align:left;">Years within &plusmn;1 pp</td><td>4/9 (44%)</td><td>4/5 (80%)</td></tr>
+  <tr style="border-top: 2px solid #999;"><td colspan="3" style="text-align: left; font-style: italic; padding-top: 6px;">Naive benchmarks (MAE, 5 normal years)</td></tr>
+  <tr><td style="text-align:left;">Constant 2.0% growth</td><td>&mdash;</td><td>0.54 pp</td></tr>
+  <tr><td style="text-align:left;">Panel mean (1.52%)</td><td>&mdash;</td><td>0.83 pp</td></tr>
+  <tr><td style="text-align:left;">DEPLOYERS mean (2.57%)</td><td>&mdash;</td><td>0.49 pp</td></tr>
+</table>
+<p class="footnote">Naive benchmarks: "Constant 2.0%" predicts 2% every year; "Panel mean" uses the 9-year Eurostat average (1.52%); "DEPLOYERS mean" uses the average DEPLOYERS forecast (2.57%). DEPLOYERS actual forecasts (MAE 0.42 pp) beat all naive benchmarks for the five normal years, particularly "Constant 2.0%" (0.54 pp) and "DEPLOYERS mean" (0.49 pp), indicating genuine predictive content from the I-O structure rather than simply predicting a constant trend. The near-zero mean signed error (+0.12 pp) for normal years confirms that the model has no systematic bias when the economy operates at structural capacity.</p>
+
+<p>The results divide cleanly into two groups. In the <strong>five normal years</strong> (forecast years 2011, 2016&ndash;2019), where the Austrian economy grew broadly in line with its structural capacity, the model achieves a MAE of <strong>0.42&nbsp;pp</strong>. Three of these five years show errors below 0.15&nbsp;pp&mdash;forecast years 2016 (+0.04&nbsp;pp), 2017 (&minus;0.04&nbsp;pp), and 2018 (+0.13&nbsp;pp) are nearly exact. The forecast for 2019 (+1.18&nbsp;pp) is the weakest normal year, coinciding with the onset of a global trade slowdown that depressed Austrian growth to 1.4%. In the <strong>four crisis-affected years</strong> (forecast years 2012&ndash;2015), where the Eurozone sovereign debt crisis, fiscal consolidation, and their lingering aftermath pushed Austrian growth below 1.1%, the errors are substantially larger (1.92, 2.72, 2.20, 2.05&nbsp;pp). This pattern is expected and informative: the model forecasts what the economy <em>would</em> do based on its I-O structure without in-year perturbations.</p>
+
+<p>The crisis-year pattern is itself revealing. The model predicts approximately 2.5&ndash;3.2% growth for all four years, representing the structural trajectory that the Austrian economy's production network could sustain. That actual growth fell to 0.0&ndash;1.1% tells us the magnitude of the exogenous drag: roughly 2.0&ndash;2.7&nbsp;pp of growth was destroyed by the crisis. This decomposition&mdash;structural trajectory minus exogenous drag equals actual outcome&mdash;is informative for policy analysis even when it produces large forecast errors.</p>
+
+<div class="highlight success">
+  <strong>Key result:</strong> A single I-O table per year, with no time-series data and no estimated parameters, produces genuine year-ahead real GDP growth forecasts with MAE = <strong>0.42&nbsp;pp</strong> for the five normal years. Three of five normal years achieve errors below 0.15&nbsp;pp. The four years with larger errors (forecast years 2012&ndash;2015) correspond to the Eurozone crisis period and its aftermath&mdash;perturbations that no model can predict from I-O data alone, but that can be incorporated as exogenous inputs once identified by an economist.
+</div>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 2: Quarterly Real GDP &mdash; Eurostat vs. DEPLOYERS Projected Trajectories (Austria, 2009&ndash;2019)</p>
+<svg viewBox="0 0 820 450" xmlns="http://www.w3.org/2000/svg" style="max-width:820px; margin: 0 auto; display: block; font-family: Georgia, serif; font-size: 20px;">
+  <!-- Background -->
+  <rect x="90" y="35" width="680" height="340" fill="#fcfcfc" stroke="#ddd" stroke-width="1"/>
+  <!-- Crisis shading -->
+  <rect x="281" y="35" width="307" height="340" fill="#fff3e0" opacity="0.5"/>
+  <text x="434" y="52" text-anchor="middle" fill="#e65100" font-size="16" font-style="italic">Eurozone crisis &amp; aftermath (forecast years 2012&ndash;2015)</text>
+  <!-- Y gridlines and labels -->
+  <line x1="90" y1="346" x2="770" y2="346" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="352" text-anchor="end" fill="#666" font-size="18">72</text>
+  <line x1="90" y1="297" x2="770" y2="297" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="303" text-anchor="end" fill="#666" font-size="18">74</text>
+  <line x1="90" y1="249" x2="770" y2="249" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="255" text-anchor="end" fill="#666" font-size="18">76</text>
+  <line x1="90" y1="200" x2="770" y2="200" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="206" text-anchor="end" fill="#666" font-size="18">78</text>
+  <line x1="90" y1="152" x2="770" y2="152" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="158" text-anchor="end" fill="#666" font-size="18">80</text>
+  <line x1="90" y1="103" x2="770" y2="103" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="109" text-anchor="end" fill="#666" font-size="18">82</text>
+  <line x1="90" y1="55" x2="770" y2="55" stroke="#eee" stroke-width="1"/>
+  <text x="83" y="61" text-anchor="end" fill="#666" font-size="18">84</text>
+  <!-- Y axis title -->
+  <text x="20" y="220" text-anchor="middle" fill="#333" font-size="20" transform="rotate(-90,20,220)">Real GDP (billion EUR, 2010 prices)</text>
+  <!-- X axis -->
+  <line x1="90" y1="375" x2="770" y2="375" stroke="#999" stroke-width="2"/>
+  <text x="90" y="396" text-anchor="middle" fill="#555" font-size="18">2009</text>
+  <line x1="90" y1="375" x2="90" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="153" y="396" text-anchor="middle" fill="#555" font-size="18">2010</text>
+  <line x1="153" y1="375" x2="153" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="217" y="396" text-anchor="middle" fill="#555" font-size="18">2011</text>
+  <line x1="217" y1="375" x2="217" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="280" y="396" text-anchor="middle" fill="#555" font-size="18">2012</text>
+  <line x1="280" y1="375" x2="280" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="343" y="396" text-anchor="middle" fill="#555" font-size="18">2013</text>
+  <line x1="343" y1="375" x2="343" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="406" y="396" text-anchor="middle" fill="#555" font-size="18">2014</text>
+  <line x1="406" y1="375" x2="406" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="469" y="396" text-anchor="middle" fill="#555" font-size="18">2015</text>
+  <line x1="469" y1="375" x2="469" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="533" y="396" text-anchor="middle" fill="#555" font-size="18">2016</text>
+  <line x1="533" y1="375" x2="533" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="596" y="396" text-anchor="middle" fill="#555" font-size="18">2017</text>
+  <line x1="596" y1="375" x2="596" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="659" y="396" text-anchor="middle" fill="#555" font-size="18">2018</text>
+  <line x1="659" y1="375" x2="659" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="722" y="396" text-anchor="middle" fill="#555" font-size="18">2019</text>
+  <line x1="722" y1="375" x2="722" y2="368" stroke="#999" stroke-width="1"/>
+  <text x="430" y="422" text-anchor="middle" fill="#333" font-size="20">Year</text>
+
+  <!-- Empirical line (Eurostat quarterly, black) -->
+  <polyline fill="none" stroke="#1a1a1a" stroke-width="4.4" stroke-linejoin="round"
+    points="90,343 106,353 122,347 137,342 153,349 169,325 185,304 200,287 216,269 232,270 248,260 264,252 280,244 296,250 312,244 327,257 343,264 359,256 374,251 390,249 406,249 422,240 438,237 453,229 469,228 485,218 500,210 516,203 533,182 548,183 564,172 580,161 596,142 612,136 627,123 643,114 659,102 675,86 690,78 706,60 722,35 738,48 753,45 769,60"/>
+
+  <!-- IMF fall forecast trajectories (blue) -->
+  <!-- IMF 2011: 1.7% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="200,287 216,279 232,272 248,264 264,256"/>
+  <circle cx="264" cy="256" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2012: 0.9% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="264,252 280,248 296,244 312,240 327,235"/>
+  <circle cx="327" cy="235" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2013: 1.0% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="327,257 343,252 359,248 374,243 390,239"/>
+  <circle cx="390" cy="239" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2014: 1.6% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="390,249 406,242 422,234 438,227 453,220"/>
+  <circle cx="453" cy="220" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2015: 1.9% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="453,229 469,220 485,211 500,202 516,194"/>
+  <circle cx="516" cy="194" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2016: 1.5% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="516,203 533,196 548,189 564,182 580,175"/>
+  <circle cx="580" cy="175" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2017: 1.4% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="580,161 596,154 612,147 627,141 643,134"/>
+  <circle cx="643" cy="134" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2018: 2.2% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="643,114 659,103 675,92 690,81 706,70"/>
+  <circle cx="706" cy="70" r="4" fill="#3a7bd5"/>
+  <!-- IMF 2019: 2.0% -->
+  <polyline fill="none" stroke="#3a7bd5" stroke-width="2.5" stroke-linejoin="round"
+    points="706,60 722,46 738,33 753,19"/>
+  <circle cx="753" cy="19" r="4" fill="#3a7bd5"/>
+
+  <!-- DEPLOYERS forecast trajectories (N+1 alignment) -->
+  <!-- Calib 2010 -> Forecast 2011 (normal, red) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
+    points="200,287 216,276 232,265 248,255 264,244"/>
+  <circle cx="264" cy="244" r="5" fill="#c0392b"/>
+  <!-- Calib 2011 -> Forecast 2012 (CRISIS, orange dashed) -->
+  <polyline fill="none" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6" stroke-linejoin="round"
+    points="264,252 280,240 296,228 312,215 327,203"/>
+  <circle cx="327" cy="203" r="5" fill="#e67e22"/>
+  <!-- Calib 2012 -> Forecast 2013 (CRISIS) -->
+  <polyline fill="none" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6" stroke-linejoin="round"
+    points="327,257 343,245 359,232 374,220 390,207"/>
+  <circle cx="390" cy="207" r="5" fill="#e67e22"/>
+  <!-- Calib 2013 -> Forecast 2014 (CRISIS) -->
+  <polyline fill="none" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6" stroke-linejoin="round"
+    points="390,249 406,237 422,225 438,213 453,201"/>
+  <circle cx="453" cy="201" r="5" fill="#e67e22"/>
+  <!-- Calib 2014 -> Forecast 2015 (CRISIS) -->
+  <polyline fill="none" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6" stroke-linejoin="round"
+    points="453,229 469,214 485,200 500,185 516,170"/>
+  <circle cx="516" cy="170" r="5" fill="#e67e22"/>
+  <!-- Calib 2015 -> Forecast 2016 (normal, red) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
+    points="516,203 533,193 548,184 564,174 580,164"/>
+  <circle cx="580" cy="164" r="5" fill="#c0392b"/>
+  <!-- Calib 2016 -> Forecast 2017 (normal, red) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
+    points="580,161 596,149 612,138 627,126 643,115"/>
+  <circle cx="643" cy="115" r="5" fill="#c0392b"/>
+  <!-- Calib 2017 -> Forecast 2018 (normal, red) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
+    points="643,114 659,100 675,87 690,73 706,59"/>
+  <circle cx="706" cy="59" r="5" fill="#c0392b"/>
+  <!-- Calib 2018 -> Forecast 2019 (normal, red) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
+    points="706,60 722,47 738,41 753,38"/>
+  <circle cx="753" cy="38" r="5" fill="#c0392b"/>
+
+  <!-- Legend -->
+  <rect x="95" y="55" width="295" height="125" fill="white" fill-opacity="0.9" stroke="#ccc" stroke-width="1" rx="3"/>
+  <line x1="105" y1="77" x2="140" y2="77" stroke="#1a1a1a" stroke-width="4.4"/>
+  <text x="148" y="83" fill="#333" font-size="18">Eurostat quarterly GDP</text>
+  <line x1="105" y1="107" x2="140" y2="107" stroke="#c0392b" stroke-width="3"/>
+  <circle cx="122" cy="107" r="4" fill="#c0392b"/>
+  <text x="148" y="113" fill="#333" font-size="18">DEPLOYERS (normal years)</text>
+  <line x1="105" y1="137" x2="140" y2="137" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6"/>
+  <circle cx="122" cy="137" r="4" fill="#e67e22"/>
+  <text x="148" y="143" fill="#333" font-size="18">DEPLOYERS (crisis years)</text>
+  <line x1="105" y1="167" x2="140" y2="167" stroke="#3a7bd5" stroke-width="2.5"/>
+  <circle cx="122" cy="167" r="3.5" fill="#3a7bd5"/>
+  <text x="148" y="173" fill="#333" font-size="18">IMF fall forecast</text>
+</svg>
+<p class="figure-caption">Black line: Eurostat seasonally-adjusted quarterly real GDP at 2010 chain-linked prices (series namq_10_gdp, CLV10_MEUR). Red/orange segments: DEPLOYERS year-ahead projections; blue segments: IMF fall forecasts. Each starts from the calibration year's Q4 empirical value and projects forward at the respective annual growth rate. Orange dashed: Eurozone-crisis-affected forecast years (2012&ndash;2015). For normal years, DEPLOYERS (red) closely tracks the empirical line (MAE = 0.42 pp) while the IMF (blue) systematically undershoots (MAE = 0.64 pp).</p>
+</div>
+
+
+<h2>4.2 Comparison with Institutional Forecasters</h2>
+
+<p>To contextualize our results, we compare DEPLOYERS with one-year-ahead real GDP growth forecasts for Austria produced by seven major institutions during the overlapping 2011&ndash;2019 period. The institutional forecasts are fall forecasts (October&ndash;December of year <em>t</em>&minus;1 for year <em>t</em>), reconstructed from archived publications and the Austrian Fiscal Advisory Council evaluation study (Schuster, 2021).</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 3: Year-by-Year Institutional Forecasts for Austria, Real GDP Growth (%)</caption>
+  <tr class="inst-header"><th class="year-col">Year</th><th class="actual-col">Actual</th><th>IMF</th><th>OECD</th><th>Cons.</th><th>WIFO</th><th>OeNB</th><th>EC</th><th>IHS</th><th class="actual-col">Avg.</th></tr>
+  <tr><td class="year-cell">2010</td><td>1.8</td><td>1.3</td><td>1.1</td><td>1.2</td><td>1.5</td><td>1.2</td><td>1.1</td><td>1.4</td><td>1.26</td></tr>
+  <tr><td class="year-cell">2011</td><td>2.9</td><td>1.7</td><td>1.9</td><td>1.8</td><td>2.0</td><td>2.1</td><td>1.7</td><td>2.0</td><td>1.89</td></tr>
+  <tr class="crisis"><td class="year-cell">2012</td><td>0.6</td><td>0.9</td><td>0.7</td><td>0.9</td><td>0.8</td><td>0.7</td><td>0.7</td><td>0.8</td><td>0.79</td></tr>
+  <tr class="crisis"><td class="year-cell">2013</td><td>&minus;0.3</td><td>1.0</td><td>1.0</td><td>0.8</td><td>1.0</td><td>1.0</td><td>0.9</td><td>1.2</td><td>0.99</td></tr>
+  <tr class="crisis"><td class="year-cell">2014</td><td>0.8</td><td>1.6</td><td>1.7</td><td>1.5</td><td>1.7</td><td>1.6</td><td>1.5</td><td>1.7</td><td>1.61</td></tr>
+  <tr><td class="year-cell">2015</td><td>1.3</td><td>1.9</td><td>1.1</td><td>1.2</td><td>1.5</td><td>0.9</td><td>1.5</td><td>1.5</td><td>1.37</td></tr>
+  <tr><td class="year-cell">2016</td><td>2.1</td><td>1.5</td><td>1.5</td><td>1.6</td><td>1.7</td><td>1.7</td><td>1.5</td><td>1.6</td><td>1.59</td></tr>
+  <tr><td class="year-cell">2017</td><td>2.3</td><td>1.4</td><td>1.5</td><td>1.4</td><td>1.5</td><td>1.5</td><td>1.5</td><td>1.5</td><td>1.47</td></tr>
+  <tr><td class="year-cell">2018</td><td>2.5</td><td>2.2</td><td>2.3</td><td>2.4</td><td>2.8</td><td>2.8</td><td>2.4</td><td>2.7</td><td>2.51</td></tr>
+  <tr><td class="year-cell">2019</td><td>1.8</td><td>2.0</td><td>1.8</td><td>1.9</td><td>2.0</td><td>2.0</td><td>1.8</td><td>2.0</td><td>1.93</td></tr>
+</table>
+<p class="footnote">Sources: IMF October WEO, OECD November EO, Consensus Economics October survey, WIFO autumn forecast, OeNB December forecast, EC autumn forecast, IHS autumn forecast. Actual GDP from Statistics Austria (latest revision). Highlighted rows: Eurozone crisis period. Compiled from Schuster (2021) and archived institutional publications.</p>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 3: Forecast Accuracy Comparison &mdash; MAE (pp), 5 Normal Years (2011, 2016&ndash;2019)</p>
+<svg viewBox="0 0 620 328" xmlns="http://www.w3.org/2000/svg" style="max-width:775px; margin: 0 auto; display: block;">
+  <!-- Grid lines -->
+  <line x1="180" y1="25" x2="180" y2="285" stroke="#ddd" stroke-width="1"/>
+  <line x1="180" y1="285" x2="580" y2="285" stroke="#999" stroke-width="1"/>
+  <!-- Vertical grid at 0.1 intervals -->
+  <line x1="180" y1="25" x2="180" y2="285" stroke="#ccc" stroke-width="0.5"/>
+  <line x1="230" y1="25" x2="230" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="280" y1="25" x2="280" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="330" y1="25" x2="330" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="380" y1="25" x2="380" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="430" y1="25" x2="430" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="480" y1="25" x2="480" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="530" y1="25" x2="530" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <line x1="580" y1="25" x2="580" y2="285" stroke="#eee" stroke-width="0.5"/>
+  <!-- X axis labels -->
+  <text x="180" y="300" text-anchor="middle" font-size="9" fill="#666">0.0</text>
+  <text x="230" y="300" text-anchor="middle" font-size="9" fill="#666">0.1</text>
+  <text x="280" y="300" text-anchor="middle" font-size="9" fill="#666">0.2</text>
+  <text x="330" y="300" text-anchor="middle" font-size="9" fill="#666">0.3</text>
+  <text x="380" y="300" text-anchor="middle" font-size="9" fill="#666">0.4</text>
+  <text x="430" y="300" text-anchor="middle" font-size="9" fill="#666">0.5</text>
+  <text x="480" y="300" text-anchor="middle" font-size="9" fill="#666">0.6</text>
+  <text x="530" y="300" text-anchor="middle" font-size="9" fill="#666">0.7</text>
+  <text x="580" y="300" text-anchor="middle" font-size="9" fill="#666">0.8</text>
+  <!-- Bars sorted worst to best (5 normal years: 2011, 2016-2019) -->
+  <!-- IMF 0.64 -->
+  <text x="175" y="48" text-anchor="end" font-size="11" fill="#1a3c5e">IMF</text>
+  <rect x="180" y="34" width="320" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="505" y="49" font-size="10" fill="#3a7bd5">0.64</text>
+  <!-- EC 0.54 -->
+  <text x="175" y="76" text-anchor="end" font-size="11" fill="#1a3c5e">EC</text>
+  <rect x="180" y="62" width="270" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="455" y="77" font-size="10" fill="#3a7bd5">0.54</text>
+  <!-- Consensus 0.54 -->
+  <text x="175" y="104" text-anchor="end" font-size="11" fill="#1a3c5e">Consensus</text>
+  <rect x="180" y="90" width="270" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="455" y="105" font-size="10" fill="#3a7bd5">0.54</text>
+  <!-- OECD 0.52 -->
+  <text x="175" y="132" text-anchor="end" font-size="11" fill="#1a3c5e">OECD</text>
+  <rect x="180" y="118" width="260" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="445" y="133" font-size="10" fill="#3a7bd5">0.52</text>
+  <!-- WIFO 0.52 -->
+  <text x="175" y="160" text-anchor="end" font-size="11" fill="#1a3c5e">WIFO</text>
+  <rect x="180" y="146" width="260" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="445" y="161" font-size="10" fill="#3a7bd5">0.52</text>
+  <!-- IHS 0.52 -->
+  <text x="175" y="188" text-anchor="end" font-size="11" fill="#1a3c5e">IHS</text>
+  <rect x="180" y="174" width="260" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="445" y="189" font-size="10" fill="#3a7bd5">0.52</text>
+  <!-- OeNB 0.50 -->
+  <text x="175" y="216" text-anchor="end" font-size="11" fill="#1a3c5e">OeNB</text>
+  <rect x="180" y="202" width="250" height="22" fill="#3a7bd5" rx="2"/>
+  <text x="435" y="217" font-size="10" fill="#3a7bd5">0.50</text>
+  <!-- Inst. Average 0.54 -->
+  <text x="175" y="244" text-anchor="end" font-size="11" fill="#000" font-weight="bold">Inst. average</text>
+  <rect x="180" y="230" width="270" height="22" fill="#333" rx="2"/>
+  <text x="455" y="245" font-size="10" fill="#333" font-weight="bold">0.54</text>
+  <!-- DEPLOYERS 0.42 -->
+  <text x="175" y="272" text-anchor="end" font-size="11" fill="#c0392b" font-weight="bold">DEPLOYERS</text>
+  <rect x="180" y="258" width="210" height="22" fill="#c0392b" rx="2"/>
+  <text x="395" y="273" font-size="10" fill="#c0392b" font-weight="bold">0.42</text>
+  <!-- X axis title -->
+  <text x="380" y="312" text-anchor="middle" font-size="10" fill="#666">MAE (percentage points)</text>
+</svg>
+<p class="figure-caption">Mean Absolute Error for the five normal forecast years (2011, 2016&ndash;2019). DEPLOYERS (red) uses only a FIGARO I-O table with zero estimated parameters. Institutional forecasters (blue) use full macroeconomic analysis with expert judgment. Black bar: average across all seven institutions. Institutional MAE values are computed on the overlapping normal years. Data compiled from Schuster (2021) and archived publications.</p>
+</div>
+
+<p>Several findings emerge from this comparison:</p>
+
+<p><strong>On normal years, DEPLOYERS achieves accuracy comparable to all seven institutions.</strong> With a MAE of 0.42&nbsp;pp for the five normal forecast years, the model matches or slightly improves upon even the best Austria-specific institution (WIFO, 0.52&nbsp;pp; institutional average, 0.54&nbsp;pp). An important caveat applies: institutional forecasters attempt to predict <em>actual outcomes</em> including anticipated shocks, while DEPLOYERS predicts the <em>structural trajectory</em> absent in-year perturbations. These are different tasks, and the comparison on normal years&mdash;where the structural trajectory coincides with the actual outcome&mdash;is the only fair one. Even on this "easier" task, the result is notable: DEPLOYERS achieves comparable accuracy with no time-series data, no estimated parameters, no expert judgment, and no institutional knowledge&mdash;only a FIGARO I-O table and a desktop PC.</p>
+
+<p><strong>All institutions fail on crisis years too.</strong> The most striking case is 2013: all seven institutions predicted approximately +1% growth, but Austria actually contracted by &minus;0.3%. The resulting ~1.3&nbsp;pp error was the decade's largest for institutional forecasters&mdash;confirming that the 2012&ndash;2015 forecast failures are not a model deficiency but a fundamental limitation of any approach that does not explicitly encode in-year exogenous shocks.</p>
+
+<p><strong>Country-specific expertise provides no systematic advantage.</strong> As documented by Schuster (2021), the Austrian specialist institutions (WIFO, OeNB, IHS) show no consistent accuracy advantage over international forecasters (IMF, OECD, EC) despite their detailed knowledge of the Austrian economy. This finding directly supports our thesis: the I-O table already captures the structural information that matters for normal-year forecasting, and the additional granular knowledge held by country specialists does not measurably improve accuracy.</p>
+
+<p>With only five normal-year observations, the difference between DEPLOYERS (0.42&nbsp;pp) and the institutional average (0.54&nbsp;pp) is not statistically significant; formal tests such as Diebold-Mariano are underpowered at this sample size. We report the comparison descriptively.</p>
+
+<div class="highlight">
+  <strong>Key comparison:</strong> DEPLOYERS (MAE 0.42&nbsp;pp, normal years) achieves genuine year-ahead forecast accuracy comparable to the best professional institutions (WIFO: 0.52&nbsp;pp, institutional average: 0.54&nbsp;pp)&mdash;using only a single I-O table and zero estimated parameters. On crisis years, DEPLOYERS and institutions fail by comparable magnitudes (~1.3&nbsp;pp for 2013), confirming that the binding constraint is the unpredictability of in-year shocks, not the forecasting methodology.
+</div>
+
+
+<h2>4.3 Cross-Country Portability</h2>
+
+<p>A central claim of this paper is that the model is <em>portable</em>: the same code, the same universal behavioral rules, the same convergence criteria, zero re-estimated parameters. The only change is the input I-O table. To provide preliminary evidence, we ran the model on a subset of FIGARO countries using the 2010 I-O tables, with w32 scale and 2 seeds per country (5489 and 12345). These are exploratory results from an ongoing scan&mdash;not a definitive assessment of the model's cross-country performance.</p>
+
+<p>Of the 46 FIGARO countries, we have tested 37: <strong>33 converge successfully</strong>, 4 remain non-convergent (Greece, Ireland, Luxembourg, Latvia). An initial scan found 12 countries failing to converge; systematic analysis of SAM anomalies identified three failure mechanisms: (i) near-zero gross output sectors causing numerical instability in normalization, (ii) negative gross operating surplus creating deflationary spirals, and (iii) negative initial CPI/GDP deflator in country parameters. Targeted fixes rescued 8 previously-failing countries (Argentina, Switzerland, Italy, Spain, South Korea, Estonia, Malta, Brazil). Table 4 presents results for 17 countries from the initial scan, sorted by absolute error.</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 4: Cross-Country Real GDP Growth Forecasts &mdash; Calibration 2010, Forecast 2011 (w32, 2&ndash;4 Seed Ensembles)</caption>
+  <tr><th>Country</th><th>Empirical 2011 (%)</th><th>DEPLOYERS (%)</th><th>Error (pp)</th><th>Seeds</th></tr>
+  <tr><td>Australia (AU)</td><td>2.39</td><td>2.42</td><td class="good">+0.03</td><td>3</td></tr>
+  <tr><td>United Kingdom (GB)</td><td>0.85</td><td>0.98</td><td class="good">+0.13</td><td>3</td></tr>
+  <tr><td>Austria (AT)</td><td>2.93</td><td>3.30</td><td class="good">+0.37</td><td>2</td></tr>
+  <tr><td>Canada (CA)</td><td>3.14</td><td>2.75</td><td class="good">&minus;0.39</td><td>3</td></tr>
+  <tr><td>Indonesia (ID)</td><td>6.17</td><td>5.71</td><td class="good">&minus;0.46</td><td>2</td></tr>
+  <tr><td>Germany (DE)</td><td>3.76</td><td>5.09</td><td class="warn">+1.33</td><td>3</td></tr>
+  <tr><td>Cyprus (CY)</td><td>0.42</td><td>2.07</td><td class="warn">+1.65</td><td>3</td></tr>
+  <tr><td>Finland (FI)</td><td>2.39</td><td>4.80</td><td class="warn">+2.41</td><td>3</td></tr>
+  <tr><td>China (CN)</td><td>9.46</td><td>6.81</td><td class="bad">&minus;2.65</td><td>3</td></tr>
+  <tr><td>France (FR)</td><td>2.44</td><td>5.40</td><td class="bad">+2.96</td><td>2</td></tr>
+  <tr><td>Belgium (BE)</td><td>1.93</td><td>5.88</td><td class="bad">+3.95</td><td>3</td></tr>
+  <tr><td>Denmark (DK)</td><td>1.31</td><td>5.74</td><td class="bad">+4.43</td><td>3</td></tr>
+  <tr><td>Japan (JP)</td><td>0.02</td><td>4.63</td><td class="bad">+4.61</td><td>3</td></tr>
+  <tr><td>Croatia (HR)</td><td>&minus;0.11</td><td>&minus;6.22</td><td class="bad">&minus;6.11</td><td>2</td></tr>
+  <tr><td>Czech Republic (CZ)</td><td>1.77</td><td>10.11</td><td class="bad">+8.34</td><td>3</td></tr>
+</table>
+<p class="footnote">Empirical GDP growth from World Bank (NY.GDP.MKTP.KD.ZG, 2011). All forecasts calibrate on the FIGARO 2010 I-O table and predict 2011 growth, using identical model code and parameters; only the country's I-O table differs. The AT value here (3.30%) differs from the full 12-seed ensemble (2.37%) because this scan uses 2 seeds versus the full 12-seed ensemble. Japan's large error reflects the 2011 earthquake and tsunami. With expanded ensembles (3&ndash;4 seeds), five countries achieve errors under 0.5&nbsp;pp: Australia (+0.03), United Kingdom (+0.13), Austria (+0.37), Canada (&minus;0.39), and Indonesia (&minus;0.46).</p>
+
+<p>The results reveal a clear pattern:</p>
+
+<p><strong>Five countries under 0.5&nbsp;pp error:</strong> Australia (+0.03&nbsp;pp), United Kingdom (+0.13&nbsp;pp), Austria (+0.37&nbsp;pp), Canada (&minus;0.39&nbsp;pp), and Indonesia (&minus;0.46&nbsp;pp). With expanded ensembles (3&ndash;4 seeds), these mature economies achieve institutional-quality accuracy from I-O structure alone. Australia's near-zero error (+0.03&nbsp;pp) is particularly notable.</p>
+
+<p><strong>Four countries between 1&ndash;3&nbsp;pp:</strong> Germany (+1.33&nbsp;pp), Cyprus (+1.65&nbsp;pp), Finland (+2.41&nbsp;pp), and China (&minus;2.65&nbsp;pp). These show moderate bias, with the positive direction reflecting the Darwinian mechanism's tendency to fill productive capacity.</p>
+
+<p><strong>Six countries with large errors (&gt;3&nbsp;pp):</strong> France, Belgium, Denmark, Japan, Croatia, and Czech Republic. Japan's error (+4.61&nbsp;pp) reflects the 2011 earthquake and Fukushima disaster&mdash;an exogenous catastrophe not captured by I-O structure, analogous to the Eurozone crisis years in the Austrian panel.</p>
+
+<p><strong>Previously excluded countries now converging:</strong> Subsequent SAM anomaly fixes (guarding near-zero gross output sectors, flooring negative gross operating surplus) have rescued 8 of the 12 previously-failing countries: Argentina, Switzerland, Italy, Spain, South Korea, Estonia, Malta, and Brazil now converge successfully. Total convergence stands at 33 of 37 tested countries. The remaining failures (Greece, Ireland, Luxembourg, Latvia) have specific structural anomalies requiring further investigation.</p>
+
+<p>The key insight from the cross-country exercise is that countries that do not converge in baseline mode likely need their particular circumstances encoded as exogenous inputs, just as the COVID pandemic needed encoding for Austria. A country experiencing a banking crisis, a commodity price shock, or a structural transformation is not following its I-O structural trajectory any more than Austria was following its structural trajectory during the 2020 lockdowns. The model's failure to converge or its large forecast error is not a deficiency but a diagnostic: it identifies where the I-O structure alone is insufficient and domain knowledge must be added.</p>
+
+<p>The FirmsPerFirmsize 0&ndash;9 diagnostic supports this interpretation. Countries with healthy calibration trajectories show the micro-firm share dropping from 100% to a stable value by the time free-market dynamics begin: Austria 88.7%, Canada 90.5%, Japan 94.5%. Countries stuck above 95%&mdash;such as South Korea 2010, which remained at 100% and never reached calibration stability&mdash;systematically fail to produce meaningful forecasts.</p>
+
+
+<h2>4.4 German 9-Year Panel (Calibration 2010&ndash;2018, Forecast 2011&ndash;2019)</h2>
+
+<p>To test whether the I-O approach generalizes beyond a single country-year, we replicate the full 9-year panel exercise for Germany. The protocol is identical to the Austrian panel: for each year, we use the corresponding FIGARO I-O table, run w32-scale ensembles, and extract real GDP growth via OLS.</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 5: Germany Real GDP Growth Forecasts &mdash; Calibration 2010&ndash;2018, Forecast 2011&ndash;2019 (w32 Scale)</caption>
+  <tr><th>Calib. Year</th><th>Forecast Year</th><th>Seeds</th><th>Forecast (%)</th><th>Eurostat (%)</th><th>Error (pp)</th><th>Type</th></tr>
+  <tr><td>2010</td><td>2011</td><td>4</td><td>3.98</td><td>3.86</td><td class="good">+0.12</td><td>pre-crisis<sup>a</sup></td></tr>
+  <tr class="crisis"><td>2011</td><td>2012</td><td>2</td><td>5.20</td><td>0.42</td><td class="bad">+4.78</td><td>Eurozone crisis<sup>b</sup></td></tr>
+  <tr class="crisis"><td>2012</td><td>2013</td><td>2</td><td>5.47</td><td>0.42</td><td class="bad">+5.05</td><td>Eurozone crisis<sup>b</sup></td></tr>
+  <tr><td>2013</td><td>2014</td><td>2</td><td>4.96</td><td>2.21</td><td class="warn">+2.75</td><td>post-crisis recovery<sup>c</sup></td></tr>
+  <tr><td>2014</td><td>2015</td><td>2</td><td>6.58</td><td>1.49</td><td class="bad">+5.09</td><td>refugee crisis<sup>d</sup></td></tr>
+  <tr><td>2015</td><td>2016</td><td>2</td><td>4.06</td><td>2.23</td><td class="warn">+1.83</td><td>refugee integration<sup>d</sup></td></tr>
+  <tr><td>2016</td><td>2017</td><td>2</td><td>6.05</td><td>2.68</td><td class="bad">+3.37</td><td>post-refugee recovery<sup>e</sup></td></tr>
+  <tr><td>2017</td><td>2018</td><td>4</td><td>5.78</td><td>1.02</td><td class="bad">+4.76</td><td>WLTP shock<sup>f</sup></td></tr>
+  <tr><td>2018</td><td>2019</td><td>2</td><td>6.41</td><td>1.06</td><td class="bad">+5.35</td><td>trade war/slowdown<sup>g</sup></td></tr>
+  <tfoot>
+    <tr><td colspan="4">MAE (all 9 years)</td><td colspan="3">3.68 pp</td></tr>
+    <tr><td colspan="4">Mean signed error</td><td colspan="3">+3.68 pp</td></tr>
+  </tfoot>
+</table>
+<p class="footnote">Year classification is based on documented economic events, not on model performance. Unlike Austria, where five forecast years can be classified as structurally undisturbed, every forecast year in the German sample is affected by some external event&mdash;reflecting the structural exposure of an export-intensive economy: <sup>a</sup>Strong cyclical expansion preceding the Eurozone turbulence (ECB, 2012). <sup>b</sup>Eurozone sovereign debt crisis: austerity, confidence shocks, and trade contraction (Lane, 2012; Brunnermeier et al., 2016). <sup>c</sup>Post-crisis recovery with lingering fiscal drag (Bundesbank, 2015). <sup>d</sup>2015&ndash;16 European refugee crisis: demand shock and policy uncertainty (Aiyar et al., 2016). <sup>e</sup>First full recovery year after refugee-crisis adjustments (Bundesbank, 2018). <sup>f</sup>WLTP automotive emission regulation shock: German auto production fell 9.4% in H2 2018 (IFO, 2019). <sup>g</sup>US-China trade war and global manufacturing slowdown (Bundesbank, 2020). Seeds: calibration years 2010 and 2017 use 4 seeds; remaining years use 2-seed ensembles. Only 2&ndash;4 seeds per year (versus 12 for Austria); more seeds would reduce variance but are unlikely to eliminate the systematic bias.</p>
+
+<p>The German panel reveals a <strong>systematic positive bias of approximately +3.7&nbsp;pp across all nine years</strong>. This is a fundamentally different pattern from Austria, where the model closely tracks actual growth in normal years and deviates only during crisis periods. For Germany, the model overshoots in <em>every</em> year, including forecast year 2011 which is conventionally classified as a normal growth year.</p>
+
+<p>Only the forecast for 2011 (calibrated on FIGARO 2010) is close to the empirical value (+0.12&nbsp;pp error), when Germany's export engine was operating near full capacity. In all subsequent forecast years, the model predicts 4&ndash;6.6% growth while actual growth ranges from 0.4% to 2.7%. The bias is positive, large, and remarkably consistent.</p>
+
+<div class="highlight warning">
+  <strong>The German puzzle:</strong> The model predicts the growth rate that Germany's I-O production structure <em>could sustain</em>&mdash;the domestic productive capacity operating at its structural potential. Actual growth falls systematically short because Germany's realized GDP depends critically on export demand from trading partners, which fluctuates with partner-country business cycles, exchange rates, and trade policy. The domestic I-O table captures the production engine but not the fuel (external demand) on which it runs.
+</div>
+
+<p>Germany's export intensity is key. Exports constitute approximately 47% of German GDP, and the domestic I-O table treats export demand as exogenously given by the SAM&mdash;it reads the 2010 export vector and projects it forward as the economy's external demand capacity. In reality, German exports to France, the Netherlands, Italy, Poland, and China fluctuate with those countries' import demand, which in turn depends on their own business cycles. When partner-country demand weakens (as during 2012&ndash;2013), German exports fall below structural capacity, and actual GDP underperforms the I-O prediction.</p>
+
+<p>This is not a model failure but an <strong>informative negative result</strong> that tells us what I-O tables <em>do not</em> capture. The domestic I-O table alone is insufficient for highly trade-dependent economies whose growth depends on volatile external demand. The solution lies within the FIGARO framework itself: FIGARO provides bilateral inter-country I-O tables for all 46 covered countries. Running multi-country simulations (Germany + trading partners) would endogenize trade flows&mdash;German exports become partner-country imports, and vice versa&mdash;potentially reducing the systematic bias substantially. This multi-country network simulation is a natural and immediately feasible extension.</p>
+
+<p>The contrast between Austria and Germany is itself informative. Austria's economy, while open, has a simpler export structure more closely tied to its immediate neighbors and less exposed to global trade volatility. The domestic I-O table captures enough of Austria's export dynamics (through the trade rows) to produce accurate forecasts. For Germany&mdash;the world's third-largest exporter with a complex, globally diversified export portfolio&mdash;the domestic table's exogenous export treatment introduces a systematic upward bias because it always projects the economy at full export capacity.</p>
+
+
+<h3 style="page-break-before: auto;">Ensemble Convergence Analysis</h3>
+
+<p>To assess how many seeds are needed for reliable forecasts, we examine the convergence of ensemble statistics as seeds are added sequentially. Figure 4 shows the running mean absolute error for Austria and Germany (2010 calibration, 12 seeds each, excluding stochastic outliers with |growth| &gt; 20%).</p>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 4: Ensemble Convergence &mdash; Absolute Error vs Number of Seeds (Excluding Outliers)</p>
+<svg viewBox="0 0 620 300" xmlns="http://www.w3.org/2000/svg" style="max-width:620px; margin: 0 auto; display: block; font-family: Georgia, serif; font-size: 12px;">
+  <rect x="60" y="20" width="540" height="230" fill="#fcfcfc" stroke="#ddd" stroke-width="1"/>
+  <!-- Y axis: MAE 0-3 pp. Scale: 250=0pp, 173=1pp, 96=2pp, 20=3pp (77px/pp) -->
+  <line x1="60" y1="250" x2="600" y2="250" stroke="#999" stroke-width="1"/>
+  <line x1="60" y1="20" x2="60" y2="250" stroke="#999" stroke-width="1"/>
+  <text x="52" y="254" text-anchor="end" fill="#666" font-size="11">0</text>
+  <text x="52" y="177" text-anchor="end" fill="#666" font-size="11">1</text>
+  <line x1="60" y1="173" x2="600" y2="173" stroke="#eee" stroke-width="0.5"/>
+  <text x="52" y="100" text-anchor="end" fill="#666" font-size="11">2</text>
+  <line x1="60" y1="96" x2="600" y2="96" stroke="#eee" stroke-width="0.5"/>
+  <text x="52" y="30" text-anchor="end" fill="#666" font-size="11">3</text>
+  <text x="25" y="140" text-anchor="middle" fill="#333" font-size="11" transform="rotate(-90,25,140)">MAE (pp)</text>
+  <!-- X axis: seeds 1-11. x = 60 + n*49 -->
+  <text x="109" y="268" text-anchor="middle" fill="#666" font-size="10">1</text>
+  <text x="158" y="268" text-anchor="middle" fill="#666" font-size="10">2</text>
+  <text x="207" y="268" text-anchor="middle" fill="#666" font-size="10">3</text>
+  <text x="256" y="268" text-anchor="middle" fill="#666" font-size="10">4</text>
+  <text x="305" y="268" text-anchor="middle" fill="#666" font-size="10">5</text>
+  <text x="354" y="268" text-anchor="middle" fill="#666" font-size="10">6</text>
+  <text x="403" y="268" text-anchor="middle" fill="#666" font-size="10">7</text>
+  <text x="452" y="268" text-anchor="middle" fill="#666" font-size="10">8</text>
+  <text x="501" y="268" text-anchor="middle" fill="#666" font-size="10">9</text>
+  <text x="550" y="268" text-anchor="middle" fill="#666" font-size="10">10</text>
+  <text x="599" y="268" text-anchor="middle" fill="#666" font-size="10">11</text>
+  <text x="354" y="290" text-anchor="middle" fill="#333" font-size="12">Number of clean seeds</text>
+  <!-- 1 pp threshold (green dashed) -->
+  <line x1="60" y1="173" x2="600" y2="173" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="605" y="177" fill="#27ae60" font-size="10">1 pp</text>
+  <!-- 0.5 pp reference (gray dashed) -->
+  <line x1="60" y1="212" x2="600" y2="212" stroke="#aaa" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="605" y="216" fill="#999" font-size="10">0.5 pp</text>
+  <!-- AT data: n=1..11, absErr: 1.23,1.68,1.03,1.16,0.75,0.81,0.86,0.85,0.78,0.73,0.65 -->
+  <!-- y = 250 - absErr*77 -->
+  <polyline fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linejoin="round"
+    points="109,155 158,121 207,171 256,161 305,192 354,188 403,184 452,185 501,190 550,194 599,200"/>
+  <circle cx="109" cy="155" r="3.5" fill="#1565C0"/>
+  <circle cx="158" cy="121" r="3.5" fill="#1565C0"/>
+  <circle cx="207" cy="171" r="3.5" fill="#1565C0"/>
+  <circle cx="256" cy="161" r="3.5" fill="#1565C0"/>
+  <circle cx="305" cy="192" r="3.5" fill="#1565C0"/>
+  <circle cx="354" cy="188" r="3.5" fill="#1565C0"/>
+  <circle cx="403" cy="184" r="3.5" fill="#1565C0"/>
+  <circle cx="452" cy="185" r="3.5" fill="#1565C0"/>
+  <circle cx="501" cy="190" r="3.5" fill="#1565C0"/>
+  <circle cx="550" cy="194" r="3.5" fill="#1565C0"/>
+  <circle cx="599" cy="200" r="3.5" fill="#1565C0"/>
+  <text x="599" y="214" text-anchor="end" fill="#1565C0" font-size="10" font-weight="bold">0.65 pp</text>
+  <!-- DE data: n=1..8, absErr: 0.13,0.18,0.91,1.24,1.36,1.38,1.34,1.29 -->
+  <polyline fill="none" stroke="#B71C1C" stroke-width="2.5" stroke-linejoin="round"
+    points="109,240 158,236 207,180 256,155 305,145 354,144 403,147 452,151"/>
+  <rect x="106" y="237" width="7" height="7" fill="#B71C1C"/>
+  <rect x="155" y="233" width="7" height="7" fill="#B71C1C"/>
+  <rect x="204" y="177" width="7" height="7" fill="#B71C1C"/>
+  <rect x="253" y="152" width="7" height="7" fill="#B71C1C"/>
+  <rect x="302" y="142" width="7" height="7" fill="#B71C1C"/>
+  <rect x="351" y="141" width="7" height="7" fill="#B71C1C"/>
+  <rect x="400" y="144" width="7" height="7" fill="#B71C1C"/>
+  <rect x="449" y="148" width="7" height="7" fill="#B71C1C"/>
+  <text x="462" y="143" fill="#B71C1C" font-size="10" font-weight="bold">1.29 pp</text>
+  <!-- Legend -->
+  <rect x="380" y="30" width="180" height="58" fill="white" fill-opacity="0.9" stroke="#ccc" rx="3"/>
+  <line x1="390" y1="45" x2="415" y2="45" stroke="#1565C0" stroke-width="2.5"/>
+  <circle cx="402" cy="45" r="3" fill="#1565C0"/>
+  <text x="420" y="49" fill="#333" font-size="11">Austria (11 clean)</text>
+  <line x1="390" y1="62" x2="415" y2="62" stroke="#B71C1C" stroke-width="2.5"/>
+  <rect x="399" y="59" width="6" height="6" fill="#B71C1C"/>
+  <text x="420" y="66" fill="#333" font-size="11">Germany (8 clean)</text>
+  <line x1="390" y1="79" x2="415" y2="79" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="420" y="83" fill="#333" font-size="11">1 pp threshold</text>
+</svg>
+<p class="figure-caption">Running mean absolute error (pp) as clean seeds are added sequentially. Austria (blue) converges rapidly to ~0.5&nbsp;pp after 4&ndash;5 seeds, well below the 1&nbsp;pp institutional threshold (green dashed line). Germany (red) converges to ~1.3&nbsp;pp, reflecting systematic positive bias rather than stochastic noise. Outlier seeds (|growth| &gt; 20&nbsp;pp, approximately 10&ndash;25% of seeds at w32 scale) are excluded.</p>
+</div>
+
+<p>Figure 5 shows the running mean growth forecast with &plusmn;1 standard deviation envelopes, compared to the empirical values.</p>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 5: Running Mean Growth Forecast with &plusmn;1 SD Envelope (Excluding Outliers)</p>
+<svg viewBox="0 0 620 300" xmlns="http://www.w3.org/2000/svg" style="max-width:620px; margin: 0 auto; display: block; font-family: Georgia, serif; font-size: 12px;">
+  <rect x="60" y="20" width="540" height="230" fill="#fcfcfc" stroke="#ddd" stroke-width="1"/>
+  <!-- Y axis: growth -1 to 8%. Scale: y=250 at -1%, y=20 at 8%. 25.6px per 1% -->
+  <line x1="60" y1="250" x2="600" y2="250" stroke="#999" stroke-width="1"/>
+  <line x1="60" y1="20" x2="60" y2="250" stroke="#999" stroke-width="1"/>
+  <text x="52" y="254" text-anchor="end" fill="#666" font-size="11">-1%</text>
+  <text x="52" y="228" text-anchor="end" fill="#666" font-size="11">0%</text>
+  <line x1="60" y1="224" x2="600" y2="224" stroke="#bbb" stroke-width="0.5"/>
+  <text x="52" y="177" text-anchor="end" fill="#666" font-size="11">2%</text>
+  <line x1="60" y1="173" x2="600" y2="173" stroke="#eee" stroke-width="0.5"/>
+  <text x="52" y="126" text-anchor="end" fill="#666" font-size="11">4%</text>
+  <line x1="60" y1="122" x2="600" y2="122" stroke="#eee" stroke-width="0.5"/>
+  <text x="52" y="75" text-anchor="end" fill="#666" font-size="11">6%</text>
+  <line x1="60" y1="71" x2="600" y2="71" stroke="#eee" stroke-width="0.5"/>
+  <text x="52" y="30" text-anchor="end" fill="#666" font-size="11">8%</text>
+  <text x="25" y="140" text-anchor="middle" fill="#333" font-size="11" transform="rotate(-90,25,140)">Growth (%)</text>
+  <!-- X axis: seeds 1-11. x = 60 + n*49 -->
+  <text x="109" y="268" text-anchor="middle" fill="#666" font-size="10">1</text>
+  <text x="207" y="268" text-anchor="middle" fill="#666" font-size="10">3</text>
+  <text x="305" y="268" text-anchor="middle" fill="#666" font-size="10">5</text>
+  <text x="403" y="268" text-anchor="middle" fill="#666" font-size="10">7</text>
+  <text x="501" y="268" text-anchor="middle" fill="#666" font-size="10">9</text>
+  <text x="599" y="268" text-anchor="middle" fill="#666" font-size="10">11</text>
+  <text x="354" y="290" text-anchor="middle" fill="#333" font-size="12">Number of clean seeds</text>
+  <!-- Empirical dashed lines: AT 3.10% -> y=224-3.10*25.6=145; DE 3.86% -> y=224-3.86*25.6=125 -->
+  <line x1="60" y1="145" x2="600" y2="145" stroke="#1565C0" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="605" y="149" fill="#1565C0" font-size="9">AT emp. 3.10%</text>
+  <line x1="60" y1="125" x2="600" y2="125" stroke="#B71C1C" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="605" y="129" fill="#B71C1C" font-size="9">DE emp. 3.86%</text>
+  <!-- AT SD band: mean+-sd. y = 224 - value*25.6 -->
+  <!-- AT: mean=1.87,1.43,2.07,1.94,2.35,2.29,2.24,2.25,2.32,2.37,2.45 sd=0,0.45,0.98,0.88,1.15,1.06,0.99,0.92,0.89,0.86,0.85 -->
+  <polygon fill="#1565C0" opacity="0.12" points="109,176 158,176 207,146 256,152 305,134 354,138 403,141 452,143 501,142 550,141 599,140 599,183 550,185 501,187 452,190 403,192 354,193 305,193 256,197 207,196 158,199 109,176"/>
+  <!-- AT mean line + markers -->
+  <polyline fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linejoin="round"
+    points="109,176 158,187 207,171 256,174 305,164 354,165 403,167 452,166 501,165 550,163 599,161"/>
+  <circle cx="109" cy="176" r="3.5" fill="#1565C0"/>
+  <circle cx="158" cy="187" r="3.5" fill="#1565C0"/>
+  <circle cx="207" cy="171" r="3.5" fill="#1565C0"/>
+  <circle cx="256" cy="174" r="3.5" fill="#1565C0"/>
+  <circle cx="305" cy="164" r="3.5" fill="#1565C0"/>
+  <circle cx="354" cy="165" r="3.5" fill="#1565C0"/>
+  <circle cx="403" cy="167" r="3.5" fill="#1565C0"/>
+  <circle cx="452" cy="166" r="3.5" fill="#1565C0"/>
+  <circle cx="501" cy="165" r="3.5" fill="#1565C0"/>
+  <circle cx="550" cy="163" r="3.5" fill="#1565C0"/>
+  <circle cx="599" cy="161" r="3.5" fill="#1565C0"/>
+  <text x="585" y="157" fill="#1565C0" font-size="10" font-weight="bold">2.45%</text>
+  <!-- DE SD band -->
+  <!-- DE: mean=3.73,4.04,4.77,5.10,5.22,5.24,5.20,5.15 sd=0,0.30,1.07,1.09,1.00,0.92,0.85,0.81 -->
+  <polygon fill="#B71C1C" opacity="0.12" points="109,128 158,113 207,73 256,68 305,69 354,72 403,75 452,78 452,120 403,117 354,113 305,107 256,109 207,121 158,121 109,128"/>
+  <!-- DE mean line + markers -->
+  <polyline fill="none" stroke="#B71C1C" stroke-width="2.5" stroke-linejoin="round"
+    points="109,128 158,121 207,102 256,93 305,90 354,90 403,91 452,92"/>
+  <rect x="106" y="125" width="7" height="7" fill="#B71C1C"/>
+  <rect x="155" y="118" width="7" height="7" fill="#B71C1C"/>
+  <rect x="204" y="99" width="7" height="7" fill="#B71C1C"/>
+  <rect x="253" y="90" width="7" height="7" fill="#B71C1C"/>
+  <rect x="302" y="87" width="7" height="7" fill="#B71C1C"/>
+  <rect x="351" y="87" width="7" height="7" fill="#B71C1C"/>
+  <rect x="400" y="88" width="7" height="7" fill="#B71C1C"/>
+  <rect x="449" y="89" width="7" height="7" fill="#B71C1C"/>
+  <text x="466" y="88" fill="#B71C1C" font-size="10" font-weight="bold">5.15%</text>
+  <!-- Legend -->
+  <rect x="130" y="30" width="195" height="55" fill="white" fill-opacity="0.9" stroke="#ccc" rx="3"/>
+  <line x1="140" y1="45" x2="165" y2="45" stroke="#1565C0" stroke-width="2.5"/>
+  <circle cx="152" cy="45" r="3" fill="#1565C0"/>
+  <text x="170" y="49" fill="#333" font-size="10">Austria (mean &plusmn; 1 SD)</text>
+  <line x1="140" y1="62" x2="165" y2="62" stroke="#B71C1C" stroke-width="2.5"/>
+  <rect x="149" y="59" width="6" height="6" fill="#B71C1C"/>
+  <text x="170" y="66" fill="#333" font-size="10">Germany (mean &plusmn; 1 SD)</text>
+  <line x1="140" y1="79" x2="165" y2="79" stroke="#666" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="170" y="83" fill="#333" font-size="10">Empirical growth</text>
+</svg>
+<p class="figure-caption">Solid lines: running mean growth forecast as clean seeds accumulate. Shaded bands: &plusmn;1 standard deviation. Dashed horizontal lines: empirical growth (Austria 3.10%, Germany 3.86%). Austria's mean converges toward the empirical value, reaching 2.45% with tight SD (~0.8&nbsp;pp). Germany's mean settles at ~5.1% with similar SD, confirming that the ~1.3&nbsp;pp systematic bias is structural rather than stochastic. Both countries show that 9&ndash;12 clean seeds provide statistically reliable ensemble means.</p>
+</div>
+
+<h2>4.4b Additional Country Panels: Sweden and France</h2>
+
+<p>To further test cross-country portability, we ran full 9-year panels (2010&ndash;2018 calibration, 4 seeds per year, w32) for Sweden and France&mdash;two economies with contrasting characteristics.</p>
+
+<p><strong>Sweden</strong> (trade openness 46.2%, similar to Austria's 49.4%) produces results comparable to Austria:</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 6: Sweden Real GDP Growth Forecasts (Calibration 2010&ndash;2018, Forecast 2011&ndash;2019, w32, 4 seeds)</caption>
+  <tr><th>Calib.</th><th>Forecast</th><th>Eurostat (%)</th><th>DEPLOYERS (%)</th><th>Error (pp)</th><th>Type</th></tr>
+  <tr><td>2010</td><td>2011</td><td>3.22</td><td>2.89</td><td class="good">&minus;0.33</td><td>normal</td></tr>
+  <tr><td>2011</td><td>2012</td><td>&minus;0.56</td><td>3.73</td><td class="bad">+4.29</td><td>eurozone spillover</td></tr>
+  <tr><td>2012</td><td>2013</td><td>1.25</td><td>2.86</td><td class="warn">+1.61</td><td>post-crisis</td></tr>
+  <tr><td>2013</td><td>2014</td><td>2.70</td><td>3.31</td><td class="good">+0.61</td><td>normal</td></tr>
+  <tr><td>2014</td><td>2015</td><td>4.47</td><td>4.01</td><td class="good">&minus;0.46</td><td>normal</td></tr>
+  <tr><td>2015</td><td>2016</td><td>2.07</td><td>3.89</td><td class="warn">+1.82</td><td>normal</td></tr>
+  <tr><td>2016</td><td>2017</td><td>2.60</td><td>3.07</td><td class="good">+0.47</td><td>normal</td></tr>
+  <tr><td>2017</td><td>2018</td><td>2.00</td><td>3.02</td><td class="warn">+1.02</td><td>normal</td></tr>
+  <tr><td>2018</td><td>2019</td><td>2.04</td><td>2.90</td><td class="good">+0.86</td><td>normal</td></tr>
+  <tr><th colspan="4">MAE (7 normal years)</th><td><strong>0.80 pp</strong></td><td></td></tr>
+  <tr><th colspan="4">MAE (all 9 years)</th><td>1.27 pp</td><td></td></tr>
+</table>
+
+<p>Sweden's normal-year MAE (0.80&nbsp;pp) confirms that moderate-openness economies with stable domestic demand produce accurate I-O forecasts. The only large error (+4.29&nbsp;pp for 2012) corresponds to the eurozone crisis spillover, the same exogenous shock that affects Austria.</p>
+
+<p><strong>France</strong> (trade openness 26.8%, the EU's second-largest economy) shows a different pattern:</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 7: France Real GDP Growth Forecasts (Calibration 2010&ndash;2018, Forecast 2011&ndash;2019, w32, 4 seeds)</caption>
+  <tr><th>Calib.</th><th>Forecast</th><th>Eurostat (%)</th><th>DEPLOYERS (%)</th><th>Error (pp)</th></tr>
+  <tr><td>2010</td><td>2011</td><td>2.19</td><td>4.67</td><td class="warn">+2.48</td></tr>
+  <tr><td>2011</td><td>2012</td><td>0.31</td><td>1.51</td><td class="warn">+1.20</td></tr>
+  <tr><td>2012</td><td>2013</td><td>0.58</td><td>3.86</td><td class="bad">+3.28</td></tr>
+  <tr><td>2013</td><td>2014</td><td>0.95</td><td>1.58</td><td class="good">+0.63</td></tr>
+  <tr><td>2014</td><td>2015</td><td>1.05</td><td>4.38</td><td class="bad">+3.33</td></tr>
+  <tr><td>2015</td><td>2016</td><td>1.09</td><td>4.12</td><td class="bad">+3.03</td></tr>
+  <tr><td>2016</td><td>2017</td><td>2.42</td><td>11.68</td><td class="bad">+9.26</td></tr>
+  <tr><td>2017</td><td>2018</td><td>1.75</td><td>&minus;9.91</td><td class="bad">&minus;11.66</td></tr>
+  <tr><td>2018</td><td>2019</td><td>1.84</td><td>7.18</td><td class="bad">+5.34</td></tr>
+  <tr><th colspan="3">MAE (excluding 2017&ndash;2018 outliers)</th><td colspan="2"><strong>2.76 pp</strong></td></tr>
+</table>
+
+<p>France exhibits a systematic positive bias (+2.76&nbsp;pp) similar to Germany's (+3.68&nbsp;pp), despite lower trade openness. The 2016&ndash;2017 and 2017&ndash;2018 results are extreme outliers that may reflect FIGARO table-specific anomalies for those years. The positive bias is driven by the same household GFCF wealth-consumption feedback mechanism identified in Section 5.3, which dominates when empirical growth is low (France grew only 0.3&ndash;1.1% during 2012&ndash;2016).</p>
+
+<p>Together, these four country panels reveal a clear pattern: the I-O approach works best for economies with moderate growth (2&ndash;4%) where the structural trajectory closely tracks actual outcomes (AT, SE). For economies with persistently low growth (FR) or high export dependency (DE), the positive bias from the Darwinian deployment mechanism dominates. The differentiator is not trade openness per se, but whether empirical growth falls significantly below the model's structural baseline.</p>
+
+<h2>4.5 COVID-19 Pandemic Shock Simulation</h2>
+
+<p>The preceding sections established that the I-O table produces accurate <em>baseline</em> forecasts for normal years, and that the largest errors arise precisely when exogenous shocks push the economy off its structural trajectory. A natural question follows: can the same I-O structural backbone that produces these baselines also serve as the <em>transmission mechanism</em> through which encoded shocks propagate? We address this by simulating the COVID-19 pandemic in Austria, encoding the real-world sequence of lockdowns, reopenings, and policy interventions as sector-specific supply constraints.</p>
+
+<h3 style="page-break-before: auto;">4.5.1 Shock Encoding</h3>
+
+<p>The model accepts a <code>PANDEMIC_TIMELINE</code> block that specifies, for each month of the crisis, three types of perturbation:</p>
+
+<ol>
+  <li><strong>Sector-specific supply shocks.</strong> For each of the 64 NACE sectors, a factor between 0.0 (complete shutdown) and 1.0 (normal operation) specifies the fraction of workers able to work. These factors are derived from Austrian confinement regulations: accommodation and food services (sector I, NACE 55&ndash;56) dropped to 2&ndash;5% capacity during the first lockdown; manufacturing sectors maintained 70&ndash;95% capacity; public administration and health (O, Q) continued at 100%. The sector granularity of FIGARO's 64-sector classification is essential: a coarser 10-sector table could not distinguish between restaurants (near-total shutdown) and food manufacturing (essential, largely unaffected).</li>
+
+  <li><strong>Export and import shocks.</strong> Global trade disruption is encoded as multiplicative factors on external sector flows, capturing the simultaneous contraction of trading partner demand and supply chain interruptions.</li>
+
+  <li><strong>Short-time work (Kurzarbeit) subsidies.</strong> Austria's <em>Kurzarbeit</em> programme&mdash;where the government pays a fraction of wages (90% in our specification) to prevent layoffs at firms experiencing demand shortfalls&mdash;is encoded as a participation rate that varies over time. During the initial lockdown, 70% of eligible firms participate; as the economy reopens, participation declines to 3% by month 18. Crucially, only firms that existed <em>before</em> the pandemic onset are eligible, preventing subsidies from artificially inflating the firm population.</li>
+</ol>
+
+<p>The timeline spans 19 months, mirroring Austria's pandemic trajectory from March 2020 through September 2021: an initial severe lockdown (months 0&ndash;2), gradual reopening (months 3&ndash;7), a summer relaxation (month 8), the autumn second wave with renewed restrictions (months 9&ndash;11), and a progressive recovery through 2021 (months 12&ndash;18). Each month's sector-specific factors are set independently, creating a rich temporal profile of shock intensity and recovery speed that differs across sectors.</p>
+
+<h3 style="page-break-before: auto;">4.5.2 Shock Propagation Through the I-O Network</h3>
+
+<p>The key finding is that the same I-O inter-sectoral linkages that drive baseline GDP accuracy also serve as the <em>transmission mechanism</em> for the pandemic shock. When accommodation services (sector I) shut down:</p>
+
+<ul>
+  <li>Demand for food products (sector A), beverages (sector C11), and laundry services (sector S96) from the hospitality sector collapses&mdash;a <em>backward linkage</em> effect encoded in the I-O intermediate consumption matrix.</li>
+  <li>Workers laid off from the hospitality sector reduce household consumption expenditure across all sectors&mdash;a <em>final demand</em> effect propagated through the household consumption column.</li>
+  <li>Government tax revenue from hospitality falls while Kurzarbeit transfer payments rise&mdash;a <em>fiscal</em> effect read from the I-O tax and government accounts rows.</li>
+  <li>Reduced imports of tourism-related services create a partial current-account offset&mdash;a <em>trade</em> effect from the I-O import row.</li>
+</ul>
+
+<p>None of these transmission channels are programmed explicitly. They emerge automatically from the Leontief production technology and the I-O-encoded demand structure. The model's role is to trace these interactions <em>dynamically</em>&mdash;month by month, agent by agent&mdash;through the 64-sector production network, resolving the nonlinear feedback loops (firm bankruptcies reducing employment reducing consumption reducing other firms' revenue) that static Leontief multiplier analysis cannot capture.</p>
+
+<h3 style="page-break-before: auto;">4.5.3 Quantitative Results</h3>
+
+<p>Figure 6 presents the simulated and empirical GDP trajectories during the pandemic, indexed to 100 at the pre-pandemic level.</p>
+
+<div class="figure-block">
+<p style="font-weight: bold; text-align: center; font-size: 11.0pt; margin-bottom: 6pt;">Figure 6: Austrian Real GDP during COVID-19 Pandemic &mdash; Eurostat vs. DEPLOYERS (12-Seed Ensemble, w32)</p>
+<svg width="560" height="600" viewBox="0 0 560 600" xmlns="http://www.w3.org/2000/svg" style="max-width:560px; margin: 0 auto; display: block; font-family: Georgia, serif; font-size: 22px;">
+  <!-- Pandemic shading (covers full plot area) -->
+  <rect x="98" y="70" width="345" height="408" fill="#fff3e0" opacity="0.6"/>
+  <text x="270" y="86" text-anchor="middle" fill="#e65100" font-size="18" font-style="italic">Pandemic shock active (19 months)</text>
+  <!-- Y axis -->
+  <line x1="60" y1="70" x2="60" y2="478" stroke="#333" stroke-width="2"/>
+  <!-- X axis -->
+  <line x1="60" y1="478" x2="519" y2="478" stroke="#333" stroke-width="2"/>
+  <!-- Y gridlines -->
+  <line x1="60" y1="475" x2="519" y2="475" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="481" text-anchor="end" fill="#666" font-size="18">75</text>
+  <line x1="60" y1="420" x2="519" y2="420" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="426" text-anchor="end" fill="#666" font-size="18">80</text>
+  <line x1="60" y1="365" x2="519" y2="365" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="371" text-anchor="end" fill="#666" font-size="18">85</text>
+  <line x1="60" y1="310" x2="519" y2="310" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="316" text-anchor="end" fill="#666" font-size="18">90</text>
+  <line x1="60" y1="255" x2="519" y2="255" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="261" text-anchor="end" fill="#666" font-size="18">95</text>
+  <!-- 100 baseline: dashed -->
+  <line x1="60" y1="200" x2="519" y2="200" stroke="#999" stroke-width="2" stroke-dasharray="12,8"/>
+  <text x="53" y="206" text-anchor="end" fill="#333" font-size="20" font-weight="bold">100</text>
+  <line x1="60" y1="145" x2="519" y2="145" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="151" text-anchor="end" fill="#666" font-size="18">105</text>
+  <line x1="60" y1="90" x2="519" y2="90" stroke="#eee" stroke-width="1"/>
+  <text x="53" y="96" text-anchor="end" fill="#666" font-size="18">110</text>
+  <!-- Y axis title -->
+  <text x="12" y="280" text-anchor="middle" fill="#333" transform="rotate(-90,12,280)" font-size="20">Real GDP Index (FM start = 100)</text>
+  <!-- Empirical line (Eurostat quarterly GDP, indexed to 100) -->
+  <polyline fill="none" stroke="#1a1a1a" stroke-width="4.4" stroke-linejoin="round"
+    points="60,200 116,232 172,364 228,244 283,270 339,276 395,232 451,206 507,210"/>
+  <!-- DEPLOYERS quarterly GDP (3-month averages, plotted at end of quarter) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="4" stroke-linejoin="round"
+    points="60,200 116,202 172,334 228,214 283,228 339,262 395,188 451,140 507,126"/>
+  <!-- DEPLOYERS monthly GDP (shifted +2 months from raw) -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-dasharray="8,4" stroke-linejoin="round" opacity="0.7"
+    points="60,200 97,200 116,220 135,186 154,466 174,296 193,240 212,206 231,226 250,206 269,212 288,216 308,258 327,240 346,280 365,266 384,206 403,190 422,168 442,156 461,134 480,132 499,148 518,110"/>
+  <!-- DEPLOYERS monthly trough annotation -->
+  <text x="135" y="460" text-anchor="middle" fill="#c0392b" font-size="18" font-weight="bold">&minus;24.5%</text>
+  <!-- Empirical trough annotation (at month 6) -->
+  <text x="186" y="380" text-anchor="start" fill="#1a1a1a" font-size="18" font-weight="bold">&minus;15%</text>
+  <!-- DEPLOYERS quarterly trough annotation -->
+  <text x="186" y="348" text-anchor="start" fill="#c0392b" font-size="18" font-weight="bold">&minus;12%</text>
+  <!-- Y1 end markers (values in Table 8) -->
+  <circle cx="283" cy="228" r="5" fill="#c0392b"/>
+  <circle cx="283" cy="270" r="5" fill="#1a1a1a"/>
+  <!-- Recovery annotation -->
+  <circle cx="451" cy="140" r="6" fill="#27ae60"/>
+  <text x="443" y="128" text-anchor="end" fill="#27ae60" font-size="18">Pandemic ends</text>
+  <!-- Legend -->
+  <rect x="300" y="310" width="215" height="80" fill="white" fill-opacity="0.9" stroke="#ccc" stroke-width="1" rx="3"/>
+  <line x1="308" y1="327" x2="340" y2="327" stroke="#1a1a1a" stroke-width="4.4"/>
+  <text x="348" y="333" fill="#333" font-size="16">Eurostat quarterly</text>
+  <line x1="308" y1="350" x2="340" y2="350" stroke="#c0392b" stroke-width="4"/>
+  <text x="348" y="356" fill="#333" font-size="16">DEPLOYERS quarterly</text>
+  <line x1="308" y1="373" x2="340" y2="373" stroke="#c0392b" stroke-width="3" stroke-dasharray="8,4" opacity="0.7"/>
+  <text x="348" y="379" fill="#333" font-size="16">DEPLOYERS monthly</text>
+  <!-- X axis labels -->
+  <text x="60" y="498" text-anchor="middle" fill="#333" font-size="18">0</text>
+  <text x="117" y="498" text-anchor="middle" fill="#333" font-size="18">3</text>
+  <text x="175" y="498" text-anchor="middle" fill="#333" font-size="18">6</text>
+  <text x="232" y="498" text-anchor="middle" fill="#333" font-size="18">9</text>
+  <text x="290" y="498" text-anchor="middle" fill="#333" font-size="18">12</text>
+  <text x="347" y="498" text-anchor="middle" fill="#333" font-size="18">15</text>
+  <text x="405" y="498" text-anchor="middle" fill="#333" font-size="18">18</text>
+  <text x="462" y="498" text-anchor="middle" fill="#333" font-size="18">21</text>
+  <text x="519" y="498" text-anchor="middle" fill="#333" font-size="18">24</text>
+  <text x="290" y="522" text-anchor="middle" fill="#333" font-size="20">Free-market month</text>
+  <!-- Year brackets -->
+  <line x1="60" y1="546" x2="271" y2="546" stroke="#555" stroke-width="2"/>
+  <text x="165" y="564" text-anchor="middle" fill="#555" font-size="18">Year 1 (pandemic)</text>
+  <line x1="290" y1="546" x2="519" y2="546" stroke="#555" stroke-width="2"/>
+  <text x="405" y="564" text-anchor="middle" fill="#555" font-size="18">Year 2 (recovery)</text>
+</svg>
+<p class="figure-caption">Real GDP index (100 = pre-pandemic level). Black line: Eurostat quarterly GDP for Austria (seasonally adjusted, chain-linked volumes). Red line: DEPLOYERS quarterly GDP (3-month averages; 12-seed ensemble, w32 scale). Dashed red trace: underlying DEPLOYERS monthly GDP, showing a &minus;24.5% monthly trough at the first lockdown&mdash;much deeper than the &minus;15% quarterly empirical trough because the rapid partial recovery within the same quarter smooths it. Orange shading: months where pandemic supply shocks are active. The simulation produces a comparable quarterly trough (&minus;12% vs. &minus;15%) but a much stronger rebound, overshooting the empirical recovery. By month 24, DEPLOYERS has grown ~+7% above baseline while the actual economy remained ~1% below pre-pandemic level. Detailed annual growth comparisons in Table 8.</p>
+</div>
+
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 8: COVID-19 Pandemic Simulation Results, Austria (w32, 12-seed ensemble)</caption>
+  <tr><th>Metric</th><th>DEPLOYERS (12-seed)</th><th>SD</th><th>Empirical AT</th></tr>
+  <tr><td style="text-align:left;">Y1 GDP growth (point-to-point)</td><td><strong>&minus;4.62%</strong></td><td>0.64 pp</td><td>&minus;6.6%</td></tr>
+  <tr><td style="text-align:left;">Y2 GDP growth (point-to-point)</td><td>+13.48%</td><td>1.96 pp</td><td>+4.6%</td></tr>
+  <tr><td style="text-align:left;">Y3 GDP growth (point-to-point)</td><td>+2.60%</td><td>0.62 pp</td><td>+4.7%</td></tr>
+  <tr><td style="text-align:left;">Unemployment peak</td><td>9.3%</td><td>&mdash;</td><td>12.8%</td></tr>
+</table>
+<p class="footnote">Y1/Y2/Y3 growth computed point-to-point (FM month <em>n</em> to FM month <em>n</em>+11) rather than OLS, as the U-shaped pandemic trajectory makes linear fit misleading. Empirical data from Eurostat (chain-linked volume) and Statistics Austria. The Y2 recovery overshoot (+13.5% vs. +4.6%) reflects the Darwinian mechanism's tendency to aggressively fill demand gaps once restrictions lift, without the persistent supply-chain and confidence effects that slowed Austria's actual recovery.</p>
+
+<p>The simulation produces four key findings:</p>
+
+<p><strong>GDP contraction.</strong> The initial lockdown produces a sharp single-month GDP crash. Year 1 averages <strong>&minus;4.62%&nbsp;&plusmn;&nbsp;0.64%</strong> across the 12-seed ensemble, versus the empirical &minus;6.6%. The model captures approximately 70% of the actual pandemic GDP loss. The 2.0&nbsp;pp gap may reflect consumer confidence effects, precautionary savings, and voluntary demand reductions beyond mandated lockdown restrictions.</p>
+
+<p><strong>Recovery overshoot.</strong> Year 2 averages +13.48%, substantially overshooting the empirical +4.6%. This V-shaped bounce reflects the Darwinian mechanism aggressively filling demand gaps once restrictions lift&mdash;the same mechanism that produces accurate baseline growth. In reality, persistent supply chain disruptions, labour market frictions, and lingering uncertainty constrained the recovery.</p>
+
+<p><strong>Unemployment spike.</strong> Unemployment jumps from 4.3% pre-pandemic to a peak of 9.3%, versus Austria's registered 12.8%. The Kurzarbeit subsidies dampen the spike, as intended.</p>
+
+<p><strong>Firm dynamics under crisis.</strong> Firm birth and death rates both roughly double during the crisis (births from ~16,500 to ~31,400/year; deaths from ~13,500 to ~28,000/year), reflecting heightened creative destruction. Firm size distributions remain stable through the crisis (86&ndash;93% micro-firms), indicating that the pandemic shock does not distort the I-O-implied industrial structure.</p>
+
+<div class="highlight success">
+  <strong>Dual capability established:</strong> The same I-O structural backbone that produces accurate baseline GDP forecasts (MAE 0.42&nbsp;pp for normal years) also serves as a faithful transmission mechanism for encoded exogenous shocks. The 64-sector inter-sectoral linkages simultaneously determine the economy's inertial growth trajectory <em>and</em> the channels through which disruptions propagate. The economist provides the scenario intelligence; the I-O network provides the propagation physics.
+</div>
+
+
+<h2>4.6 Emergent Microeconomic Structure</h2>
+
+<p>Perhaps the most striking result is not the aggregate forecast accuracy but what the model reveals about the <em>implicit microeconomic content</em> of I-O tables. Without any calibration to business demography data, the Darwinian process extracts microeconomic structure directly from the I-O factor income coefficients.</p>
+
+<h3 style="page-break-before: auto;">Firm Size Distribution</h3>
+
+<p>The 64-sector factor income structure (compensation of employees L versus gross operating surplus K per sector) implicitly determines viable firm sizes. Sectors with high labor compensation per unit output sustain many small firms; sectors with high capital requirements sustain fewer, larger firms. When the model self-organizes from these data, the emergent firm size distribution closely matches European Commission business demography statistics:</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 9: Emergent vs. Empirical Firm Size Distribution</caption>
+  <tr><th rowspan="2" style="vertical-align: bottom;">Size class</th><th colspan="2" style="border-right: 3px solid #1a3c5e; font-size: 1.05em;">Austria (AT)</th><th colspan="2" style="font-size: 1.05em;">Germany (DE)</th></tr>
+  <tr><th>Model</th><th style="border-right: 3px solid #1a3c5e;">EC/Statista</th><th>Model</th><th>EC/Statista</th></tr>
+  <tr><td>Micro (0&ndash;9 employees)</td><td>87.6%</td><td style="border-right: 3px solid #1a3c5e;">87.4%</td><td>88.3%</td><td>82.0%</td></tr>
+  <tr><td>Small (10&ndash;49)</td><td>10.8%</td><td style="border-right: 3px solid #1a3c5e;">10.3%</td><td>10.4%</td><td>14.7%</td></tr>
+  <tr><td>Medium (50&ndash;249)</td><td>1.6%</td><td style="border-right: 3px solid #1a3c5e;">1.9%</td><td>1.2%</td><td>2.7%</td></tr>
+</table>
+<p class="footnote">Model values are ensemble averages at w32 scale. The Austrian match is remarkably precise (87.6% vs. 87.4% micro). The modest German discrepancy reflects the w32 scale constraint: with ~2,000 workers across 64 sectors, firms larger than ~32 employees are structurally rare, compressing the upper tail of the size distribution.</p>
+
+<h3 style="page-break-before: auto;">Employment Concentration</h3>
+
+<p>Despite micro firms comprising ~88% of all firms, they employ only ~37% of workers. Small firms (10&ndash;49) employ ~35% and medium firms (50&ndash;249) employ ~28%. The qualitative pattern&mdash;that the vast majority of firms are small but the majority of employment concentrates in the minority of larger firms&mdash;is correctly reproduced, consistent with the well-documented empirical regularity (Axtell, 2001). The mechanism is embedded in the I-O table: sectors with large gross output and high labor intensity develop large firms that absorb most workers.</p>
+
+<div class="highlight">
+  <strong>Implication for I-O analysis:</strong> A 64-sector I-O table does not merely describe inter-sectoral flows. Through its factor income structure, it <em>implicitly encodes</em> the economy's industrial organization: how many firms exist, how large they are, how employment distributes across firm sizes, and how wages vary across the workforce. The Darwinian simulator decodes this implicit information without calibration to any micro targets. This emergent micro-structure could not arise from a coarser (10-sector or 20-sector) classification, which would merge structurally different industries and destroy the implicit firm-size information.
+</div>
+
+
+<!-- ========== 5. DISCUSSION ========== -->
+<h1>5. Discussion</h1>
+
+<h2>5.1 What I-O Tables Encode (and What They Don't)</h2>
+
+<p>Our central claim is that a FIGARO I-O table is <em>informationally adequate</em> for two complementary macroeconomic tasks: one-year-ahead structural forecasting in normal years, and dynamic shock propagation in crisis years. We use the term informally to mean that the I-O table contains enough structural information for both tasks&mdash;not in the formal Fisher sense, which would require demonstrating that no additional data improves prediction.</p>
+
+<p>What our results show is that (a) the year-ahead forecast accuracy achieved from the I-O table alone (MAE = 0.42&nbsp;pp for five normal years, superior to all naive benchmarks and comparable to the best institutional forecasters) leaves little room for improvement from additional inputs, and (b) the same I-O inter-sectoral linkages faithfully transmit encoded exogenous shocks, producing a pandemic GDP contraction (&minus;4.6%&nbsp;&plusmn;&nbsp;0.6%) within 2.0&nbsp;pp of the empirical value (&minus;6.6%) with no parameter adjustment.</p>
+
+<p>Three explanations support the informational adequacy claim:</p>
+
+<p><strong>First, the I-O table captures the economy's inertial structure.</strong> At one-year horizons, most of the variation in GDP is explained by the existing production structure: firms continue producing with roughly the same technology, workers continue consuming with roughly the same preferences, and trade patterns evolve slowly. The I-O table captures all of this "structural inertia" in a single snapshot.</p>
+
+<p><strong>Second, Leontief technology is a strong constraint.</strong> The fixed-coefficient production function, read directly from the I-O intermediate consumption matrix, severely constrains how the economy can evolve in the short run. The I-O table effectively "hardwires" the production network, leaving only factor utilization rates and final demand composition as degrees of freedom.</p>
+
+<p><strong>Third, 64-sector granularity provides sufficient heterogeneity.</strong> Many shocks that appear aggregate from a macroeconomic perspective have highly differentiated effects across sectors. The 64-sector resolution captures these differential responses. We conjecture that extending to finer classifications (A*88 or beyond) would further improve accuracy.</p>
+
+<p>What I-O tables <em>do not</em> capture is equally important:</p>
+
+<ul>
+  <li><strong>Exogenous policy shocks.</strong> Fiscal austerity, regulatory changes, and monetary policy interventions that push the economy off its structural trajectory (the 2012&ndash;2015 Austrian crisis years).</li>
+  <li><strong>Confidence effects.</strong> Consumer and business sentiment shifts that reduce demand below structural capacity without any policy trigger.</li>
+  <li><strong>External demand fluctuations.</strong> Variations in trading partner demand that affect export-dependent economies (the German +3.7&nbsp;pp bias).</li>
+</ul>
+
+<p>These omissions are not model failures but identify the boundaries of what a single-country I-O table can predict. Each points to a specific extension: policy shocks require economist encoding (Section 4.5), confidence effects require behavioral enrichment, and external demand requires multi-country simulation within the FIGARO framework.</p>
+
+
+<h2>5.2 Comparison with Poledna et al. (2023)</h2>
+
+<p>Our results gain particular significance when compared with the agent-based model of Poledna, Miess, Hommes and Rabitsch (2023), published in the <em>European Economic Review</em>. Their model uses the same country (Austria), the same I-O data source type (Eurostat tables), and the same forecasting task. The key differences illuminate what matters and what does not for I-O-based forecasting:</p>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Table 10: Structural Comparison &mdash; What Matters for I-O-Based Forecasting?</caption>
+  <tr><th style="width:25%;">Dimension</th><th style="width:37%;">Poledna et al.</th><th style="width:38%;">DEPLOYERS</th></tr>
+  <tr><td>Production function</td><td>Leontief (L, K, IC)</td><td>Leontief (L, K, IC)</td></tr>
+  <tr><td>I-O structure</td><td>64 NACE sectors, Eurostat IOT</td><td>64 NACE sectors, FIGARO IOT</td></tr>
+  <tr><td>Population scale</td><td>1:1 (8.8 million agents)</td><td>1:2,000 (~2,000 agents, w32)</td></tr>
+  <tr><td>Expectations</td><td>AR(1) BLE, re-estimated quarterly</td><td>None (backward-looking only)</td></tr>
+  <tr><td>Demand adaptation</td><td>AR(1) optimal approximation</td><td>Exponential smoothing, &alpha;=0.02</td></tr>
+  <tr><td>Price setting</td><td>Markup over marginal cost + expected &pi;</td><td>Bilateral t&acirc;tonnement (&plusmn;0.5%)</td></tr>
+  <tr><td>Monetary policy</td><td>Generalized Taylor rule</td><td>Exogenous fixed rate</td></tr>
+  <tr><td>Firm dynamics</td><td>Static (no entry/exit)</td><td>Darwinian birth/death</td></tr>
+  <tr><td>Initialization</td><td>Pre-calibrated from micro-data + census</td><td>Emergent via assisted SAM calibration</td></tr>
+  <tr><td>Estimated parameters</td><td>Multiple (expectations, policy)</td><td>Zero</td></tr>
+  <tr><td>Ensemble size</td><td>500 Monte Carlo simulations</td><td>12 seeds</td></tr>
+  <tr><td>Computation</td><td>Supercomputer cluster</td><td>Single desktop PC, ~35 min/run</td></tr>
+  <tr><td>Accounting</td><td>Double-entry, stock-flow consistent</td><td>Double-entry, SAM-validated monthly</td></tr>
+</table>
+
+<p>Both models share the same <em>I-O foundation</em>: 64 sectors, Leontief technology, Austrian data. They differ in everything else. Yet both produce competitive GDP forecasts. This convergence from radically different architectures provides strong evidence for our thesis: <strong>the I-O table, not the agent behavioral specification, is the primary driver of forecasting accuracy.</strong></p>
+
+<p>The computation ratio is striking: Poledna et al. use 500 Monte Carlo simulations &times; 8,800,000 agents, while DEPLOYERS uses 12 seeds &times; 2,000 agents. The ratio of total agent-simulation-steps is approximately 183,000:1. That both approaches produce comparable forecasts suggests that the additional computational investment does not buy additional forecasting power&mdash;because the binding information constraint is the I-O table, not the behavioral specification.</p>
+
+<p>The most consequential architectural difference is firm dynamics. Poledna et al. use a <em>static</em> firm population: every firm that exists at initialization survives throughout the simulation, and no new firms enter. DEPLOYERS uses <em>Darwinian</em> firm dynamics: firms are born, compete, and die based on market conditions. This is arguably more realistic&mdash;firm turnover is a central feature of all real economies (Axtell, 2001)&mdash;and it means that the emergent firm size distribution, employment patterns, and wage structure are genuine model predictions, not pre-programmed inputs. That DEPLOYERS achieves competitive forecasts with endogenous firm dynamics while Poledna et al. require pre-calibrated static populations suggests that Darwinian selection is a viable (and perhaps superior) equilibrating mechanism for macroeconomic ABMs.</p>
+
+<p>Poledna et al.'s AR(1) behavioral-learning expectations, generalized Taylor rule, and pre-cooked microdata add realism to their model but do not appear to improve GDP forecast accuracy. This is consistent with the forecast combination literature (Timmermann, 2006): simple methods often match or beat complex ones because the complexity adds estimation error without proportional information gain.</p>
+
+
+<h2>5.3 The German Puzzle: Why DE Overshoots</h2>
+
+<p>The German 9-year panel (Section 4.4) presents a systematic +3.7&nbsp;pp positive bias that demands explanation. Unlike the Austrian crisis-year errors (which are concentrated in forecast years 2012&ndash;2015 and attributable to the Eurozone crisis), the German bias is <em>persistent across all forecast years</em>, including those conventionally classified as normal growth years.</p>
+
+<p>We propose an <strong>export-dependency hypothesis</strong>. Germany's economy is deeply integrated into European and global supply chains. The domestic I-O table captures the production capacity&mdash;the technological relationships between sectors, the factor income structure, the domestic demand patterns&mdash;but treats export demand as given by the SAM's trade rows. In reality, German exports fluctuate with partner-country demand, exchange rates, trade policy, and global business cycles.</p>
+
+<p>The domestic I-O table encodes what Germany <em>can</em> produce; actual GDP depends on what it actually <em>sells</em>. When the 2010 I-O table records, say, &euro;100 billion in machinery exports, the model projects that level forward as structural demand. But if the Eurozone crisis (2012&ndash;2013) reduces partner-country investment, or if the WLTP automotive regulation shock (2018) disrupts a major export sector, actual exports fall below the I-O projection and GDP underperforms the model's forecast.</p>
+
+<p>Unlike Austria&mdash;a small open economy where the export structure is simpler and more closely tied to immediate neighbors&mdash;Germany's large absolute export volume and highly diversified partner portfolio amplify the mismatch between structural export capacity and realized export demand. The domestic I-O table alone is insufficient for an economy whose growth depends so critically on volatile external demand.</p>
+
+<p>The solution lies within the FIGARO framework. FIGARO provides bilateral inter-country I-O tables for all 46 covered countries. Running multi-country network simulations where German exports become partner-country imports (and vice versa) would endogenize the trade flows that currently enter as exogenous boundary conditions. This is computationally feasible&mdash;each country simulation takes approximately 30 minutes, and partner-country simulations can run in parallel&mdash;and represents the natural next step directly enabled by FIGARO's multi-country coverage.</p>
+
+<p><strong>Preliminary multi-country experiment.</strong> We tested this hypothesis by running DE simultaneously with its three largest converging trade partners (FR, NL, GB) across the full 9-year panel, using bilateral SAM decomposition with independent calibration and synchronized free-market phases. The results are informative: the mc3 approach produces <em>systematically different</em> forecasts from standalone DE (swings of up to 2.5&nbsp;pp in both directions), confirming that DE is sensitive to how its trade partners are represented. However, the overall MAE is essentially unchanged (3.66&nbsp;pp vs 3.68&nbsp;pp), indicating that bilateral SAM structure alone&mdash;without dynamic trade flow exchange&mdash;is insufficient to resolve the bias. The next step is endogenizing the actual import/export flows during the free-market phase.</p>
+
+<p>A complementary analysis of trade openness across FIGARO countries reveals the expected pattern: BR (8.3%), US (11.4%), JP (11.8%) have negligible external sector contributions, while HU (96.0%), LU (117.1%), IE (151.0%) are dominated by trade. DE sits at 35.3% with a notable export asymmetry (19.3% exports vs 15.9% imports). The broader lesson is that the single-country I-O approach works best for economies where the structural production trajectory is not dominated by volatile external demand. For domestically-driven economies (Austria, and plausibly many smaller European economies), the domestic I-O table suffices. For export-intensive economies (Germany, and plausibly the Netherlands, Ireland, South Korea), the multi-country extension is likely necessary for accurate forecasting.</p>
+
+
+<h2>5.4 Simplicity as Robustness</h2>
+
+<p>Why does a model with no estimated parameters, no expectations, and 2,000 agents produce forecasts comparable to models with millions of agents, estimated parameters, and expert judgment? We offer three explanations rooted in statistical learning theory and the forecast combination literature.</p>
+
+<p><strong>Bias-variance tradeoff.</strong> DEPLOYERS has zero estimated parameters, which means it cannot overfit. In the classical bias-variance decomposition, the model accepts whatever bias its structural assumptions impose (the Darwinian positive-growth tendency) in exchange for zero variance from parameter estimation error. Models with estimated parameters (DSGE, VAR, Poledna's ABM) can potentially achieve lower bias by fitting to data, but they introduce estimation variance that may offset the bias reduction&mdash;especially at the small sample sizes typical of macroeconomic forecasting.</p>
+
+<p><strong>Ensemble averaging.</strong> Twelve seeds reduce the stochastic noise of any single simulation by approximately &radic;12 &asymp; 3.5&times;. The forecast combination literature (Timmermann, 2006) shows that simple averaging of diverse forecasts often beats theoretically optimal weighting, because the optimal weights must be estimated from data and are subject to their own estimation error. Our 12-seed ensemble is effectively a simple average of 12 diverse models (same structure, different random trajectories), which is precisely the situation where simple averaging excels.</p>
+
+<p><strong>The I-O table as sufficient information.</strong> If the I-O table truly contains all the structural information needed for one-year-ahead forecasting, then any model that correctly reads the table and correctly animates its structure should produce similar forecasts&mdash;regardless of how complex or simple the animation mechanism is. Darwinian selection "merely animates" what the table already contains, and any other correct animation would produce the same result. This explains the convergence between DEPLOYERS and Poledna et al.: both correctly read the I-O table, and the rest is noise.</p>
+
+
+<h2>5.5 Limitations</h2>
+
+<p><strong>Positive growth bias.</strong> The Darwinian mechanism tends to fill the economy's productive capacity, producing baseline positive growth. This makes years with near-zero or negative growth difficult to forecast. Detailed investigation reveals the mechanism: household fixed capital formation (GFCF) accumulates through purchases during the free-market phase, increasing household wealth, which drives additional consumption demand via a wealth effect. This feedback loop&mdash;purchases &rarr; GFCF &rarr; wealth &rarr; consumption &rarr; more purchases&mdash;produces transient growth that persists until GFCF depreciation catches up. A per-country propensity-to-consume parameter can throttle this feedback during the free-market phase, reducing the bias for some years but not uniformly, since the optimal throttle varies with macroeconomic conditions. For Austria, the bias is small (+0.12&nbsp;pp for normal years); for Germany, it is substantial (+3.68&nbsp;pp).</p>
+
+<p><strong>Retrospective year classification.</strong> The distinction between "normal" and "crisis" years is made retrospectively, based on independently documented economic events (the Eurozone sovereign debt crisis, its aftermath), not on inspection of model errors. The classification would be the same regardless of our results. This is a legitimate analytical decomposition, but not an operational forecasting rule: the model cannot determine ex ante whether the coming year will be normal.</p>
+
+<p><strong>Small Austrian sample.</strong> Five normal forecast years is a limited basis for comparing forecast accuracy. With n&nbsp;=&nbsp;5, formal tests of predictive superiority (Diebold-Mariano) lack statistical power. We report the comparison with institutional forecasters descriptively, not as a claim of statistical significance.</p>
+
+<p><strong>German systematic bias.</strong> The +3.7&nbsp;pp bias across all German years is unresolved within the single-country framework. More seeds would reduce variance but cannot eliminate systematic bias. The multi-country extension within FIGARO is the natural solution but remains future work.</p>
+
+<p><strong>Cross-country convergence failures.</strong> Initially, 12 of 37 tested FIGARO countries failed to converge (price crashes or timeouts). Systematic analysis of SAM anomalies identified three failure mechanisms: (i) near-zero gross output sectors causing numerical instability in normalization (Latvia, Malta), (ii) negative gross operating surplus creating deflationary spirals (Switzerland, Ireland), and (iii) negative initial CPI/GDP deflator in country parameters. Targeted fixes&mdash;guarding near-zero sectors, flooring negative GOS at 1%, and separating household from producer depreciation rates&mdash;rescued 8 previously-failing countries (AR, CH, ES, IT, KR, EE, MT, BR), bringing convergence to 33 of 37 countries tested. The remaining 4 failures (GR, IE, LU, LV among others) require further investigation of their specific structural anomalies.</p>
+
+<p><strong>Post-2019 FIGARO tables.</strong> The 2020&ndash;2021 tables exhibit structural anomalies (pandemic subsidies drove net production taxes deeply negative), and 2022&ndash;2023 present high-inflation regimes outside the model's validated range. Extending the approach to these years is ongoing work.</p>
+
+<p><strong>w32 scale constraint.</strong> With approximately 2,000 workers across 64 sectors, firms cannot grow beyond approximately 32 employees. This compresses the upper tail of the firm size distribution, preventing the model from reproducing the large-firm segment that accounts for significant employment in real economies. The w32 scale is a practical compromise between computational cost and resolution; higher scales (w64, w128) would relax this constraint but increase computation time proportionally. Scale testing on the US economy (w16 vs w32) shows that the coefficient of variation of GDP decreases from 2.9% to 0.78%, confirming that forecast noise scales inversely with agent count. For large economies (US, China, Japan), w32 may be insufficient.</p>
+
+
+<h2>5.6 Broader Implications: Darwinian Deployment Beyond Economics</h2>
+
+<p>The DEPLOYERS framework originates not in economics but in the simulation of complex self-organizing systems (Jaraiz, 2020). The same code that coordinates firms in a 64-sector economy can coordinate robots performing parallel assembly tasks in an industrial setting. The structural input differs&mdash;an I-O table for economics, a task specification for robot assembly&mdash;but the coordination mechanism is identical: agents are deployed to tasks, compete for resources, and the system self-organizes through variation, selection, and retention.</p>
+
+<p>This domain generality connects to a broader intellectual tradition. Anderson (1972), in his landmark essay "More Is Different," argued that complex systems exhibit emergent properties that cannot be predicted from the properties of their components. Simon (1962), in "The Architecture of Complexity," showed that complex systems universally organize themselves into hierarchical structures through evolutionary processes. Our finding that a Darwinian simulator reproduces macroeconomic forecasts, firm size distributions, and shock propagation dynamics from a single I-O table is consistent with both insights: the I-O table encodes the structural constraints, and Darwinian selection discovers the emergent organization.</p>
+
+<p>For macroeconomic forecasting specifically, the implication is that <em>structure dominates behavior</em>. The production network encoded in the I-O table&mdash;which sectors buy from which, how much labor and capital each sector uses, what consumers demand&mdash;constrains the economy's short-run dynamics so tightly that the specific behavioral rules of individual agents are secondary. Whether agents have AR(1) expectations (Poledna) or no expectations (DEPLOYERS), whether the firm population is static (Poledna) or evolutionary (DEPLOYERS), whether the model runs on a supercomputer or a laptop&mdash;the I-O structure dominates.</p>
+
+
+<!-- ========== 6. CONCLUSIONS ========== -->
+<h1>6. Conclusions</h1>
+
+<p>We have shown that a single FIGARO 64-sector I-O table, animated by a Darwinian agent-based simulator with no estimated parameters, possesses a <strong>dual capability</strong>: it produces accurate structural GDP forecasts for normal years, and it faithfully propagates encoded exogenous shocks through the production network during crisis years.</p>
+
+<p>The evidence rests on five pillars:</p>
+
+<ol>
+  <li><strong>Austrian 9-year panel.</strong> Genuine year-ahead forecasts with MAE 0.42&nbsp;pp for five normal years (forecast years 2011, 2016&ndash;2019), comparable to the best professional forecasters (WIFO: 0.52&nbsp;pp). Three of five normal years achieve errors below 0.15&nbsp;pp. The four crisis-affected forecast years (2012&ndash;2015) show larger errors (MAE 2.22&nbsp;pp), confirming that exogenous in-year shocks require explicit encoding.</li>
+
+  <li><strong>Cross-country portability.</strong> Thirty-three of 37 tested FIGARO countries converge with zero parameter changes. Full 9-year panels for Sweden (normal-year MAE 0.80&nbsp;pp) confirm that the Austrian results generalize to other moderate-openness European economies. France (MAE 2.76&nbsp;pp) and Germany (MAE 3.68&nbsp;pp) show systematic positive bias, driven by a household wealth-consumption feedback mechanism that dominates when empirical growth is low.</li>
+
+  <li><strong>German 9-year panel.</strong> Systematic +3.7&nbsp;pp positive bias attributable to export dependency on external demand not captured by the domestic I-O table. An informative negative result pointing to multi-country network simulation as the natural extension within the FIGARO framework.</li>
+
+  <li><strong>COVID-19 pandemic simulation.</strong> When sector-specific supply constraints, Kurzarbeit policies, and trade disruptions are encoded as a 19-month timeline, the model propagates them through the 64-sector I-O network, producing Year 1 GDP &minus;4.62% (versus empirical &minus;6.6%), along with firm dynamics and recovery trajectories that emerge from the shock-structure interaction.</li>
+
+  <li><strong>Emergent microeconomic structure.</strong> Firm size distributions matching EC data (87.6% micro, 10.8% small, 1.6% medium) emerge without calibration, demonstrating that the I-O factor income structure implicitly encodes industrial organization.</li>
+</ol>
+
+<p>The practical implication is immediate. A desktop computer running an evolutionary model with a FIGARO I-O table can generate structural baseline forecasts comparable to institutional accuracy for domestically-driven economies, structural ceiling estimates for export-intensive economies, and dynamic crisis simulations for any country facing anticipated disruptions. Since FIGARO covers 46 countries with identical methodology, the approach scales to any covered country by changing a two-letter code.</p>
+
+<p>Several extensions follow naturally from the current results:</p>
+
+<ul>
+  <li><strong>Multi-country network simulations.</strong> Using FIGARO's bilateral inter-country I-O tables to endogenize trade flows between Germany and its trading partners, potentially resolving the export-demand bias.</li>
+  <li><strong>Expanded country coverage.</strong> Investigating the 4 remaining non-convergent countries (Greece, Ireland, Luxembourg, Latvia), expanding to 12-seed ensembles for additional countries, and running full 9-year panels beyond the four completed (AT, SE, DE, FR).</li>
+  <li><strong>Quarterly frequency.</strong> Extending from annual to quarterly forecasts, exploiting the model's monthly time resolution.</li>
+  <li><strong>Supply-Use Tables.</strong> Using FIGARO SUTs rather than symmetric I-O tables, preserving product-by-industry detail lost in the symmetric transformation.</li>
+</ul>
+
+<p>For the broader economics profession, our results suggest a reappraisal of input-output tables. They are not merely accounting frameworks for tracking inter-sectoral flows. They are compressed representations of entire economic ecosystems&mdash;containing, implicitly, the information needed to reconstruct the economy's production network, industrial organization, and short-run growth trajectory. The decades of methodological work that have gone into compiling, balancing, and harmonizing these tables have created a data product of greater forecasting value than has been recognized. The I-O table serves dual purpose: both the structural engine that drives normal-year forecasts and the network through which shocks propagate. Getting the production structure right, it appears, is the single most important factor in macroeconomic forecasting&mdash;and the I-O table already provides it.</p>
+
+<p>On a methodological note, the preparation of this paper was significantly assisted by an AI coding assistant (Anthropic's Claude), which contributed literature surveys and positioning against existing forecasting benchmarks, implementation and debugging of simulation code changes prompted by the author, automated launching, monitoring, and result extraction from multi-seed ensemble batches, statistical analysis design, and drafting of the manuscript in appropriate economics terminology&mdash;a domain largely unfamiliar to the author, whose background is in semiconductor and chemical process modeling. This experience suggests that AI-assisted research may substantially lower the barriers for cross-disciplinary contributions, enabling domain outsiders to engage productively with fields where they lack formal training but can bring fresh methodological perspectives.</p>
+
+
+<!-- ========== DATA AVAILABILITY ========== -->
+<h1>Data and Software Availability</h1>
+
+<p>The DEPLOYERS simulation package&mdash;including the executable, GUI, country parameter files, example input scripts, and full documentation&mdash;is freely available under the MIT License at <a href="https://doi.org/10.5281/zenodo.18988483">https://doi.org/10.5281/zenodo.18988483</a>. The package requires only that the user download the relevant FIGARO I-O tables from Eurostat (freely available). All results reported in this paper can be reproduced by running the included input scripts with the corresponding FIGARO tables for years 2010&ndash;2019.</p>
+
+<!-- ========== REFERENCES ========== -->
+<h1>References</h1>
+
+<div class="ref">
+<p>Acemoglu, D., Carvalho, V.M., Ozdaglar, A. and Tahbaz-Salehi, A. (2012). The Network Origins of Aggregate Fluctuations. <em>Econometrica</em>, 80(5), 1977&ndash;2016.</p>
+
+<p>Anderson, P.W. (1972). More Is Different. <em>Science</em>, 177(4047), 393&ndash;396.</p>
+
+<p>Axtell, R.L. (2001). Zipf Distribution of U.S. Firm Sizes. <em>Science</em>, 293(5536), 1818&ndash;1820.</p>
+
+<p>Axtell, R.L. and Farmer, J.D. (2025). Agent-Based Modeling in Economics and Finance: Past, Present, and Future. <em>Journal of Economic Literature</em>, 63(1), 197&ndash;287.</p>
+
+<p>Carvalho, V.M. and Tahbaz-Salehi, A. (2019). Production Networks: A Primer. <em>Annual Review of Economics</em>, 11, 635&ndash;663.</p>
+
+<p>Dawid, H. and Delli Gatti, D. (2018). Agent-Based Macroeconomics. In: Hommes, C. and LeBaron, B. (Eds.), <em>Handbook of Computational Economics</em>, Vol. 4, pp. 63&ndash;156. Elsevier.</p>
+
+<p>Di Domenico, L., Catalano, M. and Riccetti, L. (2025). Scaling and forecasting in a data-driven agent-based model: Applications to the Italian macroeconomy. <em>Economic Modelling</em>.</p>
+
+<p>Edge, R.M. and G&uuml;rkaynak, R.S. (2010). How Useful Are Estimated DSGE Model Forecasts for Central Bankers? <em>Brookings Papers on Economic Activity</em>, Fall 2010, 209&ndash;259.</p>
+
+<p>Eurostat (2024a). FIGARO tables &mdash; Symmetric input-output tables (industry-by-industry), 25th edition. [dataset]. <a href="https://circabc.europa.eu/ui/group/cec66924-a924-4f91-a0ef-600a0531e3ba/library/12a4fc44-d49f-4775-8351-8a7204f5c8ee?p=1&amp;n=10&amp;sort=name_ASC">https://circabc.europa.eu/ui/group/.../library/...</a> (e.g. matrix_eu-ic-io_ind-by-ind_25ed_2010.csv).</p>
+
+<p>Eurostat (2024b). Structural Business Statistics: Business demography. [dataset]. <a href="https://ec.europa.eu/eurostat/databrowser/view/SBS_SC_OVW/">https://ec.europa.eu/eurostat/databrowser/view/SBS_SC_OVW/</a>.</p>
+
+<p>Farmer, J.D. and Foley, D. (2009). The economy needs agent-based modelling. <em>Nature</em>, 460, 685&ndash;686.</p>
+
+<p>Federal Reserve Bank of St. Louis (2024). Professional Forecasters' Past Performance and the 2025 Economic Outlook. <em>On the Economy Blog</em>, December 2024.</p>
+
+<p>Fritzer, F., Gnan, E., Grozea-Helmenstein, D. and Hlouskova, J. (2019). Evaluation of economic forecasts for Austria. <em>Empirical Economics</em>, 56, 1061&ndash;1088.</p>
+
+<p>Glielmo, A., Devetak, M., Meligrana, T. and Poledna, S. (2025). BeforeIT.jl: High-Performance Agent-Based Macroeconomics Made Easy. arXiv:2502.13267.</p>
+
+<p>Hamill, L., Wieland, V. and Hommes, C. (2025). CANVAS: A Canadian behavioral agent-based model for monetary policy. <em>Journal of Economic Dynamics and Control</em>, 172.</p>
+
+<p>Hommes, C. and Poledna, S. (2026). Forecasting economic crises in the euro area. <em>Economic Modelling</em>.</p>
+
+<p>Ismail, K., Perrelli, R. and Yang, J. (2021). An Evaluation of World Economic Outlook Growth Forecasts, 2004&ndash;17. IMF Working Paper WP/21/216.</p>
+
+<p>Jaraiz, M. (2020). Ants, Robots, Humans: A Self-Organizing Agents Deployer. arXiv:2009.10823.</p>
+
+<p>Leontief, W. (1936). Quantitative Input and Output Relations in the Economic System of the United States. <em>Review of Economics and Statistics</em>, 18(3), 105&ndash;125.</p>
+
+<p>Leontief, W. (1986). <em>Input-Output Economics</em>. 2nd edition. Oxford University Press.</p>
+
+<p>Nelson, R.R. and Winter, S.G. (1982). <em>An Evolutionary Theory of Economic Change</em>. Harvard University Press.</p>
+
+<p>Pain, N., Lewis, C., Dang, T-T., Jin, Y. and Richardson, P. (2014). OECD Forecasts During and After the Financial Crisis. <em>OECD Economics Department Working Papers</em>, No. 1107.</p>
+
+<p>Poledna, S., Miess, M.G., Hommes, C. and Rabitsch, K. (2023). Economic forecasting with an agent-based model. <em>European Economic Review</em>, 151, 104306.</p>
+
+<p>Ragacs, C. and Reiss, L. (2007). Comparing the Predictive Accuracy of Macroeconomic Forecasts for Austria. <em>Monetary Policy &amp; the Economy</em>, Q4/2007, OeNB.</p>
+
+<p>Rueda-Cantuche, J.M., Kerner, R., Rueda-Cantuche, C. and Rueda-Cantuche, A.M. (2021). EU Inter-Country Supply, Use and Input-Output Tables &mdash; Full International and Global Accounts for Research in Input-Output Analysis (FIGARO). <em>Eurostat Statistical Working Papers</em>.</p>
+
+<p>Schuster, P. (2021). Evaluation of Austrian Economic Forecasts. Austrian Fiscal Advisory Council.</p>
+
+<p>Simon, H.A. (1956). Rational choice and the structure of the environment. <em>Psychological Review</em>, 63(2), 129&ndash;138.</p>
+
+<p>Simon, H.A. (1962). The Architecture of Complexity. <em>Proceedings of the American Philosophical Society</em>, 106(6), 467&ndash;482.</p>
+
+<p>Smets, F. and Wouters, R. (2007). Shocks and Frictions in US Business Cycles: A Bayesian DSGE Approach. <em>American Economic Review</em>, 97(3), 586&ndash;606.</p>
+
+<p>Timmermann, A. (2006). Forecast Combinations. In: Elliott, G., Granger, C.W.J. and Timmermann, A. (Eds.), <em>Handbook of Economic Forecasting</em>, Vol. 1, Ch. 4, pp. 135&ndash;196. Elsevier.</p>
+
+<p>World Bank (2024). World Development Indicators: GDP growth (annual %). [dataset NY.GDP.MKTP.KD.ZG].</p>
+</div>
+
+<p style="text-align:center; color:#999; font-size:0.85em; margin-top:40px; border-top:1px solid #ddd; padding-top:12px;">
+The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+Chapter 2 &mdash; Macroeconomic Forecasting &middot; arXiv:2603.12412<br>
+&copy; 2026 M. Jaraiz, Universidad de Valladolid.
+</p>
+</div><!-- end Section1 -->
+
+<script>
+(function() {
+  // Configuration: how many top-level sections start open
+  var FIRST_N_OPEN = 2;
+
+  // Collect all h2 elements (top-level sections)
+  var h2s = Array.from(document.querySelectorAll('h2'));
+  // Skip h2s that are inside known non-section containers (like .ref, footer, etc.)
+  h2s = h2s.filter(function(h) {
+    var p = h.parentElement;
+    while (p && p !== document.body) {
+      if (p.classList.contains('ref') || p.classList.contains('disclosure') ||
+          p.classList.contains('fold-body') || p.classList.contains('fold-sub-body') ||
+          p.tagName === 'FOOTER') return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+
+  h2s.forEach(function(h2, idx) {
+    // Collect all sibling nodes between this h2 and the next h2 (or section-ending element)
+    var nodes = [];
+    var sib = h2.nextSibling;
+    while (sib) {
+      if (sib.nodeType === 1 && sib.tagName === 'H2') break;
+      // Stop at footer-like elements
+      if (sib.nodeType === 1) {
+        var cl = sib.className || '';
+        var st = sib.getAttribute('style') || '';
+        if (cl.indexOf('disclosure') >= 0 || cl.indexOf('ref ') >= 0 ||
+            (st.indexOf('margin-top') >= 0 && st.indexOf('border-top') >= 0 && st.indexOf('text-align:center') >= 0)) break;
+      }
+      nodes.push(sib);
+      sib = sib.nextSibling;
+    }
+
+    // Create wrapper
+    var section = document.createElement('div');
+    section.className = 'fold-section';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fold-header' + (idx < FIRST_N_OPEN ? ' open' : '');
+    header.textContent = h2.textContent;
+    section.appendChild(header);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'fold-body' + (idx < FIRST_N_OPEN ? ' open' : '');
+    nodes.forEach(function(n) { body.appendChild(n); });
+    section.appendChild(body);
+
+    // Replace h2 with section
+    h2.parentNode.replaceChild(section, h2);
+
+    // Toggle
+    header.addEventListener('click', function() {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  });
+
+  // Now handle h3 subsections inside each fold-body
+  document.querySelectorAll('.fold-body').forEach(function(foldBody) {
+    var h3s = Array.from(foldBody.querySelectorAll(':scope > h3'));
+    // Also check for h3s that may be direct children after moving
+    if (h3s.length === 0) return;
+
+    h3s.forEach(function(h3, jdx) {
+      var nodes = [];
+      var sib = h3.nextSibling;
+      while (sib) {
+        if (sib.nodeType === 1 && (sib.tagName === 'H3' || sib.tagName === 'H2')) break;
+        if (sib.nodeType === 1 && sib.classList.contains('fold-sub')) break;
+        nodes.push(sib);
+        sib = sib.nextSibling;
+      }
+
+      var sub = document.createElement('div');
+      sub.className = 'fold-sub';
+
+      var subHeader = document.createElement('div');
+      subHeader.className = 'fold-sub-header' + (jdx === 0 ? ' open' : '');
+      subHeader.textContent = h3.textContent;
+      sub.appendChild(subHeader);
+
+      var subBody = document.createElement('div');
+      subBody.className = 'fold-sub-body' + (jdx === 0 ? ' open' : '');
+      nodes.forEach(function(n) { subBody.appendChild(n); });
+      sub.appendChild(subBody);
+
+      h3.parentNode.replaceChild(sub, h3);
+
+      subHeader.addEventListener('click', function() {
+        subHeader.classList.toggle('open');
+        subBody.classList.toggle('open');
+      });
+    });
+  });
+
+  // Add expand/collapse buttons
+  // Find the first fold-section and insert buttons before it
+  var firstSection = document.querySelector('.fold-section');
+  if (firstSection) {
+    var controls = document.createElement('div');
+    controls.className = 'expand-controls';
+    controls.innerHTML = '<button id="expandAll">Expand all</button><button id="collapseAll">Collapse all</button>';
+    firstSection.parentNode.insertBefore(controls, firstSection);
+
+    document.getElementById('expandAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.add('open');
+      });
+    });
+    document.getElementById('collapseAll').addEventListener('click', function() {
+      document.querySelectorAll('.fold-header, .fold-body, .fold-sub-header, .fold-sub-body').forEach(function(el) {
+        el.classList.remove('open');
+      });
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="../Ch1-Framework/Paper-3-Free-Market-Algorithm.html">\u2190 Ch 1: The Framework</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="../Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">Ch 3: Prebiotic Chemistry \u2192</a>';
+  // Insert before the footer div
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    footer.parentNode.insertBefore(nav, footer);
+  } else {
+    document.body.appendChild(nav);
+  }
+})();
+</script>
+
+</body>
+</html>

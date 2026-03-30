@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction — The Free-Market Algorithm</title>
+<style>
+  body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; background: #fff; max-width: 820px; margin: 0 auto; padding: 40px 30px 60px; line-height: 1.8; font-size: 15px; }
+  .book-header { text-align: center; color: #7f8c8d; font-size: 0.82em; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 10px; margin-bottom: 4px; }
+  .chapter-header { text-align: center; color: #2980b9; font-size: 1.0em; font-weight: 600; margin-bottom: 30px; letter-spacing: 0.04em; }
+  h1 { color: #1a3a5c; font-size: 1.7em; margin-bottom: 6px; }
+  .author { color: #666; font-size: 0.95em; margin-bottom: 30px; }
+  p { margin: 0.8em 0; text-align: justify; }
+  .mech-table { border-collapse: collapse; width: 100%; margin: 1.2em 0; font-size: 0.9em; }
+  .mech-table th { background: #2c3e50; color: #fff; padding: 8px 12px; text-align: left; font-weight: 600; }
+  .mech-table td { padding: 6px 12px; border: 1px solid #ddd; }
+  .mech-table tr:nth-child(even) { background: #f8f9fa; }
+  .footer { text-align: center; color: #999; font-size: 0.85em; margin-top: 40px; border-top: 1px solid #ddd; padding-top: 12px; }
+  a { color: #2980b9; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Index nav button — injected */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+
+  /* Cross-chapter nav — injected */
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a {
+    color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body>
+
+<div class="book-header">The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+<div class="chapter-header">Introduction</div>
+
+<h1>Why a Free Market?</h1>
+<p class="author">Martin Jaraiz &mdash; Department of Electricity and Electronics, University of Valladolid, Spain<br>March 2026</p>
+
+<p>
+This volume presents a single claim: <em>Darwinian free-market optimization is a universal mechanism for the emergence of complexity in open-ended systems</em>. The claim is supported by five independent domains&mdash;macroeconomic forecasting, prebiotic chemistry, chemical synthesis planning, language modelling, and adaptive immunity&mdash;in which the same algorithm, with the same 18 mechanisms, produces qualitatively correct behaviour without domain-specific fitting.
+</p>
+
+<p>
+The Free-Market Algorithm (FMA) was not designed as a universal framework. At the 2008 financial crisis, while I was shifting from semiconductor to chemistry atomistic modelling, I started thinking about simulating economic activities. In 2017 I finally began&mdash;but deliberately chose not to read the existing literature, following instead my naive outsider common sense. In 2020 I uploaded to arXiv my first agent-based draft. I did not yet know about Agent-Based Models as a field, or even about input-output tables and Social Accounting Matrices.
+</p>
+
+<p>
+The first surprise was to realise that the same code that deployed an economic system could be used to drive a robot carrying out several unrelated tasks in parallel, simply by asking the virtual settler workers to specialise on a specific task step as the "product" of their firm. The algorithm was therefore not just for economics&mdash;it could serve as a more general optimisation framework.
+</p>
+
+<p>
+The second surprise came when I heard about input-output tables and saw how the algorithm was able to reproduce real-world economic data&mdash;not just academic insight exercises. The current version can reproduce macroeconomic time series from nothing more than a single input-output table. No time series, no estimated parameters, no expectations formation. The solution was to let autonomous agents discover transformation rules, trade goods, open and close firms, and compete for demand, with no centralised controller. The economy that emerged was not programmed; it self-organised through supply-and-demand dynamics, and it happened to forecast GDP with a mean absolute error comparable to the best professional institutions.
+</p>
+
+<p>
+The recent introduction of AI assistants has made it possible to test the algorithm in fields where I have had no training. The next surprise came in 2025, when the same algorithm&mdash;unchanged&mdash;was applied to prebiotic chemistry. Starting from bare C, H, O, and N atoms, it discovered all 12 feasible amino acid formulas, all 5 canonical nucleobases, the complete formose sugar chain from formaldehyde to ribose, and Krebs cycle intermediates. No target molecules were specified. The algorithm treated atoms as goods, reactions as firms, and thermodynamic favourability as market demand. It worked because the problem had the same structure: open-ended search in a combinatorial space, guided by local fitness signals, with no global objective function.
+</p>
+
+<p>
+A further surprise was that the FMA's internal dynamics matched, quantitatively, the signatures predicted by Assembly Theory for the boundary between random chemistry and selection-driven complexity. Three dynamical regimes emerged naturally&mdash;stagnation, selection, and tar&mdash;from varying a single parameter (temperature), and the transition points aligned with AT's theoretical thresholds. The FMA provided the constructive mechanism that AT's framework describes abstractly.
+</p>
+
+<p>
+The next domain was language modelling. The FMA's market dynamics&mdash;where agents compete for demand, specialise through experience, and are replaced when unprofitable&mdash;map directly onto the Mixture-of-Experts architecture in modern transformers. To test this, I built nanoFMT, a minimal language model written from scratch in which there is no gradient descent: instead, each "expert" is a firm in a four-layer market hierarchy, and the training/inference dichotomy reduces to a single step: every forward pass is simultaneously learning and producing output, just as every market transaction simultaneously allocates resources and generates price signals. The polysemanticity phenomenon observed in mechanistic interpretability&mdash;where single neurons encode multiple unrelated features&mdash;emerges naturally from FMA's census coverage mechanism when the expert pool is small.
+</p>
+
+<p>
+The most recent domain is adaptive immunity. Every named FMA mechanism has a precise immunological counterpart: birth/death maps to clonal expansion and contraction, the Evans-Polanyi activation barrier maps to lymphocyte activation thresholds, the depth penalty maps to T-cell exhaustion, the persistent recipe book maps to immunological memory, and census coverage maps to IL-7-driven homeostatic proliferation. The three regimes&mdash;stagnation, selection, and tar&mdash;correspond to immune tolerance, normal adaptive immunity, and cytokine storm, respectively. The mapping generates six novel falsifiable predictions, including that exhaustion scales with cascade depth (not antigen dose) and that cytokine storm severity is predicted by birth/death ratio (not IL-6 levels alone).
+</p>
+
+<p>
+These are not analogies. The word "analogy" implies two separate systems that happen to resemble each other. What we observe is stronger: the same mechanism, operating under the same equations, producing the same dynamical signatures, in systems that share no substrate, no scale, and no evolutionary history. A macroeconomic firm and a B lymphocyte have nothing in common&mdash;except that both are autonomous agents competing in an open-ended market, and both are governed by the same 18 rules.
+</p>
+
+<p>
+The structure of this volume follows the chronological order of discovery:
+</p>
+
+<table class="mech-table" style="margin: 1em 0 1.4em;">
+  <tr>
+    <th>Chapter</th><th>Domain</th><th>Key Result</th><th>Status</th>
+  </tr>
+  <tr>
+    <td><a href="Ch1-Framework/Paper-3-Free-Market-Algorithm.html">1. The Framework</a></td>
+    <td>General theory</td>
+    <td>18 mechanisms, 3-layer architecture, comparison with GA/PSO/ACO/SA</td>
+    <td style="color:#2e7d32; font-weight:600;">Published</td>
+  </tr>
+  <tr>
+    <td><a href="Ch2-Macroeconomics/Paper-1-Macroeconomic-Forecasting.html">2. Macroeconomics</a></td>
+    <td>Economic forecasting</td>
+    <td>MAE 0.42 pp, 33/37 countries, COVID-19 shock, FIGARO data</td>
+    <td style="color:#2e7d32; font-weight:600;">Published</td>
+  </tr>
+  <tr>
+    <td><a href="Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">3. Prebiotic Chemistry</a></td>
+    <td>Origin of life</td>
+    <td>12/12 amino acids, 5/5 nucleobases, Assembly Theory validation</td>
+    <td style="color:#e65100;">Draft</td>
+  </tr>
+  <tr>
+    <td><a href="Ch4-Transformer/Paper-4-FreeMarketTransformer.html">4. Language Models</a></td>
+    <td>AI / Transformers</td>
+    <td>nanoFMT: 58 self-organized experts, no gradient descent</td>
+    <td style="color:#e65100;">Draft</td>
+  </tr>
+  <tr>
+    <td><a href="Ch5-Immune/Paper-5-Immune-System.html">5. Adaptive Immunity</a></td>
+    <td>Immunology</td>
+    <td>Complete 18-mechanism mapping, 6 falsifiable predictions</td>
+    <td style="color:#e65100;">Draft</td>
+  </tr>
+</table>
+
+<p style="background: #f0f4f8; padding: 14px 18px; border-radius: 6px; font-size: 0.93em; margin: 0 0 1.2em;">
+<strong style="color:#1a3a5c;">How to read this book.</strong> Each chapter is self-contained and can be read independently. Chapters 4 and 5 include interactive simulators (<a href="Ch4-Transformer/Paper-4-FMT-viewer.html">nanoFMT viewer</a>, <a href="Ch5-Immune/Paper-5-Immune-viewer.html">nanoImmune viewer</a>) that let you explore FMA dynamics in real time. For the impatient: the interactive viewers give the fastest overview of what FMA does. For the sceptical: Chapter 1 provides the formal apparatus, and Chapters 2&ndash;5 supply the evidence.
+</p>
+
+<h2 style="color:#2c3e50; border-bottom:1px solid #bdc3c7; padding-bottom:5px; margin-top:40px;">The Orchestration Principle</h2>
+
+<p>
+A pattern emerges across these five domains that deserves to be stated explicitly. In every case, FMA does not replace the native optimization of the domain. Instead, it operates <em>one level above</em> it, orchestrating the structural units that the domain's own dynamics cannot self-organize:
+</p>
+
+<table class="mech-table" style="margin: 1em 0 1.4em;">
+  <tr>
+    <th>Domain</th><th>Native optimization</th><th>FMA orchestrates</th>
+  </tr>
+  <tr>
+    <td>Macroeconomics</td>
+    <td>Individual transactions (supply meets demand)</td>
+    <td>Firms: creation, specialization, destruction</td>
+  </tr>
+  <tr>
+    <td>Prebiotic chemistry</td>
+    <td>Individual reactions (thermodynamic favourability)</td>
+    <td>Species populations: which molecules persist and grow</td>
+  </tr>
+  <tr>
+    <td>Language models</td>
+    <td>Gradient descent (parameter optimization)</td>
+    <td>Expert modules: birth, death, specialization, routing</td>
+  </tr>
+  <tr>
+    <td>Adaptive immunity</td>
+    <td>Antigen-receptor binding (molecular recognition)</td>
+    <td>Clonal populations: expansion, contraction, memory</td>
+  </tr>
+</table>
+
+<p>
+This is the orchestration principle: FMA is not a competitor to gradient descent, thermodynamic selection, or antigen-receptor affinity. It is the layer that manages the <em>population of problem-solvers</em>, deciding which ones are born, which survive, which specialize, and which are retired. Gradient descent optimizes <em>within</em> an architecture; FMA optimizes <em>the architecture itself</em>. The same relationship holds in every domain: the local optimizer handles individual interactions, while FMA handles the population dynamics of the agents performing those interactions.
+</p>
+
+<p>
+The adaptive immune system did not read Hayek. It discovered the free market by natural selection, running the same algorithm that governs macroeconomic coordination and prebiotic molecular assembly. That five domains as distant as national economies, primordial chemistry, robotic task planning, neural network architectures, and the vertebrate immune system converge on the same 18-mechanism structure is the central finding of this work, and the rest of the volume is the evidence.
+</p>
+
+<div class="footer">
+  The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems<br>
+  Introduction &middot; arXiv:2603.24559<br>
+  &copy; 2026 M. Jaraiz, Universidad de Valladolid.
+</div>
+
+
+<script>
+(function() {
+  // Create Index nav bar
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="index.html">\u2190 Index</a>';
+
+  // Insert after the chapter subtitle or before h1
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    h1.parentNode.insertBefore(nav, h1);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="Ch1-Framework/Paper-3-Free-Market-Algorithm.html">Ch 1: The Framework \u2192</a>';
+  // Insert before the footer div
+  var footer = document.querySelector('.footer');
+  if (footer) {
+    footer.parentNode.insertBefore(nav, footer);
+  } else {
+    document.body.appendChild(nav);
+  }
+})();
+</script>
+
+</body>
+</html>
