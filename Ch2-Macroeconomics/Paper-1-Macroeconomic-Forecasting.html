@@ -728,6 +728,15 @@
 <p><strong>Sector-agnostic labour pool.</strong> The model represents the labour market as a single unemployment stock: workers laid off from any sector enter the same pool and can be hired by any sector. It therefore cannot represent the &ldquo;worker retained on payroll but at reduced hours&rdquo; state created by Kurzarbeit-style retention schemes, and monthly model unemployment cannot be compared directly with retention-adjusted official series. Quarterly GDP verification is unaffected; sector-resolved labour modelling is left for future work.</p>
 
 
+<h2>5.4 Broader Implications: Darwinian Deployment Beyond Economics</h2>
+
+<p>The DEPLOYERS framework originates not in economics but in the simulation of complex self-organizing systems (Jaraiz, 2020). The same code that coordinates firms in a 64-sector economy can coordinate robots performing parallel assembly tasks in an industrial setting. The structural input differs&mdash;an I-O table for economics, a task specification for robot assembly&mdash;but the coordination mechanism is identical: agents are deployed to tasks, compete for resources, and the system self-organizes through variation, selection, and retention.</p>
+
+<p>This domain generality connects to a broader intellectual tradition. Anderson (1972), in his landmark essay &ldquo;More Is Different,&rdquo; argued that complex systems exhibit emergent properties that cannot be predicted from the properties of their components. Simon (1962), in &ldquo;The Architecture of Complexity,&rdquo; showed that complex systems universally organize themselves into hierarchical structures through evolutionary processes. Our finding that a Darwinian simulator reproduces macroeconomic forecasts, firm size distributions, and shock propagation dynamics from a single I-O table is consistent with both insights: the I-O table encodes the structural constraints, and Darwinian selection discovers the emergent organization.</p>
+
+<p>For macroeconomic forecasting specifically, the implication is that <em>structure dominates behavior</em>. The production network encoded in the I-O table&mdash;which sectors buy from which, how much labor and capital each sector uses, what consumers demand&mdash;constrains the economy&apos;s short-run dynamics so tightly that the specific behavioral rules of individual agents are secondary. Whether agents have AR(1) expectations (Poledna) or no expectations (DEPLOYERS), whether the firm population is static (Poledna) or evolutionary (DEPLOYERS), whether the model runs on a supercomputer or a laptop&mdash;the I-O structure dominates.</p>
+
+
 <!-- ========== 6. CONCLUSIONS ========== -->
 <h1>6. Conclusions</h1>
 
@@ -809,6 +818,11 @@
 </div>
 
 <!-- FMABOOK-CHROME-FOOTER -->
+<div class="page-footer" style="text-align:center; color:#7f8c8d; font-size:0.85em; padding:24px 0 8px; margin-top:40px; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.6;">
+  <div>The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+  <div>Chapter&nbsp;2 &mdash; Macroeconomic Forecasting &middot; arXiv:2603.12412</div>
+  <div>&copy; 2026 M. Jaraiz, Universidad de Valladolid.</div>
+</div>
 <script>
 (function() {
   // Create Index nav button (inserted before the <h1> title)
@@ -821,13 +835,12 @@
 </script>
 <script>
 (function() {
-  // Create cross-chapter navigation bar (appended near end)
+  // Create cross-chapter navigation bar — appended AFTER the page-footer text
+  // so the rendered order is: paper content → page footer → nav bar.
   var nav = document.createElement('div');
   nav.className = 'chapter-nav';
   nav.innerHTML = '<a href="../Ch1-Framework/Paper-3-Free-Market-Algorithm.html">\u2190 Ch 1: Framework</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="../Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">Ch 3: Prebiotic Chemistry \u2192</a>';
-  var footer = document.querySelector('.footer');
-  if (footer) { footer.parentNode.insertBefore(nav, footer); }
-  else { document.body.appendChild(nav); }
+  document.body.appendChild(nav);
 })();
 </script>
 <!-- /FMABOOK-CHROME-FOOTER -->
