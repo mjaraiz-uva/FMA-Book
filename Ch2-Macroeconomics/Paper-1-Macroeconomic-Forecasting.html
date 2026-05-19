@@ -76,10 +76,34 @@
     h1 + p, h2 + p, h3 + p { break-before: avoid; page-break-before: avoid; }
     svg { max-width: 100%; height: auto; }
   }
+  /* === FMABOOK-CHROME — injected by SCRIPTS/_inject_fmabook_chrome.py === */
+  .index-nav { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+  .index-nav a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #1a3a5c; color: white; padding: 8px 16px; border-radius: 6px;
+    text-decoration: none; font-size: 0.9em; font-weight: 600; transition: background 0.15s;
+  }
+  .index-nav a:hover { background: #2c5f8a; color: white; }
+
+  .chapter-nav {
+    display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #1a3a5c; padding: 14px 20px; border-radius: 8px;
+    margin: 40px 0 10px; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; font-size: 0.9em;
+  }
+  .chapter-nav a { color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px; transition: background 0.15s; white-space: nowrap; }
+  .chapter-nav a:hover { background: rgba(255,255,255,0.15); }
+  .chapter-nav .sep { color: rgba(255,255,255,0.35); }
+  /* === /FMABOOK-CHROME === */
+
 </style>
 </head>
 <body>
 
+
+<!-- FMABOOK-CHROME-HEADER -->
+<div style="text-align:center; color:#7f8c8d; font-size:0.82em; letter-spacing:0.12em; text-transform:uppercase; padding-top:10px; margin-bottom:4px; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;">The Free-Market Algorithm &mdash; A Universal Theory of Open-Ended Complex Systems</div>
+<div style="text-align:center; color:#2980b9; font-size:1.0em; font-weight:600; margin-bottom:20px; letter-spacing:0.04em; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;">Chapter&nbsp;2 &mdash; Macroeconomics</div>
+<!-- /FMABOOK-CHROME-HEADER -->
 <!-- ========== TITLE ========== -->
 <div class="title-block">
   <h1>Input-Output Tables as Sufficient Statistics<br>for Short-Run GDP Forecasting<br>and Dynamic Shock Propagation:<br>Multi-Country COVID-19 Evidence from a Darwinian<br>Agent-Based Simulator and FIGARO Data</h1>
@@ -783,6 +807,30 @@
 
 <p>Timmer, M.P., Dietzenbacher, E., Los, B., Stehrer, R. and de Vries, G.J. (2015). An Illustrated User Guide to the World Input-Output Database. <em>Review of International Economics</em>, 23(3), 575&ndash;605.</p>
 </div>
+
+<!-- FMABOOK-CHROME-FOOTER -->
+<script>
+(function() {
+  // Create Index nav button (inserted before the <h1> title)
+  var nav = document.createElement('div');
+  nav.className = 'index-nav';
+  nav.innerHTML = '<a href="../index.html">\u2190 Index</a>';
+  var h1 = document.querySelector('h1');
+  if (h1) { h1.parentNode.insertBefore(nav, h1); }
+})();
+</script>
+<script>
+(function() {
+  // Create cross-chapter navigation bar (appended near end)
+  var nav = document.createElement('div');
+  nav.className = 'chapter-nav';
+  nav.innerHTML = '<a href="../Ch1-Framework/Paper-3-Free-Market-Algorithm.html">\u2190 Ch 1: Framework</a><span class="sep">|</span><a href="../index.html" style="font-weight:600;">Index</a><span class="sep">|</span><a href="../Ch3-Prebiotic-Chemistry/Paper-2-Prebiotic-Chemistry.html">Ch 3: Prebiotic Chemistry \u2192</a>';
+  var footer = document.querySelector('.footer');
+  if (footer) { footer.parentNode.insertBefore(nav, footer); }
+  else { document.body.appendChild(nav); }
+})();
+</script>
+<!-- /FMABOOK-CHROME-FOOTER -->
 
 </body>
 </html>
