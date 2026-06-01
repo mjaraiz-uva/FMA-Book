@@ -116,9 +116,9 @@
 <!-- ========== ABSTRACT ========== -->
 <div class="abstract">
   <h3>Abstract</h3>
-  <p>How much macroeconomic information is contained in a single input-output table? We feed FIGARO 64-sector symmetric industry-by-industry tables into DEPLOYERS, a Darwinian agent-based simulator, and use the result for both genuine out-of-sample GDP forecasts and dynamic shock-propagation simulations. The I-O table is essentially the only input: no time series, no estimated parameters, no expectations formation, no external forecasts.</p>
+  <p>How much macroeconomic information is contained in a single input-output table? We feed FIGARO 64-sector symmetric industry-by-industry tables into Deployers, a Darwinian agent-based simulator, and use the result for both genuine out-of-sample GDP forecasts and dynamic shock-propagation simulations. The I-O table is essentially the only input: no time series, no estimated parameters, no expectations formation, no external forecasts.</p>
 
-  <p>A 9-year Austrian panel (2010&ndash;2018) achieves overall MAE 1.22&nbsp;pp; for the five non-crisis years, MAE falls to 0.42&nbsp;pp, in range with the seven Austria-specific institutional forecasters tracked by Schuster (2021) (WIFO 0.52&nbsp;pp, institutional average 0.54&nbsp;pp). With only five normal-year observations this comparison is descriptive rather than statistically decisive, but the engine reaches institutional-grade accuracy with no time-series data, no estimated parameters and no expert judgement&mdash;only the prior-year I-O table. Of 37 tested FIGARO countries, 33 converge with zero parameter changes; broader cross-country accuracy is the subject of a follow-on study. Emergent firm size distributions match European Commission business demography (87.6% micro, 10.8% small, 1.6% medium for AT) without any calibration to micro targets, evidence that the I-O factor-income structure implicitly encodes industrial organization.</p>
+  <p>A 9-year Austrian panel (2010&ndash;2018) achieves overall MAE 1.22&nbsp;pp; for the five non-crisis years, MAE falls to 0.42&nbsp;pp, in range with the seven Austria-specific institutional forecasters tracked by Schuster (2021) (WIFO 0.52&nbsp;pp, institutional average 0.54&nbsp;pp). With only five normal-year observations this comparison is descriptive rather than statistically decisive, but Deployers reaches institutional-grade accuracy with no time-series data, no estimated parameters and no expert judgement&mdash;only the prior-year I-O table. Of 37 tested FIGARO countries, 33 converge with zero parameter changes; broader cross-country accuracy is the subject of a follow-on study. Emergent firm size distributions match European Commission business demography (87.6% micro, 10.8% small, 1.6% medium for AT) without any calibration to micro targets, evidence that the I-O factor-income structure implicitly encodes industrial organization.</p>
 
   <p>The same I-O backbone serves a dual purpose: it also propagates encoded exogenous shocks through the production network. A four-country COVID-19 case study (Austria, United Kingdom, Canada, Germany) applies a common capacity-loss + empirical-wealth-MPC methodology across a 19-month timeline plus 15 months of pure forecast through Q4 2022. From a fully grounded, GDP-untuned lockdown timeline (sector capacity from AMS unemployment combined with Kurzarbeit retention), the Austrian 4-seed ensemble reproduces the empirical Q2&apos;20 first-wave trough to within 0.27&nbsp;pp of Eurostat (model &minus;13.95% vs &minus;14.22%), while under-shooting the milder, graded Q1&apos;21 second wave by 2.0&nbsp;pp (model &minus;5.73% vs &minus;7.73%) and recovering to within 0.73&nbsp;pp by Q4&apos;22&mdash;all without changing the wealth-MPC calibration (0.054). Under the same common (Austrian) wealth-MPC, the UK, Canadian and German Q2&apos;20 troughs run several pp shallower than empirical (gaps 4.9, 4.4 and 3.8&nbsp;pp); we present the cross-country panel as a portability proof of concept that the I-O transmission mechanism extends beyond a single economy, with country-specific wealth-MPC and timeline calibration left to a follow-on study.</p>
 
@@ -136,7 +136,7 @@
 
 <p>First, we show that a single FIGARO symmetric industry-by-industry table&mdash;with no auxiliary data beyond population and NAIRU&mdash;is sufficient to generate one-year-ahead GDP forecasts that match major institutional benchmarks. Second, we show that the <em>same</em> I-O table, via the same simulator with no parameter changes, serves as a faithful transmission mechanism for explicitly-encoded exogenous shocks, producing pandemic GDP trajectories for four structurally different countries (Austria, the United Kingdom, Canada, Germany).</p>
 
-<p>The mechanism is a Darwinian agent-based simulator (DEPLOYERS v2; the engine binary is freely available on Zenodo at DOI <a href="https://doi.org/10.5281/zenodo.18988482">10.5281/zenodo.18988482</a>) that reads the I-O table, self-organizes through evolutionary natural selection an artificial economy that reproduces the table&apos;s structure, then lets autonomous market dynamics run forward. The recent landmark in this area, Poledna et al. (2023), achieved competitive Austrian forecasts with 8.8 million 1:1-scale agents, AR(1) behavioural-learning expectations, a generalized Taylor rule, and 500 Monte Carlo replications on a supercomputer cluster. We arrive at the same conclusion from a radically different starting point: &asymp;2,000 agents on a desktop PC, zero estimated parameters, and Darwinian selection that <em>discovers</em> firm populations, size distributions, and wage structures from the I-O table&apos;s factor-income coefficients alone. The convergence of these architectures on the same accuracy is itself evidence that the I-O table&mdash;the one element they share&mdash;is the binding informational constraint.</p>
+<p>The mechanism is a Darwinian agent-based simulator (Deployers v2; the binary is freely available on Zenodo at DOI <a href="https://doi.org/10.5281/zenodo.18988482">10.5281/zenodo.18988482</a>) that reads the I-O table, self-organizes through evolutionary natural selection an artificial economy that reproduces the table&apos;s structure, then lets autonomous market dynamics run forward. The recent landmark in this area, Poledna et al. (2023), achieved competitive Austrian forecasts with 8.8 million 1:1-scale agents, AR(1) behavioural-learning expectations, a generalized Taylor rule, and 500 Monte Carlo replications on a supercomputer cluster. We arrive at the same conclusion from a radically different starting point: &asymp;2,000 agents on a desktop PC, zero estimated parameters, and Darwinian selection that <em>discovers</em> firm populations, size distributions, and wage structures from the I-O table&apos;s factor-income coefficients alone. The convergence of these architectures on the same accuracy is itself evidence that the I-O table&mdash;the one element they share&mdash;is the binding informational constraint.</p>
 
 <p>The relevance to the input-output community is direct. The FIGARO tables, developed by Eurostat and the JRC under the scientific leadership of Rueda-Cantuche and colleagues (Rueda-Cantuche et al., 2021; Eurostat/JRC, 2024), represent the state of the art in harmonized inter-country I-O data. Our work demonstrates a quantitatively validated use case that goes beyond traditional multiplier analysis and CGE calibration: I-O data as a primary forecasting instrument <em>and</em> as a dynamic shock-propagation engine. Forecast accuracy provides, additionally, an external validation of the FIGARO compilation methodology itself&mdash;a complement to standard internal consistency checks. The conference theme of "Advancing policy resilience through input-output economics" aligns directly with this finding.</p>
 
@@ -194,25 +194,89 @@
 
 <h2>3.1 Aggregate Convergence with the FIGARO SAM</h2>
 
-<p>Before turning to firm size distributions, we verify that the model reproduces the FIGARO target social accounting matrix at the aggregate level. Table 2 shows the agreement between the model&apos;s monthly-realised SAM (annualised, last calibration month of the Austrian 2010 panel) and the FIGARO 2010 target for Austria, by main SAM aggregate. The three-way GDP identity closes within the engine: value added measured from the income side (&Sigma; over producers of L + K + production and product taxes) equals value added measured from the output side (&Sigma; over producers of gross output minus intermediate consumption) at 353.13&nbsp;B&nbsp;EUR.</p>
+<p>Before turning to firm size distributions, we verify that the model reproduces the FIGARO target social accounting matrix at the aggregate level. Table 2 shows the agreement between the model&apos;s monthly-realised SAM (annualised, last calibration month of the Austrian 2010 panel) and the FIGARO 2010 target for Austria, by main SAM aggregate. The three-way GDP identity closes within Deployers: value added measured from the income side (&Sigma; over producers of L + K + production and product taxes) equals value added measured from the output side (&Sigma; over producers of gross output minus intermediate consumption) at 353.13&nbsp;B&nbsp;EUR.</p>
 
-<table>
-  <caption>Table 2: Engine vs FIGARO SAM (Austria 2010, last calibration month, billions of euros)</caption>
-  <tr><th>SAM aggregate</th><th>Engine</th><th>FIGARO</th><th>%Error</th></tr>
-  <tr><td>Gross output total</td><td>725.72</td><td>734.35</td><td>&minus;1.18</td></tr>
-  <tr><td><strong>Value added (income)</strong></td><td><strong>353.13</strong></td><td><strong>362.44</strong></td><td><strong>&minus;2.57</strong></td></tr>
-  <tr><td>Gross operating surplus (K)</td><td>153.19</td><td>154.21</td><td>&minus;0.66</td></tr>
-  <tr><td>Wages (L)</td><td>184.28</td><td>192.67</td><td>&minus;4.35</td></tr>
-  <tr><td>Intermediate consumption (IC)</td><td>372.59</td><td>371.90</td><td>+0.19</td></tr>
-  <tr><td>Household consumption</td><td>146.79</td><td>156.17</td><td>&minus;6.01</td></tr>
-  <tr><td>Government consumption</td><td>75.34</td><td>75.33</td><td>+0.01</td></tr>
-  <tr><td>GFCF (investment)</td><td>75.42</td><td>75.09</td><td>+0.44</td></tr>
-  <tr><td>Exports</td><td>178.22</td><td>178.16</td><td>+0.03</td></tr>
-  <tr><td>Imports</td><td>184.78</td><td>172.16</td><td>+7.33</td></tr>
-  <tr><td>Taxes on production (D29X39)</td><td>5.95</td><td>5.87</td><td>+1.36</td></tr>
-  <tr><td>Taxes on products (D21X31)</td><td>9.70</td><td>9.70</td><td>0.00</td></tr>
-</table>
-<p class="footnote">%Error = (Engine&nbsp;&minus;&nbsp;FIGARO)&nbsp;/&nbsp;FIGARO&nbsp;&times;&nbsp;100. Engine values aggregated from the model&apos;s monthly SAM accumulator (annualised). FIGARO targets read directly from the 2010 symmetric industry-by-industry table. Imports show the largest divergence at +7.33% (plausibly because external sectors clear bilaterally between agents in the model rather than against an explicit FIGARO import-row target, so small endogenous tilts in domestic vs imported sourcing accumulate over the calibration window); all other aggregates agree within &plusmn;6.0%. The model is not calibrated against any of these aggregates individually&mdash;they emerge from the production-network dynamics and the I-O coefficient structure.</p>
+<div class="figure">
+<div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
+<rect width="820" height="600" fill="#ffffff"/>
+<text x="410" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">Deployers vs FIGARO SAM (Austria 2010, annualised, billions EUR)</text>
+<text x="410" y="54" text-anchor="middle" font-size="13" fill="#4a4a4a">Each aggregate emerges from decentralised agent dynamics &#8212; none is calibrated to its FIGARO target. Log scale.</text>
+<text x="576" y="80" fill="#888" font-size="12">Deployers / FIGARO (B EUR)</text>
+<text x="808" y="80" text-anchor="end" fill="#888" font-size="12">%Error</text>
+<line x1="248.0" y1="86" x2="248.0" y2="524" stroke="#e8e0d4" stroke-width="1"/>
+<text x="248.0" y="542" text-anchor="middle" fill="#888" font-size="12">10</text>
+<line x1="403.0" y1="86" x2="403.0" y2="524" stroke="#e8e0d4" stroke-width="1"/>
+<text x="403.0" y="542" text-anchor="middle" fill="#888" font-size="12">100</text>
+<line x1="558.0" y1="86" x2="558.0" y2="524" stroke="#e8e0d4" stroke-width="1"/>
+<text x="558.0" y="542" text-anchor="middle" fill="#888" font-size="12">1000</text>
+<text x="379.0" y="562" text-anchor="middle" fill="#444" font-size="13">Annual flow (B EUR, log scale)</text>
+<text x="192" y="107" text-anchor="end" fill="#333" font-size="13">Gross output total</text>
+<rect x="200.0" y="95.0" width="337.2" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="108.0" width="336.4" height="10" fill="#2c6e91"/>
+<text x="576" y="108" fill="#555" font-size="12">725.7 / 734.4</text>
+<text x="808" y="108" text-anchor="end" fill="#333" font-size="13" font-weight="normal">−1.18%</text>
+<text x="192" y="143" text-anchor="end" fill="#333" font-size="13">Intermediate consumption</text>
+<rect x="200.0" y="131.0" width="291.4" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="144.0" width="291.6" height="10" fill="#2c6e91"/>
+<text x="576" y="144" fill="#555" font-size="12">372.6 / 371.9</text>
+<text x="808" y="144" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+0.19%</text>
+<text x="192" y="179" text-anchor="end" fill="#333" font-size="13">Value added (income)</text>
+<rect x="200.0" y="167.0" width="289.7" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="180.0" width="287.9" height="10" fill="#2c6e91"/>
+<text x="576" y="180" fill="#555" font-size="12">353.1 / 362.4</text>
+<text x="808" y="180" text-anchor="end" fill="#333" font-size="13" font-weight="normal">−2.57%</text>
+<text x="192" y="215" text-anchor="end" fill="#333" font-size="13">Wages (L)</text>
+<rect x="200.0" y="203.0" width="247.2" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="216.0" width="244.2" height="10" fill="#2c6e91"/>
+<text x="576" y="216" fill="#555" font-size="12">184.3 / 192.7</text>
+<text x="808" y="216" text-anchor="end" fill="#333" font-size="13" font-weight="normal">−4.35%</text>
+<text x="192" y="251" text-anchor="end" fill="#333" font-size="13">Exports</text>
+<rect x="200.0" y="239.0" width="241.9" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="252.0" width="241.9" height="10" fill="#2c6e91"/>
+<text x="576" y="252" fill="#555" font-size="12">178.2 / 178.2</text>
+<text x="808" y="252" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+0.03%</text>
+<text x="192" y="287" text-anchor="end" fill="#333" font-size="13">Imports</text>
+<rect x="200.0" y="275.0" width="239.6" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="288.0" width="244.3" height="10" fill="#2c6e91"/>
+<text x="576" y="288" fill="#555" font-size="12">184.8 / 172.2</text>
+<text x="808" y="288" text-anchor="end" fill="#c0392b" font-size="13" font-weight="bold">+7.33%</text>
+<text x="192" y="323" text-anchor="end" fill="#333" font-size="13">Household consumption</text>
+<rect x="200.0" y="311.0" width="233.0" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="324.0" width="228.9" height="10" fill="#2c6e91"/>
+<text x="576" y="324" fill="#555" font-size="12">146.8 / 156.2</text>
+<text x="808" y="324" text-anchor="end" fill="#c0392b" font-size="13" font-weight="bold">−6.01%</text>
+<text x="192" y="359" text-anchor="end" fill="#333" font-size="13">Gross operating surplus (K)</text>
+<rect x="200.0" y="347.0" width="232.2" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="360.0" width="231.7" height="10" fill="#2c6e91"/>
+<text x="576" y="360" fill="#555" font-size="12">153.2 / 154.2</text>
+<text x="808" y="360" text-anchor="end" fill="#333" font-size="13" font-weight="normal">−0.66%</text>
+<text x="192" y="395" text-anchor="end" fill="#333" font-size="13">Government consumption</text>
+<rect x="200.0" y="383.0" width="184.0" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="396.0" width="184.0" height="10" fill="#2c6e91"/>
+<text x="576" y="396" fill="#555" font-size="12">75.3 / 75.3</text>
+<text x="808" y="396" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+0.01%</text>
+<text x="192" y="431" text-anchor="end" fill="#333" font-size="13">GFCF (investment)</text>
+<rect x="200.0" y="419.0" width="183.7" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="432.0" width="184.0" height="10" fill="#2c6e91"/>
+<text x="576" y="432" fill="#555" font-size="12">75.4 / 75.1</text>
+<text x="808" y="432" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+0.44%</text>
+<text x="192" y="467" text-anchor="end" fill="#333" font-size="13">Taxes on products</text>
+<rect x="200.0" y="455.0" width="46.0" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="468.0" width="46.0" height="10" fill="#2c6e91"/>
+<text x="576" y="468" fill="#555" font-size="12">9.7 / 9.7</text>
+<text x="808" y="468" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+0.00%</text>
+<text x="192" y="503" text-anchor="end" fill="#333" font-size="13">Taxes on production</text>
+<rect x="200.0" y="491.0" width="12.2" height="10" fill="#b9c6d0"/>
+<rect x="200.0" y="504.0" width="13.1" height="10" fill="#2c6e91"/>
+<text x="576" y="504" fill="#555" font-size="12">6.0 / 5.9</text>
+<text x="808" y="504" text-anchor="end" fill="#333" font-size="13" font-weight="normal">+1.36%</text>
+<rect x="200" y="580" width="14" height="10" fill="#2c6e91"/><text x="220" y="590" fill="#333" font-size="13">Deployers</text>
+<rect x="316" y="580" width="14" height="10" fill="#b9c6d0"/><text x="336" y="590" fill="#333" font-size="13">FIGARO target</text>
+<text x="808" y="590" text-anchor="end" fill="#888" font-size="11">%Error in red if &gt;6%</text>
+</svg></div>
+<p class="figure-caption" style="text-align:center;"><strong>Table&nbsp;2.</strong> Deployers&apos; realised SAM aggregates (annualised, last calibration month of the Austrian 2010 panel) against the FIGARO&nbsp;2010 target, in billions of euros, on a log scale. Bars overlay almost exactly; %Error is quoted at right.</p>
+</div>
+<p class="footnote">%Error = (Deployers&nbsp;&minus;&nbsp;FIGARO)&nbsp;/&nbsp;FIGARO&nbsp;&times;&nbsp;100. Deployers values aggregated from the model&apos;s monthly SAM accumulator (annualised). FIGARO targets read directly from the 2010 symmetric industry-by-industry table. Imports show the largest divergence at +7.33% (plausibly because external sectors clear bilaterally between agents in the model rather than against an explicit FIGARO import-row target, so small endogenous tilts in domestic vs imported sourcing accumulate over the calibration window); all other aggregates agree within &plusmn;6.0%. The model is not calibrated against any of these aggregates individually&mdash;they emerge from the production-network dynamics and the I-O coefficient structure.</p>
 
 <p>The match is non-trivial: the agent population produces, consumes, invests, trades and pays taxes through decentralised bilateral exchanges, yet the resulting accounting flows reproduce the FIGARO target SAM closely across L, K, IC, household consumption, government consumption, GFCF, exports, imports, and the tax aggregates. This is direct evidence that the I-O table&apos;s information content is preserved by the model&apos;s emergent economy, and provides the structural foundation underpinning the forecast and shock-propagation results of &sect;3.3&ndash;3.4 and &sect;4.</p>
 
@@ -259,10 +323,10 @@
 </table>
 <p class="footnote">Eurostat real GDP growth from chain-linked volume series. Highlighted rows correspond to Eurozone sovereign debt crisis years (Lane, 2012). Year classification is based on documented economic events, not model performance: all seven institutional forecasters in Table 5 also show their largest errors for these same years (Schuster, 2021). The 2010 row uses 11 seeds rather than 12 (one of the 12 originally-launched seeds was excluded as a non-converging outlier; the reported forecast is the mean of the surviving 11).</p>
 
-<p>The results divide cleanly into two groups. In the <strong>five normal years</strong>, MAE is <strong>0.42&nbsp;pp</strong>; three of five years show errors below 0.15&nbsp;pp. In the <strong>four crisis-affected years</strong> (2012&ndash;2015), errors are substantially larger (1.92&ndash;2.72&nbsp;pp) <em>and all of the same sign</em>: the model over-forecasts in every crisis year. This sign persistence is not an intrinsic feature of the Darwinian deployment mechanism. Internal tests show that re-anchoring the wealth-side marginal propensity to consume (MPC / PtC; see &sect;4.1) to each country&apos;s calibration-year empirical value eliminates the next-year forecast residual. Because the published 9-year panel uses a single PtC value (the AT 2019 empirical anchor of 0.054) across all 9 calibration years, the crisis-year over-forecasting can be read as the engine reporting that actual Austrian household consumption behavior in 2012&ndash;2015 was substantially below the 2019 reference&mdash;consistent with precautionary saving during the Eurozone sovereign-debt episode. Crisis-year errors are therefore a calibration-protocol artifact (universal PtC) layered on the genuine exogenous-shock channel the model cannot see (sovereign debt contagion, fiscal austerity, confidence shocks&mdash;events that no I-O table can encode). This decomposes I-O-based forecasting into two complementary tasks: simulating the inertial trajectory (fully automated, given a year-appropriate PtC) and identifying/encoding exogenous perturbations (requires economist judgment). Section 4 demonstrates the second task.</p>
+<p>The results divide cleanly into two groups. In the <strong>five normal years</strong>, MAE is <strong>0.42&nbsp;pp</strong>; three of five years show errors below 0.15&nbsp;pp. In the <strong>four crisis-affected years</strong> (2012&ndash;2015), errors are substantially larger (1.92&ndash;2.72&nbsp;pp) <em>and all of the same sign</em>: the model over-forecasts in every crisis year. This sign persistence is not an intrinsic feature of the Darwinian deployment mechanism. Internal tests show that re-anchoring the wealth-side marginal propensity to consume (MPC / PtC; see &sect;4.1) to each country&apos;s calibration-year empirical value eliminates the next-year forecast residual. Because the published 9-year panel uses a single PtC value (the AT 2019 empirical anchor of 0.054) across all 9 calibration years, the crisis-year over-forecasting can be read as Deployers reporting that actual Austrian household consumption behavior in 2012&ndash;2015 was substantially below the 2019 reference&mdash;consistent with precautionary saving during the Eurozone sovereign-debt episode. Crisis-year errors are therefore a calibration-protocol artifact (universal PtC) layered on the genuine exogenous-shock channel the model cannot see (sovereign debt contagion, fiscal austerity, confidence shocks&mdash;events that no I-O table can encode). This decomposes I-O-based forecasting into two complementary tasks: simulating the inertial trajectory (fully automated, given a year-appropriate PtC) and identifying/encoding exogenous perturbations (requires economist judgment). Section 4 demonstrates the second task.</p>
 
 <div class="figure">
-<strong>Figure 1.</strong> Austria, 2009&ndash;2019, quarterly real GDP: Eurostat empirical (black) vs DEPLOYERS year-ahead projections (red&nbsp;=&nbsp;normal years; orange dashed&nbsp;=&nbsp;Eurozone-crisis years 2012&ndash;2015) vs IMF fall forecasts (blue).<br>
+<strong>Figure 1.</strong> Austria, 2009&ndash;2019, quarterly real GDP: Eurostat empirical (black) vs Deployers year-ahead projections (red&nbsp;=&nbsp;normal years; orange dashed&nbsp;=&nbsp;Eurozone-crisis years 2012&ndash;2015) vs IMF fall forecasts (blue).<br>
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg viewBox="0 0 820 450" xmlns="http://www.w3.org/2000/svg" style="max-width:820px; margin: 0 auto; display: block; font-family: Georgia, serif; font-size: 20px;">
   <!-- Background -->
   <rect x="90" y="35" width="680" height="340" fill="#fcfcfc" stroke="#ddd" stroke-width="1"/>
@@ -356,7 +420,7 @@
     points="706,100.9 722,88.9 738,77.7 753,65.7"/>
   <circle cx="753" cy="65.7" r="4" fill="#3a7bd5"/>
 
-  <!-- DEPLOYERS forecast trajectories (N+1 alignment) -->
+  <!-- Deployers forecast trajectories (N+1 alignment) -->
   <!-- Calib 2010 -> Forecast 2011 (normal, red) -->
   <polyline fill="none" stroke="#c0392b" stroke-width="3" stroke-linejoin="round"
     points="200,295.4 216,286 232,276.6 248,268 264,258.6"/>
@@ -400,15 +464,15 @@
   <text x="148" y="83" fill="#333" font-size="18">Eurostat quarterly GDP</text>
   <line x1="105" y1="107" x2="140" y2="107" stroke="#c0392b" stroke-width="3"/>
   <circle cx="122" cy="107" r="4" fill="#c0392b"/>
-  <text x="148" y="113" fill="#333" font-size="18">DEPLOYERS (normal years)</text>
+  <text x="148" y="113" fill="#333" font-size="18">Deployers (normal years)</text>
   <line x1="105" y1="137" x2="140" y2="137" stroke="#e67e22" stroke-width="3" stroke-dasharray="10,6"/>
   <circle cx="122" cy="137" r="4" fill="#e67e22"/>
-  <text x="148" y="143" fill="#333" font-size="18">DEPLOYERS (crisis years)</text>
+  <text x="148" y="143" fill="#333" font-size="18">Deployers (crisis years)</text>
   <line x1="105" y1="167" x2="140" y2="167" stroke="#3a7bd5" stroke-width="2.5"/>
   <circle cx="122" cy="167" r="3.5" fill="#3a7bd5"/>
   <text x="148" y="173" fill="#333" font-size="18">IMF fall forecast</text>
 </svg></div>
-<p class="figure-caption">Each DEPLOYERS or IMF segment starts from the calibration year&apos;s Q4 empirical value and projects forward at the respective annual growth rate. Over the 5 normal years (2011, 2016&ndash;2019), DEPLOYERS achieves MAE&nbsp;=&nbsp;<strong>0.42&nbsp;pp</strong> (Table&nbsp;4) versus IMF MAE&nbsp;=&nbsp;0.64&nbsp;pp on the same window. With only five normal-year observations the difference is descriptive rather than statistically decisive (formal predictive-superiority tests would lack power, see&nbsp;&sect;5.3); the figure shows the two trajectories lying within the same range and tracking the empirical series with comparable visual closeness. Over all 9 years (including the Eurozone-crisis window), DEPLOYERS MAE rises to 1.22&nbsp;pp while the IMF&apos;s rises only to 0.69&nbsp;pp (authors&apos; calculation from the per-year IMF fall-forecast errors compiled in Schuster (2021)); the IMF&apos;s relative crisis advantage comes from incorporating quarterly national-accounts indicators and judgmental adjustments that DEPLOYERS does not use. DEPLOYERS uses only the prior-year I-O table&mdash;no time-series, no estimated parameters, no expectations formation. This figure complements the COVID-19 verification panels of Section&nbsp;4: in normal years the I-O table alone produces a structural baseline in range with major institutional forecasters; in shock periods the same I-O backbone propagates encoded exogenous shocks through the production network. The two roles together establish I-O tables as informationally adequate for both forecasting and dynamic shock simulation. Both the IMF 2019 and DEPLOYERS 2019 trajectories are drawn through Q3&apos;19 to align with the panel&apos;s terminal-year convention (the chart was prepared on an empirical-data vintage that did not yet include Q4&apos;19); the underlying IMF 2.0% and DEPLOYERS forecast annual growth rates apply through the full 2019 calendar year. Source: Eurostat namq_10_gdp (CLV10_MEUR); IMF fall forecasts as compiled in Schuster&nbsp;(2021).</p>
+<p class="figure-caption">Each Deployers or IMF segment starts from the calibration year&apos;s Q4 empirical value and projects forward at the respective annual growth rate. Over the 5 normal years (2011, 2016&ndash;2019), Deployers achieves MAE&nbsp;=&nbsp;<strong>0.42&nbsp;pp</strong> (Table&nbsp;4) versus IMF MAE&nbsp;=&nbsp;0.64&nbsp;pp on the same window. With only five normal-year observations the difference is descriptive rather than statistically decisive (formal predictive-superiority tests would lack power, see&nbsp;&sect;5.3); the figure shows the two trajectories lying within the same range and tracking the empirical series with comparable visual closeness. Over all 9 years (including the Eurozone-crisis window), Deployers MAE rises to 1.22&nbsp;pp while the IMF&apos;s rises only to 0.69&nbsp;pp (authors&apos; calculation from the per-year IMF fall-forecast errors compiled in Schuster (2021)); the IMF&apos;s relative crisis advantage comes from incorporating quarterly national-accounts indicators and judgmental adjustments that Deployers does not use. Deployers uses only the prior-year I-O table&mdash;no time-series, no estimated parameters, no expectations formation. This figure complements the COVID-19 verification panels of Section&nbsp;4: in normal years the I-O table alone produces a structural baseline in range with major institutional forecasters; in shock periods the same I-O backbone propagates encoded exogenous shocks through the production network. The two roles together establish I-O tables as informationally adequate for both forecasting and dynamic shock simulation. Both the IMF 2019 and Deployers 2019 trajectories are drawn through Q3&apos;19 to align with the panel&apos;s terminal-year convention (the chart was prepared on an empirical-data vintage that did not yet include Q4&apos;19); the underlying IMF 2.0% and Deployers forecast annual growth rates apply through the full 2019 calendar year. Source: Eurostat namq_10_gdp (CLV10_MEUR); IMF fall forecasts as compiled in Schuster&nbsp;(2021).</p>
 </div>
 
 
@@ -427,11 +491,11 @@
   <tr><td>IHS</td><td>0.52</td></tr>
   <tr><td>OeNB</td><td>0.50</td></tr>
   <tr><td><strong>Institutional average</strong></td><td><strong>0.54</strong></td></tr>
-  <tr style="background: #ffe0e0;"><td><strong>DEPLOYERS</strong></td><td><strong>0.42</strong></td></tr>
+  <tr style="background: #ffe0e0;"><td><strong>Deployers</strong></td><td><strong>0.42</strong></td></tr>
 </table>
 <p class="footnote">Sources: archived institutional publications and Schuster (2021). Institutional fall forecasts (Oct&ndash;Dec of year <em>t</em>&minus;1 for year <em>t</em>).</p>
 
-<p>On normal years, DEPLOYERS achieves MAE 0.42&nbsp;pp, in range with the seven Austria-specific institutional forecasters tracked by Schuster (2021) (WIFO 0.52&nbsp;pp; institutional average 0.54&nbsp;pp). The fair comparison is on normal years only: institutional forecasters attempt to predict actual outcomes including anticipated shocks, while DEPLOYERS predicts the structural trajectory absent in-year perturbations. With only five observations, the comparison is descriptive rather than statistically decisive (a Diebold-Mariano test would have negligible power; see&nbsp;&sect;5.3), and we reserve a stronger &ldquo;comparable&rdquo; claim for when the systematic 46-country FIGARO sweep is complete. What is notable is that in-range accuracy is achieved without time-series data, estimated parameters, expert judgment, or institutional knowledge&mdash;only a FIGARO I-O table and a desktop PC. Poledna et al. (2023) reach similar accuracy with three orders of magnitude more agents and a supercomputer: the convergence is consistent with the I-O foundation, rather than the behavioral specification, being the binding informational driver.</p>
+<p>On normal years, Deployers achieves MAE 0.42&nbsp;pp, in range with the seven Austria-specific institutional forecasters tracked by Schuster (2021) (WIFO 0.52&nbsp;pp; institutional average 0.54&nbsp;pp). The fair comparison is on normal years only: institutional forecasters attempt to predict actual outcomes including anticipated shocks, while Deployers predicts the structural trajectory absent in-year perturbations. With only five observations, the comparison is descriptive rather than statistically decisive (a Diebold-Mariano test would have negligible power; see&nbsp;&sect;5.3), and we reserve a stronger &ldquo;comparable&rdquo; claim for when the systematic 46-country FIGARO sweep is complete. What is notable is that in-range accuracy is achieved without time-series data, estimated parameters, expert judgment, or institutional knowledge&mdash;only a FIGARO I-O table and a desktop PC. Poledna et al. (2023) reach similar accuracy with three orders of magnitude more agents and a supercomputer: the convergence is consistent with the I-O foundation, rather than the behavioral specification, being the binding informational driver.</p>
 
 
 <!-- ========== 4. COVID ========== -->
@@ -445,12 +509,12 @@
 <p>The model accepts a <code>PANDEMIC_TIMELINE</code> block specifying, for each month of the crisis, three perturbation channels:</p>
 
 <ol>
-  <li><strong>Sector-specific supply shocks.</strong> For each of the 64 NACE sectors, a factor between 0.0 (complete shutdown) and 1.0 (normal operation) sets the fraction of normal output the sector is permitted to produce. These factors encode the <em>loss of productive capacity</em> a sector suffered&mdash;through forced closure or mass layoffs&mdash;rather than <em>retention-adjusted activity</em>, in which workers kept on payroll through short-time-work schemes are counted as present. The distinction is methodologically essential: DEPLOYERS has a sector-agnostic labour pool (workers laid off from any sector enter a single unemployment stock), so the engine cannot represent the &ldquo;worker on payroll but at home&rdquo; state. Feeding the engine retention-net (Kurzarbeit-adjusted) activity therefore under-predicts the GDP trough by 5&ndash;7&nbsp;pp, because the engine would treat retained workers as fully productive. The correct input is a deep capacity-loss measure. For Austria we use AMS per-sector registered-unemployment: the monthly stock (Bestand) relative to its pre-pandemic baseline gives a GDP-independent capacity-loss factor&mdash;deep in the first wave (accommodation and food fall to roughly one-quarter capacity once a Kurzarbeit overlay is applied) and naturally milder in winter, when registered unemployment was shallower. For the UK the factors come from ONS sector-output series; for Canada from StatCan Table 36-10-0434-01 (monthly GDP-by-industry) and CRA CEWS coverage; for Germany from the Destatis monthly production index. In all four countries, accommodation and food services dropped to a small fraction of normal capacity in the first lockdown (2&ndash;5% under the output-based UK/CA/DE factors, ~24% under Austria&apos;s AMS capacity-loss factor), manufacturing maintained 70&ndash;95%, and public administration and health continued at 100%.</li>
+  <li><strong>Sector-specific supply shocks.</strong> For each of the 64 NACE sectors, a factor between 0.0 (complete shutdown) and 1.0 (normal operation) sets the fraction of normal output the sector is permitted to produce. These factors encode the <em>loss of productive capacity</em> a sector suffered&mdash;through forced closure or mass layoffs&mdash;rather than <em>retention-adjusted activity</em>, in which workers kept on payroll through short-time-work schemes are counted as present. The distinction is methodologically essential: Deployers has a sector-agnostic labour pool (workers laid off from any sector enter a single unemployment stock), so Deployers cannot represent the &ldquo;worker on payroll but at home&rdquo; state. Feeding Deployers retention-net (Kurzarbeit-adjusted) activity therefore under-predicts the GDP trough by 5&ndash;7&nbsp;pp, because Deployers would treat retained workers as fully productive. The correct input is a deep capacity-loss measure. For Austria we use AMS per-sector registered-unemployment: the monthly stock (Bestand) relative to its pre-pandemic baseline gives a GDP-independent capacity-loss factor&mdash;deep in the first wave (accommodation and food fall to roughly one-quarter capacity once a Kurzarbeit overlay is applied) and naturally milder in winter, when registered unemployment was shallower. For the UK the factors come from ONS sector-output series; for Canada from StatCan Table 36-10-0434-01 (monthly GDP-by-industry) and CRA CEWS coverage; for Germany from the Destatis monthly production index. In all four countries, accommodation and food services dropped to a small fraction of normal capacity in the first lockdown (2&ndash;5% under the output-based UK/CA/DE factors, ~24% under Austria&apos;s AMS capacity-loss factor), manufacturing maintained 70&ndash;95%, and public administration and health continued at 100%.</li>
   <li><strong>Export and import shocks.</strong> Multiplicative factors on external sector flows capture the simultaneous contraction of trading-partner demand and supply chain interruptions.</li>
   <li><strong>Short-time work / furlough subsidies.</strong> Austria&apos;s <em>Kurzarbeit</em>, Germany&apos;s <em>Kurzarbeitergeld</em>, the UK&apos;s Coronavirus Job Retention Scheme, and Canada&apos;s CEWS are encoded as time-varying participation rates from each country&apos;s official programme statistics. Because the model represents the labour market as a single sector-agnostic unemployment stock, monthly unemployment cannot be directly compared with retention-adjusted official series; verification is conducted on quarterly GDP only. Only firms existing <em>before</em> the pandemic onset are eligible for subsidies, preventing artificial inflation of the firm population.</li>
 </ol>
 
-<p><strong>Why a capacity-loss measure rather than retention-adjusted activity.</strong> The choice of sector factor inputs is methodologically load-bearing: feeding the model retention-adjusted (Kurzarbeit-net) sector activity under-predicts the GDP trough by 5&ndash;7&nbsp;pp. The reason is structural, not parameter-tuning. DEPLOYERS has a sector-agnostic labour pool: a worker laid off from sector S enters a single unemployment stock and is hired by whichever sector demands labour next. The engine has no machinery to represent the &ldquo;worker on payroll, sector S, not working but not unemployed&rdquo; state that retention schemes (Kurzarbeit, CJRS, CEWS) create in reality. If we feed retention-net sector activity as the supply-shock input, the engine treats the retained workers as fully productive at the (lower) retention-net activity level&mdash;a category error that systematically under-counts the gap. The right input is a measure of capacity <em>actually lost</em>: either the regulatory cap on output (lockdown scope, used for the UK, Canada and Germany) or, equivalently, the per-sector job-shedding recorded in registered-unemployment data (used for Austria via AMS). Both are deep, GDP-independent, and capture forgone capacity rather than retained-but-idle labour. The retention channel is then layered in separately via the subsidy mechanism (item 3 above); the Austrian AMS Kurzarbeit overlay only ever <em>reduces</em> the sector factor, never inflates it, so it cannot reintroduce the retention-net error. We disclose the 5&ndash;7&nbsp;pp sensitivity in the open: it reflects an engine constraint that translates into an input-selection rule, not a tunable knob over which the GDP outcome is being optimised.</p>
+<p><strong>Why a capacity-loss measure rather than retention-adjusted activity.</strong> The choice of sector factor inputs is methodologically load-bearing: feeding the model retention-adjusted (Kurzarbeit-net) sector activity under-predicts the GDP trough by 5&ndash;7&nbsp;pp. The reason is structural, not parameter-tuning. Deployers has a sector-agnostic labour pool: a worker laid off from sector S enters a single unemployment stock and is hired by whichever sector demands labour next. Deployers has no machinery to represent the &ldquo;worker on payroll, sector S, not working but not unemployed&rdquo; state that retention schemes (Kurzarbeit, CJRS, CEWS) create in reality. If we feed retention-net sector activity as the supply-shock input, Deployers treats the retained workers as fully productive at the (lower) retention-net activity level&mdash;a category error that systematically under-counts the gap. The right input is a measure of capacity <em>actually lost</em>: either the regulatory cap on output (lockdown scope, used for the UK, Canada and Germany) or, equivalently, the per-sector job-shedding recorded in registered-unemployment data (used for Austria via AMS). Both are deep, GDP-independent, and capture forgone capacity rather than retained-but-idle labour. The retention channel is then layered in separately via the subsidy mechanism (item 3 above); the Austrian AMS Kurzarbeit overlay only ever <em>reduces</em> the sector factor, never inflates it, so it cannot reintroduce the retention-net error. We disclose the 5&ndash;7&nbsp;pp sensitivity in the open: it reflects a Deployers constraint that translates into an input-selection rule, not a tunable knob over which the GDP outcome is being optimised.</p>
 
 <p><strong>Wealth-side propensity to consume.</strong> The consumption demand of households in the model is driven by the wealth-side marginal propensity to consume, set to the empirical Austrian value 0.054 (5.4&nbsp;cents per euro of household net wealth, per year; the developed-economy literature reports 3&ndash;5 cents-per-dollar as typical, e.g.&nbsp;Carroll, Slacalek, Tokuoka and White&nbsp;2017; Paiella and Pistaferri&nbsp;2017). All four COVID panels use this common AT-derived value as a deliberate simplification; country-specific UK/CA/DE wealth-MPC estimates (which are likely to be smaller than the Austrian value, given lower household financial-wealth-to-income ratios in those economies) are expected to be a primary source of the residual UK/CA/DE Q2&prime;20 trough gaps reported in &sect;4.2, and country-specific calibration is left to a follow-on study. We flag this transparently because the close AT fit is partly conditional on AT being the country whose wealth-MPC the model uses.</p>
 
@@ -465,16 +529,16 @@
 
 <h2>4.2 Four-Country Reproductions</h2>
 
-<p>Figures&nbsp;2&ndash;5 present 4-seed COVID-19 reproductions for AT, UK, CA, DE, using the same capacity-loss + empirical-wealth-MPC methodology described in &sect;4.1. For each seed the model is run as a matched Covid / no-Covid pair from a common calibration, so engine-natural growth and seed-specific noise cancel between the two arms. The reported index for month <em>m</em> is 100&nbsp;&times;&nbsp;(GDP<sub>Cov</sub>(m)&nbsp;&minus;&nbsp;GDP<sub>NoC</sub>(m))&nbsp;/&nbsp;GDP<sub>pre</sub>, where GDP<sub>pre</sub> averages the no-Covid reference around Q4&nbsp;2019; the index isolates the pandemic-attributable deviation. Empirical references are detrended at a common pre-pandemic CAGR of 1.5&nbsp;%/yr and expressed as percentage deviation from Q4&nbsp;2019. The 1.5&nbsp;%/yr value approximates the AT 2014&ndash;2019 average but is a deliberate simplification across the four countries (UK and DE pre-pandemic CAGRs differ by &plusmn;0.5&nbsp;pp); the visual comparison is robust to the choice because the index uses GDP<sub>NoC</sub> as the reference, which already removes most of the engine&apos;s natural-growth trend. Each red curve is the cross-seed mean; thin dashed traces are individual seeds.</p>
+<p>Figures&nbsp;2&ndash;5 present 4-seed COVID-19 reproductions for AT, UK, CA, DE, using the same capacity-loss + empirical-wealth-MPC methodology described in &sect;4.1. For each seed the model is run as a matched Covid / no-Covid pair from a common calibration, so Deployers natural growth and seed-specific noise cancel between the two arms. The reported index for month <em>m</em> is 100&nbsp;&times;&nbsp;(GDP<sub>Cov</sub>(m)&nbsp;&minus;&nbsp;GDP<sub>NoC</sub>(m))&nbsp;/&nbsp;GDP<sub>pre</sub>, where GDP<sub>pre</sub> averages the no-Covid reference around Q4&nbsp;2019; the index isolates the pandemic-attributable deviation. Empirical references are detrended at a common pre-pandemic CAGR of 1.5&nbsp;%/yr and expressed as percentage deviation from Q4&nbsp;2019. The 1.5&nbsp;%/yr value approximates the AT 2014&ndash;2019 average but is a deliberate simplification across the four countries (UK and DE pre-pandemic CAGRs differ by &plusmn;0.5&nbsp;pp); the visual comparison is robust to the choice because the index uses GDP<sub>NoC</sub> as the reference, which already removes most of Deployers&apos; natural-growth trend. Each red curve is the cross-seed mean; thin dashed traces are individual seeds.</p>
 
 <p><strong>Cross-country asymmetry.</strong> Q2&prime;20 trough gaps versus empirical are 0.27&nbsp;pp (AT), 4.9&nbsp;pp (UK), 4.4&nbsp;pp (CA) and 3.8&nbsp;pp (DE). Austria is the deep, fully-grounded case and is genuinely tight; the other three are portability demonstrations and run several pp shallower than empirical. Two factors compound. First, the wealth-MPC value 0.054 used for all four countries is the empirical Austrian estimate, so AT enjoys a fit aligned with its anchor while UK/CA/DE pay for the mismatch (their household financial-wealth-to-income ratios differ from the level the parameterised consumption channel implicitly assumes). Second, the UK/CA/DE timelines are off-by-one-corrected fresh-from-month-0 runs whose sector-closure depth has not been individually calibrated to each country&apos;s national-statistics lockdown scope the way Austria&apos;s has. A country-specific wealth-MPC sweep plus per-country timeline grounding (left to a follow-on study) is the cleanest way to separate the two. We treat the four-country panel as a proof of concept for the I-O transmission mechanism rather than as a uniform-quality multi-country validation.</p>
 
-<p><strong>Austrian timeline: grounded, not fitted.</strong> The Austrian per-sector factors are constructed entirely from official data, with no tuning to GDP. Each month&apos;s sector capacity is the AMS registered-unemployment ratio (sector head-count relative to its pre-pandemic baseline) combined with a Kurzarbeit short-time-work retention overlay, so that the milder, graded winter waves&mdash;the November&nbsp;2020 &ldquo;Lockdown Light&rdquo; and the January&nbsp;2021 Hard Lockdown (in-person dining closed but takeaway open, schools partially closed, retail restricted to essentials), far milder than the near-total March&ndash;April&nbsp;2020 shutdown&mdash;emerge naturally shallower than the first wave rather than being imposed by hand; work-from-home-capable sectors are held at full activity. Fed this grounded timeline, the model reproduces the Q2&prime;20 first-wave trough to within 0.27&nbsp;pp (model &minus;13.95% vs Eurostat &minus;14.22%) but under-shoots the Q1&prime;21 second wave (model &minus;5.73% vs Eurostat &minus;7.73%, a 2.0&nbsp;pp gap): the engine&apos;s domestic-services demand channel under-propagates the winter waves once the deeper spring shock has thinned the firm population. We report this gap as the honest output of the grounded timeline. <em>(An earlier version of this paper closed the Q1&prime;21 gap by softening the months&nbsp;8&ndash;15 factors toward the empirical trough; that step amounted to fitting the GDP outcome and has been removed.)</em></p>
+<p><strong>Austrian timeline: grounded, not fitted.</strong> The Austrian per-sector factors are constructed entirely from official data, with no tuning to GDP. Each month&apos;s sector capacity is the AMS registered-unemployment ratio (sector head-count relative to its pre-pandemic baseline) combined with a Kurzarbeit short-time-work retention overlay, so that the milder, graded winter waves&mdash;the November&nbsp;2020 &ldquo;Lockdown Light&rdquo; and the January&nbsp;2021 Hard Lockdown (in-person dining closed but takeaway open, schools partially closed, retail restricted to essentials), far milder than the near-total March&ndash;April&nbsp;2020 shutdown&mdash;emerge naturally shallower than the first wave rather than being imposed by hand; work-from-home-capable sectors are held at full activity. Fed this grounded timeline, the model reproduces the Q2&prime;20 first-wave trough to within 0.27&nbsp;pp (model &minus;13.95% vs Eurostat &minus;14.22%) but under-shoots the Q1&prime;21 second wave (model &minus;5.73% vs Eurostat &minus;7.73%, a 2.0&nbsp;pp gap): Deployers&apos; domestic-services demand channel under-propagates the winter waves once the deeper spring shock has thinned the firm population. We report this gap as the honest output of the grounded timeline. <em>(An earlier version of this paper closed the Q1&prime;21 gap by softening the months&nbsp;8&ndash;15 factors toward the empirical trough; that step amounted to fitting the GDP outcome and has been removed.)</em></p>
 
 <p><strong>Inter-seed dispersion across countries.</strong> Inter-seed Q2&prime;20 spreads are 0.4&nbsp;pp (AT), 4.7&nbsp;pp (UK), 2.4&nbsp;pp (CA) and 1.1&nbsp;pp (DE). The spreads grade smoothly from AT tightest through DE and CA to UK widest, roughly an order of magnitude across the panel. The pattern doesn&apos;t correlate with trough-gap magnitude (DE has the worst trough fit but the second-tightest spread), so dispersion and mean accuracy appear to be governed by different mechanisms. Possible drivers of the wider UK/CA spread include higher seed-to-seed variability in the firm-entry/exit dynamics on those countries&apos; FIGARO matrices, or sensitivity to seed-specific transient timing of the deepest lockdown weeks; distinguishing the two is left to the cross-country follow-on study.</p>
 
 <div class="figure">
-<strong>Figure 2.</strong> Austria COVID-19: DEPLOYERS 4-seed ensemble mean (red, solid) vs Eurostat AT (black). Individual seeds shown as dashed coloured lines.<br>
+<strong>Figure 2.</strong> Austria COVID-19: Deployers 4-seed ensemble mean (red, solid) vs Eurostat AT (black). Individual seeds shown as dashed coloured lines.<br>
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
 <rect x="0" y="0" width="820" height="600" fill="#ffffff"/>
 <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">AT Real GDP COVID-19 impact — AT pc054x 4-seed</text>
@@ -520,15 +584,15 @@
 <line x1="418" y1="360" x2="452" y2="360" stroke="#1a1a1a" stroke-width="3"/><circle cx="435" cy="360" r="4" fill="#1a1a1a"/><text x="458" y="364" fill="#333" font-size="11">Empirical AT (detrended − 100)</text>
 <line x1="418" y1="383" x2="452" y2="383" stroke="#c0392b" stroke-width="5"/><circle cx="435" cy="383" r="3" fill="#c0392b"/><text x="458" y="387" fill="#333" font-size="11">4-seed mean (Cov − NoC)</text>
 <line x1="418" y1="410" x2="452" y2="410" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.55"/><text x="458" y="414" fill="#333" font-size="11">Converged seeds (quarterly, per seed)</text>
-<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">DEPLOYERS curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
+<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">Deployers curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
 <text x="410" y="572" text-anchor="middle" fill="#555" font-size="10">Q2'20 mean: -13.95% (empirical -14.22%, gap +0.27 pp). Q4'22 scar: +1.11% (empirical +0.38%, gap +0.73 pp).</text>
 </svg>
 </div>
-<p class="figure-caption">Per-month per-sector activity factors are grounded entirely in official Austrian data with <em>no tuning to GDP outcomes</em>: sector capacity from AMS registered-unemployment ratios combined with a Kurzarbeit short-time-work retention overlay; work-from-home sectors held at full activity (following Poledna&apos;s zero-WFH-supply-shock convention); winter-wave external trade on Austria&apos;s peak-tourism profile. A previously undetected <strong>+1 sector off-by-one</strong> in the timeline indexing&mdash;which had shocked publishing (J58) instead of accommodation and food services (I)&mdash;has been corrected; the engine now logs the applied index&rarr;NACE timeline at pandemic onset as a guard. Wealth-MPC coefficient set to the empirical Austrian value 0.054. <strong>Q2&apos;20 trough: model &minus;13.95% vs Eurostat &minus;14.22% &mdash; gap 0.27&nbsp;pp.</strong> Q1&apos;21 second wave: model &minus;5.73% vs Eurostat &minus;7.73% (gap 2.0&nbsp;pp; the engine&apos;s domestic-services channel under-propagates the milder, graded winter waves). Q4&apos;22 long-run: model +1.11% vs Eurostat +0.38% (gap 0.73&nbsp;pp). Inter-seed Q2&apos;20 spread 0.4&nbsp;pp. The same I-O table that produces 0.42&nbsp;pp baseline forecasts reproduces the COVID first-wave trough to within 0.3&nbsp;pp when fed national-statistics-derived sector shocks, with no parameter changes and no GDP fitting.</p>
+<p class="figure-caption">Per-month per-sector activity factors are grounded entirely in official Austrian data with <em>no tuning to GDP outcomes</em>: sector capacity from AMS registered-unemployment ratios combined with a Kurzarbeit short-time-work retention overlay; work-from-home sectors held at full activity (following Poledna&apos;s zero-WFH-supply-shock convention); winter-wave external trade on Austria&apos;s peak-tourism profile. A previously undetected <strong>+1 sector off-by-one</strong> in the timeline indexing&mdash;which had shocked publishing (J58) instead of accommodation and food services (I)&mdash;has been corrected; Deployers now logs the applied index&rarr;NACE timeline at pandemic onset as a guard. Wealth-MPC coefficient set to the empirical Austrian value 0.054. <strong>Q2&apos;20 trough: model &minus;13.95% vs Eurostat &minus;14.22% &mdash; gap 0.27&nbsp;pp.</strong> Q1&apos;21 second wave: model &minus;5.73% vs Eurostat &minus;7.73% (gap 2.0&nbsp;pp; Deployers&apos; domestic-services channel under-propagates the milder, graded winter waves). Q4&apos;22 long-run: model +1.11% vs Eurostat +0.38% (gap 0.73&nbsp;pp). Inter-seed Q2&apos;20 spread 0.4&nbsp;pp. The same I-O table that produces 0.42&nbsp;pp baseline forecasts reproduces the COVID first-wave trough to within 0.3&nbsp;pp when fed national-statistics-derived sector shocks, with no parameter changes and no GDP fitting.</p>
 </div>
 
 <div class="figure">
-<strong>Figure 3.</strong> United Kingdom COVID-19: DEPLOYERS 4-seed ensemble mean vs ONS ABMI, both detrended 1.5&nbsp;%/yr.<br>
+<strong>Figure 3.</strong> United Kingdom COVID-19: Deployers 4-seed ensemble mean vs ONS ABMI, both detrended 1.5&nbsp;%/yr.<br>
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
 <rect x="0" y="0" width="820" height="600" fill="#ffffff"/>
 <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">GB Real GDP COVID-19 impact — GB pc054x 4-seed</text>
@@ -579,7 +643,7 @@
 <line x1="418" y1="360" x2="452" y2="360" stroke="#1a1a1a" stroke-width="3"/><circle cx="435" cy="360" r="4" fill="#1a1a1a"/><text x="458" y="364" fill="#333" font-size="11">Empirical GB (detrended − 100)</text>
 <line x1="418" y1="383" x2="452" y2="383" stroke="#c0392b" stroke-width="5"/><circle cx="435" cy="383" r="3" fill="#c0392b"/><text x="458" y="387" fill="#333" font-size="11">4-seed mean (Cov − NoC)</text>
 <line x1="418" y1="410" x2="452" y2="410" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.55"/><text x="458" y="414" fill="#333" font-size="11">Converged seeds (quarterly, per seed)</text>
-<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">DEPLOYERS curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
+<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">Deployers curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
 <text x="410" y="572" text-anchor="middle" fill="#555" font-size="10">Q2'20 mean: -17.50% (empirical -22.40%, gap +4.90 pp). Q4'22 scar: +4.61% (empirical -1.70%, gap +6.31 pp).</text>
 </svg>
 </div>
@@ -587,7 +651,7 @@
 </div>
 
 <div class="figure">
-<strong>Figure 4.</strong> Canada COVID-19: DEPLOYERS 4-seed ensemble mean vs StatCan, both detrended 1.5&nbsp;%/yr.<br>
+<strong>Figure 4.</strong> Canada COVID-19: Deployers 4-seed ensemble mean vs StatCan, both detrended 1.5&nbsp;%/yr.<br>
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
 <rect x="0" y="0" width="820" height="600" fill="#ffffff"/>
 <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">CA Real GDP COVID-19 impact — CA pc054x 4-seed</text>
@@ -633,7 +697,7 @@
 <line x1="418" y1="360" x2="452" y2="360" stroke="#1a1a1a" stroke-width="3"/><circle cx="435" cy="360" r="4" fill="#1a1a1a"/><text x="458" y="364" fill="#333" font-size="11">Empirical CA (detrended − 100)</text>
 <line x1="418" y1="383" x2="452" y2="383" stroke="#c0392b" stroke-width="5"/><circle cx="435" cy="383" r="3" fill="#c0392b"/><text x="458" y="387" fill="#333" font-size="11">4-seed mean (Cov − NoC)</text>
 <line x1="418" y1="410" x2="452" y2="410" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.55"/><text x="458" y="414" fill="#333" font-size="11">Converged seeds (quarterly, per seed)</text>
-<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">DEPLOYERS curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
+<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">Deployers curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
 <text x="410" y="572" text-anchor="middle" fill="#555" font-size="10">Q2'20 mean: -9.53% (empirical -13.97%, gap +4.44 pp). Q4'22 scar: -0.81% (empirical +0.63%, gap -1.44 pp).</text>
 </svg>
 </div>
@@ -641,7 +705,7 @@
 </div>
 
 <div class="figure">
-<strong>Figure 5.</strong> Germany COVID-19: DEPLOYERS 3-seed ensemble mean vs Eurostat DE, both detrended 1.5&nbsp;%/yr. Seeds: 12345&nbsp;/&nbsp;33333&nbsp;/&nbsp;67890 (the canonical 4-seed pool minus s5489, which failed to converge for DE under the common configuration).<br>
+<strong>Figure 5.</strong> Germany COVID-19: Deployers 3-seed ensemble mean vs Eurostat DE, both detrended 1.5&nbsp;%/yr. Seeds: 12345&nbsp;/&nbsp;33333&nbsp;/&nbsp;67890 (the canonical 4-seed pool minus s5489, which failed to converge for DE under the common configuration).<br>
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
 <rect x="0" y="0" width="820" height="600" fill="#ffffff"/>
 <text x="410" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a">DE Real GDP COVID-19 impact — DE pc054x 3-seed</text>
@@ -686,7 +750,7 @@
 <line x1="418" y1="360" x2="452" y2="360" stroke="#1a1a1a" stroke-width="3"/><circle cx="435" cy="360" r="4" fill="#1a1a1a"/><text x="458" y="364" fill="#333" font-size="11">Empirical DE (detrended − 100)</text>
 <line x1="418" y1="383" x2="452" y2="383" stroke="#c0392b" stroke-width="5"/><circle cx="435" cy="383" r="3" fill="#c0392b"/><text x="458" y="387" fill="#333" font-size="11">3-seed mean (Cov − NoC)</text>
 <line x1="418" y1="410" x2="452" y2="410" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.55"/><text x="458" y="414" fill="#333" font-size="11">Converged seeds (quarterly, per seed)</text>
-<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">DEPLOYERS curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
+<text x="410" y="555" text-anchor="middle" fill="#555" font-size="10">Deployers curve = (Cov − NoC) / NoC[Q4'19 baseline] × 100, per-seed pandemic-aligned (pandemic_start = FCA+16 → Mar 2020). Prefix: pc054x</text>
 <text x="410" y="572" text-anchor="middle" fill="#555" font-size="10">Q2'20 mean: -8.34% (empirical -12.16%, gap +3.82 pp). Q4'22 scar: +0.27% (empirical -5.32%, gap +5.59 pp).</text>
 </svg>
 </div>
@@ -700,11 +764,11 @@
 
 <p><strong>(i) Hold the timeline fixed, age the economy.</strong> We re-ran Austria&apos;s COVID timeline on its 2017 SAM&mdash;two years older than the 2019 SAM used throughout&mdash;and likewise for the UK. The paths are almost unchanged: trough, recovery and Q4&apos;22 scar are essentially coincident (Fig.&nbsp;6, red vs green). A national economy&apos;s input&ndash;output structure evolves slowly enough that a two-year-old SAM is, for this purpose, interchangeable with the current one.</p>
 
-<p><strong>(ii) Hold the economy fixed, swap the timeline.</strong> Feeding the UK&apos;s (harsher, deeper-trade) pandemic timeline into the Austrian economy deepens the trough markedly; the mirror is symmetric&mdash;Austria&apos;s milder timeline applied to the UK economy makes its trough much shallower (Fig.&nbsp;7, blue). Swapping the sectoral lockdown design moves the outcome by 9&ndash;14&nbsp;pp, an order of magnitude more than the &plusmn;0.5&ndash;1.3&nbsp;pp from a two-year change in the SAM.</p>
+<p><strong>(ii) Hold the economy fixed, swap the timeline.</strong> Feeding the UK&apos;s (harsher, deeper-trade) pandemic timeline into the Austrian economy deepens the trough markedly; the mirror is symmetric&mdash;Austria&apos;s milder timeline applied to the UK economy makes its trough much shallower (Fig.&nbsp;7, blue). The two economies are structurally distinct to begin with&mdash;Austria concentrated in industrial sectors, the UK in finance and services (Fig.&nbsp;8)&mdash;so this swap compares genuinely different production networks, not a rescaling. Swapping the sectoral lockdown design moves the outcome by 9&ndash;14&nbsp;pp, an order of magnitude more than the &plusmn;0.5&ndash;1.3&nbsp;pp from a two-year change in the SAM.</p>
 
 <p><strong>Why this matters&mdash;the leverage of the tool.</strong> First, the model is usable in real time: official I-O/SAM tables are published with a multi-year lag, so at a crisis onset the most recent matrix is typically two&ndash;three years old&mdash;exactly the vintage we show to be sufficient. A government does not need a current-year economic snapshot to design or stress-test a sectoral lockdown. Second, the model is a counterfactually responsive, sector-resolved sandbox: because the outcome is governed by which sectors are restricted and when (the lever a government controls) rather than by fine baseline detail, alternative lockdown designs can be ranked ex ante&mdash;the UK&apos;s design would have cost Austria roughly twice its trough; Austria&apos;s would have roughly halved the UK&apos;s.</p>
 
-<p><em>Caveats.</em> Cross-timeline magnitudes combine the donor timeline&apos;s sector-closure and trade-demand channels (illustrative of leverage, not exact counterfactual paths); within-country baselines retain the ~2&nbsp;pp Q1&apos;21 gap (engine domestic-services channel under-propagates the second wave).</p>
+<p><em>Caveats.</em> Cross-timeline magnitudes combine the donor timeline&apos;s sector-closure and trade-demand channels (illustrative of leverage, not exact counterfactual paths); within-country baselines retain the ~2&nbsp;pp Q1&apos;21 gap (Deployers&apos; domestic-services channel under-propagates the second wave).</p>
 
 <div class="figure">
 <div style="text-align: center; max-width: 820px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" font-family="Georgia, 'Times New Roman', serif">
@@ -790,6 +854,102 @@
 <p class="figure-caption"><strong>Figure 7 (UK).</strong> Mirror experiment: 2019 SAM (red) / 2017 SAM (green) coincide; the UK economy under Austria&apos;s milder timeline (blue) troughs much shallower. The leverage of the lockdown-design lever is symmetric across the two economies.</p>
 </div>
 
+<div class="figure">
+<div style="text-align: center; max-width: 732px; margin: 0 auto;"><svg xmlns="http://www.w3.org/2000/svg" width="732" height="656" viewBox="0 0 732 656" font-family="Georgia, 'Times New Roman', serif">
+<rect width="732" height="656" fill="#ffffff"/>
+<text x="366" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">How the UK and Austrian economies differ in structure (FIGARO 2019)</text>
+<text x="366" y="50" text-anchor="middle" font-size="13" fill="#4a4a4a">The 16 sectors whose GB/AT output ratio departs &gt;1.5&#215; from the economy-wide ratio (r &#8776; 5.9&#215;),</text>
+<text x="366" y="68" text-anchor="middle" font-size="13" fill="#4a4a4a">and that exceed 1% of either economy (FIGARO 2019 gross output).</text>
+<line x1="64" y1="452.0" x2="704" y2="452.0" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="456.0" text-anchor="end" fill="#555" font-size="12">0%</text>
+<line x1="64" y1="390.8" x2="704" y2="390.8" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="394.8" text-anchor="end" fill="#555" font-size="12">1%</text>
+<line x1="64" y1="329.6" x2="704" y2="329.6" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="333.6" text-anchor="end" fill="#555" font-size="12">2%</text>
+<line x1="64" y1="268.4" x2="704" y2="268.4" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="272.4" text-anchor="end" fill="#555" font-size="12">3%</text>
+<line x1="64" y1="207.2" x2="704" y2="207.2" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="211.2" text-anchor="end" fill="#555" font-size="12">4%</text>
+<line x1="64" y1="146.0" x2="704" y2="146.0" stroke="#e8e0d4" stroke-width="1"/>
+<text x="58" y="150.0" text-anchor="end" fill="#555" font-size="12">5%</text>
+<text x="18" y="299" text-anchor="middle" fill="#444" font-size="13" transform="rotate(-90,18,299)">Share of own gross output (%)</text>
+<line x1="64" y1="452" x2="704" y2="452" stroke="#444" stroke-width="1.5"/>
+<line x1="64" y1="146" x2="64" y2="452" stroke="#444" stroke-width="1.5"/>
+<line x1="384.0" y1="120" x2="384.0" y2="452" stroke="#bbb" stroke-width="1.2" stroke-dasharray="6,5"/>
+<text x="224.0" y="114" text-anchor="middle" fill="#c0392b" font-size="14" font-weight="bold">&#9665; Larger in AUSTRIA (industrial)</text>
+<text x="544.0" y="114" text-anchor="middle" fill="#2980b9" font-size="14" font-weight="bold">Larger in the UK (finance &amp; services) &#9655;</text>
+<rect x="71.8" y="304.5" width="11.2" height="147.5" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="85.0" y="428.8" width="11.2" height="23.2" fill="#2980b9"/>
+<text x="84.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,84.0,461.0)">C24 Basic metals</text>
+<text x="84.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.16</text>
+<rect x="111.8" y="374.8" width="11.2" height="77.2" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="125.0" y="437.6" width="11.2" height="14.4" fill="#2980b9"/>
+<text x="124.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,124.0,461.0)">C16 Wood</text>
+<text x="124.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.19</text>
+<rect x="151.8" y="341.3" width="11.2" height="110.7" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="165.0" y="430.9" width="11.2" height="21.1" fill="#2980b9"/>
+<text x="164.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,164.0,461.0)">C27 Electrical eq.</text>
+<text x="164.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.19</text>
+<rect x="191.8" y="233.5" width="11.2" height="218.5" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="205.0" y="390.3" width="11.2" height="61.7" fill="#2980b9"/>
+<text x="204.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,204.0,461.0)">C28 Machinery</text>
+<text x="204.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.28</text>
+<rect x="231.8" y="310.6" width="11.2" height="141.4" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="245.0" y="393.8" width="11.2" height="58.2" fill="#2980b9"/>
+<text x="244.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,244.0,461.0)">C25 Fabric. metal</text>
+<text x="244.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.41</text>
+<rect x="271.8" y="370.9" width="11.2" height="81.1" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="285.0" y="413.9" width="11.2" height="38.1" fill="#2980b9"/>
+<text x="284.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,284.0,461.0)">C26 Electronics</text>
+<text x="284.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.47</text>
+<rect x="311.8" y="337.0" width="11.2" height="115.0" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="325.0" y="396.0" width="11.2" height="56.0" fill="#2980b9"/>
+<text x="324.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,324.0,461.0)">C20 Chemicals</text>
+<text x="324.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.49</text>
+<rect x="351.8" y="291.0" width="11.2" height="161.0" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="365.0" y="352.2" width="11.2" height="99.8" fill="#2980b9"/>
+<text x="364.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,364.0,461.0)">C29 Motor vehicles</text>
+<text x="364.0" y="602" text-anchor="middle" fill="#999" font-size="10">0.62</text>
+<rect x="391.8" y="370.1" width="11.2" height="81.9" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="405.0" y="325.7" width="11.2" height="126.3" fill="#2980b9"/>
+<text x="404.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,404.0,461.0)">Q87_88 Social work</text>
+<text x="404.0" y="602" text-anchor="middle" fill="#999" font-size="10">1.54</text>
+<rect x="431.8" y="400.3" width="11.2" height="51.7" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="445.0" y="367.0" width="11.2" height="85.0" fill="#2980b9"/>
+<text x="444.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,444.0,461.0)">J61 Telecom</text>
+<text x="444.0" y="602" text-anchor="middle" fill="#999" font-size="10">1.64</text>
+<rect x="471.8" y="387.7" width="11.2" height="64.3" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="485.0" y="345.8" width="11.2" height="106.2" fill="#2980b9"/>
+<text x="484.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,484.0,461.0)">K65 Insurance</text>
+<text x="484.0" y="602" text-anchor="middle" fill="#999" font-size="10">1.65</text>
+<rect x="511.8" y="409.5" width="11.2" height="42.5" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="525.0" y="374.3" width="11.2" height="77.7" fill="#2980b9"/>
+<text x="524.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,524.0,461.0)">N78 Employment</text>
+<text x="524.0" y="602" text-anchor="middle" fill="#999" font-size="10">1.83</text>
+<rect x="551.8" y="309.1" width="11.2" height="142.9" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="565.0" y="179.8" width="11.2" height="272.2" fill="#2980b9"/>
+<text x="564.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,564.0,461.0)">K64 Financial serv.</text>
+<text x="564.0" y="602" text-anchor="middle" fill="#999" font-size="10">1.90</text>
+<rect x="591.8" y="426.4" width="11.2" height="25.6" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="605.0" y="374.3" width="11.2" height="77.7" fill="#2980b9"/>
+<text x="604.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,604.0,461.0)">J59_60 Film/broadcast</text>
+<text x="604.0" y="602" text-anchor="middle" fill="#999" font-size="10">3.04</text>
+<rect x="631.8" y="432.8" width="11.2" height="19.2" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="645.0" y="387.3" width="11.2" height="64.7" fill="#2980b9"/>
+<text x="644.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,644.0,461.0)">B Mining</text>
+<text x="644.0" y="602" text-anchor="middle" fill="#999" font-size="10">3.37</text>
+<rect x="671.8" y="419.2" width="11.2" height="32.8" fill="#c0392b" fill-opacity="0.92"/>
+<rect x="685.0" y="311.3" width="11.2" height="140.7" fill="#2980b9"/>
+<text x="684.0" y="461.0" text-anchor="end" fill="#444" font-size="11.5" transform="rotate(-90,684.0,461.0)">K66 Aux. finance</text>
+<text x="684.0" y="602" text-anchor="middle" fill="#999" font-size="10">4.28</text>
+<text x="366" y="620" text-anchor="middle" fill="#999" font-size="11">r&#8242;/r per sector (GB/AT output ratio &#247; economy-wide 5.9&#215;)</text>
+<rect x="72" y="150" width="272" height="52" rx="4" fill="white" fill-opacity="0.92" stroke="#ccc"/>
+<rect x="84" y="160" width="15" height="12" fill="#c0392b" fill-opacity="0.92"/><text x="106" y="171" fill="#333" font-size="13">AT (Austria) &#8212; % of AT economy</text>
+<rect x="84" y="180" width="15" height="12" fill="#2980b9"/><text x="106" y="191" fill="#333" font-size="13">GB (UK) &#8212; % of UK economy</text>
+</svg></div>
+<p class="figure-caption"><strong>Figure 8 (economic structure).</strong> The 16 sectors whose UK/Austria gross-output ratio (r&#8242;) departs by more than 1.5&#215; from the economy-wide ratio (r&nbsp;&#8776;&nbsp;5.9&#215;) and that exceed 1% of either economy, from the FIGARO 2019 tables. Austria is relatively concentrated in industrial sectors (basic metals, machinery, wood, electrical equipment, motor vehicles, chemicals); the UK in finance and business services (financial services, insurance, auxiliary finance, telecom, film/broadcasting). The two production networks are structurally distinct, which is why feeding one country&apos;s lockdown timeline into the other&apos;s economy is a genuine counterfactual rather than a rescaling.</p>
+</div>
+
 <h2>4.4 The Dual Capability of the I-O Structural Backbone</h2>
 
 <table>
@@ -824,18 +984,18 @@
 
 <h2>5.3 Limitations</h2>
 
-<p>The 9-year Austrian panel uses a single wealth-MPC (PtC) value of 0.054 across all calibration years; this produces the systematic crisis-year over-forecasting in 2012&ndash;2015 (see &sect;3.3). Internal experiments confirm the residual disappears when PtC is re-anchored to each calibration year&apos;s empirical value, so the published errors are conditional on the universal-PtC protocol, not an intrinsic engine bias. The same 0.054 anchor is also applied to all four COVID-panel countries (it is the AT empirical estimate), and country-specific wealth-MPC calibration is expected to narrow the residual 3&ndash;4&nbsp;pp Q2&apos;20 trough gaps for UK/CA/DE. Nine years for Austria is a limited basis for broad accuracy claims; the COVID panel has only four countries; with five normal-year observations, formal predictive-superiority tests (e.g., Diebold-Mariano) lack statistical power. Systematic validation across FIGARO&apos;s 46-country coverage is ongoing. The 2020&ndash;2021 FIGARO tables exhibit structural anomalies (pandemic subsidies drove net production taxes deeply negative), and 2022&ndash;2023 high-inflation regimes lie outside the model&apos;s validated range&mdash;both caveats apply to the in-progress 46-country baseline sweep, not to the four-country COVID panel of &sect;4, which uses 2019 FIGARO tables throughout.</p>
+<p>The 9-year Austrian panel uses a single wealth-MPC (PtC) value of 0.054 across all calibration years; this produces the systematic crisis-year over-forecasting in 2012&ndash;2015 (see &sect;3.3). Internal experiments confirm the residual disappears when PtC is re-anchored to each calibration year&apos;s empirical value, so the published errors are conditional on the universal-PtC protocol, not an intrinsic Deployers bias. The same 0.054 anchor is also applied to all four COVID-panel countries (it is the AT empirical estimate), and country-specific wealth-MPC calibration is expected to narrow the residual 3&ndash;4&nbsp;pp Q2&apos;20 trough gaps for UK/CA/DE. Nine years for Austria is a limited basis for broad accuracy claims; the COVID panel has only four countries; with five normal-year observations, formal predictive-superiority tests (e.g., Diebold-Mariano) lack statistical power. Systematic validation across FIGARO&apos;s 46-country coverage is ongoing. The 2020&ndash;2021 FIGARO tables exhibit structural anomalies (pandemic subsidies drove net production taxes deeply negative), and 2022&ndash;2023 high-inflation regimes lie outside the model&apos;s validated range&mdash;both caveats apply to the in-progress 46-country baseline sweep, not to the four-country COVID panel of &sect;4, which uses 2019 FIGARO tables throughout.</p>
 
 <p><strong>Sector-agnostic labour pool.</strong> The model represents the labour market as a single unemployment stock: workers laid off from any sector enter the same pool and can be hired by any sector. It therefore cannot represent the &ldquo;worker retained on payroll but at reduced hours&rdquo; state created by Kurzarbeit-style retention schemes, and monthly model unemployment cannot be compared directly with retention-adjusted official series. Quarterly GDP verification is unaffected; sector-resolved labour modelling is left for future work.</p>
 
 
 <h2>5.4 Broader Implications: Darwinian Deployment Beyond Economics</h2>
 
-<p>The DEPLOYERS framework originates not in economics but in the simulation of complex self-organizing systems (Jaraiz, 2020). The same code that coordinates firms in a 64-sector economy can coordinate robots performing parallel assembly tasks in an industrial setting. The structural input differs&mdash;an I-O table for economics, a task specification for robot assembly&mdash;but the coordination mechanism is identical: agents are deployed to tasks, compete for resources, and the system self-organizes through variation, selection, and retention.</p>
+<p>The Deployers framework originates not in economics but in the simulation of complex self-organizing systems (Jaraiz, 2020). The same code that coordinates firms in a 64-sector economy can coordinate robots performing parallel assembly tasks in an industrial setting. The structural input differs&mdash;an I-O table for economics, a task specification for robot assembly&mdash;but the coordination mechanism is identical: agents are deployed to tasks, compete for resources, and the system self-organizes through variation, selection, and retention.</p>
 
 <p>This domain generality connects to a broader intellectual tradition. Anderson (1972), in his landmark essay &ldquo;More Is Different,&rdquo; argued that complex systems exhibit emergent properties that cannot be predicted from the properties of their components. Simon (1962), in &ldquo;The Architecture of Complexity,&rdquo; showed that complex systems universally organize themselves into hierarchical structures through evolutionary processes. Our finding that a Darwinian simulator reproduces macroeconomic forecasts, firm size distributions, and shock propagation dynamics from a single I-O table is consistent with both insights: the I-O table encodes the structural constraints, and Darwinian selection discovers the emergent organization.</p>
 
-<p>For macroeconomic forecasting specifically, the implication is that <em>structure dominates behavior</em>. The production network encoded in the I-O table&mdash;which sectors buy from which, how much labor and capital each sector uses, what consumers demand&mdash;constrains the economy&apos;s short-run dynamics so tightly that the specific behavioral rules of individual agents are secondary. Whether agents have AR(1) expectations (Poledna) or no expectations (DEPLOYERS), whether the firm population is static (Poledna) or evolutionary (DEPLOYERS), whether the model runs on a supercomputer or a laptop&mdash;the I-O structure dominates.</p>
+<p>For macroeconomic forecasting specifically, the implication is that <em>structure dominates behavior</em>. The production network encoded in the I-O table&mdash;which sectors buy from which, how much labor and capital each sector uses, what consumers demand&mdash;constrains the economy&apos;s short-run dynamics so tightly that the specific behavioral rules of individual agents are secondary. Whether agents have AR(1) expectations (Poledna) or no expectations (Deployers), whether the firm population is static (Poledna) or evolutionary (Deployers), whether the model runs on a supercomputer or a laptop&mdash;the I-O structure dominates.</p>
 
 
 <!-- ========== 6. CONCLUSIONS ========== -->
@@ -864,7 +1024,7 @@
 <!-- ========== DATA AVAILABILITY ========== -->
 <h1>Data and Software Availability</h1>
 
-<p>The DEPLOYERS simulation package&mdash;executable, GUI, country parameter files, example input scripts, and full documentation&mdash;is freely available under the MIT License at <a href="https://doi.org/10.5281/zenodo.18988482">https://doi.org/10.5281/zenodo.18988482</a> (concept DOI, always resolves to the latest version). The package requires only that the user download the relevant FIGARO I-O tables from Eurostat (freely available). All results in this paper can be reproduced with the included executable.</p>
+<p>The Deployers simulation package&mdash;executable, GUI, country parameter files, example input scripts, and full documentation&mdash;is freely available under the MIT License at <a href="https://doi.org/10.5281/zenodo.18988482">https://doi.org/10.5281/zenodo.18988482</a> (concept DOI, always resolves to the latest version). The package requires only that the user download the relevant FIGARO I-O tables from Eurostat (freely available). All results in this paper can be reproduced with the included executable.</p>
 
 
 <!-- ========== REFERENCES ========== -->
